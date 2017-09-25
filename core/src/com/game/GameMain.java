@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+
 public class GameMain extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
@@ -14,6 +16,14 @@ public class GameMain extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		ArrayList<String> allPieces = Pieces.createBagPieces();
+		System.out.println(allPieces);
+		ArrayList<String> player1 = Pieces.distributePieces(allPieces);
+		System.out.println(player1);
+		System.out.println(allPieces);
+		ArrayList<String> player2 = Pieces.distributePieces(allPieces);
+		System.out.println(player2);
+		System.out.println(allPieces);
 	}
 
 	@Override
