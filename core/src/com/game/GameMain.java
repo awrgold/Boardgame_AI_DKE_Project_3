@@ -24,6 +24,9 @@ public class GameMain extends ApplicationAdapter {
 		ArrayList<String> player2 = Pieces.distributePieces(allPieces);
 		System.out.println(player2);
 		System.out.println(allPieces);
+		player2 = Pieces.discardPieces(allPieces, player2);
+        System.out.println(player2);
+        System.out.println(allPieces);
 	}
 
 	@Override

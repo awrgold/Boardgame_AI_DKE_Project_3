@@ -62,5 +62,16 @@ public class Pieces {
         return playerPieces;
     }
 
+    //Discards all the pieces in the players hand and distributes new ones to the player
+    public static ArrayList<String> discardPieces(ArrayList<String> allPieces, ArrayList<String> playerPieces){
+        for(int i = 0; i < 6; i++){
+            String piece = allPieces.get(i);
+            allPieces.add(piece);
+            playerPieces.remove(piece);
+        }
+        playerPieces = distributePieces(allPieces);
+        return playerPieces;
+    }
+
 
 }
