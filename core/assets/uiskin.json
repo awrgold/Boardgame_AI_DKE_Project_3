@@ -1,0 +1,73 @@
+{
+  com.badlogic.gdx.graphics.g2d.BitmapFont:{
+    default-font: { file: impact.fnt},
+    font-big: {file: impact.fnt}
+  },
+  com.badlogic.gdx.graphics.Color: {
+    black: {
+      r: 0,
+      g: 0,
+      b: 0,
+      a: 1
+    },
+    cyan: {
+      r: 0,
+      g: 1,
+      b: 0.99166656,
+      a: 1
+    },
+    dark-cyan: {
+      r: 0,
+      g: 0.39373153,
+      b: 0.4333333,
+      a: 1
+    },
+    white: {
+      r: 1,
+      g: 1,
+      b: 1,
+      a: 1
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+  pale-blue: {
+    name: white
+    color: {
+      r: 0.48342222,
+      g: 0.76367503,
+      b: 0.99333334,
+      a: 1
+    }
+  },
+  black: {
+    name: white
+    color: {
+      r: 0,
+      g: 0,
+      b: 0,
+      a: 1
+    }
+  }
+}
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      down: default-round-down,
+      up: default-round,
+   //   font: default-font
+    }
+//    small: {
+//      up: button-small,
+//     down: button-small-down,
+//      font: default-font
+//   }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle:{
+    default: {
+      //background: window,
+      titleFont: default-font,
+      titleFontColor: black
+    }
+  }
+
+}
