@@ -46,6 +46,7 @@ public class Node extends Graph {
     public static void setEdges(Node node){
         for(int i = 0; i < 6; i++){
             // Loop through the game board and find all adjacent nodes, and add those nodes to a list of edges.
+            // I need the hexagon tile Object's coordinates so that I can create an adjacency matrix.
 
         }
     }
