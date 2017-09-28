@@ -66,7 +66,7 @@ public void buildStage(){
     table.setWidth(this.getWidth());
     table.align(Align.center|Align.top);
     table.setPosition(0, Gdx.graphics.getHeight());
-    title = new Label("INGENIOUS",skin);
+   // title = new Label("INGENIOUS",skin);
     startb = new TextButton("Start",skin,"default");
     quitb = new TextButton("Quit",skin,"default");
     extrab = new TextButton("EXTRAS",skin,"default");
