@@ -35,9 +35,9 @@ public class MenuScreen extends AbstractScreen {
     public MenuScreen() {
        super();
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-        skin.addRegions(atlas);
-       title = new Label("INGENIOUS",skin,"Default");
+      //  skin = new Skin(Gdx.files.internal("uiskin.json"));
+//        skin.addRegions(atlas);
+    //   title = new Label("INGENIOUS",skin,"Default");
 
         //background image
         batch = new SpriteBatch();

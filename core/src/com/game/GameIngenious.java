@@ -21,7 +21,7 @@ public class GameIngenious extends Game {
 
     public void create() {
         Screens.ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
+        ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
         //mainScreen = new MenuScreen(this);
 //       // camera = new PerspectiveCamera();
 //        screenPort = new ScreenViewport();
