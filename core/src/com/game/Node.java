@@ -1,4 +1,6 @@
 package com.game;
+import sun.security.provider.certpath.Vertex;
+
 import java.util.ArrayList;
 
 public class Node extends Graph {
@@ -18,6 +20,7 @@ public class Node extends Graph {
     private static int Color;
     private static int[] coordinates = new int[2];
     private static ArrayList<Node> edges;
+
 
     public Node (int nodeNum){
         nodeNumber = nodeNum;
