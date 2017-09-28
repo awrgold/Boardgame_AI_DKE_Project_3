@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameIngenious extends Game {
@@ -29,7 +31,7 @@ public class GameIngenious extends Game {
        // camera.setToOrtho(false);
       //  setScreen(new GameScreen(this));
        //float startTime = TimeUtils.millis();
-
+        Board.createMap();
     }
 
     public void render() {
@@ -40,4 +42,5 @@ public class GameIngenious extends Game {
        // float endTime = TimeUtils.millis();
 
     }
+
 }
