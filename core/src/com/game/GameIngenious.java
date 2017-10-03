@@ -1,10 +1,12 @@
 package com.game;
 
+import Screens.GameScreen;
 import Screens.ScreenEnum;
 import Screens.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -17,20 +19,20 @@ public class GameIngenious extends Game {
     public Viewport screenPort;
     private Camera camera;
     private Screen mainScreen;
-   // public SAManager samanager;
+    //public SAManager samanager;
 
     public void create() {
         Screens.ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
+        ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
         //mainScreen = new MenuScreen(this);
-//       // camera = new PerspectiveCamera();
+        //camera = new PerspectiveCamera();
 //        screenPort = new ScreenViewport();
-//       setScreen(mainScreen);
+//        setScreen(mainScreen);
 ////        samanager = new SAManager();
-       // OrthographicCamera camera = new OrthographicCamera();
-       // camera.setToOrtho(false);
-      //  setScreen(new GameScreen(this));
-       //float startTime = TimeUtils.millis();
+        OrthographicCamera camera = new OrthographicCamera();
+        camera.setToOrtho(false);
+        // setScreen(new GameScreen(this));
+       // float startTime = TimeUtils.millis();
         Board.createMap();
     }
 
