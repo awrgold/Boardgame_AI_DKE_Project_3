@@ -13,36 +13,18 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Root of the game which holds the screens and delegates the rendering/updating to the currently active screen.
+ */
 public class GameIngenious extends Game {
-    private SpriteBatch batch;
-    public Viewport screenPort;
-    private Camera camera;
-    private Screen mainScreen;
-    //public SAManager samanager;
 
+    public Viewport screenPort;
+    
     public void create() {
+    	
         Screens.ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
-        //mainScreen = new MenuScreen(this);
-        //camera = new PerspectiveCamera();
-//        screenPort = new ScreenViewport();
-//        setScreen(mainScreen);
-////        samanager = new SAManager();
-        OrthographicCamera camera = new OrthographicCamera();
-        camera.setToOrtho(false);
-        // setScreen(new GameScreen(this));
-       // float startTime = TimeUtils.millis();
-        Board.createMap();
-    }
-
-    public void render() {
-        super.render();
-    }
-    public void dispose(){
-        super.dispose();
-       // float endTime = TimeUtils.millis();
-
+                
     }
 
 }

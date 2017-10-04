@@ -1,5 +1,7 @@
 package Screens;
 
+import com.badlogic.gdx.Game;
+
 public enum ScreenEnum {
     MAIN_MENU {
         public AbstractScreen getScreen(Object... params) {
