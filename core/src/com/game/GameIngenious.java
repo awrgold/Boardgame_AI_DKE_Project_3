@@ -1,35 +1,30 @@
 package com.game;
 
-import Screens.Gamescreen;
-import Screens.MenuScreen;
+import Screens.GameScreen;
+import Screens.ScreenEnum;
+import Screens.ScreenManager;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class GameIngenious extends Game
-{
+import java.util.ArrayList;
+import java.util.List;
 
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 800;
-    public SpriteBatch batch;
-    Texture img;
+/**
+ * Root of the game which holds the screens and delegates the rendering/updating to the currently active screen.
+ */
+public class GameIngenious extends Game {
 
-
-    @Override
-    public void create () {
-        batch = new SpriteBatch();
-        this.setScreen( new MenuScreen(this));
+    public Viewport screenPort;
+    
+    public void create() {
+    	
+        Screens.ScreenManager.getInstance().initialize(this);
+        ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
+                
     }
-
-    @Override
-    public void render () {
-        super.render();
-
-    }
-
 
 }
-
-
