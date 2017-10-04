@@ -2,6 +2,15 @@ package com.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.codetome.hexameter.core.api.HexagonalGridLayout;
+import org.codetome.hexameter.core.api.HexagonOrientation;
+import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.api.HexagonalGridBuilder;
+
+import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
+import static org.codetome.hexameter.core.api.HexagonOrientation.FLAT_TOP;
 
 public class Board {
 
@@ -31,8 +40,6 @@ public class Board {
                 if(Math.abs(z) <= 5) {
                     hexMap[i][j] = new Hex(x, y, z);
                 }
-
-
                 x++;
             }
             y += 1;
@@ -40,3 +47,5 @@ public class Board {
         return hexMap;
     }
 }
+
+

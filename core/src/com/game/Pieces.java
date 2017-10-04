@@ -1,11 +1,9 @@
 package com.game;
 
-/*
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-
 public class Pieces {
-
     //Creates the "bag" containing all the different pieces
     public static ArrayList<String> createBagPieces() {
         ArrayList<String> allPieces = new ArrayList<>();
@@ -16,7 +14,6 @@ public class Pieces {
             allPieces.add("PP");
             allPieces.add("OO");
             allPieces.add("GG");
-
         }
         for(int i = 0; i < 6; i++) {
             allPieces.add("BR");
@@ -35,10 +32,8 @@ public class Pieces {
             allPieces.add("PG");
             allPieces.add("OG");
         }
-
         return allPieces;
     }
-
     //Distributes 6 pieces to a player at the start of the game
     public static ArrayList<String> distributePieces(ArrayList<String> allPieces) {
         ArrayList<String> playerPieces = new ArrayList<>();
@@ -50,7 +45,6 @@ public class Pieces {
         }
         return playerPieces;
     }
-
     //Fills the amount of pieces of a player back up to 6
     public static ArrayList<String> takePiece(ArrayList<String> allPieces, ArrayList<String> playerPieces){
         if(playerPieces.size() < 6){
@@ -63,7 +57,6 @@ public class Pieces {
         }
         return playerPieces;
     }
-
     //Discards all the pieces in the players hand and distributes new ones to the player
     public static ArrayList<String> discardPieces(ArrayList<String> allPieces, ArrayList<String> playerPieces){
         for(int i = 0; i < 6; i++){
@@ -74,7 +67,4 @@ public class Pieces {
         playerPieces = distributePieces(allPieces);
         return playerPieces;
     }
-
-
 }
-*/
