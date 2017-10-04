@@ -38,4 +38,9 @@ public class Tile {
     public String getColor(Hexagon hex){
         return hex.getColor();
     }
+
 }
+
+
+
+

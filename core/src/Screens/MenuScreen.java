@@ -1,187 +1,123 @@
 package Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
-import GameConstants.Constants;
+import com.game.GameIngenious;
 
-public class MenuScreen extends AbstractScreen {
+public class MenuScreen implements Screen
+{
+    GameIngenious game;
 
 
-    private SpriteBatch batch;
-    private Skin skin;
-    private Table table;
-    private TextButton startb;
-    private TextButton quitb;
-    private TextButton extrab;
-    private Label title;
-    private Label gameTitle;
-    private Label.LabelStyle label1style;
-    private Dialog dialog;
-    private Texture background ;
-    private TextureRegion tregion;
-    private Image bck ;
-    private TextureAtlas atlas;
-
-    public MenuScreen() {
-       super();
-
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-        skin.addRegions(atlas);
-       title = new Label("INGENIOUS",skin,"Default");
-
-        //background image
-        batch = new SpriteBatch();
-       // Texture background = new Texture(Gdx.files.internal("backgrd.png"));
-        background = new Texture(Gdx.files.internal("hexmenu.png"));
-        tregion = new TextureRegion(background,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        bck = new Image(tregion);
+    Texture exitButton;
+    Texture playButton;
+    Texture tutorialButton;
+    Texture exitInactive;
+    Texture playInactive;
+    Texture tutorialInactive;
 
 
+    private static final int PLAY_WDITH = 300;
+    private static final int PLAY_HEIGHT = 50;
+
+    private static final int EXIT_WDITH = 300;
+    private static final int EXIT_HEIGHT = 50;
+
+    private static final int TUTORIAL_WDITH = 300;
+    private static final int TUTORIAL_HEIGHT = 50;
+
+    private static final int EXIT = 350;
+    private static final int PLAY = 500;
+    private static final int TUTORIAL = 200;
+
+
+    public MenuScreen(GameIngenious game){
+        this.game = game;
 
 
     }
 
+    public void show()
+    {
+        playButton = new Texture("playButton.png");
+        exitButton = new Texture("exitButton.png");
+        tutorialButton = new Texture("tutorialButton.png");
 
-public void buildStage(){
-    Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
-    Label.LabelStyle label1Style = new Label.LabelStyle();
-//    title.LabelStyle label1Style = new Label.LabelStyle();
-    BitmapFont myFont = new BitmapFont(Gdx.files.internal("impact.fnt"));
-    label1Style.font = myFont;
-    label1Style.fontColor = Color.BLACK;
-//    title.LabelStyle = label1Style;
-//        fill the stage
-    table = new Table();
-    table.setFillParent(true);
-    table.setWidth(this.getWidth());
-    table.align(Align.center|Align.top);
-    table.setPosition(0, Gdx.graphics.getHeight());
-   // title = new Label("INGENIOUS",skin);
-    startb = new TextButton("Start",skin,"default");
-    quitb = new TextButton("Quit",skin,"default");
-    extrab = new TextButton("EXTRAS",skin,"default");
+        tutorialInactive = new Texture("tutorialInactive.png");
+        exitInactive = new Texture("exitInactive.png");
+        playInactive =  new Texture("playInactive.png");
+    }
 
+    public void render(float delta)
+    {
 
-
-//    gameTitle.setSize(Constants.col_width*2,Constants.row_height*2);
-//    gameTitle.setPosition(Constants.centerX - gameTitle.getWidth()/2,Constants.centerY + Constants.row_height);
-//     gameTitle.setAlignment(Align.center);
-//    startb.setSize(Constants.col_width*2,Constants.row_height);
-//    startb.setPosition(Constants.centerX - startb.getWidth()/2,Constants.centerY);
-//    quitb.setSize(Constants.col_width*2,Constants.row_height);
-//    quitb.setPosition(Constants.centerX - quitb.getWidth()/2,startb.getY() - Constants.row_height -15);
-
-
-       startb.addListener(new ClickListener(){
-            int n = 0;
-            public void clicked(InputEvent event, float x, float y){
-                n++;
-                Gdx.app.log("clicked start"," # "+n +" ");
-
-                ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
-           }
-        });
-        quitb.addListener(new ClickListener(){
-            int n = 0;
-            public void clicked(InputEvent event, float x, float y){
-                n++;
-                Gdx.app.log("clicked quit"," # "+n +" ");
-                Gdx.app.log("Exit"," End of Game");
-               Gdx.app.exit();
-
-            }
-        });
-        extrab.addListener(new ClickListener(){
-            int n = 0;
-            public void clicked(InputEvent event, float x, float y){
-                n++;
-                Gdx.app.log("clicked extra"," # "+n +" ");
-            }
-        });
-    dialog = new Dialog("Start Game", skin);
-
-    table.padTop(70);
-    table.add(title).padBottom(70);
-    table.row();
-    table.add(startb).padBottom(70);
-    table.row();
-    table.add(extrab).padBottom(70);
-    table.row();
-    table.add(quitb);
-
-    addActor(bck);
-   addActor(table);
-
-}
-
-
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(96/255f,96/255f,96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        super.act(delta);
-        super.draw();
-        batch.end();
-}
+        game.batch.begin();  //start to draw an image
 
+        int x = GameIngenious.WIDTH/2 - PLAY_WDITH/2;
+        if(Gdx.input.getX() < x + PLAY_WDITH && Gdx.input.getX() > x && GameIngenious.HEIGHT
+                - Gdx.input.getY() < PLAY + PLAY_HEIGHT && GameIngenious.HEIGHT - Gdx.input.getY() > PLAY)
+        {
+            game.batch.draw(playButton,x,PLAY,PLAY_WDITH, PLAY_HEIGHT);
 
-    public void dispose() {
-    super.dispose();
-    //skin.dispose();
-    batch.dispose();
+            if(Gdx.input.isTouched())
+            {
+                game.setScreen(new Gamescreen(game));
+            }
+
+        }
+        else
+        {
+            game.batch.draw(playInactive,x,PLAY,PLAY_WDITH, PLAY_HEIGHT);
+
+        }
+
+         x = GameIngenious.WIDTH/2 - EXIT_WDITH/2;
+        if(Gdx.input.getX() < x + EXIT_WDITH && Gdx.input.getX() > x && GameIngenious.HEIGHT
+                - Gdx.input.getY() < EXIT + EXIT_HEIGHT && GameIngenious.HEIGHT - Gdx.input.getY() > EXIT)
+        {
+            game.batch.draw(exitButton,x,EXIT,EXIT_WDITH, EXIT_HEIGHT);
+            if(Gdx.input.isTouched())
+            {
+                Gdx.app.exit();
+            }
+
+        } else
+        {
+            game.batch.draw(exitInactive,x,EXIT,EXIT_WDITH, EXIT_HEIGHT);
+
+        }
+
+         x = GameIngenious.WIDTH/2 - TUTORIAL_WDITH/2;
+        if(Gdx.input.getX() < x + TUTORIAL_WDITH && Gdx.input.getX() > x && GameIngenious.HEIGHT
+                - Gdx.input.getY() < TUTORIAL + TUTORIAL_HEIGHT && GameIngenious.HEIGHT - Gdx.input.getY() > TUTORIAL)
+        {
+            game.batch.draw(tutorialButton,x,TUTORIAL,TUTORIAL_WDITH, TUTORIAL_HEIGHT);
+
+        }else
+        {
+            game.batch.draw(tutorialInactive,x,TUTORIAL,TUTORIAL_WDITH, TUTORIAL_HEIGHT);
+
+        }
+
+        game.batch.end();
     }
-//    int count = 0;
-//
-//    public boolean keyDown(int keycode) {
-//
-//
-//        return false;
-//    }
-//
-//
-//    public boolean keyUp(int keycode) {
-//        return false;
-//    }
-//
-//    public boolean keyTyped(char character) {
-//        return false;
-//    }
-//
-//
-//    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//
-//        count++;
-//        Gdx.app.log("clicked Back"," # "+count +" ");
-//        return false;
-//    }
-//
-//    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-//        return false;
-//    }
-//
-//
-//    public boolean touchDragged(int screenX, int screenY, int pointer) {
-//        return false;
-//    }
-//
-//    public boolean mouseMoved(int screenX, int screenY) {
-//        return false;
-//    }
-//
-//    public boolean scrolled(int amount) {
-//        return false;
-//    }
-}
 
+    public void resize(int width, int height){}
+    public void pause() { }
+    public void resume() { }
+    public void hide() { }
+    public void dispose() { }
+
+
+
+
+
+
+
+
+
+}
