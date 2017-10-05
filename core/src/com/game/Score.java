@@ -1,5 +1,7 @@
 package com.game;
 
+import java.util.Random;
+
 // To do: fix the while loop for each calculate function
 // To do: Detect and ignore the other placed tile of the piece in each calculate
 
@@ -19,6 +21,17 @@ public class Score {
         newScore.PlayerScore = new int[6];
         newScore.player = player;
         return newScore;
+    }
+
+    public int[] updateRandomScore(Player player)
+    {
+        Random rand = new Random();
+        int[] randomScore = getPlayerScore(player);
+        int i = rand.nextInt(6);
+        int j = rand.nextInt(6) + 1;
+        randomScore[i] = randomScore[i] + j;
+
+        return randomScore;
     }
 
     public void setPlayerScore(int[] playerScore) {
