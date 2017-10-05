@@ -19,8 +19,11 @@ import java.util.List;
 public class GameIngenious extends Game {
 
     public Viewport screenPort;
+    public SpriteBatch batch;
     
     public void create() {
+
+        batch = new SpriteBatch();
     	
         Screens.ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.GAME );

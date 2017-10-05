@@ -1,0 +1,285 @@
+
+HexagonsPack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+22236210_10214636788543438_885801388_n
+  rotate: false
+  xy: 1, 384
+  size: 388, 105
+  orig: 388, 105
+  offset: 0, 0
+  index: -1
+22264775_10214636788423435_954434106_n
+  rotate: false
+  xy: 1, 276
+  size: 387, 106
+  orig: 387, 106
+  offset: 0, 0
+  index: -1
+22192982_10214636788343433_534148878_n
+  rotate: false
+  xy: 391, 384
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+exitButton
+  rotate: false
+  xy: 391, 384
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+22215214_10214636788463436_208283768_n
+  rotate: false
+  xy: 1, 169
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+exitInactive
+  rotate: false
+  xy: 1, 169
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+22237112_10214636788383434_1985367386_n
+  rotate: false
+  xy: 390, 277
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+playButton
+  rotate: false
+  xy: 390, 277
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+22264903_10214636788503437_493022262_n
+  rotate: false
+  xy: 1, 62
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+playInactive
+  rotate: false
+  xy: 1, 62
+  size: 387, 105
+  orig: 387, 105
+  offset: 0, 0
+  index: -1
+Asset 34
+  rotate: false
+  xy: 390, 158
+  size: 101, 117
+  orig: 101, 117
+  offset: 0, 0
+  index: -1
+Asset 35
+  rotate: false
+  xy: 493, 158
+  size: 101, 117
+  orig: 101, 117
+  offset: 0, 0
+  index: -1
+Asset 36
+  rotate: false
+  xy: 596, 158
+  size: 101, 117
+  orig: 101, 117
+  offset: 0, 0
+  index: -1
+4players
+  rotate: false
+  xy: 780, 373
+  size: 101, 116
+  orig: 101, 116
+  offset: 0, 0
+  index: -1
+Asset 37
+  rotate: false
+  xy: 883, 372
+  size: 101, 117
+  orig: 101, 117
+  offset: 0, 0
+  index: -1
+Asset 38
+  rotate: false
+  xy: 390, 39
+  size: 101, 117
+  orig: 101, 117
+  offset: 0, 0
+  index: -1
+Asset 39
+  rotate: false
+  xy: 493, 39
+  size: 101, 117
+  orig: 101, 117
+  offset: 0, 0
+  index: -1
+Asset 31
+  rotate: false
+  xy: 1, 1
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile1
+  rotate: false
+  xy: 596, 97
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile2
+  rotate: false
+  xy: 104, 1
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile21
+  rotate: false
+  xy: 207, 1
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile23
+  rotate: false
+  xy: 779, 312
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile24
+  rotate: false
+  xy: 882, 311
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile25
+  rotate: false
+  xy: 596, 36
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile26
+  rotate: false
+  xy: 699, 216
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile3
+  rotate: false
+  xy: 699, 155
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile34
+  rotate: false
+  xy: 699, 94
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile35
+  rotate: false
+  xy: 699, 33
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile53
+  rotate: false
+  xy: 699, 33
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile36
+  rotate: false
+  xy: 802, 250
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile63
+  rotate: false
+  xy: 802, 250
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile4
+  rotate: false
+  xy: 802, 189
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile41
+  rotate: false
+  xy: 802, 128
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile5
+  rotate: false
+  xy: 802, 67
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile51
+  rotate: false
+  xy: 905, 250
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile54
+  rotate: false
+  xy: 905, 189
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile6
+  rotate: false
+  xy: 905, 128
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile61
+  rotate: false
+  xy: 905, 67
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile64
+  rotate: false
+  xy: 802, 6
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1
+Tile65
+  rotate: false
+  xy: 905, 6
+  size: 101, 59
+  orig: 101, 59
+  offset: 0, 0
+  index: -1

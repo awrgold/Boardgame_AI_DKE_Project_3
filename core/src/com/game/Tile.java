@@ -13,6 +13,7 @@ public class Tile {
 
     private Hexagon one;
     private Hexagon two;
+    private Hexagon selected;
 
     public Tile(Hexagon one, Hexagon two){
         this.one = one;
@@ -38,4 +39,18 @@ public class Tile {
     public String getColor(Hexagon hex){
         return hex.getColor();
     }
+
+    //select one of the two hexagons of the tile we want to place
+    public void select(Hexagon a){
+        if (a == this.one) {
+            selected = one;
+        } else if (a == this.two) {
+            selected = two;
+        } else {
+            System.out.println("Select one of the two");
+        }
+    }
+
+
+
 }

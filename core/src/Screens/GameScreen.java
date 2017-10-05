@@ -9,6 +9,10 @@ import java.util.List;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -19,8 +23,6 @@ import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -29,10 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 
 import rx.functions.Action1;
@@ -51,7 +49,8 @@ public class GameScreen extends AbstractScreen {
 	}
 	
 	public static class HexagonActor extends Actor {
-		
+
+	    Sprite sprite = new Sprite(new Texture("3players.png"));
 		protected Hexagon<Link> hexagon;
 		
 		private float[] vertices;
@@ -66,15 +65,20 @@ public class GameScreen extends AbstractScreen {
 			for (int i = 0; i < points.size(); i++) {
 				// Translate to local coordinates
 				this.vertices[i * 2] = (float) points.get(i).getCoordinateX() - (float) hexagon.getCenterX();
-				this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();				
+				this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();
+                //setBounds(this.vertices[i * 2],this.vertices[i * 2 + 1], hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
 			}
 			
-			setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);			
+			setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
+
+            //
 		}
 
 		public void draw (Batch batch, float parentAlpha) {
 			
 			batch.end();
+
+
 
 			// Required just so everything displays at the correct position
 			renderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -85,14 +89,18 @@ public class GameScreen extends AbstractScreen {
 
 			renderer.begin(ShapeType.Filled);
 			renderer.setColor(getColor());
-			
+
+
+
 			// Go through all vertices, draw triangles for each, using the next vertex.
 			// Go in bounds of two (x,y) pairs.
 			for (int i = 0; i < vertices.length; i+=2) {
-				
+
 				float x1 = vertices[i], y1 = vertices[i+1];
 				float x2 = vertices[(i + 2) % vertices.length], y2 = vertices[(i + 3) % vertices.length];
-				
+
+
+
 				renderer.triangle(x1 + getWidth() / 2, 
 				                  y1 + getHeight() / 2, 
 				                  x2 + getWidth() / 2, 
@@ -101,7 +109,9 @@ public class GameScreen extends AbstractScreen {
 			
 			renderer.end();
 
-			batch.begin();
+            batch.begin();
+            //setBounds(0, 0, getWidth(), getHeight());
+            //sprite.draw(batch);
 		}
 		
 		public Hexagon<Link> getHexagon(){
@@ -109,6 +119,8 @@ public class GameScreen extends AbstractScreen {
 		}		
 		
 	}
+
+
 
     // Ratio of width and height of a regular hexagon.
     public static final int HEXAGON_WIDTH = 100;
@@ -119,15 +131,23 @@ public class GameScreen extends AbstractScreen {
 
     private Table root;
     private Group hexagonView;
-    
+
+    private ImageButton hexButton;
+    private ImageButton.ImageButtonStyle hexStyle;
+    private TextureAtlas hexButtonAtlas;
+    private Skin hexButtonSkin;
+
     private SpriteBatch batch;
     private Skin skin;
+
+
     
     //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
 
     public GameScreen() {
-        batch = new SpriteBatch();
+        //batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
 
         Gdx.graphics.setWindowedMode(1920,1080);
     }
@@ -159,6 +179,13 @@ public class GameScreen extends AbstractScreen {
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
+
+        //hexButtonAtlas = new TextureAtlas("3players.png");
+        //hexButtonSkin = new Skin();
+        //hexButtonSkin.addRegions(hexButtonAtlas);
+
+
+
         
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -166,9 +193,25 @@ public class GameScreen extends AbstractScreen {
             	
             	// Create the Actor and link it to the hexagon (and vice-versa)
             	final HexagonActor hexActor = new HexagonActor(hexagon);
+
+            	hexButtonAtlas = new TextureAtlas("HexagonsPack.pack");
+            	hexButtonSkin = new Skin();
+            	hexButtonSkin.addRegions(hexButtonAtlas);
+
+            	hexStyle = new ImageButton.ImageButtonStyle();
+            	hexStyle.up = hexButtonSkin.getDrawable("4players");
+            	hexStyle.down = hexButtonSkin.getDrawable("Asset 34");
+
+                hexButton = new ImageButton(hexStyle);
+                hexButton.setSize((float) RADIUS * 1.75f, (float)RADIUS * 2);
+
+                hexButton.setPosition((float) hexagon.getCenterX() - 8, (float) hexagon.getCenterY() - 11);
+
             	hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-            	hexagonView.addActor(hexActor);
-            	
+
+                hexagonView.addActor(hexActor);
+                hexagonView.addActor(hexButton);
+
             	hexagon.setSatelliteData(new Link(hexActor));
             	
             	// TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
@@ -186,6 +229,7 @@ public class GameScreen extends AbstractScreen {
     							hexActor.setColor(Color.BLACK);
     						} else if(inputEvent.getType() == Type.exit) {
     							hexActor.setColor(Color.WHITE);
+
     						}
     					}
     					
@@ -217,7 +261,7 @@ public class GameScreen extends AbstractScreen {
         boardColumn.add(hexagonView).colspan(5).expand().fill();
         boardColumn.row();
         
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
 			boardColumn.add(new TextButton("MEMEMEME", skin)).expandX().fill();
 		}
         
