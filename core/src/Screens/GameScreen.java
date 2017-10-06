@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
@@ -43,11 +44,15 @@ public class GameScreen extends AbstractScreen {
 		} 
 		
 	}
-	
-	public static class HexagonActor extends Actor{
 
-	    //Sprite sprite = new Sprite(new Texture("3players.png"));
+	
+	public static class HexagonActor extends Image{
+
+
 		protected Hexagon<Link> hexagon;
+
+		private Sprite sprite;
+
 		
 		private float[] vertices;
 		private ShapeRenderer renderer = new ShapeRenderer();
@@ -55,6 +60,10 @@ public class GameScreen extends AbstractScreen {
 
 		public HexagonActor(Hexagon<Link> hexagon) {
 			this.hexagon = hexagon;
+
+			this.sprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+
+
 			
 			List<Point> points =  (List<Point>) hexagon.getPoints();
 			this.vertices = new float[points.size() * 2];
@@ -67,6 +76,7 @@ public class GameScreen extends AbstractScreen {
 			}
 			
 			setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
+            //System.out.println(hexagon.getInternalBoundingBox().width + " " + hexagon.getInternalBoundingBox().height);
 
             //
 		}
@@ -103,10 +113,16 @@ public class GameScreen extends AbstractScreen {
 				                  x2 + getWidth() / 2, 
 				                  y2 + getHeight() / 2, getWidth() / 2, getHeight() / 2);
 			}
+
+
 			
 			renderer.end();
-
             batch.begin();
+
+            //draw the sprite on the actor
+			batch.draw(sprite, getX() - 10, getY() - 12, getWidth() + 17, getHeight() + 24);
+
+
 
 		}
 		
@@ -127,12 +143,19 @@ public class GameScreen extends AbstractScreen {
 
     private Table root;
     private Group hexagonView;
-    private Group buttons;
+    //private Group buttons;
 
     private ImageButton hexButton;
     private ImageButton.ImageButtonStyle hexStyle;
     private TextureAtlas hexButtonAtlas;
     private Skin hexButtonSkin;
+
+    private Texture hexTex;
+
+    private ImageButton tileButton;
+    private ImageButton.ImageButtonStyle tileStyle;
+    private TextureAtlas tileButtonAtlas;
+    private Skin tileButtonSkin;
 
     private SpriteBatch batch;
     private Skin skin;
@@ -176,10 +199,10 @@ public class GameScreen extends AbstractScreen {
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
-        this.buttons = new Group();
+        //this.buttons = new Group();
 
         //I've tried to use a stack to merge the two groups
-        Stack board = new Stack(buttons, hexagonView);
+        //Stack board = new Stack(hexagonView, buttons);
 
 
 
@@ -191,30 +214,37 @@ public class GameScreen extends AbstractScreen {
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
-            	
+
             	// Create the Actor and link it to the hexagon (and vice-versa)
             	final HexagonActor hexActor = new HexagonActor(hexagon);
+
+
 
             	hexButtonAtlas = new TextureAtlas("HexagonsPack.pack");
             	hexButtonSkin = new Skin();
             	hexButtonSkin.addRegions(hexButtonAtlas);
 
+
             	hexStyle = new ImageButton.ImageButtonStyle();
             	hexStyle.up = hexButtonSkin.getDrawable("4players");
-            	hexStyle.down = hexButtonSkin.getDrawable("Asset 34");
+            	hexStyle.imageChecked = hexButtonSkin.getDrawable("Asset 34");
 
+
+
+                /*
                 hexButton = new ImageButton(hexStyle);
                 hexButton.setSize((float) RADIUS * 1.75f, (float)RADIUS * 2);
 
-                hexButton.setPosition((float) hexagon.getCenterX() - 8, (float) hexagon.getCenterY() - 11);
+                hexButton.setPosition((float) hexagon.getCenterX() - 8, (float) hexagon.getCenterY() - 11);*/
 
             	hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
+
                 hexagonView.addActor(hexActor);
-                hexagonView.addActor(hexButton);
+                //buttons.addActor(hexButton);
 
             	hexagon.setSatelliteData(new Link(hexActor));
-            	//hexagon.setSatelliteData(new Link(hexButton));
+
             	
             	// TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
             	// DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
@@ -230,7 +260,7 @@ public class GameScreen extends AbstractScreen {
     				public boolean handle(Event event) {
     					if(event instanceof InputEvent){
     						InputEvent inputEvent = (InputEvent) event;
-    						if(inputEvent.getType() == Type.enter){
+    						if(inputEvent.getType() == Type.touchDown){
     						    //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
     							hexActor.setColor(Color.BLACK);
                                 System.out.println(hexActor.hexagon.getCubeCoordinate());
@@ -251,11 +281,11 @@ public class GameScreen extends AbstractScreen {
         this.root = new Table();
         this.root.setFillParent(true);
         
-        root.debug(Debug.all);
+        //root.debug(Debug.all);
         
         // Create the score column
         Table scoreColumn = new Table();      
-        scoreColumn.debug(Debug.all);
+        //scoreColumn.debug(Debug.all);
         
         scoreColumn.add(new Label("Player 1 Score", skin)).expand().top();
         scoreColumn.row();
@@ -267,19 +297,26 @@ public class GameScreen extends AbstractScreen {
         Table boardColumn = new Table();
 
 
-        boardColumn.debug(Debug.all);
+        //boardColumn.debug(Debug.all);
         boardColumn.add(hexagonView).colspan(5).expand().fill();
-        //boardColumn.add(buttons).colspan(5).expand().fill();
-        boardColumn.row();
+        boardColumn.row().bottom().colspan(5);
+
+
+        tileButtonAtlas = new TextureAtlas("HexagonsPack.pack");
+        tileButtonSkin = new Skin();
+        tileButtonSkin.addRegions(hexButtonAtlas);
+        tileStyle = new ImageButton.ImageButtonStyle();
+        tileStyle.up = tileButtonSkin.getDrawable("Tile51");
         
         for (int i = 0; i < 6; i++) {
-			boardColumn.add(new TextButton("MEMEMEME", skin)).expandX().fill();
+			boardColumn.add(new ImageButton(tileStyle)).expandX();
 		}
         
         root.add(boardColumn).expand().fill();
         root.pack();
                 
         addActor(root);
+
         
         
     }
@@ -289,4 +326,6 @@ public class GameScreen extends AbstractScreen {
         super.dispose();
         batch.dispose();
     }
+
+
 }
