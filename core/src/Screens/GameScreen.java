@@ -11,6 +11,7 @@ import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -25,11 +26,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 
@@ -48,13 +44,14 @@ public class GameScreen extends AbstractScreen {
 		
 	}
 	
-	public static class HexagonActor extends Actor {
+	public static class HexagonActor extends Actor{
 
-	    Sprite sprite = new Sprite(new Texture("3players.png"));
+	    //Sprite sprite = new Sprite(new Texture("3players.png"));
 		protected Hexagon<Link> hexagon;
 		
 		private float[] vertices;
 		private ShapeRenderer renderer = new ShapeRenderer();
+
 
 		public HexagonActor(Hexagon<Link> hexagon) {
 			this.hexagon = hexagon;
@@ -110,8 +107,7 @@ public class GameScreen extends AbstractScreen {
 			renderer.end();
 
             batch.begin();
-            //setBounds(0, 0, getWidth(), getHeight());
-            //sprite.draw(batch);
+
 		}
 		
 		public Hexagon<Link> getHexagon(){
@@ -131,6 +127,7 @@ public class GameScreen extends AbstractScreen {
 
     private Table root;
     private Group hexagonView;
+    private Group buttons;
 
     private ImageButton hexButton;
     private ImageButton.ImageButtonStyle hexStyle;
@@ -179,10 +176,14 @@ public class GameScreen extends AbstractScreen {
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
+        this.buttons = new Group();
 
-        //hexButtonAtlas = new TextureAtlas("3players.png");
-        //hexButtonSkin = new Skin();
-        //hexButtonSkin.addRegions(hexButtonAtlas);
+        //I've tried to use a stack to merge the two groups
+        Stack board = new Stack(buttons, hexagonView);
+
+
+
+
 
 
 
@@ -213,29 +214,36 @@ public class GameScreen extends AbstractScreen {
                 hexagonView.addActor(hexButton);
 
             	hexagon.setSatelliteData(new Link(hexActor));
+            	//hexagon.setSatelliteData(new Link(hexButton));
             	
             	// TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
             	// DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
             	// LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
             	// HINT HINT HINT
 
-    			hexActor.addListener(new EventListener() {
+
+
+                hexActor.addListener(new EventListener() {
+
     				
     				@Override
     				public boolean handle(Event event) {
     					if(event instanceof InputEvent){
     						InputEvent inputEvent = (InputEvent) event;
     						if(inputEvent.getType() == Type.enter){
+    						    //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
     							hexActor.setColor(Color.BLACK);
-    						} else if(inputEvent.getType() == Type.exit) {
-    							hexActor.setColor(Color.WHITE);
-
-    						}
+                                System.out.println(hexActor.hexagon.getCubeCoordinate());
+                            } else if (inputEvent.getType() == Type.exit){
+    						    hexActor.setColor(Color.WHITE);
+                            }
     					}
     					
     					return false;
     				}
     			});
+
+
             }
         });
 
@@ -256,9 +264,12 @@ public class GameScreen extends AbstractScreen {
         root.add(scoreColumn).expand().fill();
         
         // Create the board
-        Table boardColumn = new Table();      
+        Table boardColumn = new Table();
+
+
         boardColumn.debug(Debug.all);
         boardColumn.add(hexagonView).colspan(5).expand().fill();
+        //boardColumn.add(buttons).colspan(5).expand().fill();
         boardColumn.row();
         
         for (int i = 0; i < 6; i++) {
