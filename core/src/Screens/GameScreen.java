@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.game.Pieces;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -313,7 +314,10 @@ public class GameScreen extends AbstractScreen {
         tileStyle.up = tileButtonSkin.getDrawable("Tile51");
         
         for (int i = 0; i < 6; i++) {
+
+			//Pieces.distributePieces();
 			boardColumn.add(new ImageButton(tileStyle)).expandX();
+
 		}
         
         root.add(boardColumn).expand().fill();
@@ -331,9 +335,11 @@ public class GameScreen extends AbstractScreen {
         batch.dispose();
     }
 
-    public void show(){
+    /*public void show(){
     	mainMenuButton = new Texture("mainmenu.png");
-	}
+    	}
+    	*/
+
 
 }
 
