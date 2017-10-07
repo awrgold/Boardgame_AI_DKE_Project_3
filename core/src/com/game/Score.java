@@ -8,8 +8,6 @@ public class Score {
 // To do: fix the while loop for each calculate function
 // To do: Detect and ignore the other placed tile of the piece in each calculate
 
-public class Score {
-
     Player player;
     private int[] PlayerScore = new int[6];
 //    int[0] = blue
