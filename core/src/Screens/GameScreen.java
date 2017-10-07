@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
+import com.sun.org.apache.xerces.internal.impl.Constants;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -62,6 +63,7 @@ public class GameScreen extends AbstractScreen {
 			
 			List<Point> points =  (List<Point>) hexagon.getPoints();
 			this.vertices = new float[points.size() * 2];
+
 			
 			for (int i = 0; i < points.size(); i++) {
 				// Translate to local coordinates
@@ -84,10 +86,13 @@ public class GameScreen extends AbstractScreen {
 			renderer.translate(getX(), getY(), 0);
 
 			renderer.begin(ShapeType.Filled);
+
 			renderer.setColor(getColor());
+
 			
 			// Go through all vertices, draw triangles for each, using the next vertex.
 			// Go in bounds of two (x,y) pairs.
+
 			for (int i = 0; i < vertices.length; i+=2) {
 				
 				float x1 = vertices[i], y1 = vertices[i+1];
@@ -98,6 +103,7 @@ public class GameScreen extends AbstractScreen {
 				                  x2 + getWidth() / 2, 
 				                  y2 + getHeight() / 2, getWidth() / 2, getHeight() / 2);
 			}
+
 			
 			renderer.end();
 
@@ -129,7 +135,7 @@ public class GameScreen extends AbstractScreen {
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        Gdx.graphics.setWindowedMode(1920,1080);
+        Gdx.graphics.setWindowedMode(1280, 720);
     }
 
 
@@ -137,14 +143,12 @@ public class GameScreen extends AbstractScreen {
     @SuppressWarnings("unchecked")
 	public void buildStage(){
 
-//      Board.createMap();
-
         // ...
         final int GRID_HEIGHT = 11;
         final int GRID_WIDTH = 11;
         final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
         final HexagonOrientation ORIENTATION = POINTY_TOP;
-        final double RADIUS = 30;
+        final double RADIUS = GameConstants.Constants.getHexRadius();
 
         // ...
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
@@ -213,12 +217,13 @@ public class GameScreen extends AbstractScreen {
         
         // Create the board
         Table boardColumn = new Table();      
-        boardColumn.debug(Debug.all);
-        boardColumn.add(hexagonView).colspan(5).expand().fill();
+        //boardColumn.debug(Debug.all);
+        boardColumn.add(hexagonView).colspan(6).expand().width(440).height(360);
         boardColumn.row();
-        
-        for (int i = 0; i < 5; i++) {
-			boardColumn.add(new TextButton("MEMEMEME", skin)).expandX().fill();
+
+
+        for (int i = 0; i < 6; i++) {
+			boardColumn.add(new TextButton("GAME TILES", skin)).expandX().height(200);
 		}
         
         root.add(boardColumn).expand().fill();
