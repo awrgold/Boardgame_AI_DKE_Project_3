@@ -63,9 +63,6 @@ public class GameScreen extends AbstractScreen {
 		public HexagonActor(Hexagon<Link> hexagon) {
 			this.hexagon = hexagon;
 
-			this.sprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-
-
 			
 			List<Point> points =  (List<Point>) hexagon.getPoints();
 			this.vertices = new float[points.size() * 2];
@@ -78,10 +75,12 @@ public class GameScreen extends AbstractScreen {
 			}
 			
 			setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
-            //System.out.println(hexagon.getInternalBoundingBox().width + " " + hexagon.getInternalBoundingBox().height);
 
-            //
 		}
+
+		public void setSprite(Sprite sprite){
+		    this.sprite = sprite;
+        }
 
 		public void draw (Batch batch, float parentAlpha) {
 			
@@ -145,16 +144,9 @@ public class GameScreen extends AbstractScreen {
 
     private Table root;
     private Group hexagonView;
-    //private Group buttons;
-
-    private ImageButton hexButton;
-    private ImageButton.ImageButtonStyle hexStyle;
-    private TextureAtlas hexButtonAtlas;
-    private Skin hexButtonSkin;
 
 
 	private Texture mainMenuButton;
-    private Texture hexTex;
 
     private ImageButton tileButton;
     private ImageButton.ImageButtonStyle tileStyle;
@@ -203,13 +195,6 @@ public class GameScreen extends AbstractScreen {
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
-        //this.buttons = new Group();
-
-        //I've tried to use a stack to merge the two groups
-        //Stack board = new Stack(hexagonView, buttons);
-
-
-
 
 
 
@@ -222,32 +207,39 @@ public class GameScreen extends AbstractScreen {
             	// Create the Actor and link it to the hexagon (and vice-versa)
             	final HexagonActor hexActor = new HexagonActor(hexagon);
 
-
-
-            	hexButtonAtlas = new TextureAtlas("HexagonsPack.pack");
-            	hexButtonSkin = new Skin();
-            	hexButtonSkin.addRegions(hexButtonAtlas);
-
-
-            	hexStyle = new ImageButton.ImageButtonStyle();
-            	hexStyle.up = hexButtonSkin.getDrawable("4players");
-            	hexStyle.imageChecked = hexButtonSkin.getDrawable("Asset 34");
-
-
-
-                /*
-                hexButton = new ImageButton(hexStyle);
-                hexButton.setSize((float) RADIUS * 1.75f, (float)RADIUS * 2);
-
-                hexButton.setPosition((float) hexagon.getCenterX() - 8, (float) hexagon.getCenterY() - 11);*/
+            	Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+            	Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
+                Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
+                Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
+                Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
+                Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
+                Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
             	hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
 
                 hexagonView.addActor(hexActor);
-                //buttons.addActor(hexButton);
+
 
             	hexagon.setSatelliteData(new Link(hexActor));
+
+            	//STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
+
+            	if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10){
+            	    hexActor.setSprite(corner1Sprite);
+                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10){
+                    hexActor.setSprite(corner2Sprite);
+                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5){
+                    hexActor.setSprite(corner3Sprite);
+                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0){
+                    hexActor.setSprite(corner4Sprite);
+                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0){
+                    hexActor.setSprite(corner5Sprite);
+                } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5){
+                    hexActor.setSprite(corner6Sprite);
+                } else {
+                    hexActor.setSprite(emptySprite);
+                }
 
             	
             	// TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
@@ -267,9 +259,7 @@ public class GameScreen extends AbstractScreen {
     						if(inputEvent.getType() == Type.touchDown){
     						    //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
     							hexActor.setColor(Color.BLACK);
-                                System.out.println(hexActor.hexagon.getCubeCoordinate());
-                            } else if (inputEvent.getType() == Type.exit){
-    						    hexActor.setColor(Color.WHITE);
+                                System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
                             }
     					}
     					
@@ -308,7 +298,7 @@ public class GameScreen extends AbstractScreen {
 
         tileButtonAtlas = new TextureAtlas("HexagonsPack.pack");
         tileButtonSkin = new Skin();
-        tileButtonSkin.addRegions(hexButtonAtlas);
+        tileButtonSkin.addRegions(tileButtonAtlas);
         tileStyle = new ImageButton.ImageButtonStyle();
         tileStyle.up = tileButtonSkin.getDrawable("Tile51");
         
@@ -331,9 +321,9 @@ public class GameScreen extends AbstractScreen {
         batch.dispose();
     }
 
-    public void show(){
-    	mainMenuButton = new Texture("mainmenu.png");
-	}
+    //public void show(){
+    	//mainMenuButton = new Texture("mainmenu.png");
+	//}
 
 }
 
