@@ -68,6 +68,7 @@ public class MenuScreen extends AbstractScreen {
                     - Gdx.input.getY() < PLAY + PLAY_HEIGHT && GameIngenious.HEIGHT - Gdx.input.getY() > PLAY)
             {
                 game.batch.draw(playButton,x,PLAY,PLAY_WIDTH, PLAY_HEIGHT);
+
                 /*if(Gdx.input.isTouched())
                 {
                     Screens.ScreenManager.getInstance().initialize(this);
