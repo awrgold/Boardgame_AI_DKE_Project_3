@@ -9,10 +9,12 @@ import java.util.List;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -150,6 +152,8 @@ public class GameScreen extends AbstractScreen {
     private TextureAtlas hexButtonAtlas;
     private Skin hexButtonSkin;
 
+
+	private Texture mainMenuButton;
     private Texture hexTex;
 
     private ImageButton tileButton;
@@ -317,8 +321,8 @@ public class GameScreen extends AbstractScreen {
                 
         addActor(root);
 
-        
-        
+
+
     }
 
 
@@ -327,5 +331,11 @@ public class GameScreen extends AbstractScreen {
         batch.dispose();
     }
 
+    public void show(){
+    	mainMenuButton = new Texture("mainmenu.png");
+	}
 
 }
+
+
+
