@@ -171,7 +171,7 @@ public class GameScreen extends AbstractScreen {
 
     // Subclasses must load actors in this method
     @SuppressWarnings("unchecked")
-	public void buildStage(){
+	public void buildStage() {
 
 //      Board.createMap();
 
@@ -197,95 +197,92 @@ public class GameScreen extends AbstractScreen {
         this.hexagonView = new Group();
 
 
-
-        
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
 
-            	// Create the Actor and link it to the hexagon (and vice-versa)
-            	final HexagonActor hexActor = new HexagonActor(hexagon);
+                // Create the Actor and link it to the hexagon (and vice-versa)
+                final HexagonActor hexActor = new HexagonActor(hexagon);
 
-            	Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-            	Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
+                Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+                Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
                 Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
                 Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
                 Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
                 Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
                 Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
-            	hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+                hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
 
                 hexagonView.addActor(hexActor);
 
 
-            	hexagon.setSatelliteData(new Link(hexActor));
+                hexagon.setSatelliteData(new Link(hexActor));
 
-            	//STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
+                //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
-            	if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10){
-            	    hexActor.setSprite(corner1Sprite);
-                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10){
+                if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10) {
+                    hexActor.setSprite(corner1Sprite);
+                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10) {
                     hexActor.setSprite(corner2Sprite);
-                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5){
+                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5) {
                     hexActor.setSprite(corner3Sprite);
-                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0){
+                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0) {
                     hexActor.setSprite(corner4Sprite);
-                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0){
+                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0) {
                     hexActor.setSprite(corner5Sprite);
-                } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5){
+                } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5) {
                     hexActor.setSprite(corner6Sprite);
                 } else {
                     hexActor.setSprite(emptySprite);
                 }
 
-            	
-            	// TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
-            	// DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
-            	// LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
-            	// HINT HINT HINT
 
+                // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
+                // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
+                // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
+                // HINT HINT HINT
 
 
                 hexActor.addListener(new EventListener() {
 
-    				
-    				@Override
-    				public boolean handle(Event event) {
-    					if(event instanceof InputEvent){
-    						InputEvent inputEvent = (InputEvent) event;
-    						if(inputEvent.getType() == Type.touchDown){
-    						    //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
-    							hexActor.setColor(Color.BLACK);
+
+                    @Override
+                    public boolean handle(Event event) {
+                        if (event instanceof InputEvent) {
+                            InputEvent inputEvent = (InputEvent) event;
+                            if (inputEvent.getType() == Type.touchDown) {
+                                //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
+                                hexActor.setColor(Color.BLACK);
                                 System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
                             }
-    					}
-    					
-    					return false;
-    				}
-    			});
+                        }
+
+                        return false;
+                    }
+                });
 
 
             }
         });
 
-        
+
         this.root = new Table();
         this.root.setFillParent(true);
-        
+
         //root.debug(Debug.all);
-        
+
         // Create the score column
-        Table scoreColumn = new Table();      
+        Table scoreColumn = new Table();
         //scoreColumn.debug(Debug.all);
-        
+
         scoreColumn.add(new Label("Player 1 Score", skin)).expand().top();
         scoreColumn.row();
         scoreColumn.add(new Label("Player 2 Score", skin)).expand().top();
-        
+
         root.add(scoreColumn).expand().fill();
-        
+
         // Create the board
         Table boardColumn = new Table();
 
@@ -300,7 +297,7 @@ public class GameScreen extends AbstractScreen {
         tileButtonSkin.addRegions(tileButtonAtlas);
         tileStyle = new ImageButton.ImageButtonStyle();
         tileStyle.up = tileButtonSkin.getDrawable("Tile51");
-        
+
         for (int i = 0; i < 6; i++) {
 			boardColumn.add(new ImageButton(tileStyle)).expandX();
 		}
@@ -310,8 +307,13 @@ public class GameScreen extends AbstractScreen {
                 
         addActor(root);
 
+            root.add(boardColumn).expand().fill();
+            root.pack();
+
+            addActor(root);
 
 
+        }
     }
 
 
