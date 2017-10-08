@@ -116,6 +116,7 @@ public class GameScreen extends AbstractScreen {
 			return hexagon;
 		}
 	}
+    
 
     // Ratio of width and height of a regular hexagon.
     public static final int HEXAGON_WIDTH = 100;
@@ -155,6 +156,7 @@ public class GameScreen extends AbstractScreen {
         final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
         final HexagonOrientation ORIENTATION = POINTY_TOP;
         final double RADIUS = Constants.getHexRadius();
+        
 
         // ...
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
