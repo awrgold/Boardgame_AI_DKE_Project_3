@@ -3,6 +3,7 @@ package Screens;
 
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -123,10 +125,12 @@ public class GameScreen extends AbstractScreen {
     public static final int HEXAGON_HEIGHT = 100;
     
     public HexagonalGrid grid;
+    public HexagonalGrid tile;
     public List<HexagonActor> hexagonActors = new ArrayList<HexagonActor>();
 
     private Table root;
     private Group hexagonView;
+    private Group tileView;
 
 	private Texture mainMenuButton;
     private ImageButton tileButton;
@@ -142,7 +146,7 @@ public class GameScreen extends AbstractScreen {
     public GameScreen() {
         //batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        Gdx.graphics.setWindowedMode(1920,1080);
+        Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
     }
 
 
@@ -156,7 +160,13 @@ public class GameScreen extends AbstractScreen {
         final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
         final HexagonOrientation ORIENTATION = POINTY_TOP;
         final double RADIUS = Constants.getHexRadius();
-        
+
+
+        final int TILE_HEIGHT = 1;
+        final int TILE_WIDTH = 2;
+        final HexagonalGridLayout TILE_LAYOUT = RECTANGULAR;
+        final HexagonOrientation TILE_ORIENTATION = POINTY_TOP;
+        final double TILE_RADIUS = Constants.getHexRadius();
 
         // ...
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
@@ -166,11 +176,48 @@ public class GameScreen extends AbstractScreen {
                 .setOrientation(ORIENTATION)
                 .setRadius(RADIUS);
 
+        HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
+                .setGridHeight(TILE_HEIGHT)
+                .setGridWidth(TILE_WIDTH)
+                .setGridLayout(TILE_LAYOUT)
+                .setOrientation(TILE_ORIENTATION)
+                .setRadius(TILE_RADIUS);
+
         HexagonalGrid<Link> grid = builder.build();
         this.grid = grid;
 
+        HexagonalGrid<Link> tile = tileBuilder.build();
+        this.tile = tile;
+
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
+
+        this.tileView = new Group();
+
+        tile.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                final HexagonActor hexTile = new HexagonActor(hexagon);
+
+                Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+
+                hexTile.setSprite(emptySprite);
+
+                hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
+
+                tileView.addActor(hexTile);
+
+                hexagon.setSatelliteData(new Link(hexTile));
+
+
+                tileView.addListener(new DragListener() {
+                    public void drag(InputEvent event, float x, float y, int pointer) {
+                        tileView.moveBy(x - tileView.getChildren().size / 2, y - tileView.getChildren().size / 2);
+                    }
+                });
+            }
+        });
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -236,46 +283,44 @@ public class GameScreen extends AbstractScreen {
         this.root = new Table();
         this.root.setFillParent(true);
 
-        //root.debug(Debug.all);
+        root.debug(Debug.all);
 
         // Create the score column
         Table scoreColumn = new Table();
-        //scoreColumn.debug(Debug.all);
+        scoreColumn.debug(Debug.all);
 
         scoreColumn.add(new Label("Player 1 Score", skin)).expand().top();
         scoreColumn.row();
         scoreColumn.add(new Label("Player 2 Score", skin)).expand().top();
 
-        root.add(scoreColumn).expand().fill();
+        root.add(scoreColumn).colspan(1).expand().fill();
 
         // Create the board
         Table boardColumn = new Table();
 
 
-        //boardColumn.debug(Debug.all);
-        boardColumn.add(hexagonView).colspan(5).expand().fill();
+        boardColumn.debug(Debug.all);
+        boardColumn.add(hexagonView).colspan(2 *(Constants.getWindowWidth()) / 4).expand().fill();
         boardColumn.row().bottom().colspan(5);
 
 
-        tileButtonAtlas = new TextureAtlas("HexagonsPack.pack");
+        /*tileButtonAtlas = new TextureAtlas("HexagonsPack.pack");
         tileButtonSkin = new Skin();
         tileButtonSkin.addRegions(tileButtonAtlas);
         tileStyle = new ImageButton.ImageButtonStyle();
-        tileStyle.up = tileButtonSkin.getDrawable("Tile51");
+        tileStyle.up = tileButtonSkin.getDrawable("Tile51");*/
 
         for (int i = 0; i < 6; i++) {
-			boardColumn.add(new ImageButton(tileStyle)).expandX();
+			boardColumn.add(tileView).expandX();
 		}
+
+
         
         root.add(boardColumn).expand().fill();
         root.pack();
                 
         addActor(root);
 
-        root.add(boardColumn).expand().fill();
-        root.pack();
-
-        addActor(root);
     }
 
 
