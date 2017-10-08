@@ -198,7 +198,6 @@ public class GameScreen extends AbstractScreen {
 
 
 
-
         
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
