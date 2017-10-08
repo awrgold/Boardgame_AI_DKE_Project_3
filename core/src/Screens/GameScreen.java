@@ -307,13 +307,13 @@ public class GameScreen extends AbstractScreen {
                 
         addActor(root);
 
-            root.add(boardColumn).expand().fill();
-            root.pack();
+        root.add(boardColumn).expand().fill();
+        root.pack();
 
-            addActor(root);
+        addActor(root);
 
 
-        }
+
     }
 
 
