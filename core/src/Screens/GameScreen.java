@@ -1,10 +1,8 @@
 package Screens;
 
 
-import static org.codetome.hexameter.core.api.HexagonOrientation.FLAT_TOP;
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
-import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,19 +44,13 @@ public class GameScreen extends AbstractScreen {
 
 		public Link(HexagonActor actor) {
 			this.actor = actor;
-		} 
-		
+		}
 	}
 
-	
 	public static class HexagonActor extends Image{
 
-
 		protected Hexagon<Link> hexagon;
-
 		private Sprite sprite;
-
-		
 		private float[] vertices;
 		private ShapeRenderer renderer = new ShapeRenderer();
 
@@ -76,9 +68,7 @@ public class GameScreen extends AbstractScreen {
 				this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();
                 //setBounds(this.vertices[i * 2],this.vertices[i * 2 + 1], hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
 			}
-			
 			setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
-
 		}
 
 		public void setSprite(Sprite sprite){
@@ -90,7 +80,6 @@ public class GameScreen extends AbstractScreen {
 			batch.end();
 
 
-
 			// Required just so everything displays at the correct position
 			renderer.setProjectionMatrix(batch.getProjectionMatrix());
 			renderer.setTransformMatrix(batch.getTransformMatrix());
@@ -100,7 +89,6 @@ public class GameScreen extends AbstractScreen {
 
 			renderer.begin(ShapeType.Filled);
 			renderer.setColor(getColor());
-
 
 
 			// Go through all vertices, draw triangles for each, using the next vertex.
@@ -117,26 +105,17 @@ public class GameScreen extends AbstractScreen {
 				                  x2 + getWidth() / 2, 
 				                  y2 + getHeight() / 2, getWidth() / 2, getHeight() / 2);
 			}
-
-
 			
 			renderer.end();
             batch.begin();
 
             //draw the sprite on the actor
 			batch.draw(sprite, getX() - 10, getY() - 12, getWidth() + 17, getHeight() + 24);
-
-
-
 		}
-		
 		public Hexagon<Link> getHexagon(){
 			return hexagon;
-		}		
-		
+		}
 	}
-
-
 
     // Ratio of width and height of a regular hexagon.
     public static final int HEXAGON_WIDTH = 100;
@@ -148,9 +127,7 @@ public class GameScreen extends AbstractScreen {
     private Table root;
     private Group hexagonView;
 
-
 	private Texture mainMenuButton;
-
     private ImageButton tileButton;
     private ImageButton.ImageButtonStyle tileStyle;
     private TextureAtlas tileButtonAtlas;
@@ -158,16 +135,12 @@ public class GameScreen extends AbstractScreen {
 
     private SpriteBatch batch;
     private Skin skin;
-
-
     
     //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
 
     public GameScreen() {
         //batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
-
         Gdx.graphics.setWindowedMode(1920,1080);
     }
 
@@ -175,8 +148,6 @@ public class GameScreen extends AbstractScreen {
     // Subclasses must load actors in this method
     @SuppressWarnings("unchecked")
 	public void buildStage() {
-
-//      Board.createMap();
 
         // ...
         final int GRID_HEIGHT = 11;
@@ -199,7 +170,6 @@ public class GameScreen extends AbstractScreen {
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
 
-
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -217,9 +187,7 @@ public class GameScreen extends AbstractScreen {
 
                 hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
-
                 hexagonView.addActor(hexActor);
-
 
                 hexagon.setSatelliteData(new Link(hexActor));
 
@@ -246,11 +214,7 @@ public class GameScreen extends AbstractScreen {
                 // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
                 // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
                 // HINT HINT HINT
-
-
                 hexActor.addListener(new EventListener() {
-
-
                     @Override
                     public boolean handle(Event event) {
                         if (event instanceof InputEvent) {
@@ -261,15 +225,11 @@ public class GameScreen extends AbstractScreen {
                                 System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
                             }
                         }
-
                         return false;
                     }
                 });
-
-
             }
         });
-
 
         this.root = new Table();
         this.root.setFillParent(true);
@@ -314,9 +274,6 @@ public class GameScreen extends AbstractScreen {
         root.pack();
 
         addActor(root);
-
-
-
     }
 
 

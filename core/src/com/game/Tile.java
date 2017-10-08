@@ -5,13 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import javafx.scene.Group;
 import org.codetome.hexameter.core.api.*;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
 //import java.util.concurrent.ThreadLocalRandom;
 
-public class Tile {
+public class Tile extends Group {
 
     private Hexagon one;
     private Hexagon two;
