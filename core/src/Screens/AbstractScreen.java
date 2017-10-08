@@ -1,13 +1,13 @@
 package Screens;
 
-        import com.badlogic.gdx.Gdx;
-        import com.badlogic.gdx.InputMultiplexer;
-        import com.badlogic.gdx.InputProcessor;
-        import com.badlogic.gdx.Screen;
-        import com.badlogic.gdx.graphics.GL20;
-        import com.badlogic.gdx.graphics.OrthographicCamera;
-        import com.badlogic.gdx.scenes.scene2d.Stage;
-        import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public abstract class AbstractScreen extends Stage implements Screen, InputProcessor {
 

@@ -1,9 +1,5 @@
 
 package Screens;
-import Screens.AbstractScreen;
-import Screens.GameScreen;
-import Screens.MenuScreen;
-import com.badlogic.gdx.Game;
 
 public enum ScreenEnum {
     MAIN_MENU {
