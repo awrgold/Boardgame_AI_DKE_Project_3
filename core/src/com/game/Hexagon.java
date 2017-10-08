@@ -1,6 +1,5 @@
 package com.game;
 
-
 public class Hexagon {
 
     private final int x;

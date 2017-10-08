@@ -75,30 +75,10 @@ public class MenuScreen extends AbstractScreen {
                     ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
                 }*/
 
-
             }
             else
             {
                 game.batch.draw(playInactive,x,PLAY,PLAY_WIDTH, PLAY_HEIGHT);
-
-public void buildStage(){
-
-    table = new Table();
-   // table.setFillParent(true);
-    table.setWidth(this.getWidth());
-    table.align(Align.center|Align.top);
-    table.setPosition(0, Gdx.graphics.getHeight());
-
-
-
-    table.padTop(70);
-
-
-    addActor(bck);
-   addActor(table);
-
-}
-
 
             }
 
@@ -140,27 +120,7 @@ public void buildStage(){
         public void dispose() { }
 
     @Override
-
     public void buildStage() {
-
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        super.act(delta);
-        super.draw();
-        batch.end();
-}
-
-
-    public void dispose() {
-    super.dispose();
-    //skin.dispose();
-    batch.dispose();
-    }
-
-}
-
 
     }
 }
