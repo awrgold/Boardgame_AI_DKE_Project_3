@@ -15,13 +15,7 @@ public enum ScreenEnum {
         public AbstractScreen getScreen(Object... params) {
             return new GameScreen();
         }
-    };//,
-//    EXTRA {
-//        public AbstractScreen getScreen(Object... params) {
-//            return new GameScreen((Integer) params[0]);
-//        }
-    //   };
+    };
 
     public abstract AbstractScreen getScreen(Object... params);
 }
-//}

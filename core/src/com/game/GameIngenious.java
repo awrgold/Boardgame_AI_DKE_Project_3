@@ -6,6 +6,7 @@ import Screens.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.codetome.hexameter.core.api.HexagonalGrid;
 
 /**
  * Root of the game which holds the screens and delegates the rendering/updating to the currently active screen.
