@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.codetome.hexameter.core.api.*;
+import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
 //import java.util.concurrent.ThreadLocalRandom;
@@ -26,18 +28,6 @@ public class Tile {
 
     public Hexagon getTwo(){
         return two;
-    }
-
-    public int[] getCoordOne(){
-        return one.getCoordinates();
-    }
-
-    public int[] getCoordTwo(){
-        return two.getCoordinates();
-    }
-
-    public String getColor(Hexagon hex){
-        return hex.getColor();
     }
 
     //select one of the two hexagons of the tile we want to place

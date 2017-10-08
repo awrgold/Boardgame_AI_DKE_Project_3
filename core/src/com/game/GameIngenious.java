@@ -1,6 +1,5 @@
 package com.game;
 
-import Screens.MenuScreen;
 import Screens.ScreenEnum;
 import Screens.ScreenManager;
 import com.badlogic.gdx.Game;

@@ -1,14 +1,17 @@
 package Screens;
 
 
+import static org.codetome.hexameter.core.api.HexagonOrientation.FLAT_TOP;
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
+import GameConstants.Constants;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -180,7 +183,7 @@ public class GameScreen extends AbstractScreen {
         final int GRID_WIDTH = 11;
         final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
         final HexagonOrientation ORIENTATION = POINTY_TOP;
-        final double RADIUS = 30;
+        final double RADIUS = Constants.getHexRadius();
 
         // ...
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
