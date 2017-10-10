@@ -6,16 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 public class MenuScreen extends AbstractScreen {
 
 
     private SpriteBatch batch;
-   // private Skin skin;
+  //  private Skin skin;
     private Table table;
     private TextButton startb;
     private TextButton quitb;
@@ -30,7 +28,7 @@ public class MenuScreen extends AbstractScreen {
     public MenuScreen() {
        super();
 
-//        skin = new Skin(Gdx.files.internal("uiskin.json"));
+//       skin = new Skin(Gdx.files.internal("uiskin.json"));
 //        skin.addRegions(atlas);
  //      title = new Label("INGENIOUS",skin,"Default");
 

@@ -1,29 +1,12 @@
 package Screens;
 
 
-import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
-import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
-
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonOrientation;
-import org.codetome.hexameter.core.api.HexagonalGrid;
-import org.codetome.hexameter.core.api.HexagonalGridBuilder;
-import org.codetome.hexameter.core.api.HexagonalGridLayout;
-import org.codetome.hexameter.core.api.Point;
-import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
-
+import GameBoardAssets.HexagonActor;
+import GameBoardAssets.Link;
+import GameBoardAssets.ScoreBarActor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -32,112 +15,54 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
-
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.game.Score;
+import org.codetome.hexameter.core.api.*;
 import rx.functions.Action1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 
 
 public class GameScreen extends AbstractScreen {
-		
-	public static class Link extends DefaultSatelliteData {
-		
-		public HexagonActor actor;
+	// Ratio of width and height of a regular hexagon.
+	//public static final int HEXAGON_WIDTH = 100;
+	//public static final int HEXAGON_HEIGHT = 100;
 
-		public Link(HexagonActor actor) {
-			this.actor = actor;
-		} 
-		
+
+	public HexagonalGrid grid;
+	public Score score;
+	public List<HexagonActor> hexagonActors = new ArrayList<HexagonActor>();
+	public List<ScoreBarActor> scoreActors1 = new ArrayList<ScoreBarActor>();
+	public List<ScoreBarActor> scoreActors2 = new ArrayList<ScoreBarActor>();
+	private Table root;
+	private Group hexagonView;
+    private Group scoreView1;
+    private Group scoreView2;
+	private SpriteBatch batch;
+	private Skin skin;
+
+	//public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
+
+	public GameScreen() {
+		batch = new SpriteBatch();
+		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+		Gdx.graphics.setWindowedMode(720, 480);
 	}
-	
-	public static class HexagonActor extends Actor {
-		
-		protected Hexagon<Link> hexagon;
-		
-		private float[] vertices;
-		private ShapeRenderer renderer = new ShapeRenderer();
-
-		public HexagonActor(Hexagon<Link> hexagon) {
-			this.hexagon = hexagon;
-			
-			List<Point> points =  (List<Point>) hexagon.getPoints();
-			this.vertices = new float[points.size() * 2];
-			
-			for (int i = 0; i < points.size(); i++) {
-				// Translate to local coordinates
-				this.vertices[i * 2] = (float) points.get(i).getCoordinateX() - (float) hexagon.getCenterX();
-				this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();				
-			}
-			
-			setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);			
-		}
-
-		public void draw (Batch batch, float parentAlpha) {
-			
-			batch.end();
-
-			// Required just so everything displays at the correct position
-			renderer.setProjectionMatrix(batch.getProjectionMatrix());
-			renderer.setTransformMatrix(batch.getTransformMatrix());
-			
-			// Move to the location of this actor
-			renderer.translate(getX(), getY(), 0);
-
-			renderer.begin(ShapeType.Filled);
-			renderer.setColor(getColor());
-			
-			// Go through all vertices, draw triangles for each, using the next vertex.
-			// Go in bounds of two (x,y) pairs.
-			for (int i = 0; i < vertices.length; i+=2) {
-				
-				float x1 = vertices[i], y1 = vertices[i+1];
-				float x2 = vertices[(i + 2) % vertices.length], y2 = vertices[(i + 3) % vertices.length];
-				
-				renderer.triangle(x1 + getWidth() / 2, 
-				                  y1 + getHeight() / 2, 
-				                  x2 + getWidth() / 2, 
-				                  y2 + getHeight() / 2, getWidth() / 2, getHeight() / 2);
-			}
-			
-			renderer.end();
-
-			batch.begin();
-		}
-		
-		public Hexagon<Link> getHexagon(){
-			return hexagon;
-		}		
-		
-	}
-
-    // Ratio of width and height of a regular hexagon.
-    public static final int HEXAGON_WIDTH = 100;
-    public static final int HEXAGON_HEIGHT = 100;
-    
-    public HexagonalGrid grid;
-    public List<HexagonActor> hexagonActors = new ArrayList<HexagonActor>();
-
-    private Table root;
-    private Group hexagonView;
-    
-    private SpriteBatch batch;
-    private Skin skin;
-    
-    //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
-
-    public GameScreen() {
-        batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
-        Gdx.graphics.setWindowedMode(1920,1080);
-    }
-
 
     // Subclasses must load actors in this method
-    @SuppressWarnings("unchecked")
+   // @SuppressWarnings("unchecked")
 	public void buildStage(){
 
 //      Board.createMap();
+		//score...
+		final int SCORE_WIDTH = 18;
+		final int SCORE_HEIGHT = 6;
 
         // ...
         final int GRID_HEIGHT = 11;
@@ -145,6 +70,8 @@ public class GameScreen extends AbstractScreen {
         final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
         final HexagonOrientation ORIENTATION = POINTY_TOP;
         final double RADIUS = 30;
+        //...
+//        ScoreBarBuilder<Link> bbuild = new ScorebarBuilder<Link>();
 
         // ...
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
@@ -156,7 +83,9 @@ public class GameScreen extends AbstractScreen {
 
         HexagonalGrid<Link> grid = builder.build();
         this.grid = grid;
-
+		//Create ScoreActor for both player scoreBars and attach it to the group
+        this.scoreView1 = new Group();
+        this.scoreView2 = new Group();
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
         
@@ -195,7 +124,10 @@ public class GameScreen extends AbstractScreen {
             }
         });
 
-        
+        //ADD SCOREACTORS .......
+
+
+
         this.root = new Table();
         this.root.setFillParent(true);
         
@@ -204,20 +136,33 @@ public class GameScreen extends AbstractScreen {
         // Create the score column
         Table scoreColumn = new Table();      
         scoreColumn.debug(Debug.all);
-        
-        scoreColumn.add(new Label("Player 1 Score", skin)).expand().top();
+//		for (int i = 0; i < 6; i++) {
+//			scoreColumn.add(new TextButton("MEMEMEME", skin)).expandX().fill();
+//		}
+        scoreView1.setColor(Color.BLUE);
+        scoreColumn.add(scoreView1).expand().fill();
+       // scoreColumn.setColor(Color.BLUE);
         scoreColumn.row();
-        scoreColumn.add(new Label("Player 2 Score", skin)).expand().top();
-        
+        scoreColumn.add(new Label("Player 1 Score", skin)).bottom();
+        scoreColumn.row();
+        scoreView2.setColor(Color.RED);
+        scoreColumn.add(scoreView2).colspan(2).expand().fill();
+      //  scoreColumn.setColor(Color.RED);
+//		for (int i = 0; i < 6; i++) {
+//			scoreColumn.add(new TextButton("MEMEMEME", skin)).colspan(1).expandX().left();
+//		}
+        scoreColumn.row();
+        scoreColumn.add(new Label("Player 2 Score", skin)).bottom();
+
         root.add(scoreColumn).expand().fill();
         
         // Create the board
         Table boardColumn = new Table();      
         boardColumn.debug(Debug.all);
-        boardColumn.add(hexagonView).colspan(5).expand().fill();
+        boardColumn.add(hexagonView).colspan(6).expand().fill();
         boardColumn.row();
-        
-        for (int i = 0; i < 5; i++) {
+
+        for (int i = 0; i < 6; i++) {
 			boardColumn.add(new TextButton("MEMEMEME", skin)).expandX().fill();
 		}
         
