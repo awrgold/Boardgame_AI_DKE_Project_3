@@ -212,6 +212,74 @@ public class GameScreen extends AbstractScreen {
             Sprite[] oneOfSix = player1pieces.get(i);
 
 
+            // Create a HexagonActor for each Hexagon and attach it to the group
+            this.hexagonView = new Group();
+
+
+
+            grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+                @Override
+                public void call(Hexagon hexagon) {
+
+                    // Create the Actor and link it to the hexagon (and vice-versa)
+                    final HexagonActor hexActor = new HexagonActor(hexagon);
+
+                    Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+                    Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
+                    Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
+                    Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
+                    Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
+                    Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
+                    Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
+
+                    hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
+                    hexagonView.addActor(hexActor);
+
+                    hexagon.setSatelliteData(new Link(hexActor));
+
+                    //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
+
+                    if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10) {
+                        hexActor.setSprite(corner1Sprite);
+                    } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10) {
+                        hexActor.setSprite(corner2Sprite);
+                    } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5) {
+                        hexActor.setSprite(corner3Sprite);
+                    } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0) {
+                        hexActor.setSprite(corner4Sprite);
+                    } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0) {
+                        hexActor.setSprite(corner5Sprite);
+                    } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5) {
+                        hexActor.setSprite(corner6Sprite);
+                    } else {
+                        hexActor.setSprite(emptySprite);
+                    }
+
+
+                    // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
+                    // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
+                    // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
+                    // HINT HINT HINT
+                    hexActor.addListener(new EventListener() {
+                        @Override
+                        public boolean handle(Event event) {
+                            if (event instanceof InputEvent) {
+                                InputEvent inputEvent = (InputEvent) event;
+                                if (inputEvent.getType() == Type.touchDown) {
+                                    //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
+                                    hexActor.setColor(Color.BLACK);
+                                    System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
+                                }
+                            }
+                            return false;
+                        }
+                    });
+                }
+            });
+
+
+
 
             //override call for each grid
             tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
@@ -229,18 +297,59 @@ public class GameScreen extends AbstractScreen {
 
                     hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
-
                     //and pass everything in tileGroup
                     tileGroup.addActor(hexTile);
 
                     hexagon.setSatelliteData(new Link(hexTile));
 
 
-                    tileGroup.addListener(new DragListener() {
+                    DragAndDrop dnd  = new DragAndDrop();
+
+                    dnd.addSource(new DragAndDrop.Source(tileGroup) {
+                        DragAndDrop.Payload payload =  new DragAndDrop.Payload();
+
+                        public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {  // here is the dragstart method where you take the item selected from the handtile , once you take it, it removes itself from the hand
+                            payload.setObject(tileGroup);
+                            payload.setDragActor(tileGroup);
+                            return payload;
+                        }
+
+                        public void dragStop (InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
+                            // trying to replace the tile to its initial position if it's not placed on the board CURRENTLY NOT WORKING !!!
+                            x = (float )hexagon.getCenterX();
+                            y = (float) hexagon.getCenterY();
+                            dnd.setDragActorPosition(-tileGroup.getWidth() / 2, tileGroup.getHeight() / 2);
+
+                            if(target == null){
+                                tileGroup.setPosition(x,y);
+                            }
+                            // Actor gets removed from the stage apparently
+                            //stage.addActor(tileGroup);
+                        }
+                    });
+
+                    // Target is the place where the tile should be placed
+                    dnd.addTarget(new DragAndDrop.Target(hexagonView) { // This is the target class where i'm trying to point out the board BUT ALSO NOT WORKING NOW
+                        @Override
+                        public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                            return true;
+                        }
+
+                        @Override
+                        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+
+                            //hexagonView.getItems().add((HexagonActor) payload.getObject());
+                            Actor hexagon = (Actor) payload.getObject();
+                            hexagonView.addActor(hexagon);
+                        }
+                    });
+
+
+                   /* tileGroup.addListener(new DragListener() {
                         public void drag(InputEvent event, float x, float y, int pointer) {
                             tileGroup.moveBy(x - tileGroup.getChildren().size / 2, y - tileGroup.getChildren().size / 2);
                         }
-                    });
+                    });*/
 
                 }
             });
@@ -248,74 +357,6 @@ public class GameScreen extends AbstractScreen {
             //add tileGroup to tileView
             this.tileView[i] = tileGroup;
         }
-
-
-
-        // Create a HexagonActor for each Hexagon and attach it to the group
-        this.hexagonView = new Group();
-
-
-
-        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon hexagon) {
-
-                // Create the Actor and link it to the hexagon (and vice-versa)
-                final HexagonActor hexActor = new HexagonActor(hexagon);
-
-                Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-                Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
-                Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
-                Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
-                Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
-                Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
-                Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
-
-                hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-
-                hexagonView.addActor(hexActor);
-
-                hexagon.setSatelliteData(new Link(hexActor));
-
-                //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
-
-                if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10) {
-                    hexActor.setSprite(corner1Sprite);
-                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10) {
-                    hexActor.setSprite(corner2Sprite);
-                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5) {
-                    hexActor.setSprite(corner3Sprite);
-                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0) {
-                    hexActor.setSprite(corner4Sprite);
-                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0) {
-                    hexActor.setSprite(corner5Sprite);
-                } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5) {
-                    hexActor.setSprite(corner6Sprite);
-                } else {
-                    hexActor.setSprite(emptySprite);
-                }
-
-
-                // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
-                // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
-                // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
-                // HINT HINT HINT
-                hexActor.addListener(new EventListener() {
-                    @Override
-                    public boolean handle(Event event) {
-                        if (event instanceof InputEvent) {
-                            InputEvent inputEvent = (InputEvent) event;
-                            if (inputEvent.getType() == Type.touchDown) {
-                                //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
-                                hexActor.setColor(Color.BLACK);
-                                System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
-                            }
-                        }
-                        return false;
-                    }
-                });
-            }
-        });
 
         this.root = new Table();
         this.root.setFillParent(true);
@@ -357,60 +398,6 @@ public class GameScreen extends AbstractScreen {
                 
         addActor(root);
 
-
-
-        /*
-
-        // Create two list of whatever we want ( here sprite ), the first one is the hand of the current player and the other one is the actual game stage
-        com.badlogic.gdx.scenes.scene2d.ui.List<Sprite> handTile = new com.badlogic.gdx.scenes.scene2d.ui.List<>(skin);
-        com.badlogic.gdx.scenes.scene2d.ui.List<Sprite> boardTile = new com.badlogic.gdx.scenes.scene2d.ui.List<>(skin);
-
-        // here i add the objects to the actual list
-        Sprite hand = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
-        handTile.setItems(hand);
-        Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-        boardTile.setItems(emptySprite);
-
-
-        DragAndDrop dnd  = new DragAndDrop();
-
-        dnd.addSource(new DragAndDrop.Source(handTile) {
-            DragAndDrop.Payload payload =  new DragAndDrop.Payload();
-
-            // here is the dragstart method where you take the item selected from the handtile , once you take it it removes itself from the hand
-            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                Sprite item =  handTile.getSelected();
-                payload.setObject(handTile.getSelected());
-                handTile.getItems().removeIndex(handTile.getSelectedIndex());
-                //payload.setDragActor(new Label(item,skin)); THIS IS FOR LETTING THE ITEM APPEARING ONCE ITS MOVING I NEED TO CHANGE LABEL
-
-                return payload;
-            }
-
-            public void dragStop (InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
-
-                if (target == null) {
-                    handTile.getItems().add((Sprite) payload.getObject());
-                }
-            }
-        });
-
-        // Target is the place where the tile should be placed
-        dnd.addTarget(new DragAndDrop.Target(boardTile) {
-            @Override
-            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                return false;
-            }
-
-            @Override
-            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                boardTile.getItems().add((Sprite) payload.getObject());
-            }
-        });
-
-
-        // PS : from this, we can implement valid dragandrop etc so i think it's very interesting and not that difficult.
-*/
     }
 
 
