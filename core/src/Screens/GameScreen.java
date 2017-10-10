@@ -125,12 +125,12 @@ public class GameScreen extends AbstractScreen {
     public static final int HEXAGON_HEIGHT = 100;
     
     public HexagonalGrid grid;
-    public HexagonalGrid tile;
+    public HexagonalGrid[] tiles = new HexagonalGrid[6];
     public List<HexagonActor> hexagonActors = new ArrayList<HexagonActor>();
 
     private Table root;
     private Group hexagonView;
-    private Group tileView;
+    final private Group[] tileView = new Group[6];
 
 	//private Texture mainMenuButton;
     private ImageButton tileButton;
@@ -156,13 +156,15 @@ public class GameScreen extends AbstractScreen {
 	public void buildStage() {
         Stage stage  = new Stage();
         // ...
+
+        //board grid
         final int GRID_HEIGHT = 11;
         final int GRID_WIDTH = 11;
         final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
         final HexagonOrientation ORIENTATION = POINTY_TOP;
         final double RADIUS = Constants.getHexRadius();
 
-
+        //tile grid (1x2)
         final int TILE_HEIGHT = 1;
         final int TILE_WIDTH = 2;
         final HexagonalGridLayout TILE_LAYOUT = RECTANGULAR;
@@ -170,6 +172,7 @@ public class GameScreen extends AbstractScreen {
         final double TILE_RADIUS = Constants.getHexRadius();
 
         // ...
+        //grid builder
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(GRID_HEIGHT)
                 .setGridWidth(GRID_WIDTH)
@@ -177,6 +180,7 @@ public class GameScreen extends AbstractScreen {
                 .setOrientation(ORIENTATION)
                 .setRadius(RADIUS);
 
+        //tile builder
         HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(TILE_HEIGHT)
                 .setGridWidth(TILE_WIDTH)
@@ -187,38 +191,55 @@ public class GameScreen extends AbstractScreen {
         HexagonalGrid<Link> grid = builder.build();
         this.grid = grid;
 
-        HexagonalGrid<Link> tile = tileBuilder.build();
-        this.tile = tile;
+        //now repeat for the 6 tiles
+        for (int i = 0; i < 6; i++){
+
+            //give it a grid (2x1)
+            HexagonalGrid<Link> tile = tileBuilder.build();
+            this.tiles[i] = tile;
+
+            //create a group that contains the 2 hexagons
+            Group tileGroup = new Group();
+
+            //override call for each grid
+            tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
+                @Override
+                public void call(Hexagon hexagon) {
+                    final HexagonActor hexTile = new HexagonActor(hexagon);
+
+
+
+                    Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+
+                    hexTile.setSprite(emptySprite);
+
+                    hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
+
+                    //and pass everything in tileGroup
+                    tileGroup.addActor(hexTile);
+
+                    hexagon.setSatelliteData(new Link(hexTile));
+
+
+                    tileGroup.addListener(new DragListener() {
+                        public void drag(InputEvent event, float x, float y, int pointer) {
+                            tileGroup.moveBy(x - tileGroup.getChildren().size / 2, y - tileGroup.getChildren().size / 2);
+                        }
+                    });
+                }
+            });
+
+            //add tileGroup to tileView
+            this.tileView[i] = tileGroup;
+        }
+
+
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
 
-        this.tileView = new Group();
 
-        tile.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon hexagon) {
-                final HexagonActor hexTile = new HexagonActor(hexagon);
-
-                Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-
-                hexTile.setSprite(emptySprite);
-
-                hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-
-
-                tileView.addActor(hexTile);
-
-                hexagon.setSatelliteData(new Link(hexTile));
-
-
-                tileView.addListener(new DragListener() {
-                    public void drag(InputEvent event, float x, float y, int pointer) {
-                        tileView.moveBy(x - tileView.getChildren().size / 2, y - tileView.getChildren().size / 2);
-                    }
-                });
-            }
-        });
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -311,8 +332,9 @@ public class GameScreen extends AbstractScreen {
         tileStyle = new ImageButton.ImageButtonStyle();
         tileStyle.up = tileButtonSkin.getDrawable("Tile51");*/
 
+        //place the tiles on the screen
         for (int i = 0; i < 6; i++) {
-			boardColumn.add(tileView).expandX();
+			boardColumn.add(tileView[i]).expandX().fill().colspan(1);
 		}
         
         root.add(boardColumn).expand().fill();
