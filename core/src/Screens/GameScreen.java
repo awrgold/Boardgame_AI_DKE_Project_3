@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.game.Pieces;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -191,6 +192,12 @@ public class GameScreen extends AbstractScreen {
         HexagonalGrid<Link> grid = builder.build();
         this.grid = grid;
 
+        //create the BAG
+        ArrayList<Sprite[]> bag = Pieces.createBagPieces();
+
+        //distribute pieces to player 1
+        ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
+
         //now repeat for the 6 tiles
         for (int i = 0; i < 6; i++){
 
@@ -201,17 +208,24 @@ public class GameScreen extends AbstractScreen {
             //create a group that contains the 2 hexagons
             Group tileGroup = new Group();
 
+            //get one of the six couple of sprites
+            Sprite[] oneOfSix = player1pieces.get(i);
+
+
+
             //override call for each grid
             tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
                 @Override
                 public void call(Hexagon hexagon) {
                     final HexagonActor hexTile = new HexagonActor(hexagon);
 
+                    //give both the sprites
+                    if(hexagon.getGridX() == 0) {
+                        hexTile.setSprite(oneOfSix[0]);
+                    } else {
+                        hexTile.setSprite(oneOfSix[1]);
+                    }
 
-
-                    Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-
-                    hexTile.setSprite(emptySprite);
 
                     hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
@@ -227,6 +241,7 @@ public class GameScreen extends AbstractScreen {
                             tileGroup.moveBy(x - tileGroup.getChildren().size / 2, y - tileGroup.getChildren().size / 2);
                         }
                     });
+
                 }
             });
 
@@ -322,7 +337,7 @@ public class GameScreen extends AbstractScreen {
 
 
         boardColumn.debug(Debug.all);
-        boardColumn.add(hexagonView).colspan(2 *(Constants.getWindowWidth()) / 4).expand().fill();
+        boardColumn.add(hexagonView).colspan(5).expand().fill();
         boardColumn.row().bottom().colspan(5);
 
 
