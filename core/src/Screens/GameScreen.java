@@ -132,7 +132,7 @@ public class GameScreen extends AbstractScreen {
     private Group hexagonView;
     private Group tileView;
 
-	private Texture mainMenuButton;
+	//private Texture mainMenuButton;
     private ImageButton tileButton;
     private ImageButton.ImageButtonStyle tileStyle;
     private TextureAtlas tileButtonAtlas;
@@ -145,6 +145,7 @@ public class GameScreen extends AbstractScreen {
 
     public GameScreen() {
         //batch = new SpriteBatch();
+
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
     }
@@ -153,7 +154,7 @@ public class GameScreen extends AbstractScreen {
     // Subclasses must load actors in this method
     @SuppressWarnings("unchecked")
 	public void buildStage() {
-
+        Stage stage  = new Stage();
         // ...
         final int GRID_HEIGHT = 11;
         final int GRID_WIDTH = 11;
@@ -313,14 +314,66 @@ public class GameScreen extends AbstractScreen {
         for (int i = 0; i < 6; i++) {
 			boardColumn.add(tileView).expandX();
 		}
-
-
         
         root.add(boardColumn).expand().fill();
         root.pack();
                 
         addActor(root);
 
+
+
+        /*
+
+        // Create two list of whatever we want ( here sprite ), the first one is the hand of the current player and the other one is the actual game stage
+        com.badlogic.gdx.scenes.scene2d.ui.List<Sprite> handTile = new com.badlogic.gdx.scenes.scene2d.ui.List<>(skin);
+        com.badlogic.gdx.scenes.scene2d.ui.List<Sprite> boardTile = new com.badlogic.gdx.scenes.scene2d.ui.List<>(skin);
+
+        // here i add the objects to the actual list
+        Sprite hand = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
+        handTile.setItems(hand);
+        Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+        boardTile.setItems(emptySprite);
+
+
+        DragAndDrop dnd  = new DragAndDrop();
+
+        dnd.addSource(new DragAndDrop.Source(handTile) {
+            DragAndDrop.Payload payload =  new DragAndDrop.Payload();
+
+            // here is the dragstart method where you take the item selected from the handtile , once you take it it removes itself from the hand
+            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                Sprite item =  handTile.getSelected();
+                payload.setObject(handTile.getSelected());
+                handTile.getItems().removeIndex(handTile.getSelectedIndex());
+                //payload.setDragActor(new Label(item,skin)); THIS IS FOR LETTING THE ITEM APPEARING ONCE ITS MOVING I NEED TO CHANGE LABEL
+
+                return payload;
+            }
+
+            public void dragStop (InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
+
+                if (target == null) {
+                    handTile.getItems().add((Sprite) payload.getObject());
+                }
+            }
+        });
+
+        // Target is the place where the tile should be placed
+        dnd.addTarget(new DragAndDrop.Target(boardTile) {
+            @Override
+            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                return false;
+            }
+
+            @Override
+            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                boardTile.getItems().add((Sprite) payload.getObject());
+            }
+        });
+
+
+        // PS : from this, we can implement valid dragandrop etc so i think it's very interesting and not that difficult.
+*/
     }
 
 
