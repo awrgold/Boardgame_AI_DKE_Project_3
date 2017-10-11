@@ -16,10 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.game.Pieces;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
@@ -131,7 +128,9 @@ public class GameScreen extends AbstractScreen {
 
     private Table root;
     private Group hexagonView;
-    final private Group[] tileView = new Group[6];
+    private Group[] tileView = new Group[6];
+    //we use this to store informations about the selected tile
+    private Sprite[] touched = {null, null};
 
 	//private Texture mainMenuButton;
     private ImageButton tileButton;
@@ -227,20 +226,27 @@ public class GameScreen extends AbstractScreen {
                 // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
                 // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
                 // HINT HINT HINT
-                hexActor.addListener(new EventListener() {
+
+
+                hexActor.addListener(new ClickListener(){
                     @Override
-                    public boolean handle(Event event) {
-                        if (event instanceof InputEvent) {
-                            InputEvent inputEvent = (InputEvent) event;
-                            if (inputEvent.getType() == Type.touchDown) {
-                                //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
-                                hexActor.setColor(Color.BLACK);
-                                System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
-                            }
+                    public void clicked(InputEvent event, float x, float y) {
+                        if(touched[0] != null && hexActor.sprite == emptySprite){
+                            hexActor.sprite = touched[0];
+                            touched[0] = null;
+                        } else if (touched[0] == null && touched[1] != null && hexActor.sprite == emptySprite){
+                            hexActor.sprite = touched[1];
+                            touched[1] = null;
+                        } else if (touched[0] == null && touched[1] == null){
+                            System.out.println("Select a Tile from your hand!");
+                        } else {
+                            System.out.println("This slot is full");
                         }
-                        return false;
+
+
                     }
                 });
+
             }
         });
 
@@ -250,6 +256,7 @@ public class GameScreen extends AbstractScreen {
 
         //distribute pieces to player 1
         ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
+        ArrayList<Sprite[]> player2pieces = Pieces.distributePieces(bag);
 
         //tile grid (1x2)
         final int TILE_HEIGHT = 1;
@@ -304,7 +311,7 @@ public class GameScreen extends AbstractScreen {
                     hexagon.setSatelliteData(new Link(hexTile));
 
 
-                    DragAndDrop dnd  = new DragAndDrop();
+                    /*DragAndDrop dnd  = new DragAndDrop();
 
                     dnd.addSource(new DragAndDrop.Source(tileGroup) {
                         DragAndDrop.Payload payload =  new DragAndDrop.Payload();
@@ -343,14 +350,24 @@ public class GameScreen extends AbstractScreen {
                             Actor hexagon = (Actor) payload.getObject();
                             hexagonView.addActor(hexagon);
                         }
-                    });
+                    }); */
 
 
-                   /* tileGroup.addListener(new DragListener() {
-                        public void drag(InputEvent event, float x, float y, int pointer) {
-                            tileGroup.moveBy(x - tileGroup.getChildren().size / 2, y - tileGroup.getChildren().size / 2);
+                    hexTile.addListener(new ClickListener(){
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+
+                            touched[0] = hexTile.sprite;
+
+                            Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.hexagon.getGridX() - 1));
+
+                            if (two instanceof HexagonActor){
+                                HexagonActor other = (HexagonActor) two;
+                                touched[1] = other.sprite;
+                            }
+
                         }
-                    });*/
+                    });
 
                 }
             });
