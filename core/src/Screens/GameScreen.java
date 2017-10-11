@@ -165,12 +165,7 @@ public class GameScreen extends AbstractScreen {
         final HexagonOrientation ORIENTATION = POINTY_TOP;
         final double RADIUS = Constants.getHexRadius();
 
-        //tile grid (1x2)
-        final int TILE_HEIGHT = 1;
-        final int TILE_WIDTH = 2;
-        final HexagonalGridLayout TILE_LAYOUT = RECTANGULAR;
-        final HexagonOrientation TILE_ORIENTATION = POINTY_TOP;
-        final double TILE_RADIUS = Constants.getHexRadius();
+
 
         // ...
         //grid builder
@@ -181,6 +176,88 @@ public class GameScreen extends AbstractScreen {
                 .setOrientation(ORIENTATION)
                 .setRadius(RADIUS);
 
+
+        HexagonalGrid<Link> grid = builder.build();
+        this.grid = grid;
+
+        // Create a HexagonActor for each Hexagon and attach it to the group
+        this.hexagonView = new Group();
+
+        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+
+                // Create the Actor and link it to the hexagon (and vice-versa)
+                final HexagonActor hexActor = new HexagonActor(hexagon);
+
+                Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+                Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
+                Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
+                Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
+                Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
+                Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
+                Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
+
+                hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
+                hexagonView.addActor(hexActor);
+
+                hexagon.setSatelliteData(new Link(hexActor));
+
+                //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
+
+                if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10) {
+                    hexActor.setSprite(corner1Sprite);
+                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10) {
+                    hexActor.setSprite(corner2Sprite);
+                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5) {
+                    hexActor.setSprite(corner3Sprite);
+                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0) {
+                    hexActor.setSprite(corner4Sprite);
+                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0) {
+                    hexActor.setSprite(corner5Sprite);
+                } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5) {
+                    hexActor.setSprite(corner6Sprite);
+                } else {
+                    hexActor.setSprite(emptySprite);
+                }
+
+
+                // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
+                // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
+                // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
+                // HINT HINT HINT
+                hexActor.addListener(new EventListener() {
+                    @Override
+                    public boolean handle(Event event) {
+                        if (event instanceof InputEvent) {
+                            InputEvent inputEvent = (InputEvent) event;
+                            if (inputEvent.getType() == Type.touchDown) {
+                                //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
+                                hexActor.setColor(Color.BLACK);
+                                System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
+                            }
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
+
+
+        //create the BAG
+        ArrayList<Sprite[]> bag = Pieces.createBagPieces();
+
+        //distribute pieces to player 1
+        ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
+
+        //tile grid (1x2)
+        final int TILE_HEIGHT = 1;
+        final int TILE_WIDTH = 2;
+        final HexagonalGridLayout TILE_LAYOUT = RECTANGULAR;
+        final HexagonOrientation TILE_ORIENTATION = POINTY_TOP;
+        final double TILE_RADIUS = Constants.getHexRadius();
+
         //tile builder
         HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(TILE_HEIGHT)
@@ -189,14 +266,6 @@ public class GameScreen extends AbstractScreen {
                 .setOrientation(TILE_ORIENTATION)
                 .setRadius(TILE_RADIUS);
 
-        HexagonalGrid<Link> grid = builder.build();
-        this.grid = grid;
-
-        //create the BAG
-        ArrayList<Sprite[]> bag = Pieces.createBagPieces();
-
-        //distribute pieces to player 1
-        ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
 
         //now repeat for the 6 tiles
         for (int i = 0; i < 6; i++){
@@ -210,74 +279,6 @@ public class GameScreen extends AbstractScreen {
 
             //get one of the six couple of sprites
             Sprite[] oneOfSix = player1pieces.get(i);
-
-
-            // Create a HexagonActor for each Hexagon and attach it to the group
-            this.hexagonView = new Group();
-
-
-
-            grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-                @Override
-                public void call(Hexagon hexagon) {
-
-                    // Create the Actor and link it to the hexagon (and vice-versa)
-                    final HexagonActor hexActor = new HexagonActor(hexagon);
-
-                    Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-                    Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
-                    Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
-                    Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
-                    Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
-                    Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
-                    Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
-
-                    hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-
-                    hexagonView.addActor(hexActor);
-
-                    hexagon.setSatelliteData(new Link(hexActor));
-
-                    //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
-
-                    if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10) {
-                        hexActor.setSprite(corner1Sprite);
-                    } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10) {
-                        hexActor.setSprite(corner2Sprite);
-                    } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5) {
-                        hexActor.setSprite(corner3Sprite);
-                    } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0) {
-                        hexActor.setSprite(corner4Sprite);
-                    } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0) {
-                        hexActor.setSprite(corner5Sprite);
-                    } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5) {
-                        hexActor.setSprite(corner6Sprite);
-                    } else {
-                        hexActor.setSprite(emptySprite);
-                    }
-
-
-                    // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
-                    // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
-                    // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
-                    // HINT HINT HINT
-                    hexActor.addListener(new EventListener() {
-                        @Override
-                        public boolean handle(Event event) {
-                            if (event instanceof InputEvent) {
-                                InputEvent inputEvent = (InputEvent) event;
-                                if (inputEvent.getType() == Type.touchDown) {
-                                    //hexActor.hit(inputEvent.getStageX(), inputEvent.getStageY(), true);
-                                    hexActor.setColor(Color.BLACK);
-                                    System.out.println("Coordinates: (" + hexActor.hexagon.getGridX() + ", " + hexActor.hexagon.getGridY() + ", " + hexActor.hexagon.getGridZ() + ")");
-                                }
-                            }
-                            return false;
-                        }
-                    });
-                }
-            });
-
 
 
 
@@ -358,14 +359,17 @@ public class GameScreen extends AbstractScreen {
             this.tileView[i] = tileGroup;
         }
 
+
+
+
         this.root = new Table();
         this.root.setFillParent(true);
 
-        root.debug(Debug.all);
+        //root.debug(Debug.all);
 
         // Create the score column
         Table scoreColumn = new Table();
-        scoreColumn.debug(Debug.all);
+        //scoreColumn.debug(Debug.all);
 
         scoreColumn.add(new Label("Player 1 Score", skin)).expand().top();
         scoreColumn.row();
@@ -377,16 +381,10 @@ public class GameScreen extends AbstractScreen {
         Table boardColumn = new Table();
 
 
-        boardColumn.debug(Debug.all);
+        //boardColumn.debug(Debug.all);
         boardColumn.add(hexagonView).colspan(5).expand().fill();
         boardColumn.row().bottom().colspan(5);
 
-
-        /*tileButtonAtlas = new TextureAtlas("HexagonsPack.pack");
-        tileButtonSkin = new Skin();
-        tileButtonSkin.addRegions(tileButtonAtlas);
-        tileStyle = new ImageButton.ImageButtonStyle();
-        tileStyle.up = tileButtonSkin.getDrawable("Tile51");*/
 
         //place the tiles on the screen
         for (int i = 0; i < 6; i++) {
