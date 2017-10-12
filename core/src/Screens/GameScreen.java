@@ -150,7 +150,6 @@ public class GameScreen extends AbstractScreen {
                 // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
                 // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
                 // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
-                // HINT HINT HINT
 
 
                 hexActor.addListener(new ClickListener(){
