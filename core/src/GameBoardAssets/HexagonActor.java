@@ -1,21 +1,30 @@
 package GameBoardAssets;
 
+import Screens.GameScreen;
 import Tools.Link;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
+import javafx.application.Preloader;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ErrorMessages;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.Point;
+import org.codetome.hexameter.core.api.contract.SatelliteData;
 
 import java.util.List;
 
-public class HexagonActor extends Image {
+public class HexagonActor extends Image{
 
     protected Hexagon<Link> hexagon;
     private Sprite sprite;
     private float[] vertices;
     private ShapeRenderer renderer = new ShapeRenderer();
+    private String hexColor = null;
+
 
 
     public HexagonActor(Hexagon<Link> hexagon) {
@@ -32,6 +41,19 @@ public class HexagonActor extends Image {
             //setBounds(this.vertices[i * 2],this.vertices[i * 2 + 1], hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
         }
         setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
+    }
+
+    public void setHexColor(String color){
+        if (color == "R" || color == "O" || color == "Y" || color == "B" || color == "P" || color == "V"){
+            this.hexColor = color;
+        }else{
+            System.out.println("Invalid color choice, use the CAPITAL first letter of the color");
+            System.out.println("Choices: R, O, Y, B, P, V");
+        }
+    }
+
+    public String getHexColor(){
+        return this.hexColor;
     }
 
     public void setSprite(Sprite sprite){
