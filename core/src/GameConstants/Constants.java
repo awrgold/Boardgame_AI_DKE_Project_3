@@ -9,4 +9,17 @@ public class Constants {
     public static final int row_height = sc_Height/8;
     public static final String skin = "skin/glassy-ui.json";
     public static final String skinAtlas = "skin/glassy-ui.atlas";
+    public static final int hexRadius = 24;
+    public static final int windowWidth = 1920;
+    public static final int windowHeight = 1080;
+
+    public static int getHexRadius(){
+        return hexRadius;
+    }
+
+    public static int getWindowWidth() {return windowWidth;}
+
+    public static int getWindowHeight() {return windowHeight;}
+
+
 }
