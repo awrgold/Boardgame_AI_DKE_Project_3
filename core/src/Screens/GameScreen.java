@@ -10,7 +10,10 @@ import java.util.List;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
+import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import GameScoreAssets.Bar;
+import Tools.Link;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -37,86 +40,7 @@ import rx.functions.Action1;
 
 
 public class GameScreen extends AbstractScreen {
-		
-	public static class Link extends DefaultSatelliteData {
-		
-		public HexagonActor actor;
 
-		public Link(HexagonActor actor) {
-			this.actor = actor;
-		}
-	}
-
-	public static class HexagonActor extends Image{
-
-		protected Hexagon<Link> hexagon;
-		private Sprite sprite;
-		private float[] vertices;
-		private ShapeRenderer renderer = new ShapeRenderer();
-
-
-		public HexagonActor(Hexagon<Link> hexagon) {
-			this.hexagon = hexagon;
-
-			
-			List<Point> points =  (List<Point>) hexagon.getPoints();
-			this.vertices = new float[points.size() * 2];
-			
-			for (int i = 0; i < points.size(); i++) {
-				// Translate to local coordinates
-				this.vertices[i * 2] = (float) points.get(i).getCoordinateX() - (float) hexagon.getCenterX();
-				this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();
-                //setBounds(this.vertices[i * 2],this.vertices[i * 2 + 1], hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
-			}
-			setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
-		}
-
-		public void setSprite(Sprite sprite){
-		    this.sprite = sprite;
-        }
-
-		public void draw (Batch batch, float parentAlpha) {
-			
-			batch.end();
-
-
-			// Required just so everything displays at the correct position
-			renderer.setProjectionMatrix(batch.getProjectionMatrix());
-			renderer.setTransformMatrix(batch.getTransformMatrix());
-			
-			// Move to the location of this actor
-			renderer.translate(getX(), getY(), 0);
-
-			renderer.begin(ShapeType.Filled);
-			renderer.setColor(getColor());
-
-
-			// Go through all vertices, draw triangles for each, using the next vertex.
-			// Go in bounds of two (x,y) pairs.
-			for (int i = 0; i < vertices.length; i+=2) {
-
-				float x1 = vertices[i], y1 = vertices[i+1];
-				float x2 = vertices[(i + 2) % vertices.length], y2 = vertices[(i + 3) % vertices.length];
-
-
-
-				renderer.triangle(x1 + getWidth() / 2, 
-				                  y1 + getHeight() / 2, 
-				                  x2 + getWidth() / 2, 
-				                  y2 + getHeight() / 2, getWidth() / 2, getHeight() / 2);
-			}
-			
-			renderer.end();
-            batch.begin();
-
-            //draw the sprite on the actor
-			batch.draw(sprite, getX() - 10, getY() - 12, getWidth() + 17, getHeight() + 24);
-		}
-		public Hexagon<Link> getHexagon(){
-			return hexagon;
-		}
-	}
-    
 
     // Ratio of width and height of a regular hexagon.
     public static final int HEXAGON_WIDTH = 100;
@@ -205,21 +129,22 @@ public class GameScreen extends AbstractScreen {
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
-                if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 10) {
+                if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
                     hexActor.setSprite(corner1Sprite);
-                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 10) {
+                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
                     hexActor.setSprite(corner2Sprite);
-                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -13 && hexActor.hexagon.getGridZ() == 5) {
+                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
                     hexActor.setSprite(corner3Sprite);
-                } else if (hexActor.hexagon.getGridX() == 8 && hexActor.hexagon.getGridY() == -8 && hexActor.hexagon.getGridZ() == 0) {
+                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
                     hexActor.setSprite(corner4Sprite);
-                } else if (hexActor.hexagon.getGridX() == 3 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 0) {
+                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
                     hexActor.setSprite(corner5Sprite);
-                } else if (hexActor.hexagon.getGridX() == -2 && hexActor.hexagon.getGridY() == -3 && hexActor.hexagon.getGridZ() == 5) {
+                } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
                     hexActor.setSprite(corner6Sprite);
                 } else {
                     hexActor.setSprite(emptySprite);
                 }
+
 
 
                 // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
@@ -231,11 +156,12 @@ public class GameScreen extends AbstractScreen {
                 hexActor.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if(touched[0] != null && hexActor.sprite == emptySprite){
-                            hexActor.sprite = touched[0];
+                        System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
+                        if(touched[0] != null && hexActor.getSprite() == emptySprite){
+                            hexActor.setSprite(touched[0]);
                             touched[0] = null;
-                        } else if (touched[0] == null && touched[1] != null && hexActor.sprite == emptySprite){
-                            hexActor.sprite = touched[1];
+                        } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
+                            hexActor.setSprite(touched[1]);
                             touched[1] = null;
                         } else if (touched[0] == null && touched[1] == null){
                             System.out.println("Select a Tile from your hand!");
@@ -357,13 +283,13 @@ public class GameScreen extends AbstractScreen {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
 
-                            touched[0] = hexTile.sprite;
+                            touched[0] = hexTile.getSprite();
 
-                            Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.hexagon.getGridX() - 1));
+                            Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
 
                             if (two instanceof HexagonActor){
                                 HexagonActor other = (HexagonActor) two;
-                                touched[1] = other.sprite;
+                                touched[1] = other.getSprite();
                             }
 
                         }
@@ -388,9 +314,58 @@ public class GameScreen extends AbstractScreen {
         Table scoreColumn = new Table();
         //scoreColumn.debug(Debug.all);
 
-        scoreColumn.add(new Label("Player 1 Score", skin)).expand().top();
+        Bar bar1a = new Bar(100,50,Color.RED,getRandom());
+        Bar bar2a = new Bar(100,50,Color.BLUE,getRandom());
+        Bar bar3a = new Bar(100,50,Color.PURPLE,getRandom());
+        Bar bar4a = new Bar(100,50,Color.YELLOW,getRandom());
+        Bar bar5a = new Bar(100,50,Color.GREEN,getRandom());
+        Bar bar6a = new Bar(100,50,Color.ORANGE,getRandom());
+
+
+
+        scoreColumn.add(bar1a).expand().left();
         scoreColumn.row();
-        scoreColumn.add(new Label("Player 2 Score", skin)).expand().top();
+        scoreColumn.add(bar2a).expand().left();
+        scoreColumn.row();
+        scoreColumn.add(bar3a).expand().left();
+        scoreColumn.row();
+        scoreColumn.add(bar4a).expand().left();
+        scoreColumn.row();
+        scoreColumn.add(bar5a).expand().left();
+        scoreColumn.row();
+        scoreColumn.add(bar6a).expand().left();
+        //  scoreColumn.add(bar);
+        // scoreColumn.setColor(Color.BLUE);
+        scoreColumn.row();
+        scoreColumn.add(new Label("Player 1 Score", skin)).bottom();
+        scoreColumn.row();
+        Bar bar1b = new Bar(200,50,Color.RED,getRandom());
+        Bar bar2b = new Bar(100,50,Color.BLUE,getRandom());
+        Bar bar3b = new Bar(100,50,Color.PURPLE,getRandom());
+        Bar bar4b = new Bar(100,50,Color.YELLOW,getRandom());
+        Bar bar5b = new Bar(100,50,Color.GREEN,getRandom());
+        Bar bar6b = new Bar(100,50,Color.ORANGE,getRandom());
+
+        scoreColumn.add(bar1b).expand().fill();
+        scoreColumn.row();
+        scoreColumn.add(bar2b).expand().fill();
+        scoreColumn.row();
+        scoreColumn.add(bar3b).expand().fill();
+        scoreColumn.row();
+        scoreColumn.add(bar4b).expand().fill();
+        scoreColumn.row();
+        scoreColumn.add(bar5b).expand().fill();
+        scoreColumn.row();
+        scoreColumn.add(bar6b).expand().fill();
+        //scoreView2.setColor(Color.RED);
+        // scoreColumn.add(scoreView2).expand().left();
+        //  scoreColumn.setColor(Color.RED);
+//		for (int i = 0; i < 6; i++) {
+//			scoreColumn.add(new TextButton("MEMEMEME", skin)).colspan(1).expandX().left();
+//		}
+
+        scoreColumn.row();
+        scoreColumn.add(new Label("Player 2 Score", skin)).bottom();
 
         root.add(scoreColumn).colspan(1).expand().fill();
 
@@ -413,6 +388,10 @@ public class GameScreen extends AbstractScreen {
                 
         addActor(root);
 
+
+
+
+
     }
 
 
@@ -421,6 +400,10 @@ public class GameScreen extends AbstractScreen {
         batch.dispose();
     }
 
+    public int getRandom(){
+        int n = (int) (Math.random()*100);
+        return n;
+    }
     //public void show(){
     	//mainMenuButton = new Texture("mainmenu.png");
 	//}
