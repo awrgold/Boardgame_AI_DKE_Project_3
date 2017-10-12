@@ -27,6 +27,7 @@ import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
 import org.codetome.hexameter.core.api.Point;
+import org.codetome.hexameter.core.api.contract.HexagonDataStorage;
 import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
 import com.badlogic.gdx.Gdx;
@@ -86,6 +87,7 @@ public class GameScreen extends AbstractScreen {
         final int GRID_WIDTH = 11;
         final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
         final HexagonOrientation ORIENTATION = POINTY_TOP;
+
         final double RADIUS = Constants.getHexRadius();
 
 
@@ -131,16 +133,22 @@ public class GameScreen extends AbstractScreen {
 
                 if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
                     hexActor.setSprite(corner1Sprite);
+                    hexActor.setHexColor("B");
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
                     hexActor.setSprite(corner2Sprite);
+                    hexActor.setHexColor("Y");
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
                     hexActor.setSprite(corner3Sprite);
+                    hexActor.setHexColor("O");
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
                     hexActor.setSprite(corner4Sprite);
+                    hexActor.setHexColor("P");
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
                     hexActor.setSprite(corner5Sprite);
+                    hexActor.setHexColor("V");
                 } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
                     hexActor.setSprite(corner6Sprite);
+                    hexActor.setHexColor("R");
                 } else {
                     hexActor.setSprite(emptySprite);
                 }
@@ -156,6 +164,7 @@ public class GameScreen extends AbstractScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
+
                         if(touched[0] != null && hexActor.getSprite() == emptySprite){
                             hexActor.setSprite(touched[0]);
                             touched[0] = null;
@@ -163,9 +172,9 @@ public class GameScreen extends AbstractScreen {
                             hexActor.setSprite(touched[1]);
                             touched[1] = null;
                         } else if (touched[0] == null && touched[1] == null){
-                            System.out.println("Select a Tile from your hand!");
+                            System.out.println("Select a piece from your hand!");
                         } else {
-                            System.out.println("This slot is full");
+                            System.out.println("This slot is full! Color here is: " + hexActor.getHexColor());
                         }
 
 
