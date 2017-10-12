@@ -1,5 +1,11 @@
 package com.game;
 
+import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.backport.Optional;
+
+import javax.swing.text.html.Option;
 import java.util.Random;
 
 // To do: fix the while loop for each calculate function
@@ -43,149 +49,180 @@ public class Score {
     }
 
 
-    public void updateScore(Player player, Hexagon hex) {
+    public void updateScore(Player player, Hexagon hex, HexagonalGrid hexGrid) {
         int result = 0;
         int[] playerScore = getPlayerScore(player);
 
         //Calculate color combination from hex to left:
-        result = result + CalculateScoreHexToLeft(hex);
+        result = result + CalculateScoreHexToLeft(hexGrid, hex);
         //Calculate color combination from hex to right
-        result = result + CalculateScoreHexToRight(hex);
+        result = result + CalculateScoreHexToRight(hexGrid, hex);
         //Calculate color combination from hex to bottom left
-        result = result + CalculateScoreHexToBotLeft(hex);
+        result = result + CalculateScoreHexToBotLeft(hexGrid, hex);
         //Calculate color combination from hex to bottom right
-        result = result + CalculateScoreHexToBotRight(hex);
+        result = result + CalculateScoreHexToBotRight(hexGrid, hex);
         //Calculate color combination from hex to top left
-        result = result + CalculateScoreHexToTopLeft(hex);
+        result = result + CalculateScoreHexToTopLeft(hexGrid, hex);
         //Calculate color combination from hex to top right
-        result = result + CalculateScoreHexToTopRight(hex);
+        result = result + CalculateScoreHexToTopRight(hexGrid, hex);
 
 
         //Update score of designated tile sort:
-        String color = hex.getColor();
+        /*String color = hex.getColor();
         if (color == "blue") playerScore[0] = playerScore[0] + result;
         if (color == "green") playerScore[1] = playerScore[1] + result;
         if (color == "orange") playerScore[2] = playerScore[2] + result;
         if (color == "purple") playerScore[3] = playerScore[3] + result;
         if (color == "red") playerScore[4] = playerScore[4] + result;
-        if (color == "yellow") playerScore[5] = playerScore[5] + result;
+        if (color == "yellow") playerScore[5] = playerScore[5] + result;*/
     }
 
-    public int CalculateScoreHexToLeft(Hexagon hex) {
+    public int CalculateScoreHexToLeft(HexagonalGrid hexGrid, Hexagon hex) {
         int result = 0;
         boolean sameColor = true;
 
-        Hexagon currentHex = hex;
+        Hexagon currentHex;
         Hexagon currentHex2;
+        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(hex.getGridX(), hex.getGridZ());
+        CubeCoordinate ccCurrentHex2;
 
-        while (currentHex.getX() >= 0 && sameColor == true) {
-            currentHex2 = Board.getHex(currentHex.getX() - 1, currentHex.getY(), currentHex.getZ() + 1);
-            if (currentHex.getColor() == currentHex2.getColor()) {
+        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
+
+        while (currentHex.getGridX() > -6 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1, currentHex.getGridZ() + 1);
+            currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
+
+            /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
                 currentHex = currentHex2;
             } else {
                 sameColor = false;
-            }
+            }*/
         }
         return result;
     }
 
-    public int CalculateScoreHexToRight(Hexagon hex) {
+    public int CalculateScoreHexToRight(HexagonalGrid hexGrid, Hexagon hex) {
         int result = 0;
 
         boolean sameColor = true;
 
-        Hexagon currentHex = hex;
+        Hexagon currentHex;
         Hexagon currentHex2;
+        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(hex.getGridX(), hex.getGridZ());
+        CubeCoordinate ccCurrentHex2;
+        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
 
-        while (currentHex.getX() >= 0 && sameColor == true) {
-            currentHex2 = Board.getHex(currentHex.getX() + 1, currentHex.getY(), currentHex.getZ() + 1);
-            if (currentHex.getColor() == currentHex2.getColor()) {
+        while (currentHex.getGridX() < 6 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ() + 1);
+            currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
+
+            /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
                 currentHex = currentHex2;
             } else {
                 sameColor = false;
-            }
+            }*/
         }
         return result;
     }
 
-    public int CalculateScoreHexToTopLeft(Hexagon hex) {
+    public int CalculateScoreHexToTopLeft(HexagonalGrid hexGrid, Hexagon hex) {
         int result = 0;
 
         boolean sameColor = true;
 
-        Hexagon currentHex = hex;
+        Hexagon currentHex;
         Hexagon currentHex2;
+        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(hex.getGridX(), hex.getGridZ());
+        CubeCoordinate ccCurrentHex2;
 
-        while (currentHex.getX() >= 0 && sameColor == true) {
-            currentHex2 = Board.getHex(currentHex.getX(), currentHex.getY() - 1, currentHex.getZ() + 1);
-            if (currentHex.getColor() == currentHex2.getColor()) {
+        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
+
+        while (currentHex.getGridX() > 0 && currentHex.getGridZ() < 11 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ() + 1);
+            currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
+            /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
                 currentHex = currentHex2;
             } else {
                 sameColor = false;
-            }
+            }*/
         }
         return result;
     }
 
-    public int CalculateScoreHexToTopRight(Hexagon hex) {
+    public int CalculateScoreHexToTopRight(HexagonalGrid hexGrid, Hexagon hex) {
         int result = 0;
 
         boolean sameColor = true;
 
-        Hexagon currentHex = hex;
+        Hexagon currentHex;
         Hexagon currentHex2;
+        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(hex.getGridX(), hex.getGridZ());
+        CubeCoordinate ccCurrentHex2;
 
-        while (currentHex.getX() >= 0 && sameColor == true) {
-            currentHex2 = Board.getHex(currentHex.getX() + 1, currentHex.getY() - 1, currentHex.getZ() + 2);
-            if (currentHex.getColor() == currentHex2.getColor()) {
+        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
+
+        while (currentHex.getGridX() < 6 && currentHex.getGridZ() < 22 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ() + 2);
+            currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
+           /* if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
                 currentHex = currentHex2;
             } else {
                 sameColor = false;
-            }
+            }*/
         }
         return result;
     }
 
-    public int CalculateScoreHexToBotLeft(Hexagon hex) {
+    public int CalculateScoreHexToBotLeft(HexagonalGrid hexGrid, Hexagon hex) {
         int result = 0;
 
         boolean sameColor = true;
 
-        Hexagon currentHex = hex;
+        Hexagon currentHex;
         Hexagon currentHex2;
+        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(hex.getGridX(), hex.getGridZ());
+        CubeCoordinate ccCurrentHex2;
 
-        while (currentHex.getX() >= 0 && sameColor == true) {
-            currentHex2 = Board.getHex(currentHex.getX() - 1, currentHex.getY() + 1, currentHex.getZ() + 2);
-            if (currentHex.getColor() == currentHex2.getColor()) {
+        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
+
+        while (currentHex.getGridX() > -6 && currentHex.getGridZ() < 22 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1,  currentHex.getGridZ() + 2);
+            currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
+            /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
                 currentHex = currentHex2;
             } else {
                 sameColor = false;
-            }
+            }*/
         }
         return result;
     }
 
-    public int CalculateScoreHexToBotRight(Hexagon hex) {
+    public int CalculateScoreHexToBotRight(HexagonalGrid hexGrid, Hexagon hex) {
         int result = 0;
 
         boolean sameColor = true;
 
-        Hexagon currentHex = hex;
+        Hexagon currentHex;
         Hexagon currentHex2;
+        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(hex.getGridX(), hex.getGridZ());
+        CubeCoordinate ccCurrentHex2;
 
-        while (currentHex.getX() >= 0 && sameColor == true) {
-            currentHex2 = Board.getHex(currentHex.getX(),currentHex.getY() + 1, currentHex.getZ() + 1);
-            if (currentHex.getColor() == currentHex2.getColor()) {
+        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
+
+        while (currentHex.getGridX() < 6 && currentHex.getGridZ() < 22 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ() + 1);
+            currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
+            /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
                 currentHex = currentHex2;
             } else {
                 sameColor = false;
-            }
+            }*/
         }
         return result;
     }
