@@ -6,6 +6,7 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
@@ -26,6 +27,7 @@ import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
+import org.codetome.hexameter.core.api.Hexagon.*;
 import org.codetome.hexameter.core.api.Point;
 import org.codetome.hexameter.core.api.contract.HexagonDataStorage;
 import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
@@ -65,6 +67,16 @@ public class GameScreen extends AbstractScreen {
 
     private SpriteBatch batch;
     private Skin skin;
+
+    HexagonActor first;
+    Group selectedTile;
+
+    //create the BAG
+    ArrayList<Sprite[]> bag = Pieces.createBagPieces();
+
+    //distribute pieces to player 1
+    ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
+    ArrayList<Sprite[]> player2pieces = Pieces.distributePieces(bag);
     
     //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
 
@@ -167,10 +179,18 @@ public class GameScreen extends AbstractScreen {
 
                         if(touched[0] != null && hexActor.getSprite() == emptySprite){
                             hexActor.setSprite(touched[0]);
+                            first = hexActor;
                             touched[0] = null;
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
-                            hexActor.setSprite(touched[1]);
-                            touched[1] = null;
+                            if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
+                                hexActor.setSprite(touched[1]);
+                                touched[1] = null;
+                                first = null;
+                                selectedTile.clear();
+                            } else {
+                                System.out.println("Select a neighbor");
+                            }
+
                         } else if (touched[0] == null && touched[1] == null){
                             System.out.println("Select a piece from your hand!");
                         } else {
@@ -185,12 +205,7 @@ public class GameScreen extends AbstractScreen {
         });
 
 
-        //create the BAG
-        ArrayList<Sprite[]> bag = Pieces.createBagPieces();
 
-        //distribute pieces to player 1
-        ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
-        ArrayList<Sprite[]> player2pieces = Pieces.distributePieces(bag);
 
         //tile grid (1x2)
         final int TILE_HEIGHT = 1;
@@ -206,6 +221,8 @@ public class GameScreen extends AbstractScreen {
                 .setGridLayout(TILE_LAYOUT)
                 .setOrientation(TILE_ORIENTATION)
                 .setRadius(TILE_RADIUS);
+
+        //if(tiles.length < 6)
 
 
         //now repeat for the 6 tiles
@@ -243,6 +260,8 @@ public class GameScreen extends AbstractScreen {
                     tileGroup.addActor(hexTile);
 
                     hexagon.setSatelliteData(new Link(hexTile));
+
+
 
 
                     /*DragAndDrop dnd  = new DragAndDrop();
@@ -291,6 +310,8 @@ public class GameScreen extends AbstractScreen {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
 
+                            hexTile.getParent().moveBy(0, 30);
+
                             touched[0] = hexTile.getSprite();
 
                             Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
@@ -299,6 +320,8 @@ public class GameScreen extends AbstractScreen {
                                 HexagonActor other = (HexagonActor) two;
                                 touched[1] = other.getSprite();
                             }
+
+                            selectedTile = hexTile.getParent();
 
                         }
                     });
