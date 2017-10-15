@@ -46,11 +46,13 @@ import rx.functions.Action1;
 
 public class GameScreen extends AbstractScreen {
 
-    Scanner userInput = new Scanner(System.in);
+    //Scanner userInput = new Scanner(System.in);
 
     public int nOfPlayer;
 
     public Player[] players;
+
+    public Player gamingPlayer;
 
 
     // Ratio of width and height of a regular hexagon.
@@ -78,13 +80,13 @@ public class GameScreen extends AbstractScreen {
 
     HexagonActor first;
     Group selectedTile;
+    int selectedTileIndex;
+
 
     //create the BAG
     ArrayList<Sprite[]> bag = Pieces.createBagPieces();
 
-    //distribute pieces to player 1
-    //ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
-    //ArrayList<Sprite[]> player2pieces = Pieces.distributePieces(bag);
+
     
     //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
 
@@ -105,6 +107,8 @@ public class GameScreen extends AbstractScreen {
         }
 
         tileView = new Group[nOfPlayer][];
+
+        gamingPlayer = players[0];
     }
 
 
@@ -207,7 +211,32 @@ public class GameScreen extends AbstractScreen {
                                 hexActor.setSprite(touched[1]);
                                 touched[1] = null;
                                 first = null;
-                                selectedTile.clear();
+
+
+                                //after the second click remove from hand the placed tile
+                                gamingPlayer.getGamePieces().remove(selectedTileIndex);
+
+
+                                //take a new one
+                                Pieces.takePiece(bag, gamingPlayer.getGamePieces());
+
+                                //and set the new sprites
+                                int ind = 0;
+                                for (Actor hex : selectedTile.getChildren()){
+
+                                    if (hex instanceof HexagonActor){
+                                        HexagonActor one = (HexagonActor) hex;
+                                        one.setSprite(gamingPlayer.getGamePieces().get(0)[ind]);
+                                        ind++;
+                                    }
+                                }
+
+                                selectedTile.moveBy(0, -30);
+
+                                gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+
+
+
                             } else {
                                 System.out.println("Select a neighbor");
                             }
@@ -236,7 +265,7 @@ public class GameScreen extends AbstractScreen {
         final double TILE_RADIUS = Constants.getHexRadius();
 
         //tile builder
-        HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
+        final HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(TILE_HEIGHT)
                 .setGridWidth(TILE_WIDTH)
                 .setGridLayout(TILE_LAYOUT)
@@ -295,6 +324,10 @@ public class GameScreen extends AbstractScreen {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
 
+                                if(touched[0] != null && touched[1] != null){
+                                    selectedTile.moveBy(0, -30);
+                                }
+
                                 hexTile.getParent().moveBy(0, 30);
 
                                 touched[0] = hexTile.getSprite();
@@ -306,7 +339,16 @@ public class GameScreen extends AbstractScreen {
                                     touched[1] = other.getSprite();
                                 }
 
+                                //find the index in player's hand
+                                for (Sprite[] s : playerP.getGamePieces()){
+                                    if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
+                                        selectedTileIndex = playerP.getGamePieces().indexOf(s);
+                                    }
+                                }
+
+                                //selectedTile is the Group of the current tile
                                 selectedTile = hexTile.getParent();
+
 
                             }
                         });
@@ -433,19 +475,23 @@ public class GameScreen extends AbstractScreen {
 
 
         boardColumn.row().height(100).top().expandX();
-
         for (int i = 0; i < 6; i++) {
 
             boardColumn.add(tileView[0][i]);
 
         }
 
-        boardColumn.debug(Debug.all);
+        boardColumn.row();
+        boardColumn.add(new Label("Player 1 Hand", skin));
+
+        //boardColumn.debug(Debug.all);
         boardColumn.row();
         boardColumn.add(hexagonView).expandY().center();
 
-        boardColumn.row().height(100).bottom().expandX();
+        boardColumn.row();
+        boardColumn.add(new Label("Player 2 Hand", skin));
 
+        boardColumn.row().height(100).bottom().expandX();
         for (int i = 0; i < 6; i++) {
 
             boardColumn.add(tileView[1][i]);

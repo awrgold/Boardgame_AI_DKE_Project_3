@@ -25,4 +25,8 @@ public class Player {
     public ArrayList<Sprite[]> getGamePieces(){
         return this.gamePieces;
     }
+
+    public int getPlayerNo() {
+        return playerNo;
+    }
 }

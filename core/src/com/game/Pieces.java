@@ -1,13 +1,24 @@
 package com.game;
 
 
+import GameConstants.Constants;
+import Tools.Link;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.api.HexagonOrientation;
+import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.api.HexagonalGridBuilder;
+import org.codetome.hexameter.core.api.HexagonalGridLayout;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
+
 public class Pieces {
 
     static Sprite blueSprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
@@ -90,13 +101,12 @@ public class Pieces {
     }
     //Fills the amount of pieces of a player back up to 6
     public static ArrayList<Sprite[]> takePiece(ArrayList<Sprite[]> allPieces, ArrayList<Sprite[]> playerPieces){
-        if(playerPieces.size() < 6){
-            for(int i = playerPieces.size(); i < 6; i++ ){
-                int randomNumber = ThreadLocalRandom.current().nextInt(0, allPieces.size());
-                Sprite[] piece = allPieces.get(randomNumber);
-                playerPieces.add(piece);
-                allPieces.remove(piece);
-            }
+        while(playerPieces.size() < 6){
+            int randomNumber = ThreadLocalRandom.current().nextInt(0, allPieces.size());
+            Sprite[] piece = allPieces.get(randomNumber);
+            playerPieces.add(0, piece);
+            allPieces.remove(piece);
+
         }
         return playerPieces;
     }
@@ -110,4 +120,6 @@ public class Pieces {
         playerPieces = distributePieces(allPieces);
         return playerPieces;
     }
+
+
 }
