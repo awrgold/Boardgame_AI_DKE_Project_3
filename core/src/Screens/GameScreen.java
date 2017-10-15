@@ -8,6 +8,7 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
@@ -22,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.game.Pieces;
+import com.game.Player;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -44,6 +46,12 @@ import rx.functions.Action1;
 
 public class GameScreen extends AbstractScreen {
 
+    Scanner userInput = new Scanner(System.in);
+
+    public int nOfPlayer;
+
+    public Player[] players;
+
 
     // Ratio of width and height of a regular hexagon.
     public static final int HEXAGON_WIDTH = 100;
@@ -55,7 +63,7 @@ public class GameScreen extends AbstractScreen {
 
     private Table root;
     private Group hexagonView;
-    private Group[] tileView = new Group[6];
+    private Group[][] tileView;
     //we use this to store informations about the selected tile
     private Sprite[] touched = {null, null};
 
@@ -75,8 +83,8 @@ public class GameScreen extends AbstractScreen {
     ArrayList<Sprite[]> bag = Pieces.createBagPieces();
 
     //distribute pieces to player 1
-    ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
-    ArrayList<Sprite[]> player2pieces = Pieces.distributePieces(bag);
+    //ArrayList<Sprite[]> player1pieces = Pieces.distributePieces(bag);
+    //ArrayList<Sprite[]> player2pieces = Pieces.distributePieces(bag);
     
     //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
 
@@ -85,7 +93,20 @@ public class GameScreen extends AbstractScreen {
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
+
+        //System.out.println("How many players are playing?");
+        //nOfPlayer = userInput.nextInt();
+        nOfPlayer = 2;
+
+        players = new Player[nOfPlayer];
+
+        for (int x = 1; x <= nOfPlayer; x++){
+            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
+        }
+
+        tileView = new Group[nOfPlayer][];
     }
+
 
 
     // Subclasses must load actors in this method
@@ -225,46 +246,82 @@ public class GameScreen extends AbstractScreen {
         //if(tiles.length < 6)
 
 
-        //now repeat for the 6 tiles
-        for (int i = 0; i < 6; i++){
+        for (int p = 0; p < nOfPlayer; p++){
 
-            //give it a grid (2x1)
-            HexagonalGrid<Link> tile = tileBuilder.build();
-            this.tiles[i] = tile;
+            Player playerP = players[p];
 
-            //create a group that contains the 2 hexagons
-            Group tileGroup = new Group();
+            tileView[p] = new Group[6];
 
-            //get one of the six couple of sprites
-            Sprite[] oneOfSix = player1pieces.get(i);
+            //now repeat for the 6 tiles
+            for (int i = 0; i < 6; i++){
+
+                //give it a grid (2x1)
+                HexagonalGrid<Link> tile = tileBuilder.build();
+                this.tiles[i] = tile;
+
+                //create a group that contains the 2 hexagons
+                Group tileGroup = new Group();
+
+                //get one of the six couple of sprites
+                Sprite[] oneOfSix = playerP.getGamePieces().get(i);
 
 
 
-            //override call for each grid
-            tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
-                @Override
-                public void call(Hexagon hexagon) {
-                    final HexagonActor hexTile = new HexagonActor(hexagon);
+                //override call for each grid
+                tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
+                    @Override
+                    public void call(Hexagon hexagon) {
+                        final HexagonActor hexTile = new HexagonActor(hexagon);
 
-                    //give both the sprites
-                    if(hexagon.getGridX() == 0) {
-                        hexTile.setSprite(oneOfSix[0]);
-                    } else {
-                        hexTile.setSprite(oneOfSix[1]);
+                        //give both the sprites
+                        if(hexagon.getGridX() == 0) {
+                            hexTile.setSprite(oneOfSix[0]);
+                        } else {
+                            hexTile.setSprite(oneOfSix[1]);
+                        }
+
+
+                        hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
+                        //and pass everything in tileGroup
+                        tileGroup.addActor(hexTile);
+
+                        hexagon.setSatelliteData(new Link(hexTile));
+
+
+
+
+                        hexTile.addListener(new ClickListener(){
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+
+                                hexTile.getParent().moveBy(0, 30);
+
+                                touched[0] = hexTile.getSprite();
+
+                                Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
+
+                                if (two instanceof HexagonActor){
+                                    HexagonActor other = (HexagonActor) two;
+                                    touched[1] = other.getSprite();
+                                }
+
+                                selectedTile = hexTile.getParent();
+
+                            }
+                        });
+
                     }
+                });
 
-
-                    hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-
-                    //and pass everything in tileGroup
-                    tileGroup.addActor(hexTile);
-
-                    hexagon.setSatelliteData(new Link(hexTile));
-
+                //add tileGroup to tileView
+                this.tileView[p][i] = tileGroup;
+            }
+        }
 
 
 
-                    /*DragAndDrop dnd  = new DragAndDrop();
+        /*DragAndDrop dnd  = new DragAndDrop();
 
                     dnd.addSource(new DragAndDrop.Source(tileGroup) {
                         DragAndDrop.Payload payload =  new DragAndDrop.Payload();
@@ -304,35 +361,6 @@ public class GameScreen extends AbstractScreen {
                             hexagonView.addActor(hexagon);
                         }
                     }); */
-
-
-                    hexTile.addListener(new ClickListener(){
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-
-                            hexTile.getParent().moveBy(0, 30);
-
-                            touched[0] = hexTile.getSprite();
-
-                            Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
-
-                            if (two instanceof HexagonActor){
-                                HexagonActor other = (HexagonActor) two;
-                                touched[1] = other.getSprite();
-                            }
-
-                            selectedTile = hexTile.getParent();
-
-                        }
-                    });
-
-                }
-            });
-
-            //add tileGroup to tileView
-            this.tileView[i] = tileGroup;
-        }
-
 
 
 
@@ -398,23 +426,36 @@ public class GameScreen extends AbstractScreen {
         scoreColumn.row();
         scoreColumn.add(new Label("Player 2 Score", skin)).bottom();
 
-        root.add(scoreColumn).colspan(1).expand().fill();
+        root.add(scoreColumn).colspan(3).expand().fill();
 
         // Create the board
         Table boardColumn = new Table();
 
 
-        //boardColumn.debug(Debug.all);
-        boardColumn.add(hexagonView).colspan(5).expand().fill();
-        boardColumn.row().bottom().colspan(5);
+        boardColumn.row().height(100).top().expandX();
 
-
-        //place the tiles on the screen
         for (int i = 0; i < 6; i++) {
-			boardColumn.add(tileView[i]).expandX().fill().colspan(1);
-		}
+
+            boardColumn.add(tileView[0][i]);
+
+        }
+
+        boardColumn.debug(Debug.all);
+        boardColumn.row();
+        boardColumn.add(hexagonView).expandY().center();
+
+        boardColumn.row().height(100).bottom().expandX();
+
+        for (int i = 0; i < 6; i++) {
+
+            boardColumn.add(tileView[1][i]);
+
+        }
+
+
+
         
-        root.add(boardColumn).expand().fill();
+        root.add(boardColumn).colspan(6).expand().fill();
         root.pack();
                 
         addActor(root);

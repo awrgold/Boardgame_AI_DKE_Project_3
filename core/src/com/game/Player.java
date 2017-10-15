@@ -12,7 +12,7 @@ public class Player {
     int playerNo;
     ArrayList<Sprite[]> gamePieces = new ArrayList<Sprite[]>();
 
-    Player(int playerNo, ArrayList<Sprite[]> gamePieces){
+    public Player(int playerNo, ArrayList<Sprite[]> gamePieces){
         this.playerNo = playerNo;
         this.gamePieces = gamePieces;
     }
@@ -20,5 +20,9 @@ public class Player {
 
     public boolean isAI() {
         return isAI;
+    }
+
+    public ArrayList<Sprite[]> getGamePieces(){
+        return this.gamePieces;
     }
 }
