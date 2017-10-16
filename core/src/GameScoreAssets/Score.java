@@ -84,8 +84,8 @@ public class Score {
 
         currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
 
-        while (currentHex.getGridX() > -6 && sameColor == true) {
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1, currentHex.getGridZ() + 1);
+        while (currentHex.getGridX() > -2 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1, currentHex.getGridZ());
             currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
 
             /*if (currentHex.getColor() == currentHex2.getColor()) {
@@ -109,8 +109,8 @@ public class Score {
         CubeCoordinate ccCurrentHex2;
         currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
 
-        while (currentHex.getGridX() < 6 && sameColor == true) {
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ() + 1);
+        while (currentHex.getGridX() < 8 && sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ());
             currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
 
             /*if (currentHex.getColor() == currentHex2.getColor()) {
@@ -136,7 +136,7 @@ public class Score {
         currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
 
         while (currentHex.getGridX() > 0 && currentHex.getGridZ() < 11 && sameColor == true) {
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ() + 1);
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1, currentHex.getGridZ() + 1);
             currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
             /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
@@ -160,8 +160,8 @@ public class Score {
 
         currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
 
-        while (currentHex.getGridX() < 6 && currentHex.getGridZ() < 22 && sameColor == true) {
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ() + 2);
+        while (sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ() + 1);
             currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
            /* if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
@@ -185,8 +185,8 @@ public class Score {
 
         currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
 
-        while (currentHex.getGridX() > -6 && currentHex.getGridZ() < 22 && sameColor == true) {
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1,  currentHex.getGridZ() + 2);
+        while (sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(),  currentHex.getGridZ() - 1);
             currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
             /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
@@ -210,8 +210,8 @@ public class Score {
 
         currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
 
-        while (currentHex.getGridX() < 6 && currentHex.getGridZ() < 22 && sameColor == true) {
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ() + 1);
+        while (sameColor == true) {
+            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ() - 1);
             currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
             /*if (currentHex.getColor() == currentHex2.getColor()) {
                 result += 1;
