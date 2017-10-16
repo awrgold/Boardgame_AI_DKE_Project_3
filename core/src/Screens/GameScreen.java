@@ -19,6 +19,7 @@ import Tools.Link;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
@@ -41,6 +42,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import rx.functions.Action1;
 
 
@@ -204,11 +207,15 @@ public class GameScreen extends AbstractScreen {
 
                         if(touched[0] != null && hexActor.getSprite() == emptySprite){
                             hexActor.setSprite(touched[0]);
+                            hexActor.setHexColor(getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
+
+
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
                             if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
                                 hexActor.setSprite(touched[1]);
+                                hexActor.setHexColor(getSpriteColor(hexActor));
                                 touched[1] = null;
                                 first = null;
 
@@ -525,6 +532,56 @@ public class GameScreen extends AbstractScreen {
     //public void show(){
     	//mainMenuButton = new Texture("mainmenu.png");
 	//}
+
+    //Gets the color of a sprite
+    public String getSpriteColor(HexagonActor hexActor){
+        Texture texture = hexActor.getSprite().getTexture();
+        String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
+
+        String purple = "colours/purple.png";
+        String red =    "colours/red.png";
+        String blue =   "colours/blue.png";
+        String yellow = "colours/yellow.png";
+        String orange = "colours/orange.png";
+        String violet = "colours/violet.png";
+
+
+        System.out.println(path);
+
+        if(path.equals(purple)){
+            path = "P";
+            return path;
+        }
+
+        else if(path.equals(red)){
+            path = "R";
+            return path;
+        }
+
+        else if(path.equals(blue)){
+            path = "B";
+            return path;
+        }
+
+        else if(path.equals(yellow)){
+            path = "Y";
+            return path;
+        }
+
+        else if(path.equals(orange)){
+            path = "O";
+            return path;
+        }
+
+        else if(path.equals(violet)){
+            path = "V";
+            return path;
+        }
+
+        else{
+            return path;
+        }
+    }
 
 }
 
