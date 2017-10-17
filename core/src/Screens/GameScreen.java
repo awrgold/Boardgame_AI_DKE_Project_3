@@ -5,10 +5,8 @@ import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
@@ -25,13 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.game.Pieces;
 import com.game.Player;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonOrientation;
-import org.codetome.hexameter.core.api.HexagonalGrid;
-import org.codetome.hexameter.core.api.HexagonalGridBuilder;
-import org.codetome.hexameter.core.api.HexagonalGridLayout;
+import org.codetome.hexameter.core.api.*;
 import org.codetome.hexameter.core.api.Hexagon.*;
-import org.codetome.hexameter.core.api.Point;
 import org.codetome.hexameter.core.api.contract.HexagonDataStorage;
 import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
@@ -81,9 +74,9 @@ public class GameScreen extends AbstractScreen {
     private SpriteBatch batch;
     private Skin skin;
 
-    HexagonActor first;
-    Group selectedTile;
-    int selectedTileIndex;
+    private HexagonActor first;
+    private Group selectedTile;
+    private int selectedTileIndex;
 
 
     //create the BAG
@@ -205,12 +198,15 @@ public class GameScreen extends AbstractScreen {
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
 
+
                         if(touched[0] != null && hexActor.getSprite() == emptySprite){
                             hexActor.setSprite(touched[0]);
                             hexActor.setHexColor(getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
 //                            Player.updateScore(gamingPlayer, hexActor.getHexagon(), grid);
+
+
 
 
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
@@ -249,7 +245,8 @@ public class GameScreen extends AbstractScreen {
 
 
 
-                            } else {
+                            }
+                            else {
                                 System.out.println("Select a neighbor");
                             }
 
@@ -262,6 +259,8 @@ public class GameScreen extends AbstractScreen {
 
                     }
                 });
+
+
 
             }
         });
@@ -340,26 +339,33 @@ public class GameScreen extends AbstractScreen {
                                     selectedTile.moveBy(0, -30);
                                 }
 
-                                hexTile.getParent().moveBy(0, 30);
+                                if(Arrays.asList(tileView[gamingPlayer.getPlayerNo() - 1]).contains(hexTile.getParent())){
+                                    hexTile.getParent().moveBy(0, 30);
 
-                                touched[0] = hexTile.getSprite();
+                                    touched[0] = hexTile.getSprite();
 
-                                Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
+                                    Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
 
-                                if (two instanceof HexagonActor){
-                                    HexagonActor other = (HexagonActor) two;
-                                    touched[1] = other.getSprite();
-                                }
-
-                                //find the index in player's hand
-                                for (Sprite[] s : playerP.getGamePieces()){
-                                    if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
-                                        selectedTileIndex = playerP.getGamePieces().indexOf(s);
+                                    if (two instanceof HexagonActor){
+                                        HexagonActor other = (HexagonActor) two;
+                                        touched[1] = other.getSprite();
                                     }
+
+                                    //find the index in player's hand
+                                    for (Sprite[] s : playerP.getGamePieces()){
+                                        if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
+                                            selectedTileIndex = playerP.getGamePieces().indexOf(s);
+                                        }
+                                    }
+
+                                    //selectedTile is the Group of the current tile
+                                    selectedTile = hexTile.getParent();
+
+                                } else {
+                                    System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
                                 }
 
-                                //selectedTile is the Group of the current tile
-                                selectedTile = hexTile.getParent();
+
 
 
                             }
@@ -436,17 +442,17 @@ public class GameScreen extends AbstractScreen {
 
 
 
-        scoreColumn.add(bar1a).expand().left();
+        scoreColumn.add(bar1a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar2a).expand().left();
+        scoreColumn.add(bar2a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar3a).expand().left();
+        scoreColumn.add(bar3a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar4a).expand().left();
+        scoreColumn.add(bar4a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar5a).expand().left();
+        scoreColumn.add(bar5a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar6a).expand().left();
+        scoreColumn.add(bar6a).expand().fill();
         //  scoreColumn.add(bar);
         // scoreColumn.setColor(Color.BLUE);
         scoreColumn.row();
@@ -494,14 +500,12 @@ public class GameScreen extends AbstractScreen {
         }
 
         boardColumn.row();
-        boardColumn.add(new Label("Player 1 Hand", skin));
 
         //boardColumn.debug(Debug.all);
-        boardColumn.row();
+        boardColumn.row().height(400).width(-450);
         boardColumn.add(hexagonView).expandY().center();
 
         boardColumn.row();
-        boardColumn.add(new Label("Player 2 Hand", skin));
 
         boardColumn.row().height(100).bottom().expandX();
         for (int i = 0; i < 6; i++) {
@@ -550,8 +554,6 @@ public class GameScreen extends AbstractScreen {
         String orange = "colours/orange.png";
         String violet = "colours/violet.png";
 
-
-        System.out.println(path);
 
         if(path.equals(purple)){
             path = "P";
