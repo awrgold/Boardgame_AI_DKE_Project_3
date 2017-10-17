@@ -65,11 +65,12 @@ public class GameScreen extends AbstractScreen {
     //we use this to store informations about the selected tile
     private Sprite[] touched = {null, null};
 
-	//private Texture mainMenuButton;
+	private Sprite mainMenuButton;
     private ImageButton tileButton;
     private ImageButton.ImageButtonStyle tileStyle;
     private TextureAtlas tileButtonAtlas;
     private Skin tileButtonSkin;
+
 
     private SpriteBatch batch;
     private Skin skin;
@@ -156,11 +157,17 @@ public class GameScreen extends AbstractScreen {
                 Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
                 Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
+                //mainMenuButton = new Sprite(new Texture(Gdx.files.internal("MainMenu.png")));
+                //hexActor.setSprite(mainMenuButton)
+
+
                 hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                 hexagonView.addActor(hexActor);
 
                 hexagon.setSatelliteData(new Link(hexActor));
+
+            
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
@@ -516,14 +523,29 @@ public class GameScreen extends AbstractScreen {
 
 
 
-        
+
         root.add(boardColumn).colspan(6).expand().fill();
         root.pack();
-                
+
         addActor(root);
 
+/*
+        ScoreBarGroup scorebars1 = new ScoreBarGroup(100,350,6);
 
+        scoreColumn.add(scorebars1);
 
+        scoreColumn.row();
+
+        scoreColumn.add(new Label("Player 1 Score", skin)).bottom().padTop(20).padBottom(30);
+        scoreColumn.row();
+
+        ScoreBarGroup scorebars2 = new ScoreBarGroup(100,350,6);
+        scoreColumn.add(scorebars2);
+
+        scoreColumn.row();
+        scoreColumn.add(new Label("Player 2 Score", skin)).bottom().padTop(20).padBottom(30);
+
+*/
 
 
     }
@@ -538,9 +560,8 @@ public class GameScreen extends AbstractScreen {
         int n = (int) (Math.random()*100);
         return n;
     }
-    //public void show(){
-    	//mainMenuButton = new Texture("mainmenu.png");
-	//}
+
+
 
     //Gets the color of a sprite
     public String getSpriteColor(HexagonActor hexActor){

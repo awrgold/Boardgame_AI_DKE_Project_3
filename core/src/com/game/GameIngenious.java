@@ -1,6 +1,7 @@
 package com.game;
 
 import Screens.ScreenEnum;
+import Screens.AbstractScreen;
 import Screens.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,7 +24,7 @@ public class GameIngenious extends Game {
 
         batch = new SpriteBatch();
         /*this.setScreen( new MenuScreen(this));*/
-        Screens.ScreenManager.getInstance().initialize(this);
+       Screens.ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
 
     }

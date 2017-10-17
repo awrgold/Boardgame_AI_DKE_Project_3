@@ -33,6 +33,7 @@ int[5] = yellow
 
 
     public boolean isAI() {
+        this.isAI = isAI;
         return isAI;
     }
 
@@ -262,3 +263,9 @@ int[5] = yellow
         return result;
     }
 }
+
+
+
+
+
+
