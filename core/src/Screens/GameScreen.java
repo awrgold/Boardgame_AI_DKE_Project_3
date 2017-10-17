@@ -210,6 +210,7 @@ public class GameScreen extends AbstractScreen {
                             hexActor.setHexColor(getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
+//                            Player.updateScore(gamingPlayer, hexActor.getHexagon(), grid);
 
 
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
@@ -218,6 +219,10 @@ public class GameScreen extends AbstractScreen {
                                 hexActor.setHexColor(getSpriteColor(hexActor));
                                 touched[1] = null;
                                 first = null;
+
+
+
+
 
 
                                 //after the second click remove from hand the placed tile
