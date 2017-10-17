@@ -74,9 +74,9 @@ public class GameScreen extends AbstractScreen {
     private SpriteBatch batch;
     private Skin skin;
 
-    HexagonActor first;
-    Group selectedTile;
-    int selectedTileIndex;
+    private HexagonActor first;
+    private Group selectedTile;
+    private int selectedTileIndex;
 
 
     //create the BAG
@@ -334,26 +334,33 @@ public class GameScreen extends AbstractScreen {
                                     selectedTile.moveBy(0, -30);
                                 }
 
-                                hexTile.getParent().moveBy(0, 30);
+                                if(Arrays.asList(tileView[gamingPlayer.getPlayerNo() - 1]).contains(hexTile.getParent())){
+                                    hexTile.getParent().moveBy(0, 30);
 
-                                touched[0] = hexTile.getSprite();
+                                    touched[0] = hexTile.getSprite();
 
-                                Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
+                                    Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
 
-                                if (two instanceof HexagonActor){
-                                    HexagonActor other = (HexagonActor) two;
-                                    touched[1] = other.getSprite();
-                                }
-
-                                //find the index in player's hand
-                                for (Sprite[] s : playerP.getGamePieces()){
-                                    if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
-                                        selectedTileIndex = playerP.getGamePieces().indexOf(s);
+                                    if (two instanceof HexagonActor){
+                                        HexagonActor other = (HexagonActor) two;
+                                        touched[1] = other.getSprite();
                                     }
+
+                                    //find the index in player's hand
+                                    for (Sprite[] s : playerP.getGamePieces()){
+                                        if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
+                                            selectedTileIndex = playerP.getGamePieces().indexOf(s);
+                                        }
+                                    }
+
+                                    //selectedTile is the Group of the current tile
+                                    selectedTile = hexTile.getParent();
+
+                                } else {
+                                    System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
                                 }
 
-                                //selectedTile is the Group of the current tile
-                                selectedTile = hexTile.getParent();
+
 
 
                             }
@@ -430,17 +437,17 @@ public class GameScreen extends AbstractScreen {
 
 
 
-        scoreColumn.add(bar1a).expand().left();
+        scoreColumn.add(bar1a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar2a).expand().left();
+        scoreColumn.add(bar2a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar3a).expand().left();
+        scoreColumn.add(bar3a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar4a).expand().left();
+        scoreColumn.add(bar4a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar5a).expand().left();
+        scoreColumn.add(bar5a).expand().fill();
         scoreColumn.row();
-        scoreColumn.add(bar6a).expand().left();
+        scoreColumn.add(bar6a).expand().fill();
         //  scoreColumn.add(bar);
         // scoreColumn.setColor(Color.BLUE);
         scoreColumn.row();
