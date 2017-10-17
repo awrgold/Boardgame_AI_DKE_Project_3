@@ -5,10 +5,8 @@ import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
@@ -25,13 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.game.Pieces;
 import com.game.Player;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonOrientation;
-import org.codetome.hexameter.core.api.HexagonalGrid;
-import org.codetome.hexameter.core.api.HexagonalGridBuilder;
-import org.codetome.hexameter.core.api.HexagonalGridLayout;
+import org.codetome.hexameter.core.api.*;
 import org.codetome.hexameter.core.api.Hexagon.*;
-import org.codetome.hexameter.core.api.Point;
 import org.codetome.hexameter.core.api.contract.HexagonDataStorage;
 import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
@@ -205,11 +198,14 @@ public class GameScreen extends AbstractScreen {
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
 
+
                         if(touched[0] != null && hexActor.getSprite() == emptySprite){
                             hexActor.setSprite(touched[0]);
                             hexActor.setHexColor(getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
+
+
 
 
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
@@ -244,7 +240,8 @@ public class GameScreen extends AbstractScreen {
 
 
 
-                            } else {
+                            }
+                            else {
                                 System.out.println("Select a neighbor");
                             }
 
@@ -257,6 +254,8 @@ public class GameScreen extends AbstractScreen {
 
                     }
                 });
+
+
 
             }
         });
@@ -489,14 +488,12 @@ public class GameScreen extends AbstractScreen {
         }
 
         boardColumn.row();
-        boardColumn.add(new Label("Player 1 Hand", skin));
 
         //boardColumn.debug(Debug.all);
-        boardColumn.row();
+        boardColumn.row().height(400).width(-450);
         boardColumn.add(hexagonView).expandY().center();
 
         boardColumn.row();
-        boardColumn.add(new Label("Player 2 Hand", skin));
 
         boardColumn.row().height(100).bottom().expandX();
         for (int i = 0; i < 6; i++) {
@@ -545,8 +542,6 @@ public class GameScreen extends AbstractScreen {
         String orange = "colours/orange.png";
         String violet = "colours/violet.png";
 
-
-        System.out.println(path);
 
         if(path.equals(purple)){
             path = "P";
