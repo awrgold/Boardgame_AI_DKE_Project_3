@@ -18,7 +18,7 @@ public class Player {
     private int[] PlayerScore = new int[6];
 /*
 int[0] = blue
-int[1] = green
+int[1] = violet
 int[2] = orange
 int[3] = purple
 int[4] = red
@@ -54,11 +54,11 @@ int[5] = yellow
         int i = 0;
 
         if (hexActor.getHexColor() == "B") i = 0;
-        if (hexActor.getHexColor() == "O") i = 1;
-        if (hexActor.getHexColor() == "P") i = 2;
-        if (hexActor.getHexColor() == "R") i = 3;
-        if (hexActor.getHexColor() == "V") i = 4;
-        if (hexActor.getHexColor() == "y") i = 5;
+        if (hexActor.getHexColor() == "V") i = 1;
+        if (hexActor.getHexColor() == "O") i = 2;
+        if (hexActor.getHexColor() == "P") i = 3;
+        if (hexActor.getHexColor() == "R") i = 4;
+        if (hexActor.getHexColor() == "Y") i = 5;
 
         //Calculate color combination from hex to left:
         playerScore[i] += CalculateScoreHexToLeft(hexGrid, hexActor);
@@ -85,13 +85,16 @@ int[5] = yellow
         if (color == "Y") playerScore[5] = playerScore[5] + result;
 */
 
-        for (int j = 0; j <= 5; j++)
-        {
-            System.out.println(playerScore[j]);
-        }
+//        for (int j = 0; j <= 5; j++)
+//        {
+//            System.out.println(playerScore[j]);
+//        }
 
     }
 
+    public int[] getPlayerScore() {
+        return PlayerScore;
+    }
 
     public static int CalculateScoreHexToLeft(HexagonalGrid hexGrid, HexagonActor hexActor) {
         int result = 0;
@@ -302,6 +305,7 @@ int[5] = yellow
         }
         return result;
     }
+
 }
 
 

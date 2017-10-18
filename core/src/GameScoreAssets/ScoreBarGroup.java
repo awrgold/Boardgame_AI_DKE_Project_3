@@ -6,19 +6,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.game.Player;
 
 
 public class ScoreBarGroup extends VerticalGroup{
     private Skin skin;
+    private Player player;
     private float w;
-    public ScoreBarGroup(int width, int height, int bars){
+    private int num;
+    private Bar[] bars;
+    private int[] scores;
+    public ScoreBarGroup(int width, int height, Player player){
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        this.player = player;
+        this.num = player.getPlayerScore().length;
+        this.scores = player.getPlayerScore();
+        this.bars = new Bar[num];
 //    int[0] = blue
 //    int[1] = violet
 //    int[2] = orange
 //    int[3] = purple
 //    int[4] = red
 //    int[5] = yellow
+
         Color[] colors = new Color[6];
         colors[0] = Color.BLUE;
         colors[1] = Color.VIOLET;
@@ -29,13 +39,14 @@ public class ScoreBarGroup extends VerticalGroup{
 //        colors[6] = Color.DARK_GRAY;
 
 
-        for (int i = 0; i<bars;i++){
-            int barH = (height/bars)/2;
-            //System.out.println(height+"    "+width);
+        for (int i = 0; i<num;i++){
+            int barH = (height/num)/2;
+
             //overall score value on 140
-            int j = getRandom();
+
             //score on 18
-            int v = (j*18)/140;
+            int v = scores[i];
+            int j = (v*140)/18;
             String s = Integer.toString(v);
 
             Label label=new Label(s, skin);
@@ -53,13 +64,16 @@ public class ScoreBarGroup extends VerticalGroup{
             wrapper.setOrigin(wrapper.getPrefWidth() / 2, wrapper.getPrefHeight() / 2);
             //  wrapper.setRotation(30);
             wrapper.setScaleX(2f);
-//System.out.println(bar.getWidth());
+
             addActor(wrapperl);
             addActor(wrapper);
 
         }
     }
 
+    public void update(){
+
+    }
 
     public int getRandom(){
         int n = (int) (Math.random()* 140);
