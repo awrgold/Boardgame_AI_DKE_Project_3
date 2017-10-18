@@ -204,7 +204,7 @@ public class GameScreen extends AbstractScreen {
                             hexActor.setHexColor(getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
-//                            Player.updateScore(gamingPlayer, hexActor.getHexagon(), grid);
+                            Player.updateScore(gamingPlayer, hexActor, grid);
 
 
 
@@ -215,6 +215,7 @@ public class GameScreen extends AbstractScreen {
                                 hexActor.setHexColor(getSpriteColor(hexActor));
                                 touched[1] = null;
                                 first = null;
+                                Player.updateScore(gamingPlayer, hexActor, grid);
 
 
 
