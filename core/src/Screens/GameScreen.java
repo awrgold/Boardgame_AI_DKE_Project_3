@@ -13,6 +13,7 @@ import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameScoreAssets.Bar;
+import GameScoreAssets.ScoreBarGroup;
 import Tools.Link;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -65,11 +66,12 @@ public class GameScreen extends AbstractScreen {
     //we use this to store informations about the selected tile
     private Sprite[] touched = {null, null};
 
-	//private Texture mainMenuButton;
+	private Sprite mainMenuButton;
     private ImageButton tileButton;
     private ImageButton.ImageButtonStyle tileStyle;
     private TextureAtlas tileButtonAtlas;
     private Skin tileButtonSkin;
+
 
     private SpriteBatch batch;
     private Skin skin;
@@ -156,11 +158,17 @@ public class GameScreen extends AbstractScreen {
                 Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
                 Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
+                //mainMenuButton = new Sprite(new Texture(Gdx.files.internal("MainMenu.png")));
+                //hexActor.setSprite(mainMenuButton)
+
+
                 hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                 hexagonView.addActor(hexActor);
 
                 hexagon.setSatelliteData(new Link(hexActor));
+
+            
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
@@ -434,55 +442,17 @@ public class GameScreen extends AbstractScreen {
         Table scoreColumn = new Table();
         //scoreColumn.debug(Debug.all);
 
-        Bar bar1a = new Bar(100,50,Color.RED,getRandom());
-        Bar bar2a = new Bar(100,50,Color.BLUE,getRandom());
-        Bar bar3a = new Bar(100,50,Color.PURPLE,getRandom());
-        Bar bar4a = new Bar(100,50,Color.YELLOW,getRandom());
-        Bar bar5a = new Bar(100,50,Color.GREEN,getRandom());
-        Bar bar6a = new Bar(100,50,Color.ORANGE,getRandom());
+        ScoreBarGroup scorebars1 = new ScoreBarGroup(100,350,6);
 
+        scoreColumn.add(scorebars1);
 
+        scoreColumn.row();
 
-        scoreColumn.add(bar1a).expand().fill();
+        scoreColumn.add(new Label("Player 1 Score", skin)).bottom().padTop(20).padBottom(30);
         scoreColumn.row();
-        scoreColumn.add(bar2a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar3a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar4a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar5a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar6a).expand().fill();
-        //  scoreColumn.add(bar);
-        // scoreColumn.setColor(Color.BLUE);
-        scoreColumn.row();
-        scoreColumn.add(new Label("Player 1 Score", skin)).bottom();
-        scoreColumn.row();
-        Bar bar1b = new Bar(200,50,Color.RED,getRandom());
-        Bar bar2b = new Bar(100,50,Color.BLUE,getRandom());
-        Bar bar3b = new Bar(100,50,Color.PURPLE,getRandom());
-        Bar bar4b = new Bar(100,50,Color.YELLOW,getRandom());
-        Bar bar5b = new Bar(100,50,Color.GREEN,getRandom());
-        Bar bar6b = new Bar(100,50,Color.ORANGE,getRandom());
 
-        scoreColumn.add(bar1b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar2b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar3b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar4b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar5b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar6b).expand().fill();
-        //scoreView2.setColor(Color.RED);
-        // scoreColumn.add(scoreView2).expand().left();
-        //  scoreColumn.setColor(Color.RED);
-//		for (int i = 0; i < 6; i++) {
-//			scoreColumn.add(new TextButton("MEMEMEME", skin)).colspan(1).expandX().left();
-//		}
+        ScoreBarGroup scorebars2 = new ScoreBarGroup(100,350,6);
+        scoreColumn.add(scorebars2);
 
         scoreColumn.row();
         scoreColumn.add(new Label("Player 2 Score", skin)).bottom();
@@ -517,12 +487,11 @@ public class GameScreen extends AbstractScreen {
 
 
 
-        
+
         root.add(boardColumn).colspan(6).expand().fill();
         root.pack();
-                
-        addActor(root);
 
+        addActor(root);
 
 
 
@@ -539,9 +508,8 @@ public class GameScreen extends AbstractScreen {
         int n = (int) (Math.random()*100);
         return n;
     }
-    //public void show(){
-    	//mainMenuButton = new Texture("mainmenu.png");
-	//}
+
+
 
     //Gets the color of a sprite
     public String getSpriteColor(HexagonActor hexActor){
