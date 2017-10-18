@@ -50,6 +50,9 @@ int[5] = yellow
     public static void updateScore(Player player, Hexagon hex, HexagonalGrid hexGrid) {
         int result = 0;
 
+        HexagonActor hexActor = new HexagonActor(hex);
+        String color = hexActor.getHexColor().toString();
+
 /*        int[] playerScore = Score.getPlayerScore(player);*/
 
         //Calculate color combination from hex to left:
@@ -67,8 +70,6 @@ int[5] = yellow
 
 
         //Update score of designated tile sort:
-        HexagonActor hexActor = new HexagonActor(hex);
-        String color = hexActor.getHexColor().toString();
 /*
 
         if (color == "B") playerScore[0] = playerScore[0] + result;
