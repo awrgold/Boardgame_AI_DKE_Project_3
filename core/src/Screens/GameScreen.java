@@ -406,7 +406,8 @@ public class GameScreen extends AbstractScreen {
 
         //root.debug(Debug.all);
 
-        // Create the score column
+        // Create the score column add a score bar group for each player
+        //can be generated directly from list of players
         Table scoreColumn = new Table();
         //scoreColumn.debug(Debug.all);
 

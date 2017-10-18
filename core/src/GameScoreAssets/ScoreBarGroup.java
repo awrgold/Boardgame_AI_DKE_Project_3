@@ -32,21 +32,24 @@ public class ScoreBarGroup extends VerticalGroup{
         for (int i = 0; i<bars;i++){
             int barH = (height/bars)/2;
             //System.out.println(height+"    "+width);
-
-            int j = 0;
-            String s = Integer.toString(j);
+            //overall score value on 140
+            int j = getRandom();
+            //score on 18
+            int v = (j*18)/140;
+            String s = Integer.toString(v);
 
             Label label=new Label(s, skin);
             label.setColor(colors[i]);
             Bar bar = new Bar(width,barH,colors[i],j*8);
             this.w = bar.getWidth();
             //bar.setBounds(width/2,barH/2,width,barH);
+            //wrap bars
             Container wrapperl = new Container(label);
             Container wrapper = new Container(bar);
 
             wrapper.setTransform(true);
-            wrapper.setWidth(bar.getWidth());
-            wrapper.setHeight(height);
+           // wrapper.setWidth(bar.getWidth());
+           // wrapper.setHeight(height);
             wrapper.setOrigin(wrapper.getPrefWidth() / 2, wrapper.getPrefHeight() / 2);
             //  wrapper.setRotation(30);
             wrapper.setScaleX(2f);
