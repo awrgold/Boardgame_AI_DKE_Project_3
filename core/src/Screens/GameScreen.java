@@ -13,6 +13,7 @@ import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameScoreAssets.Bar;
+import GameScoreAssets.ScoreBarGroup;
 import Tools.Link;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -440,55 +441,17 @@ public class GameScreen extends AbstractScreen {
         Table scoreColumn = new Table();
         //scoreColumn.debug(Debug.all);
 
-        Bar bar1a = new Bar(100,50,Color.RED,getRandom());
-        Bar bar2a = new Bar(100,50,Color.BLUE,getRandom());
-        Bar bar3a = new Bar(100,50,Color.PURPLE,getRandom());
-        Bar bar4a = new Bar(100,50,Color.YELLOW,getRandom());
-        Bar bar5a = new Bar(100,50,Color.GREEN,getRandom());
-        Bar bar6a = new Bar(100,50,Color.ORANGE,getRandom());
+        ScoreBarGroup scorebars1 = new ScoreBarGroup(100,350,6);
 
+        scoreColumn.add(scorebars1);
 
+        scoreColumn.row();
 
-        scoreColumn.add(bar1a).expand().fill();
+        scoreColumn.add(new Label("Player 1 Score", skin)).bottom().padTop(20).padBottom(30);
         scoreColumn.row();
-        scoreColumn.add(bar2a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar3a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar4a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar5a).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar6a).expand().fill();
-        //  scoreColumn.add(bar);
-        // scoreColumn.setColor(Color.BLUE);
-        scoreColumn.row();
-        scoreColumn.add(new Label("Player 1 Score", skin)).bottom();
-        scoreColumn.row();
-        Bar bar1b = new Bar(200,50,Color.RED,getRandom());
-        Bar bar2b = new Bar(100,50,Color.BLUE,getRandom());
-        Bar bar3b = new Bar(100,50,Color.PURPLE,getRandom());
-        Bar bar4b = new Bar(100,50,Color.YELLOW,getRandom());
-        Bar bar5b = new Bar(100,50,Color.GREEN,getRandom());
-        Bar bar6b = new Bar(100,50,Color.ORANGE,getRandom());
 
-        scoreColumn.add(bar1b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar2b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar3b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar4b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar5b).expand().fill();
-        scoreColumn.row();
-        scoreColumn.add(bar6b).expand().fill();
-        //scoreView2.setColor(Color.RED);
-        // scoreColumn.add(scoreView2).expand().left();
-        //  scoreColumn.setColor(Color.RED);
-//		for (int i = 0; i < 6; i++) {
-//			scoreColumn.add(new TextButton("MEMEMEME", skin)).colspan(1).expandX().left();
-//		}
+        ScoreBarGroup scorebars2 = new ScoreBarGroup(100,350,6);
+        scoreColumn.add(scorebars2);
 
         scoreColumn.row();
         scoreColumn.add(new Label("Player 2 Score", skin)).bottom();
@@ -529,23 +492,7 @@ public class GameScreen extends AbstractScreen {
 
         addActor(root);
 
-/*
-        ScoreBarGroup scorebars1 = new ScoreBarGroup(100,350,6);
 
-        scoreColumn.add(scorebars1);
-
-        scoreColumn.row();
-
-        scoreColumn.add(new Label("Player 1 Score", skin)).bottom().padTop(20).padBottom(30);
-        scoreColumn.row();
-
-        ScoreBarGroup scorebars2 = new ScoreBarGroup(100,350,6);
-        scoreColumn.add(scorebars2);
-
-        scoreColumn.row();
-        scoreColumn.add(new Label("Player 2 Score", skin)).bottom().padTop(20).padBottom(30);
-
-*/
 
 
     }
