@@ -37,7 +37,7 @@ public class ScoreBarGroup extends VerticalGroup{
 
             Label label=new Label(s, skin);
             label.setColor(colors[i]);
-            Bar bar = new Bar(width,barH,colors[i],j);
+            Bar bar = new Bar(width,barH,colors[i],j*8);
             this.w = bar.getWidth();
             //bar.setBounds(width/2,barH/2,width,barH);
             Container wrapperl = new Container(label);
@@ -58,7 +58,7 @@ public class ScoreBarGroup extends VerticalGroup{
 
 
     public int getRandom(){
-        int n = (int) (Math.random()* 140);
+        int n = (int) (Math.random()* 18);
         return n;
     }
 }

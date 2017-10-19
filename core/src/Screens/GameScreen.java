@@ -463,7 +463,7 @@ public class GameScreen extends AbstractScreen {
         Table boardColumn = new Table();
 
 
-        boardColumn.row().height(100).top().expandX();
+        boardColumn.row().height(150).top().expandX().left();
         for (int i = 0; i < 6; i++) {
 
             boardColumn.add(tileView[0][i]);
@@ -473,12 +473,12 @@ public class GameScreen extends AbstractScreen {
         boardColumn.row();
 
         //boardColumn.debug(Debug.all);
-        boardColumn.row().height(400).width(-450);
+        boardColumn.row().height(750).width(-200);
         boardColumn.add(hexagonView).expandY().center();
 
         boardColumn.row();
 
-        boardColumn.row().height(100).bottom().expandX();
+        boardColumn.row().height(150).bottom().expandX().left();
         for (int i = 0; i < 6; i++) {
 
             boardColumn.add(tileView[1][i]);
