@@ -24,6 +24,10 @@ public class Bar extends ProgressBar {
 
     }
 
+    public void updateScore(){
+
+    }
+
     public Color getBarColor() {
         return barColor;
     }

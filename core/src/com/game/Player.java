@@ -18,7 +18,7 @@ public class Player {
     private int[] PlayerScore = new int[6];
 /*
 int[0] = blue
-int[1] = green
+int[1] = violet
 int[2] = orange
 int[3] = purple
 int[4] = red
@@ -37,6 +37,14 @@ int[5] = yellow
     public boolean isAI() {
         this.isAI = isAI;
         return isAI;
+    }
+
+    public int[] getPlayerScore(){
+        return PlayerScore;
+    }
+
+    public int getColorScore(int color){
+        return PlayerScore[color];
     }
 
     public ArrayList<Sprite[]> getGamePieces() {

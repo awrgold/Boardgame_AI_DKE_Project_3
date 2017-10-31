@@ -32,7 +32,8 @@ public class ScoreBarGroup extends VerticalGroup{
         for (int i = 0; i<bars;i++){
             int barH = (height/bars)/2;
             //System.out.println(height+"    "+width);
-            int j = getRandom();
+
+            int j = 0;
             String s = Integer.toString(j);
 
             Label label=new Label(s, skin);

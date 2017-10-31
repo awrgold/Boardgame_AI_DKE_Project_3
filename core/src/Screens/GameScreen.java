@@ -43,18 +43,12 @@ import rx.functions.Action1;
 
 public class GameScreen extends AbstractScreen {
 
-    //Scanner userInput = new Scanner(System.in);
 
-    public int nOfPlayer;
-
+    /*
+    Our Variables: ---------------------------------------------------------
+     */
     public Player[] players;
-
     public Player gamingPlayer;
-
-
-    // Ratio of width and height of a regular hexagon.
-    public static final int HEXAGON_WIDTH = 100;
-    public static final int HEXAGON_HEIGHT = 100;
     
     public HexagonalGrid grid;
     public HexagonalGrid[] tiles = new HexagonalGrid[6];
@@ -63,7 +57,7 @@ public class GameScreen extends AbstractScreen {
     private Table root;
     private Group hexagonView;
     private Group[][] tileView;
-    //we use this to store informations about the selected tile
+    // we use this to store information about the selected tile
     private Sprite[] touched = {null, null};
 
 	private Sprite mainMenuButton;
@@ -81,75 +75,73 @@ public class GameScreen extends AbstractScreen {
     private int selectedTileIndex;
 
 
-    //create the BAG
+    /*
+    Build the game screen: ---------------------------------------------------
+     */
+    // create the BAG
     ArrayList<Sprite[]> bag = Pieces.createBagPieces();
 
 
-    
-    //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
+    // Build screen, add skins, add players
 
     public GameScreen() {
-        //batch = new SpriteBatch();
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
+        players = new Player[Constants.getNumberOfPlayers()];
 
-        //System.out.println("How many players are playing?");
-        //nOfPlayer = userInput.nextInt();
-        nOfPlayer = 2;
-
-        players = new Player[nOfPlayer];
-
-        for (int x = 1; x <= nOfPlayer; x++){
+        for (int x = 1; x <= players.length; x++){
             players[x - 1] = new Player(x, Pieces.distributePieces(bag));
         }
 
-        tileView = new Group[nOfPlayer][];
-
+        tileView = new Group[players.length][];
         gamingPlayer = players[0];
+
     }
 
 
 
+    /*
+    Build the stage upon which actors exist: ----------------------------------
+     */
     // Subclasses must load actors in this method
     @SuppressWarnings("unchecked")
 	public void buildStage() {
         Stage stage  = new Stage();
-        // ...
 
-        //board grid
-        final int GRID_HEIGHT = 11;
-        final int GRID_WIDTH = 11;
-        final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
-        final HexagonOrientation ORIENTATION = POINTY_TOP;
-
-        final double RADIUS = Constants.getHexRadius();
-
-
-
-        // ...
-        //grid builder
+        // Build the hexagonal grid
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
-                .setGridHeight(GRID_HEIGHT)
-                .setGridWidth(GRID_WIDTH)
-                .setGridLayout(GRID_LAYOUT)
-                .setOrientation(ORIENTATION)
-                .setRadius(RADIUS);
+                .setGridHeight(Constants.getTileHeight())
+                .setGridWidth(Constants.getTileWidth())
+                .setGridLayout(Constants.getBoardLayout())
+                .setOrientation(Constants.getHexagonOrientation())
+                .setRadius(Constants.getHexRadius());
 
-
+        // Create the Link between the hexagon objects and their abstract components
         HexagonalGrid<Link> grid = builder.build();
         this.grid = grid;
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
 
+
+        /*
+        Placing the actors in the stage, initializing the game state --------------------------
+         */
+
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+
+            /*
+            Within this method other functions to be performed upon the hexagons are called
+            */
+
             @Override
             public void call(Hexagon hexagon) {
 
                 // Create the Actor and link it to the hexagon (and vice-versa)
                 final HexagonActor hexActor = new HexagonActor(hexagon);
 
+                // Instantiate the starting colors for the corners
                 Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
                 Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
                 Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
@@ -165,7 +157,6 @@ public class GameScreen extends AbstractScreen {
                 hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                 hexagonView.addActor(hexActor);
-
                 hexagon.setSatelliteData(new Link(hexActor));
 
             
@@ -195,18 +186,18 @@ public class GameScreen extends AbstractScreen {
                 }
 
 
-
-                // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
-                // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
-                // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
-
-
                 hexActor.addListener(new ClickListener(){
+
+                    /*
+                    This method allows click interaction with the tiles and the board, and then updates the score based on where a tile is placed.
+                     */
+
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
 
 
+                        // Ensure that what we've clicked on is an empty space to place the tile upon
                         if(touched[0] != null && hexActor.getSprite() == emptySprite){
                             hexActor.setSprite(touched[0]);
                             hexActor.setHexColor(getSpriteColor(hexActor));
@@ -214,9 +205,7 @@ public class GameScreen extends AbstractScreen {
                             touched[0] = null;
                             Player.updateScore(gamingPlayer, hexActor, grid);
 
-
-
-
+                        // Place the second hexagon in the tile
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
                             if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
                                 hexActor.setSprite(touched[1]);
@@ -225,22 +214,15 @@ public class GameScreen extends AbstractScreen {
                                 first = null;
                                 Player.updateScore(gamingPlayer, hexActor, grid);
 
-
-
-
-
-
-                                //after the second click remove from hand the placed tile
+                                // after the second click remove from hand the placed tile
                                 gamingPlayer.getGamePieces().remove(selectedTileIndex);
 
-
-                                //take a new one
+                                // take a new one
                                 Pieces.takePiece(bag, gamingPlayer.getGamePieces());
 
-                                //and set the new sprites
+                                // and set the new sprites
                                 int ind = 0;
                                 for (Actor hex : selectedTile.getChildren()){
-
                                     if (hex instanceof HexagonActor){
                                         HexagonActor one = (HexagonActor) hex;
                                         one.setSprite(gamingPlayer.getGamePieces().get(0)[ind]);
@@ -248,11 +230,11 @@ public class GameScreen extends AbstractScreen {
                                     }
                                 }
 
+                                // When a tile is clicked, it moves upwards to indicate it is selected
                                 selectedTile.moveBy(0, -30);
 
+                                // Change player after tile is fully placed
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
-
-
 
                             }
                             else {
@@ -264,41 +246,32 @@ public class GameScreen extends AbstractScreen {
                         } else {
                             System.out.println("This slot is full! Color here is: " + hexActor.getHexColor());
                         }
-
-
                     }
                 });
-
-
-
             }
         });
 
 
 
 
-        //tile grid (1x2)
-        final int TILE_HEIGHT = 1;
-        final int TILE_WIDTH = 2;
-        final HexagonalGridLayout TILE_LAYOUT = RECTANGULAR;
-        final HexagonOrientation TILE_ORIENTATION = POINTY_TOP;
-        final double TILE_RADIUS = Constants.getHexRadius();
+        /*
+        The tile parameters: ----------------------------------------------------
+         */
 
-        //tile builder
+
+        // Build the tiles
         final HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
-                .setGridHeight(TILE_HEIGHT)
-                .setGridWidth(TILE_WIDTH)
-                .setGridLayout(TILE_LAYOUT)
-                .setOrientation(TILE_ORIENTATION)
-                .setRadius(TILE_RADIUS);
-
+                .setGridHeight(Constants.getTileHeight())
+                .setGridWidth(Constants.getTileWidth())
+                .setGridLayout(Constants.getBoardLayout())
+                .setOrientation(Constants.getHexagonOrientation())
+                .setRadius(Constants.getHexRadius());
         //if(tiles.length < 6)
 
 
-        for (int p = 0; p < nOfPlayer; p++){
-
+        // place the tiles in their hand
+        for (int p = 0; p < players.length; p++){
             Player playerP = players[p];
-
             tileView[p] = new Group[6];
 
             //now repeat for the 6 tiles
@@ -313,8 +286,6 @@ public class GameScreen extends AbstractScreen {
 
                 //get one of the six couple of sprites
                 Sprite[] oneOfSix = playerP.getGamePieces().get(i);
-
-
 
                 //override call for each grid
                 tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
@@ -334,23 +305,24 @@ public class GameScreen extends AbstractScreen {
 
                         //and pass everything in tileGroup
                         tileGroup.addActor(hexTile);
-
                         hexagon.setSatelliteData(new Link(hexTile));
 
 
-
-
+                        /*
+                        Create a click listener for the tiles in your hand: --------------------------
+                         */
                         hexTile.addListener(new ClickListener(){
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
 
+                                // Move the selected tile up a bit to indicate it was selected
                                 if(touched[0] != null && touched[1] != null){
                                     selectedTile.moveBy(0, -30);
                                 }
 
+                                //
                                 if(Arrays.asList(tileView[gamingPlayer.getPlayerNo() - 1]).contains(hexTile.getParent())){
                                     hexTile.getParent().moveBy(0, 30);
-
                                     touched[0] = hexTile.getSprite();
 
                                     Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
@@ -373,13 +345,8 @@ public class GameScreen extends AbstractScreen {
                                 } else {
                                     System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
                                 }
-
-
-
-
                             }
                         });
-
                     }
                 });
 
@@ -486,32 +453,19 @@ public class GameScreen extends AbstractScreen {
         }
 
 
-
-
         root.add(boardColumn).colspan(6).expand().fill();
         root.pack();
 
         addActor(root);
 
-
-
-
     }
-
 
     public void dispose(){
         super.dispose();
         batch.dispose();
     }
 
-    public int getRandom(){
-        int n = (int) (Math.random()*100);
-        return n;
-    }
-
-
-
-    //Gets the color of a sprite
+    // Gets the color of a sprite
     public String getSpriteColor(HexagonActor hexActor){
         Texture texture = hexActor.getSprite().getTexture();
         String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
