@@ -111,8 +111,8 @@ public class GameScreen extends AbstractScreen {
 
         // Build the hexagonal grid
         HexagonalGridBuilder<Link> builder = new HexagonalGridBuilder<Link>()
-                .setGridHeight(Constants.getTileHeight())
-                .setGridWidth(Constants.getTileWidth())
+                .setGridHeight(Constants.getBoardHeight())
+                .setGridWidth(Constants.getBoardWidth())
                 .setGridLayout(Constants.getBoardLayout())
                 .setOrientation(Constants.getHexagonOrientation())
                 .setRadius(Constants.getHexRadius());
@@ -263,7 +263,7 @@ public class GameScreen extends AbstractScreen {
         final HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(Constants.getTileHeight())
                 .setGridWidth(Constants.getTileWidth())
-                .setGridLayout(Constants.getBoardLayout())
+                .setGridLayout(Constants.getTileLayout())
                 .setOrientation(Constants.getHexagonOrientation())
                 .setRadius(Constants.getHexRadius());
         //if(tiles.length < 6)
@@ -343,6 +343,7 @@ public class GameScreen extends AbstractScreen {
                                     selectedTile = hexTile.getParent();
 
                                 } else {
+                                    selectedTile.moveBy(0, 30);
                                     System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
                                 }
                             }
