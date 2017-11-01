@@ -64,7 +64,7 @@ public class HexagonActor extends Image{
 
     public void draw (Batch batch, float parentAlpha) {
 
-        batch.end();
+      batch.end();
 
 
         // Required just so everything displays at the correct position

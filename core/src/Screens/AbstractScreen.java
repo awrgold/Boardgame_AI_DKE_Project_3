@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.game.GameIngenious;
 
 public abstract class AbstractScreen extends Stage implements Screen, InputProcessor {
 
@@ -43,4 +44,5 @@ public abstract class AbstractScreen extends Stage implements Screen, InputProce
     @Override public void hide() {}
     @Override public void pause() {}
     @Override public void resume() {}
+    public void update( float delta){};
 }

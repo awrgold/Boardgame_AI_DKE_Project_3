@@ -1,8 +1,9 @@
 package com.game;
 
+import Screens.MenuScreen;
 import Screens.ScreenEnum;
-import Screens.AbstractScreen;
-import Screens.ScreenManager;
+import Systems.AbstractSystem;
+import Systems.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class GameIngenious extends Game {
 
-    public Viewport screenPort;
+    private Viewport screenPort;
     public SpriteBatch batch;
     GameIngenious game;
     public int nOfPlayer;
@@ -28,8 +29,8 @@ public class GameIngenious extends Game {
     public void create() {
 
         batch = new SpriteBatch();
-        /*this.setScreen( new MenuScreen(this));*/
-       Screens.ScreenManager.getInstance().initialize(this);
+       // this.setScreen( new MenuScreen(this));
+       ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
 
     }

@@ -1,15 +1,17 @@
-package Screens;
+package Systems;
 
+import Screens.AbstractScreen;
+import Screens.ScreenEnum;
 import com.badlogic.gdx.Screen;
 import com.game.GameIngenious;
 
 
-public class ScreenManager {
+public class ScreenManager{
     // Singleton: unique instance
     private static ScreenManager instance;
 
     // Reference to game
-    private GameIngenious game;
+    protected GameIngenious game;
 
     // Singleton: private constructor
     private ScreenManager() {
@@ -44,5 +46,10 @@ public class ScreenManager {
         if (currentScreen != null) {
             currentScreen.dispose();
         }
+    }
+
+
+    public void proccessStep(float delta) {
+        game.getScreen().render(delta);
     }
 }
