@@ -183,7 +183,6 @@ protected GameIngenious game;
         Table boardColumn = new Table();
 
 
-
         // boardColumn.row().height(100).top().expandX();
         boardColumn.row().height(150).top().expandX().left();
         boardColumn.add(new Label("Player 1 Hand", skin));
