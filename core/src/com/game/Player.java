@@ -62,11 +62,11 @@ int[5] = yellow
         int i = 0;
 
         if (hexActor.getHexColor() == "B") i = 0;
-        if (hexActor.getHexColor() == "O") i = 1;
-        if (hexActor.getHexColor() == "P") i = 2;
-        if (hexActor.getHexColor() == "R") i = 3;
+        if (hexActor.getHexColor() == "Y") i = 1;
+        if (hexActor.getHexColor() == "O") i = 2;
+        if (hexActor.getHexColor() == "P") i = 3;
         if (hexActor.getHexColor() == "V") i = 4;
-        if (hexActor.getHexColor() == "y") i = 5;
+        if (hexActor.getHexColor() == "R") i = 5;
 
         //Calculate color combination from hex to left:
         playerScore[i] += CalculateScoreHexToLeft(hexGrid, hexActor);
@@ -93,13 +93,32 @@ int[5] = yellow
         if (color == "Y") playerScore[5] = playerScore[5] + result;
 */
 
-        for (int j = 0; j <= 5; j++)
-        {
-            System.out.println(playerScore[j]);
-        }
+//        for (int j = 0; j <= 5; j++)
+//        {
+//            System.out.println(playerScore[j]);
+//        }
 
     }
 
+    public void printScore(){
+        System.out.println(getPlayerNo()+" |");
+            for (int j = 0; j <= 5; j++)
+        {
+            System.out.print(PlayerScore[j]+" | ");
+        }
+}
+    public String scoreToString(){
+
+        String p = "| ";
+        for (int j = 0; j <= 5; j++) {
+            String s = PlayerScore[j]+" | ";
+            p = p.concat(s);
+        }
+        return p;
+    }
+    public int[] getPlayerScore() {
+        return PlayerScore;
+    }
 
     public static int CalculateScoreHexToLeft(HexagonalGrid hexGrid, HexagonActor hexActor) {
         int result = 0;
@@ -310,6 +329,7 @@ int[5] = yellow
         }
         return result;
     }
+
 }
 
 

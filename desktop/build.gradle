@@ -9,7 +9,7 @@ project.ext.assetsDir = new File("../core/assets");
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
+    standardInput = Systems.in
     workingDir = project.assetsDir
     ignoreExitValue = true
 }
@@ -17,7 +17,7 @@ task run(dependsOn: classes, type: JavaExec) {
 task debug(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
+    standardInput = Systems.in
     workingDir = project.assetsDir
     ignoreExitValue = true
     debug = true

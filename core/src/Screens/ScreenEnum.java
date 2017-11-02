@@ -1,15 +1,17 @@
 
 package Screens;
 
+import com.game.GameIngenious;
+
 public enum ScreenEnum {
     MAIN_MENU {
         public AbstractScreen getScreen(Object... params) {
-            return new GameScreen();
+            return new MenuScreen();
         }
     },
     GAME {
         public AbstractScreen getScreen(Object... params) {
-            return new GameScreen();
+            return new GameScreen(new GameIngenious());
         }
     };//,
 //    EXTRA {
