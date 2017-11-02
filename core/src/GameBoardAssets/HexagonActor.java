@@ -97,7 +97,7 @@ public class HexagonActor extends Image{
         batch.begin();
 
         //draw the sprite on the actor
-        batch.draw(sprite, getX() - 10, getY() - 12, getWidth() + 15, getHeight() + 22);
+        batch.draw(sprite, getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
     }
     public Hexagon<Link> getHexagon(){
         return hexagon;

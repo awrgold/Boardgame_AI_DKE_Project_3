@@ -28,6 +28,9 @@ public class PlayerHandView extends GroupView {
         super();
 
     }
+    public void hide(){
+
+    }
     public void create(){
 
     };

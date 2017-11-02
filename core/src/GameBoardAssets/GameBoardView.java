@@ -47,7 +47,7 @@ public class GameBoardView extends GroupView {
                 .setRadius(RADIUS);
 
 
-        HexagonalGrid<Link> grid = builder.build();
+        final HexagonalGrid<Link> grid = builder.build();
         this.grid = grid;
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -56,7 +56,7 @@ public class GameBoardView extends GroupView {
                 // Create the Actor and link it to the hexagon (and vice-versa)
                 final HexagonActor hexActor = new HexagonActor(hexagon);
 
-                Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+                final Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
                 Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
                 Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
                 Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
