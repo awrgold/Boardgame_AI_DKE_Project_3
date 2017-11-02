@@ -1,7 +1,7 @@
 package GameBoardAssets;
 
 import GameConstants.Constants;
-import Systems.GroupView;
+import Interfaces.GroupView;
 import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.codetome.hexameter.core.api.HexagonOrientation;

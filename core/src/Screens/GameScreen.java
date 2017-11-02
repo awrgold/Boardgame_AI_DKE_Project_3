@@ -1,20 +1,14 @@
 package Screens;
 
 
-import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
-import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
-import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
-
 import java.util.*;
 import java.util.List;
 
-import GameBoardAssets.GameBoardView;
 import GameBoardAssets.HexagonActor;
-import GameBoardAssets.TileView;
 import GameConstants.Constants;
 import GameCustomAssets.CustomLabel;
-import GameHandAssets.PlayerHandView;
 import GameScoreAssets.ScoreBarGroup;
+import Interfaces.AbstractScreen;
 import Interfaces.GameHandler;
 import Tools.Link;
 import com.badlogic.gdx.graphics.GL20;

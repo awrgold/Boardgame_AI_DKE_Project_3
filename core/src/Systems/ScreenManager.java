@@ -1,6 +1,6 @@
 package Systems;
 
-import Screens.AbstractScreen;
+import Interfaces.AbstractScreen;
 import Screens.ScreenEnum;
 import com.badlogic.gdx.Screen;
 import com.game.GameIngenious;
@@ -49,7 +49,5 @@ public class ScreenManager{
     }
 
 
-    public void proccessStep(float delta) {
-        game.getScreen().render(delta);
-    }
+
 }

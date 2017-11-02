@@ -1,4 +1,4 @@
-package Systems;
+package Interfaces;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 

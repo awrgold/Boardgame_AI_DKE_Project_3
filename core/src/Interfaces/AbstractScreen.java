@@ -1,4 +1,4 @@
-package Screens;
+package Interfaces;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;

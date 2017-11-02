@@ -1,7 +1,7 @@
 package GameBoardAssets;
 
 import GameConstants.Constants;
-import Systems.GroupView;
+import Interfaces.GroupView;
 import Tools.Link;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

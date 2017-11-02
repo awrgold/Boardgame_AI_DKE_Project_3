@@ -1,6 +1,7 @@
 
 package Screens;
 
+import Interfaces.AbstractScreen;
 import com.game.GameIngenious;
 
 public enum ScreenEnum {

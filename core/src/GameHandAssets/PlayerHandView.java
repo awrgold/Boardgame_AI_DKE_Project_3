@@ -1,9 +1,7 @@
 package GameHandAssets;
 
-import GameBoardAssets.HexagonActor;
-import GameBoardAssets.TileView;
 import GameConstants.Constants;
-import Systems.GroupView;
+import Interfaces.GroupView;
 import Tools.Link;
 import com.game.Player;
 import org.codetome.hexameter.core.api.HexagonOrientation;
