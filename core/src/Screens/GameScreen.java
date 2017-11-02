@@ -38,7 +38,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
     //Scanner userInput = new Scanner(System.in);
 protected GameIngenious game;
-    public int nOfPlayer;
+
 
     public Player[] players;
     public Player gamingPlayer;
@@ -144,13 +144,7 @@ protected GameIngenious game;
 * */
     updateHand();
 
-<<<<<<<
-        // Create the Link between the hexagon objects and their abstract components
-        HexagonalGrid<Link> grid = builder.build();
-        this.grid = grid;
-=======
 
->>>>>>>
 
 
 /* @Michael Generating and adding is all this BuildStage method should do
@@ -188,9 +182,9 @@ protected GameIngenious game;
         // Create the board
         Table boardColumn = new Table();
 
-                hexActor.addListener(new ClickListener(){
 
-       // boardColumn.row().height(100).top().expandX();
+
+        // boardColumn.row().height(100).top().expandX();
         boardColumn.row().height(150).top().expandX().left();
         boardColumn.add(new Label("Player 1 Hand", skin));
        for (int i = 0; i < 6; i++) {
@@ -233,13 +227,7 @@ protected GameIngenious game;
     }
 
     private void updateHand() {
-        //tile builder
-        tileBuilder = new HexagonalGridBuilder<Link>()
-                .setGridHeight(Constants.getTileHeight())
-                .setGridWidth(Constants.getTileWidth())
-                .setGridLayout(Constants.getTileLayout())
-                .setOrientation(Constants.getHexagonOrientation())
-                .setRadius(Constants.getHexRadius());
+
 
         // Build the tiles
         final HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
@@ -251,7 +239,7 @@ protected GameIngenious game;
         //if(tiles.length < 6)
 
 
-        for (int p = 0; p < nOfPlayer; p++){
+        for (int p = 0; p < players.length; p++){
 
            Player playerP = players[p];
         //    tv[p] = new TileView[6];
