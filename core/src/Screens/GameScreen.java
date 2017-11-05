@@ -30,8 +30,8 @@ import rx.functions.Action1;
 
 public class GameScreen extends AbstractScreen implements GameHandler {
 
-    //Scanner userInput = new Scanner(System.in);
-protected GameIngenious game;
+    // Scanner userInput = new Scanner(System.in);
+    protected GameIngenious game;
 
 
     public Player[] players;
@@ -47,10 +47,10 @@ protected GameIngenious game;
     public List<HexagonActor> hexagonActors = new ArrayList<HexagonActor>();
 
     private Table root;
-//    private GameBoardView gbv;
-//    private PlayerHandView [] phvs;
+    // private GameBoardView gbv;
+    // private PlayerHandView [] phvs;
     private Group hexagonView;
-  //  private TileView [][] tv;
+    // private TileView [][] tv;
     private Group[][] tileView;
     // we use this to store information about the selected tile
     private Sprite[] touched = {null, null};
@@ -69,32 +69,18 @@ protected GameIngenious game;
     private Group selectedTile;
     private int selectedTileIndex;
 
-    //board grid
-//    private final int GRID_HEIGHT = 11;
-//    private final int GRID_WIDTH = 11;
-//    private final HexagonalGridLayout GRID_LAYOUT = HEXAGONAL;
-//    private final HexagonOrientation ORIENTATION = POINTY_TOP;
-   private HexagonalGridBuilder<Link> builder;
-//
-//    final double RADIUS = Constants.getHexRadius();
-
-    //tile grid (1x2)
-//    final int TILE_HEIGHT = 1;
-//    final int TILE_WIDTH = 2;
-//    final HexagonalGridLayout TILE_LAYOUT = RECTANGULAR;
-//    final HexagonOrientation TILE_ORIENTATION = POINTY_TOP;
-//    final double TILE_RADIUS = Constants.getHexRadius();
+    private HexagonalGridBuilder<Link> builder;
     private  HexagonalGridBuilder<Link> tileBuilder;
-    //create the BAG
+
     /*
     Build the game screen: ---------------------------------------------------
      */
     // create the BAG
     ArrayList<Sprite[]> bag = Pieces.createBagPieces();
-    //scorebargroups
+    // scorebargroups
     private ScoreBarGroup scorebars1;
     private ScoreBarGroup scorebars2;
-    //public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
+    // public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
 
     private CustomLabel p1;
     private CustomLabel p2;
@@ -126,24 +112,10 @@ protected GameIngenious game;
 	public void buildStage() {
         Stage stage  = new Stage();
         // ...
-/* @Michael Extracted board construction
-* */
-    updateBoard();
+        updateBoard();
 
+        updateHand();
 
-
-
-
-/* @Michael Extracted Player hands construction
-* */
-    updateHand();
-
-
-
-
-/* @Michael Generating and adding is all this BuildStage method should do
-
-* */
 
         this.root = new Table();
         this.root.setFillParent(true);
@@ -151,8 +123,9 @@ protected GameIngenious game;
         //root.debug(Debug.all);
 
         // Create the score column add a score bar group for each player
-        //can be generated directly from list of players
+        // can be generated directly from list of players
         Table scoreColumn = new Table();
+
         //scoreColumn.debug(Debug.all);
         p1 =new CustomLabel("Player 1 Score : "+ players[0].scoreToString(), skin);
         p2 = new CustomLabel("Player 2 Score : "+players[1].scoreToString(), skin);
@@ -181,27 +154,27 @@ protected GameIngenious game;
         boardColumn.row().height(150).top().expandX().left();
         boardColumn.add(new Label("Player 1 Hand", skin));
        for (int i = 0; i < 6; i++) {
-//           boardColumn.add(tv[0][i]);
+           // boardColumn.add(tv[0][i]);
            boardColumn.add(tileView[0][i]);
 
         }
 
         boardColumn.row();
 
-        //boardColumn.debug(Debug.all);
+        // boardColumn.debug(Debug.all);
         boardColumn.row().height(400).width(-450);
 
-        ///GBV  and PHV Change ////
+        // GBV  and PHV Change
         boardColumn.row().height(750).width(-200);
         boardColumn.add(hexagonView).expandY().center();
-       // boardColumn.add(gbv).expand().left();
+        // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
-      // boardColumn.row().height(100).bottom().expandX();
+        // boardColumn.row().height(100).bottom().expandX();
         boardColumn.row().height(150).bottom().expandX().left();
         boardColumn.add(new Label("Player 2 Hand", skin));
         for (int i = 0; i < 6; i++) {
-         //   boardColumn.add(tv[1][i]);
+           // boardColumn.add(tv[1][i]);
            boardColumn.add(tileView[1][i]);
 
         }
@@ -229,16 +202,16 @@ protected GameIngenious game;
                 .setGridLayout(Constants.getTileLayout())
                 .setOrientation(Constants.getHexagonOrientation())
                 .setRadius(Constants.getHexRadius());
-        //if(tiles.length < 6)
+        // if(tiles.length < 6)
 
 
         for (int p = 0; p < players.length; p++){
 
            Player playerP = players[p];
-        //    tv[p] = new TileView[6];
+            // tv[p] = new TileView[6];
             tileView[p] = new Group[6];
 
-            //now repeat for the 6 tiles
+            // now repeat for the 6 tiles
             for (int i = 0; i < 6; i++){
 
                 //give it a grid (2x1)
@@ -407,6 +380,7 @@ protected GameIngenious game;
                 // Create the Actor and link it to the hexagon (and vice-versa)
                 final HexagonActor hexActor = new HexagonActor(hexagon);
 
+                // Instantiate the starting colors for the corners
                 Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
                 Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
                 Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
@@ -425,7 +399,7 @@ protected GameIngenious game;
 
                 hexagon.setSatelliteData(new Link(hexActor));
 
-
+            
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
@@ -447,23 +421,23 @@ protected GameIngenious game;
                 } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
                     hexActor.setSprite(corner6Sprite);
                     hexActor.setHexColor("R");
-            }   else {
+                } else {
                     hexActor.setSprite(emptySprite);
                 }
 
 
-
-                // TODO: EXAMPLE WHERE I CHANGE THE COLOR ON HOVER OVER.
-                // DO YOUR SHIT HERE IF YOU WANT TO INTERACT WITH THE HEXAGON FOR SOME REASON
-                // LIKE PER EXAMPLE IF YOU HAVE ONE SELECTED AND NEED IT PLACED.
-
-
                 hexActor.addListener(new ClickListener(){
+
+                    /*
+                    This method allows click interaction with the tiles and the board, and then updates the score based on where a tile is placed.
+                     */
+
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
 
 
+                        // Ensure that what we've clicked on is an empty space to place the tile upon
                         if(touched[0] != null && hexActor.getSprite() == emptySprite){
                             hexActor.setSprite(touched[0]);
                             hexActor.setHexColor(getSpriteColor(hexActor));
@@ -471,8 +445,7 @@ protected GameIngenious game;
                             touched[0] = null;
                             Player.updateScore(gamingPlayer, hexActor, grid);
 
-
-
+                        // Place the second hexagon in the tile
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
                             if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
                                 hexActor.setSprite(touched[1]);
@@ -481,20 +454,15 @@ protected GameIngenious game;
                                 first = null;
                                 Player.updateScore(gamingPlayer, hexActor, grid);
 
-
-
-
-                                //after the second click remove from hand the placed tile
+                                // after the second click remove from hand the placed tile
                                 gamingPlayer.getGamePieces().remove(selectedTileIndex);
 
-
-                                //take a new one
+                                // take a new one
                                 Pieces.takePiece(bag, gamingPlayer.getGamePieces());
 
-                                //and set the new sprites
+                                // and set the new sprites
                                 int ind = 0;
                                 for (Actor hex : selectedTile.getChildren()){
-
                                     if (hex instanceof HexagonActor){
                                         HexagonActor one = (HexagonActor) hex;
                                         one.setSprite(gamingPlayer.getGamePieces().get(0)[ind]);
@@ -526,15 +494,13 @@ protected GameIngenious game;
                         } else {
                             System.out.println("This slot is full! Color here is: " + hexActor.getHexColor());
                         }
-
-
                     }
                 });
-
-
-
             }
         });
+
+
+
 
    }
     @Override
@@ -557,8 +523,7 @@ protected GameIngenious game;
         batch.dispose();
     }
 
-
-    //Gets the color of a sprite
+    // Gets the color of a sprite
     public String getSpriteColor(HexagonActor hexActor){
         Texture texture = hexActor.getSprite().getTexture();
         String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
