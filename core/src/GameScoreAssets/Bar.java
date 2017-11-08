@@ -39,7 +39,8 @@ public class Bar extends ProgressBar {
         getStyle().knob = Utils.getColoredDrawable(val, height, barColor);
         super.act(delta);
     }
-public void updateVal(int v){
+
+    public void updateVal(int v){
         this.val = v;
 }
 

@@ -57,8 +57,6 @@ int[5] = yellow
 
     public static void updateScore(Player player, HexagonActor hexActor, HexagonalGrid hexGrid) {
 
-        int[] playerScore = player.PlayerScore;
-
         int i = 0;
 
         if (hexActor.getHexColor().equals("B")) i = 0;
@@ -70,24 +68,20 @@ int[5] = yellow
 
         //update score
         for (int v : CalculateScoreHex(hexGrid, hexActor)){
-            playerScore[i] += v;
+            player.PlayerScore[i] += v;
         }
 
     }
 
     public void printScore(){
-        System.out.println(getPlayerNo()+" |");
-            for (int j = 0; j <= 5; j++)
-        {
-            System.out.print(PlayerScore[j]+" | ");
-        }
+        System.out.println(scoreToString());
     }
 
     public String scoreToString(){
 
         String p = "| ";
         for (int j = 0; j <= 5; j++) {
-            String s = PlayerScore[j]+" | ";
+            String s = PlayerScore[j] + " | ";
             p = p.concat(s);
         }
         return p;

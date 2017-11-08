@@ -16,17 +16,12 @@ import org.codetome.hexameter.core.api.HexagonalGridLayout;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static GameConstants.Constants.*;
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 public class Pieces {
 
-    static Sprite blueSprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
-    static Sprite yellowSprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
-    static Sprite orangeSprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
-    static Sprite purpleSprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
-    static Sprite violetSprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
-    static Sprite redSprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
     static Sprite[] BB = {blueSprite, blueSprite};
     static Sprite[] YY = {yellowSprite, yellowSprite};

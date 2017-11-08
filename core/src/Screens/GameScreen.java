@@ -30,42 +30,43 @@ import rx.functions.Action1;
 
 public class GameScreen extends AbstractScreen implements GameHandler {
 
-    // Scanner userInput = new Scanner(System.in);
     protected GameIngenious game;
-
+    private Skin skin;
 
     public Player[] players;
     public Player gamingPlayer;
 
 
-    // Ratio of width and height of a regular hexagon.
+    // Ratio of width and height of a regular hexagon.-------- USELESS??
     public static final int HEXAGON_WIDTH = 100;
     public static final int HEXAGON_HEIGHT = 100;
 
     public HexagonalGrid grid;
     public HexagonalGrid[] tiles = new HexagonalGrid[6];
+
+    //USELESS??
     public List<HexagonActor> hexagonActors = new ArrayList<HexagonActor>();
 
-    private Table root;
     // private GameBoardView gbv;
     // private PlayerHandView [] phvs;
-    private Group hexagonView;
     // private TileView [][] tv;
+
+    private Table root;
+    private Group hexagonView;
     private Group[][] tileView;
+
     // we use this to store information about the selected tile
     private Sprite[] touched = {null, null};
 
 	private Sprite mainMenuButton;
 
     private SpriteBatch batch;
-    private Skin skin;
+
 
     private HexagonActor first;
     private Group selectedTile;
     private int selectedTileIndex;
 
-    private HexagonalGridBuilder<Link> builder;
-    private HexagonalGridBuilder<Link> tileBuilder;
 
     /*
     Build the game screen: ---------------------------------------------------
@@ -123,7 +124,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         //scoreColumn.debug(Debug.all);
         p1 =new CustomLabel("Player 1 Score : "+ players[0].scoreToString(), skin);
         p2 = new CustomLabel("Player 2 Score : "+players[1].scoreToString(), skin);
-        ScoreBarGroup scorebars1 = new ScoreBarGroup(140,350,players[0].getPlayerScore());
+        ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350,players[0].getPlayerScore());
 
         scoreColumn.add(scorebars1);
 
@@ -132,7 +133,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         scoreColumn.add(p1).bottom().padTop(20).padBottom(30);
         scoreColumn.row();
 
-        ScoreBarGroup scorebars2 = new ScoreBarGroup(140,350,players[1].getPlayerScore());
+        ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350,players[1].getPlayerScore());
         scoreColumn.add(scorebars2);
 
         scoreColumn.row();
@@ -173,16 +174,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         }
 
-
-
-
         root.add(boardColumn).colspan(6).expand().fill();
         root.pack();
 
         addActor(root);
-
-
-
 
     }
 
@@ -353,7 +348,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     private void updateBoard() {
         // ...
         //grid builder
-        builder = new HexagonalGridBuilder<Link>()
+        final HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(Constants.getBoardHeight())
                 .setGridWidth(Constants.getBoardWidth())
                 .setGridLayout(Constants.getBoardLayout())
@@ -361,7 +356,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 .setRadius(Constants.getHexRadius());
 
 
-        HexagonalGrid<Link> grid = builder.build();
+        HexagonalGrid<Link> grid = gridBuilder.build();
         this.grid = grid;
 
         // Create a HexagonActor for each Hexagon and attach it to the group
