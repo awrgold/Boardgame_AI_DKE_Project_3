@@ -375,17 +375,11 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                         ind++;
                                     }
                                 }
-                                ///////////////////////////////score update
+                                // score update
                                 gamingPlayer.printScore();
 
-                                //little work around blips and bloops @Michael
-//                                if (gamingPlayer == players[0]) {
-                                   // selectedTile.moveBy(0, 30);
-//                                }
-//                                if(gamingPlayer==players[1]){
-                                       selectedTile.moveBy(0, -30);
-//                                }
-                                //end
+                                selectedTile.moveBy(0, -30);
+
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
 
                                 // Check if hand has any tiles of lowest color:
@@ -396,10 +390,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 } else {
                                     System.out.println("Keep your hand!");
                                 }
-
-
-
                             }
+                            // if you click on the same tile you just placed
                             else {
                                 System.out.println("Select a neighbor");
                             }
@@ -420,17 +412,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
    }
     @Override
     public void render(float delta) {
-        // Clear screen
-        //Gdx.gl.glClearColor(0, 0, 0, 1);
+
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ players[0].scoreToString());
         p2.updateText("Player 2 Score : "+players[1].scoreToString());
-       // gbv.draw(batch,delta);
-      //  gbv.act(delta);
-        // Calling to Stage methods
+
         super.act(delta);
-       super.draw();
+        super.draw();
     }
 
     public void dispose(){
