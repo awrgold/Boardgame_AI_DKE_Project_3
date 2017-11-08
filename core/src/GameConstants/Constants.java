@@ -1,5 +1,8 @@
 package GameConstants;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
@@ -9,6 +12,15 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 public class Constants {
+
+    //Colors
+    public static Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+    public static Sprite blueSprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
+    public static Sprite yellowSprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
+    public static Sprite orangeSprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
+    public static Sprite purpleSprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
+    public static Sprite violetSprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
+    public static Sprite redSprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
     // Board parameters
     public static final int sc_Height = 480;

@@ -56,11 +56,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     private Sprite[] touched = {null, null};
 
 	private Sprite mainMenuButton;
-    private ImageButton tileButton;
-    private ImageButton.ImageButtonStyle tileStyle;
-    private TextureAtlas tileButtonAtlas;
-    private Skin tileButtonSkin;
-
 
     private SpriteBatch batch;
     private Skin skin;
@@ -70,16 +65,15 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     private int selectedTileIndex;
 
     private HexagonalGridBuilder<Link> builder;
-    private  HexagonalGridBuilder<Link> tileBuilder;
+    private HexagonalGridBuilder<Link> tileBuilder;
 
     /*
     Build the game screen: ---------------------------------------------------
      */
+
     // create the BAG
     ArrayList<Sprite[]> bag = Pieces.createBagPieces();
-    // scorebargroups
-    private ScoreBarGroup scorebars1;
-    private ScoreBarGroup scorebars2;
+
     // public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
 
     private CustomLabel p1;
@@ -129,7 +123,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         //scoreColumn.debug(Debug.all);
         p1 =new CustomLabel("Player 1 Score : "+ players[0].scoreToString(), skin);
         p2 = new CustomLabel("Player 2 Score : "+players[1].scoreToString(), skin);
-        scorebars1 = new ScoreBarGroup(140,350,players[0].getPlayerScore());
+        ScoreBarGroup scorebars1 = new ScoreBarGroup(140,350,players[0].getPlayerScore());
 
         scoreColumn.add(scorebars1);
 
@@ -138,7 +132,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         scoreColumn.add(p1).bottom().padTop(20).padBottom(30);
         scoreColumn.row();
 
-        scorebars2 = new ScoreBarGroup(140,350,players[1].getPlayerScore());
+        ScoreBarGroup scorebars2 = new ScoreBarGroup(140,350,players[1].getPlayerScore());
         scoreColumn.add(scorebars2);
 
         scoreColumn.row();
@@ -380,15 +374,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 // Create the Actor and link it to the hexagon (and vice-versa)
                 final HexagonActor hexActor = new HexagonActor(hexagon);
 
-                // Instantiate the starting colors for the corners
-                Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-                Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
-                Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
-                Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
-                Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
-                Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
-                Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
-
                 //mainMenuButton = new Sprite(new Texture(Gdx.files.internal("MainMenu.png")));
                 //hexActor.setSprite(mainMenuButton)
 
@@ -404,25 +389,25 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
                 if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setSprite(corner1Sprite);
+                    hexActor.setSprite(Constants.blueSprite);
                     hexActor.setHexColor("B");
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setSprite(corner2Sprite);
+                    hexActor.setSprite(Constants.yellowSprite);
                     hexActor.setHexColor("Y");
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setSprite(corner3Sprite);
+                    hexActor.setSprite(Constants.orangeSprite);
                     hexActor.setHexColor("O");
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setSprite(corner4Sprite);
+                    hexActor.setSprite(Constants.purpleSprite);
                     hexActor.setHexColor("P");
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setSprite(corner5Sprite);
+                    hexActor.setSprite(Constants.violetSprite);
                     hexActor.setHexColor("V");
                 } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setSprite(corner6Sprite);
+                    hexActor.setSprite(Constants.redSprite);
                     hexActor.setHexColor("R");
                 } else {
-                    hexActor.setSprite(emptySprite);
+                    hexActor.setSprite(Constants.emptySprite);
                 }
 
 
@@ -438,7 +423,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
 
                         // Ensure that what we've clicked on is an empty space to place the tile upon
-                        if(touched[0] != null && hexActor.getSprite() == emptySprite){
+                        if(touched[0] != null && hexActor.getSprite() == Constants.emptySprite){
                             hexActor.setSprite(touched[0]);
                             hexActor.setHexColor(getSpriteColor(hexActor));
                             first = hexActor;
@@ -446,7 +431,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                             Player.updateScore(gamingPlayer, hexActor, grid);
 
                         // Place the second hexagon in the tile
-                        } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == emptySprite){
+                        } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == Constants.emptySprite){
                             if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
                                 hexActor.setSprite(touched[1]);
                                 hexActor.setHexColor(getSpriteColor(hexActor));

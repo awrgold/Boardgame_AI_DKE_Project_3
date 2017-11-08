@@ -1,6 +1,7 @@
 package com.game;
 
 import GameBoardAssets.HexagonActor;
+import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -26,11 +27,14 @@ int[5] = yellow
 */
 
     int playerNo;
-    ArrayList<Sprite[]> gamePieces = new ArrayList<Sprite[]>();
+    ArrayList<Sprite[]> playerPieces = new ArrayList<>();
 
-    public Player(int playerNo, ArrayList<Sprite[]> gamePieces) {
+    public Player(int playerNo, ArrayList<Sprite[]> playerPieces) {
         this.playerNo = playerNo;
-        this.gamePieces = gamePieces;
+        this.playerPieces = playerPieces;
+        for (int i = 0; i < 6; i++){
+            this.PlayerScore[i] = 0;
+        }
     }
 
 
@@ -44,7 +48,7 @@ int[5] = yellow
     }
 
     public ArrayList<Sprite[]> getGamePieces() {
-        return this.gamePieces;
+        return this.playerPieces;
     }
 
     public int getPlayerNo() {
@@ -57,42 +61,17 @@ int[5] = yellow
 
         int i = 0;
 
-        if (hexActor.getHexColor() == "B") i = 0;
-        if (hexActor.getHexColor() == "Y") i = 1;
-        if (hexActor.getHexColor() == "O") i = 2;
-        if (hexActor.getHexColor() == "P") i = 3;
-        if (hexActor.getHexColor() == "V") i = 4;
-        if (hexActor.getHexColor() == "R") i = 5;
+        if (hexActor.getHexColor().equals("B")) i = 0;
+        if (hexActor.getHexColor().equals("Y")) i = 1;
+        if (hexActor.getHexColor().equals("O")) i = 2;
+        if (hexActor.getHexColor().equals("P")) i = 3;
+        if (hexActor.getHexColor().equals("V")) i = 4;
+        if (hexActor.getHexColor().equals("R")) i = 5;
 
-        //Calculate color combination from hex to left:
-        playerScore[i] += CalculateScoreHexToLeft(hexGrid, hexActor);
-        //Calculate color combination from hex to right
-        playerScore[i] += CalculateScoreHexToRight(hexGrid, hexActor);
-        //Calculate color combination from hex to bottom left
-        playerScore[i] += CalculateScoreHexToBotLeft(hexGrid, hexActor);
-        //Calculate color combination from hex to bottom right
-        playerScore[i] += CalculateScoreHexToBotRight(hexGrid, hexActor);
-        //Calculate color combination from hex to top left
-        playerScore[i] += CalculateScoreHexToTopLeft(hexGrid, hexActor);
-        //Calculate color combination from hex to top right
-        playerScore[i] += CalculateScoreHexToTopRight(hexGrid, hexActor);
-
-/*
-        //Update score of designated tile sort:
-        String color = hexActor.getHexColor();
-
-        if (color == "B") playerScore[0] = playerScore[0] + result;
-        if (color == "G") playerScore[1] = playerScore[1] + result;
-        if (color == "O") playerScore[2] = playerScore[2] + result;
-        if (color == "P") playerScore[3] = playerScore[3] + result;
-        if (color == "R") playerScore[4] = playerScore[4] + result;
-        if (color == "Y") playerScore[5] = playerScore[5] + result;
-*/
-
-//        for (int j = 0; j <= 5; j++)
-//        {
-//            System.out.println(playerScore[j]);
-//        }
+        //update score
+        for (int v : CalculateScoreHex(hexGrid, hexActor)){
+            playerScore[i] += v;
+        }
 
     }
 
@@ -102,7 +81,8 @@ int[5] = yellow
         {
             System.out.print(PlayerScore[j]+" | ");
         }
-}
+    }
+
     public String scoreToString(){
 
         String p = "| ";
@@ -112,218 +92,119 @@ int[5] = yellow
         }
         return p;
     }
+
     public int[] getPlayerScore() {
         return PlayerScore;
     }
 
-    public static int CalculateScoreHexToLeft(HexagonalGrid hexGrid, HexagonActor hexActor) {
-        int result = 0;
-        boolean sameColor = true;
+    public static Hexagon neighborByDirection(int d, Hexagon hexagon, HexagonalGrid hexagonalGrid){
 
-        Hexagon currentHex = hexActor.getHexagon();
-        Hexagon currentHex2;
-        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ());
-        CubeCoordinate ccCurrentHex2;
+        // d is the direction [0 = topLeft; 1 = left; 2 = botLeft; 3 = botRight; 4 = right; 5 = topRight]
+        //given a direction the method checks if there is a neighbor, if positive return that neighbor, else null
 
-//        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
+        Hexagon hexNext;
 
-        HexagonActor hexActor1;
-
-        while (currentHex.getGridX() > -2 && sameColor == true) {
-            hexActor = new HexagonActor(currentHex);
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1, currentHex.getGridZ());
-            if (hexGrid.getByCubeCoordinate(ccCurrentHex2).isPresent()) {
-                currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
-
-                hexActor1 = new HexagonActor(currentHex2);
-
-                if (hexActor.getHexColor() == hexActor1.getHexColor()) {
-                    result += 1;
-                    currentHex = currentHex2;
-                } else {
-                    sameColor = false;
-                }
+        if(d == 0) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX(), hexagon.getGridZ() + 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
             } else {
-                sameColor = false;
+                return null;
             }
-        }
-        return result;
 
-    }
-
-    public static int CalculateScoreHexToRight(HexagonalGrid hexGrid, HexagonActor hexActor) {
-        int result = 0;
-        boolean sameColor = true;
-
-        Hexagon currentHex = hexActor.getHexagon();
-        Hexagon currentHex2;
-        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ());
-        CubeCoordinate ccCurrentHex2;
-
-//        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
-
-        HexagonActor hexActor1;
-
-        while (currentHex.getGridX() < 8 && sameColor == true) {
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ());
-            if (hexGrid.getByCubeCoordinate(ccCurrentHex2).isPresent()) {
-                currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
-
-                hexActor1 = new HexagonActor(currentHex2);
-                if (hexActor.getHexColor() == hexActor1.getHexColor()) {
-                    result += 1;
-                    currentHex = currentHex2;
-                } else {
-                    sameColor = false;
-                }
+        } if(d == 1) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() + 1, hexagon.getGridZ());
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
             } else {
-                sameColor = false;
+                return null;
             }
-        }
-        return result;
 
-    }
-
-
-    public static int CalculateScoreHexToTopLeft(HexagonalGrid hexGrid, HexagonActor hexActor) {
-        int result = 0;
-
-        boolean sameColor = true;
-
-        Hexagon currentHex = hexActor.getHexagon();
-        Hexagon currentHex2;
-        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ());
-        CubeCoordinate ccCurrentHex2;
-
-//        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
-
-        HexagonActor hexActor1;
-
-        while (currentHex.getGridX() > 0 && currentHex.getGridZ() < 11 && sameColor == true) {
-            hexActor1 = new HexagonActor(currentHex);
-
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() - 1, currentHex.getGridZ() + 1);
-            if (hexGrid.getByCubeCoordinate(ccCurrentHex2).isPresent()) {
-                currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
-                hexActor1 = new HexagonActor(currentHex2);
-                if (hexActor.getHexColor() == hexActor1.getHexColor()) {
-                    result += 1;
-                    currentHex = currentHex2;
-                } else {
-                    sameColor = false;
-                }
+        } if(d == 2) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() + 1, hexagon.getGridZ() - 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
             } else {
-                sameColor = false;
+                return null;
             }
-        }
-        return result;
-    }
 
-    public static int CalculateScoreHexToTopRight(HexagonalGrid hexGrid, HexagonActor hexActor) {
-        int result = 0;
-
-        boolean sameColor = true;
-
-        Hexagon currentHex = hexActor.getHexagon();
-        Hexagon currentHex2;
-        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ());
-        CubeCoordinate ccCurrentHex2;
-
-//        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
-
-        HexagonActor hexActor1;
-
-        while (sameColor == true) {
-            hexActor1 = new HexagonActor(currentHex);
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ() + 1);
-            if (hexGrid.getByCubeCoordinate(ccCurrentHex2).isPresent()) {
-
-
-                currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
-                hexActor1 = new HexagonActor(currentHex2);
-                if (hexActor.getHexColor() == hexActor1.getHexColor()) {
-                    result += 1;
-                    currentHex = currentHex2;
-                } else {
-                    sameColor = false;
-                }
-            }
-            else
-            {
-                sameColor = false;
-
-            }
-        }
-        return result;
-    }
-
-    public static int CalculateScoreHexToBotLeft(HexagonalGrid hexGrid, HexagonActor hexActor) {
-        int result = 0;
-
-        boolean sameColor = true;
-
-        Hexagon currentHex = hexActor.getHexagon();
-        Hexagon currentHex2;
-        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ());
-        CubeCoordinate ccCurrentHex2;
-
-//        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
-
-        HexagonActor hexActor1;
-
-
-        while (sameColor == true) {
-            hexActor1 = new HexagonActor(currentHex);
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ() - 1);
-            if (hexGrid.getByCubeCoordinate(ccCurrentHex2).isPresent()) {
-                currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
-
-                hexActor1 = new HexagonActor(currentHex2);
-                if (hexActor.getHexColor() == hexActor1.getHexColor()) {
-                    result += 1;
-                    currentHex = currentHex2;
-                } else {
-                    sameColor = false;
-                }
-            }
-            else
-            {
-                sameColor = false;
-            }
-        }
-        return result;
-    }
-
-    public static int CalculateScoreHexToBotRight(HexagonalGrid hexGrid, HexagonActor hexActor) {
-        int result = 0;
-
-        boolean sameColor = true;
-
-        Hexagon currentHex = hexActor.getHexagon();
-        Hexagon currentHex2;
-        CubeCoordinate ccCurrentHex = CubeCoordinate.fromCoordinates(currentHex.getGridX(), currentHex.getGridZ());
-        CubeCoordinate ccCurrentHex2;
-
-//        currentHex = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex).get();
-
-        HexagonActor hexActor1;
-
-        while (sameColor == true) {
-            hexActor1 = new HexagonActor(currentHex);
-            ccCurrentHex2 = CubeCoordinate.fromCoordinates(currentHex.getGridX() + 1, currentHex.getGridZ() - 1);
-            if (hexGrid.getByCubeCoordinate(ccCurrentHex2).isPresent()) {
-                currentHex2 = (Hexagon) hexGrid.getByCubeCoordinate(ccCurrentHex2).get();
-                if (hexActor.getHexColor() == hexActor1.getHexColor()) {
-                    result += 1;
-                    currentHex = currentHex2;
-                } else {
-                    sameColor = false;
-                }
+        } if(d == 3) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX(), hexagon.getGridZ() - 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
             } else {
-                sameColor = false;
+                return null;
             }
+
+        } if(d == 4) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() - 1, hexagon.getGridZ());
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } if(d == 5) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() - 1, hexagon.getGridZ() + 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } else {
+            return null;
         }
-        return result;
+    }
+
+    public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor) {
+
+        //calculates all the points in all directions for each hexagon placed on the board
+        //return an array with points for each directions
+
+        int[] sums = new int[6];
+        Hexagon startingHex = hexActor.getHexagon();
+        Hexagon currentHex;
+
+
+        for (int d = 0; d < 6; d++){
+            int result = 0;
+            boolean sameColor = true;
+            currentHex = startingHex;
+
+            while (sameColor) {
+
+                Hexagon currentHexNext = Player.neighborByDirection(d, currentHex, hexGrid);
+
+                if (currentHexNext != null) {
+                    //hexActor1 = new HexagonActor(currentHex2);
+                    if (currentHexNext.getSatelliteData().isPresent()){
+                        Link hexLink = (Link) currentHexNext.getSatelliteData().get();
+                        HexagonActor currentHexActor = hexLink.getActor();
+
+                        if (hexActor.getHexColor().equals(currentHexActor.getHexColor())) {
+                            result++;
+                            currentHex = currentHexNext;
+                        } else {
+                            sameColor = false;
+                        }
+                    } else {
+                        sameColor = false;
+                    }
+                } else {
+                    sameColor = false;
+                }
+            }
+            sums[d] = result;
+        }
+
+        return sums;
     }
 
 }

@@ -16,7 +16,7 @@ import rx.functions.Action1;
 
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
-
+/*
 public class GameBoardView extends GroupView {
     //board grid
     private HexagonalGrid grid;
@@ -229,4 +229,4 @@ public class GameBoardView extends GroupView {
                     return path;
                 }
             }
-}
+}*/
