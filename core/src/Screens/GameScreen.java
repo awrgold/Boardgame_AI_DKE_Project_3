@@ -47,6 +47,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     private Sprite[] touched = {null, null};
 
 	private Sprite mainMenuButton;
+	private TextButton[] changeTiles;
+
 
     private SpriteBatch batch;
 
@@ -79,6 +81,13 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         for (int x = 1; x <= players.length; x++){
             players[x - 1] = new Player(x, Pieces.distributePieces(bag));
         }
+
+        changeTiles = new TextButton[2];
+
+        for (int i = 1; i <= 2; i++){
+            changeTiles[i - 1] = new TextButton("Player " + i + "\n\nChange Tiles", skin);
+        }
+
 
         tileView = new Group[players.length][];
         gamingPlayer = players[0];
@@ -135,8 +144,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
 
         // boardColumn.row().height(100).top().expandX();
-        boardColumn.row().height(150).top().expandX().left();
-        boardColumn.add(new Label("Player 1 Hand", skin));
+        boardColumn.row().height(130).top().expandX().left();
+        //boardColumn.add(new Label("Player 1 Hand", skin));
+        boardColumn.add(changeTiles[0]).height(100).bottom();
+        changeTiles[0].setDisabled(true);
        for (int i = 0; i < 6; i++) {
            // boardColumn.add(tv[0][i]);
            boardColumn.add(tileView[0][i]);
@@ -155,8 +166,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         boardColumn.row();
 
         // boardColumn.row().height(100).bottom().expandX();
-        boardColumn.row().height(150).bottom().expandX().left();
-        boardColumn.add(new Label("Player 2 Hand", skin));
+        boardColumn.row().height(130).bottom().expandX().left();
+        //boardColumn.add(new Label("Player 2 Hand", skin));
+        boardColumn.add(changeTiles[1]).height(100).top();
+        changeTiles[1].setDisabled(true);
         for (int i = 0; i < 6; i++) {
            // boardColumn.add(tv[1][i]);
            boardColumn.add(tileView[1][i]);
@@ -375,29 +388,41 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                         ind++;
                                     }
                                 }
-                                ///////////////////////////////score update
-                                gamingPlayer.printScore();
 
-                                //little work around blips and bloops @Michael
-//                                if (gamingPlayer == players[0]) {
-                                   // selectedTile.moveBy(0, 30);
-//                                }
-//                                if(gamingPlayer==players[1]){
-                                       selectedTile.moveBy(0, -30);
-//                                }
-                                //end
+                                selectedTile.moveBy(0, -30);
+
+                                //change player
+
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
 
                                 // Check if hand has any tiles of lowest color:
                                 if (!gamingPlayer.isLowestScoreTilePresent()){
-                                    System.out.println("Change hand!");
-                                    // add button to give new hand here
+                                    changeTiles[gamingPlayer.getPlayerNo() - 1].setDisabled(false);
 
-                                } else {
-                                    System.out.println("Keep your hand!");
+                                    //CLICK TO CHANGE PIECES FROM THE BAG
+                                    changeTiles[gamingPlayer.getPlayerNo() - 1].addListener(new ClickListener() {
+                                        @Override
+                                        public void clicked(InputEvent event, float x, float y) {
+                                            System.out.println("clicked!");
+                                            gamingPlayer.setPlayerPieces(Pieces.discardPieces(bag, gamingPlayer.getGamePieces()));
+                                            for (int i = 0; i < 6; i++){
+                                                Group tile = tileView[gamingPlayer.getPlayerNo() - 1][i];
+                                                int index = 0;
+                                                for (Actor hex : tile.getChildren()){
+                                                    if (hex instanceof HexagonActor){
+                                                        HexagonActor first = (HexagonActor) hex;
+                                                        first.setSprite(gamingPlayer.getGamePieces().get(i)[index]);
+                                                        index++;
+
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    });
+
+
                                 }
-
-
 
                             }
                             else {

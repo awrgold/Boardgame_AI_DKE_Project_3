@@ -65,6 +65,8 @@ int[5] = red
         return PlayerScore[color];
     }
 
+    public void setPlayerPieces(ArrayList<Sprite[]> newPieces) { this.playerPieces = newPieces; }
+
     public ArrayList<Sprite[]> getGamePieces() {
         return this.playerPieces;
     }
