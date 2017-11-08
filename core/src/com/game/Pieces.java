@@ -105,6 +105,7 @@ public class Pieces {
         }
         return playerPieces;
     }
+
     //Discards all the pieces in the players hand and distributes new ones to the player
     public static ArrayList<Sprite[]> discardPieces(ArrayList<Sprite[]> allPieces, ArrayList<Sprite[]> playerPieces){
         for(int i = 0; i < 6; i++){

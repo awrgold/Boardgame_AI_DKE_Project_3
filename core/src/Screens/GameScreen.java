@@ -35,21 +35,9 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
     public Player[] players;
     public Player gamingPlayer;
-
-
-    // Ratio of width and height of a regular hexagon.-------- USELESS??
-    public static final int HEXAGON_WIDTH = 100;
-    public static final int HEXAGON_HEIGHT = 100;
-
     public HexagonalGrid grid;
     public HexagonalGrid[] tiles = new HexagonalGrid[6];
 
-    //USELESS??
-    public List<HexagonActor> hexagonActors = new ArrayList<HexagonActor>();
-
-    // private GameBoardView gbv;
-    // private PlayerHandView [] phvs;
-    // private TileView [][] tv;
 
     private Table root;
     private Group hexagonView;
@@ -191,13 +179,11 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 .setGridLayout(Constants.getTileLayout())
                 .setOrientation(Constants.getHexagonOrientation())
                 .setRadius(Constants.getHexRadius());
-        // if(tiles.length < 6)
 
 
         for (int p = 0; p < players.length; p++){
 
-           Player playerP = players[p];
-            // tv[p] = new TileView[6];
+            Player playerP = players[p];
             tileView[p] = new Group[6];
 
             // now repeat for the 6 tiles
@@ -213,6 +199,12 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 //get one of the six couple of sprites
                 Sprite[] oneOfSix = playerP.getGamePieces().get(i);
 
+                // Check if hand has any tiles of lowest color:
+                if (!Player.isLowestScoreTilePresent(playerP)){
+                    // add button to give new hand here
+
+                }
+
                 //override call for each grid
                 tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
                     @Override
@@ -226,13 +218,11 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                             hexTile.setSprite(oneOfSix[1]);
                         }
 
-
                         hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                         //and pass everything in tileGroup
                         tileGroup.addActor(hexTile);
                         hexagon.setSatelliteData(new Link(hexTile));
-
 
                         /*
                         Create a click listener for the tiles in your hand: --------------------------
@@ -247,17 +237,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
                                 }
 
-                                //
-                                if(Arrays.asList(tileView[gamingPlayer.getPlayerNo() - 1]).contains(hexTile.getParent())){
-                                    //little work around blips and bloops @Michael
-//                                    if (gamingPlayer == players[0]) {
-                                      //  hexTile.getParent().moveBy(0, -30);
-//                                    }
-//                                    if(gamingPlayer==players[1]){
-                                        hexTile.getParent().moveBy(0, 30);
-//                                    }
-                                    //end
 
+                                if(Arrays.asList(tileView[gamingPlayer.getPlayerNo() - 1]).contains(hexTile.getParent())){
+
+                                    hexTile.getParent().moveBy(0, 30);
 
                                     touched[0] = hexTile.getSprite();
 
@@ -281,17 +264,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                     System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
                                 }
                             }
-                            //selectedTile is the Group of the current tile
-//                                    selectedTile = hexTile.getParent();
-//
-//                                } else {
-//                                    System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
-//                                }
-//
-//
-//
-//
-//                            }
                         });
                     }
                 });
@@ -300,49 +272,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 this.tileView[p][i] = tileGroup;
             }
         }
-
-
-
-        /*DragAndDrop dnd  = new DragAndDrop();
-
-                    dnd.addSource(new DragAndDrop.Source(tileGroup) {
-                        DragAndDrop.Payload payload =  new DragAndDrop.Payload();
-
-                        public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {  // here is the dragstart method where you take the item selected from the handtile , once you take it, it removes itself from the hand
-                            payload.setObject(tileGroup);
-                            payload.setDragActor(tileGroup);
-                            return payload;
-                        }
-
-                        public void dragStop (InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
-                            // trying to replace the tile to its initial position if it's not placed on the board CURRENTLY NOT WORKING !!!
-                            x = (float )hexagon.getCenterX();
-                            y = (float) hexagon.getCenterY();
-                            dnd.setDragActorPosition(-tileGroup.getWidth() / 2, tileGroup.getHeight() / 2);
-
-                            if(target == null){
-                                tileGroup.setPosition(x,y);
-                            }
-                            // Actor gets removed from the stage apparently
-                            //stage.addActor(tileGroup);
-                        }
-                    });
-
-                    // Target is the place where the tile should be placed
-                    dnd.addTarget(new DragAndDrop.Target(hexagonView) { // This is the target class where i'm trying to point out the board BUT ALSO NOT WORKING NOW
-                        @Override
-                        public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                            return true;
-                        }
-
-                        @Override
-                        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-
-                            //hexagonView.getItems().add((HexagonActor) payload.getObject());
-                            Actor hexagon = (Actor) payload.getObject();
-                            hexagonView.addActor(hexagon);
-                        }
-                    }); */
     }
 
     private void updateBoard() {

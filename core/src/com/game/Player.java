@@ -1,7 +1,9 @@
 package com.game;
 
 import GameBoardAssets.HexagonActor;
+import GameConstants.Constants;
 import Tools.Link;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -10,6 +12,8 @@ import org.omg.CORBA.CurrentHelper;
 
 import java.io.Console;
 import java.util.ArrayList;
+import static GameConstants.Constants.*;
+
 
 public class Player {
 
@@ -17,6 +21,9 @@ public class Player {
     private String name;
 
     private int[] PlayerScore = new int[6];
+    private static Sprite[] PlayerScoreSprite = new Sprite[6];
+
+
 /*
 int[0] = blue
 int[1] = violet
@@ -35,7 +42,14 @@ int[5] = yellow
         for (int i = 0; i < 6; i++){
             this.PlayerScore[i] = 0;
         }
+        PlayerScoreSprite[0] = Constants.blueSprite;
+        PlayerScoreSprite[1] = Constants.violetSprite;
+        PlayerScoreSprite[2] = Constants.orangeSprite;
+        PlayerScoreSprite[3] = Constants.purpleSprite;
+        PlayerScoreSprite[4] = Constants.redSprite;
+        PlayerScoreSprite[5] = Constants.yellowSprite;
     }
+
 
 
     public boolean isAI() {
@@ -89,6 +103,14 @@ int[5] = yellow
 
     public int[] getPlayerScore() {
         return PlayerScore;
+    }
+
+    public int getPlayerScoreAtIndex(int index){
+        return PlayerScore[index];
+    }
+
+    public Sprite getPlayerScoreSprite(int index){
+        return PlayerScoreSprite[index];
     }
 
     public static Hexagon neighborByDirection(int d, Hexagon hexagon, HexagonalGrid hexagonalGrid){
@@ -201,6 +223,20 @@ int[5] = yellow
         return sums;
     }
 
+    public static boolean isLowestScoreTilePresent(Player player){
+        int lowest = 19;
+        for (int i = 0; i < 6; i++){
+            if(player.getPlayerScoreAtIndex(i) <= lowest){
+                lowest = player.getPlayerScoreAtIndex(i);
+            }
+        }
+        for (Sprite[] sprite : player.getGamePieces()){
+            if (sprite[0] == player.getPlayerScoreSprite(lowest) || sprite[1] == player.getPlayerScoreSprite(lowest)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
