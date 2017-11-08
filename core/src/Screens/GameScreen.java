@@ -384,6 +384,13 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
 
+                                // Check if hand has any tiles of lowest color:
+                                if (!Player.isLowestScoreTilePresent(gamingPlayer)){
+                                    // add button to give new hand here
+                                    System.out.println("change hand");
+                                } else {
+                                    System.out.println("Keep your hand!");
+                                }
 
 
                             }
