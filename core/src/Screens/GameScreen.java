@@ -83,6 +83,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         tileView = new Group[players.length][];
         gamingPlayer = players[0];
 
+
     }
 
 
@@ -96,6 +97,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         Stage stage  = new Stage();
         // ...
         updateBoard();
+
         updateHand();
 
 
@@ -198,11 +200,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 //get one of the six couple of sprites
                 Sprite[] oneOfSix = playerP.getGamePieces().get(i);
 
-                // Check if hand has any tiles of lowest color:
-                if (!Player.isLowestScoreTilePresent(playerP)){
-                    // add button to give new hand here
-                    System.out.println("change hand - no lowest score present");
-                }
+
 
                 //override call for each grid
                 tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
@@ -222,7 +220,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                         //and pass everything in tileGroup
                         tileGroup.addActor(hexTile);
                         hexagon.setSatelliteData(new Link(hexTile));
-
 
                         /*
                         Create a click listener for the tiles in your hand: --------------------------
@@ -290,7 +287,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
-
+      //  this.gbv = new GameBoardView();
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -378,19 +375,28 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                         ind++;
                                     }
                                 }
-
+                                ///////////////////////////////score update
                                 gamingPlayer.printScore();
-                                selectedTile.moveBy(0, -30);
 
+                                //little work around blips and bloops @Michael
+//                                if (gamingPlayer == players[0]) {
+                                   // selectedTile.moveBy(0, 30);
+//                                }
+//                                if(gamingPlayer==players[1]){
+                                       selectedTile.moveBy(0, -30);
+//                                }
+                                //end
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
 
                                 // Check if hand has any tiles of lowest color:
-                                if (!Player.isLowestScoreTilePresent(gamingPlayer)){
+                                if (!gamingPlayer.isLowestScoreTilePresent()){
+                                    System.out.println("Change hand!");
                                     // add button to give new hand here
-                                    System.out.println("change hand");
+
                                 } else {
                                     System.out.println("Keep your hand!");
                                 }
+
 
 
                             }
@@ -414,14 +420,17 @@ public class GameScreen extends AbstractScreen implements GameHandler {
    }
     @Override
     public void render(float delta) {
-
+        // Clear screen
+        //Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ players[0].scoreToString());
         p2.updateText("Player 2 Score : "+players[1].scoreToString());
-
+       // gbv.draw(batch,delta);
+      //  gbv.act(delta);
+        // Calling to Stage methods
         super.act(delta);
-        super.draw();
+       super.draw();
     }
 
     public void dispose(){
@@ -434,12 +443,12 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         Texture texture = hexActor.getSprite().getTexture();
         String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
 
-        String purple = "colours/purple.png";
+        String violet = "colours/violet.png";
         String red =    "colours/red.png";
         String blue =   "colours/blue.png";
         String yellow = "colours/yellow.png";
         String orange = "colours/orange.png";
-        String violet = "colours/violet.png";
+        String purple = "colours/purple.png";
 
 
         if(path.equals(purple)){

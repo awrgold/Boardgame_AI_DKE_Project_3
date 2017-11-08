@@ -26,11 +26,11 @@ public class Player {
 
 /*
 int[0] = blue
-int[1] = violet
+int[1] = yellow
 int[2] = orange
 int[3] = purple
-int[4] = red
-int[5] = yellow
+int[4] = violet
+int[5] = red
 */
 
     int playerNo;
@@ -43,11 +43,15 @@ int[5] = yellow
             this.PlayerScore[i] = 0;
         }
         PlayerScoreSprite[0] = Constants.blueSprite;
-        PlayerScoreSprite[1] = Constants.violetSprite;
+        PlayerScoreSprite[1] = Constants.yellowSprite;
         PlayerScoreSprite[2] = Constants.orangeSprite;
         PlayerScoreSprite[3] = Constants.purpleSprite;
-        PlayerScoreSprite[4] = Constants.redSprite;
-        PlayerScoreSprite[5] = Constants.yellowSprite;
+        PlayerScoreSprite[4] = Constants.violetSprite;
+        PlayerScoreSprite[5] = Constants.redSprite;
+
+
+
+
     }
 
 
@@ -105,12 +109,41 @@ int[5] = yellow
         return PlayerScore;
     }
 
-    public int getPlayerScoreAtIndex(int index){
-        return PlayerScore[index];
+    private boolean isAColorPresent(Sprite color){
+        for (Sprite[] tile : playerPieces){
+            if(tile[0] == color || tile[1] == color){
+                return true;
+            }
+        }
+        return false;
+
     }
 
-    public Sprite getPlayerScoreSprite(int index){
-        return PlayerScoreSprite[index];
+    public boolean isLowestScoreTilePresent(){
+        int lowest = 18;
+        ArrayList<Integer> indexesOfLowest = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++){
+            if(PlayerScore[i] < lowest){
+                lowest = PlayerScore[i];
+            }
+        }
+
+        for (int i = 0; i < 6; i++){
+            if (PlayerScore[i] == lowest){
+                indexesOfLowest.add(i);
+            }
+
+        }
+
+        for (int i : indexesOfLowest){
+            System.out.println(i);
+            if (!isAColorPresent(PlayerScoreSprite[i])){
+                return false;
+            }
+
+        }
+        return true;
     }
 
     public static Hexagon neighborByDirection(int d, Hexagon hexagon, HexagonalGrid hexagonalGrid){
@@ -223,20 +256,7 @@ int[5] = yellow
         return sums;
     }
 
-    public static boolean isLowestScoreTilePresent(Player player){
-        int lowest = 18;
-        for (int i = 0; i < 6; i++){
-            if(player.getPlayerScoreAtIndex(i) < lowest){
-                lowest = player.getPlayerScoreAtIndex(i);
-            }
-        }
-        for (Sprite[] sprite : player.getGamePieces()){
-            if (sprite[0] == player.getPlayerScoreSprite(lowest) || sprite[1] == player.getPlayerScoreSprite(lowest)){
-                return true;
-            }
-        }
-        return false;
-    }
+
 }
 
 

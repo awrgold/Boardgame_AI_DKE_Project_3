@@ -40,8 +40,8 @@ create();
         colors[0] = Color.BLUE;
         colors[1] = Color.YELLOW;
         colors[2] = Color.ORANGE;
-        colors[3] = Color.VIOLET;
-        colors[4] = Color.PURPLE;
+        colors[3] = Color.PURPLE;
+        colors[4] = Color.VIOLET;
         colors[5] = Color.RED;
 //        colors[6] = Color.DARK_GRAY;
 
@@ -58,7 +58,6 @@ create();
 
             cl[i]=new CustomLabel(s, skin);
             cl[i].setColor(colors[i]);
-            System.out.println(w);
             bars[i] = new Bar(w,barH,colors[i],j);
             //bars[i].setBounds(w/2,barH/2,w,barH);
             //wrap bars
@@ -66,7 +65,6 @@ create();
             Container wrapper = new Container(bars[i]);
             wrapper.setTransform(true);
             wrapper.setWidth(bars[i].getWidth());
-            System.out.println(bars[i].getWidth());
             // wrapper.setHeight(height);
             wrapper.setOrigin(wrapper.getPrefWidth() / 2, wrapper.getPrefHeight() / 2);
             // wrapper.setRotation(30);

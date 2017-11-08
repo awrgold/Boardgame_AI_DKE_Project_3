@@ -60,8 +60,8 @@ public class GameBoardView extends GroupView {
                 Sprite corner1Sprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
                 Sprite corner2Sprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
                 Sprite corner3Sprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
-                Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
-                Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
+                Sprite corner4Sprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
+                Sprite corner5Sprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
                 Sprite corner6Sprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
                 //mainMenuButton = new Sprite(new Texture(Gdx.files.internal("MainMenu.png")));
@@ -187,12 +187,12 @@ public class GameBoardView extends GroupView {
                 Texture texture = hexActor.getSprite().getTexture();
                 String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
 
-                String purple = "colours/purple.png";
+                String purple = "colours/violet.png";
                 String red =    "colours/red.png";
                 String blue =   "colours/blue.png";
                 String yellow = "colours/yellow.png";
                 String orange = "colours/orange.png";
-                String violet = "colours/violet.png";
+                String violet = "colours/purple.png";
 
 
                 if(path.equals(purple)){
