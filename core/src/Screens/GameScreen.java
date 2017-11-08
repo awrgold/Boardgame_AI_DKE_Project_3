@@ -96,7 +96,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         Stage stage  = new Stage();
         // ...
         updateBoard();
-
         updateHand();
 
 
@@ -202,7 +201,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 // Check if hand has any tiles of lowest color:
                 if (!Player.isLowestScoreTilePresent(playerP)){
                     // add button to give new hand here
-
+                    System.out.println("change hand - no lowest score present");
                 }
 
                 //override call for each grid
@@ -223,6 +222,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                         //and pass everything in tileGroup
                         tileGroup.addActor(hexTile);
                         hexagon.setSatelliteData(new Link(hexTile));
+
 
                         /*
                         Create a click listener for the tiles in your hand: --------------------------
@@ -290,7 +290,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
-      //  this.gbv = new GameBoardView();
+
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -414,17 +414,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
    }
     @Override
     public void render(float delta) {
-        // Clear screen
-        //Gdx.gl.glClearColor(0, 0, 0, 1);
+
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ players[0].scoreToString());
         p2.updateText("Player 2 Score : "+players[1].scoreToString());
-       // gbv.draw(batch,delta);
-      //  gbv.act(delta);
-        // Calling to Stage methods
+
         super.act(delta);
-       super.draw();
+        super.draw();
     }
 
     public void dispose(){

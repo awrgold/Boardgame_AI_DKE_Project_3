@@ -81,8 +81,6 @@ public class Pieces {
 
 
 
-
-
     //Distributes 6 pieces to a player at the start of the game
     public static ArrayList<Sprite[]> distributePieces(ArrayList<Sprite[]> allPieces) {
         ArrayList<Sprite[]> playerPieces = new ArrayList<>();

@@ -224,9 +224,9 @@ int[5] = yellow
     }
 
     public static boolean isLowestScoreTilePresent(Player player){
-        int lowest = 19;
+        int lowest = 18;
         for (int i = 0; i < 6; i++){
-            if(player.getPlayerScoreAtIndex(i) <= lowest){
+            if(player.getPlayerScoreAtIndex(i) < lowest){
                 lowest = player.getPlayerScoreAtIndex(i);
             }
         }
