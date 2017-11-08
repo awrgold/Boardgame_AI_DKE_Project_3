@@ -222,25 +222,37 @@ int[5] = red
         Hexagon startingHex = hexActor.getHexagon();
         Hexagon currentHex;
 
-
+        // loop 6 times (6 directions)
         for (int d = 0; d < 6; d++){
+            // beginning with each loop, start a result at 0
             int result = 0;
+            // boolean for each color that is the same until it becomes false
             boolean sameColor = true;
+            // current Hex is at the starting position
             currentHex = startingHex;
 
+            // as long as the colors are the same...
             while (sameColor) {
 
+                // make the next hexagon to compare to the current hex
                 Hexagon currentHexNext = Player.neighborByDirection(d, currentHex, hexGrid);
 
+                // if not at the edge...
                 if (currentHexNext != null) {
-                    //hexActor1 = new HexagonActor(currentHex2);
+
+                    // if the next hex is not empty...
                     if (currentHexNext.getSatelliteData().isPresent()){
+                        // create a link for the actor and hex of the next hex from current
                         Link hexLink = (Link) currentHexNext.getSatelliteData().get();
                         HexagonActor currentHexActor = hexLink.getActor();
 
+                        // if the color of the next hexagon is the same as the current hexagon...
                         if (hexActor.getHexColor().equals(currentHexActor.getHexColor())) {
+                            // increment by 1
                             result++;
+                            // move the next hex forward one space
                             currentHex = currentHexNext;
+
                         } else {
                             sameColor = false;
                         }
