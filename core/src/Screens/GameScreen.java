@@ -378,17 +378,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                         ind++;
                                     }
                                 }
-                                ///////////////////////////////score update
-                                gamingPlayer.printScore();
 
-                                //little work around blips and bloops @Michael
-//                                if (gamingPlayer == players[0]) {
-                                   // selectedTile.moveBy(0, 30);
-//                                }
-//                                if(gamingPlayer==players[1]){
-                                       selectedTile.moveBy(0, -30);
-//                                }
-                                //end
+                                gamingPlayer.printScore();
+                                selectedTile.moveBy(0, -30);
+
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
 
 
