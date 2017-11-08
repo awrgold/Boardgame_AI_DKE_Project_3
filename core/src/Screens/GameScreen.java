@@ -425,6 +425,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 }
 
                             }
+                            // if you click on the same tile you just placed
                             else {
                                 System.out.println("Select a neighbor");
                             }
@@ -445,17 +446,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
    }
     @Override
     public void render(float delta) {
-        // Clear screen
-        //Gdx.gl.glClearColor(0, 0, 0, 1);
+
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ players[0].scoreToString());
         p2.updateText("Player 2 Score : "+players[1].scoreToString());
-       // gbv.draw(batch,delta);
-      //  gbv.act(delta);
-        // Calling to Stage methods
+
         super.act(delta);
-       super.draw();
+        super.draw();
     }
 
     public void dispose(){
