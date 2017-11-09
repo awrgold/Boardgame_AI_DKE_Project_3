@@ -1,11 +1,14 @@
 package Screens;
 
+import GameConstants.Constants;
 import Interfaces.AbstractScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.GameIngenious;
+
+
 
 public class MenuScreen extends AbstractScreen {
 
@@ -20,6 +23,7 @@ public class MenuScreen extends AbstractScreen {
     Texture tutorialInactive;
 
 
+    // Size of the buttons
     private static final int PLAY_WIDTH = 300;
     private static final int PLAY_HEIGHT = 50;
 
@@ -59,8 +63,8 @@ public class MenuScreen extends AbstractScreen {
         batch.begin();  //start to draw an image
 
         int x = Gdx.graphics.getWidth()/2 - PLAY_WIDTH/2;
-        if(Gdx.input.getX() < x + PLAY_WIDTH && Gdx.input.getX() > x && GameIngenious.HEIGHT
-                - Gdx.input.getY() < PLAY + PLAY_HEIGHT && GameIngenious.HEIGHT - Gdx.input.getY() > PLAY)
+        if(Gdx.input.getX() < x + PLAY_WIDTH && Gdx.input.getX() > x && Constants.getBoardHeight()
+                - Gdx.input.getY() < PLAY + PLAY_HEIGHT && Constants.getBoardHeight() - Gdx.input.getY() > PLAY)
         {
             batch.draw(playButton,x,PLAY,PLAY_WIDTH, PLAY_HEIGHT);
 
@@ -79,7 +83,7 @@ public class MenuScreen extends AbstractScreen {
 
         x = Gdx.graphics.getWidth()/2 - EXIT_WIDTH/2;
         if(Gdx.input.getX() < x + EXIT_WIDTH && Gdx.input.getX() > x && Gdx.graphics.getHeight()
-                - Gdx.input.getY() < EXIT + EXIT_HEIGHT && GameIngenious.HEIGHT - Gdx.input.getY() > EXIT)
+                - Gdx.input.getY() < EXIT + EXIT_HEIGHT && Constants.getBoardHeight() - Gdx.input.getY() > EXIT)
         {
             //   game.batch.draw(exitButton,x,EXIT,EXIT_WIDTH, EXIT_HEIGHT);
             if(Gdx.input.isTouched())
@@ -93,9 +97,9 @@ public class MenuScreen extends AbstractScreen {
 
         }
 
-        x = GameIngenious.WIDTH /2 - TUTORIAL_WIDTH/2;
-        if(Gdx.input.getX() < x + TUTORIAL_WIDTH && Gdx.input.getX() > x && GameIngenious.HEIGHT
-                - Gdx.input.getY() < TUTORIAL + TUTORIAL_HEIGHT && GameIngenious.HEIGHT - Gdx.input.getY() > TUTORIAL)
+        x = Constants.getBoardHeight() /2 - TUTORIAL_WIDTH/2;
+        if(Gdx.input.getX() < x + TUTORIAL_WIDTH && Gdx.input.getX() > x && Constants.getBoardHeight()
+                - Gdx.input.getY() < TUTORIAL + TUTORIAL_HEIGHT && Constants.getBoardHeight() - Gdx.input.getY() > TUTORIAL)
         {
             batch.draw(tutorialButton,x,TUTORIAL,TUTORIAL_WIDTH, TUTORIAL_HEIGHT);
 

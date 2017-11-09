@@ -55,7 +55,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
 
 
-                                         /* Build the game screen: --------------------------------------------------- */
+    /* Build the game screen: --------------------------------------------------- */
 
 
 
@@ -239,18 +239,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                             public void clicked(InputEvent event, float x, float y) {
 
                                 if(touched[0] != null && touched[1] != null) {
-
                                     selectedTile.moveBy(0, -30);
-
                                 }
 
 
                                 if(Arrays.asList(tileView[gamingPlayer.getPlayerNo() - 1]).contains(hexTile.getParent())){
 
                                     hexTile.getParent().moveBy(0, 30);
-
                                     touched[0] = hexTile.getSprite();
-
                                     Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
 
                                     if (two instanceof HexagonActor){
