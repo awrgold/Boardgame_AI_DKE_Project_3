@@ -2,6 +2,7 @@ package Screens;
 
 import Interfaces.AbstractScreen;
 import com.game.GameIngenious;
+import com.game.GameManager;
 
 public enum ScreenEnum {
     MAIN_MENU {
