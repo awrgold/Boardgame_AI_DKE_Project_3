@@ -8,6 +8,7 @@ import GameScoreAssets.ScoreBarGroup;
 import Interfaces.AbstractScreen;
 import Interfaces.GameHandler;
 import Tools.Link;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -86,6 +87,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         tileView = new Group[players.length][];
         gamingPlayer = players[0];
 
+        changeTiles[gamingPlayer.getPlayerNo() - 1].setDisabled(true);
+
 
     }
 
@@ -142,6 +145,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         //boardColumn.add(new Label("Player 1 Hand", skin));
         boardColumn.add(changeTiles[0]).height(100).bottom();
         changeTiles[0].setDisabled(true);
+
        for (int i = 0; i < 6; i++) {
            // boardColumn.add(tv[0][i]);
            boardColumn.add(tileView[0][i]);
@@ -377,18 +381,23 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 }
                                 selectedTile.moveBy(0, -30);
 
+
+                                //-----------------------MOVE IN GAMEINGENIOUS------------------------------------
+
                                 //change player
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+
 
                                 // Check if hand has any tiles of lowest color:
                                 if (!gamingPlayer.isLowestScoreTilePresent()){
                                     changeTiles[gamingPlayer.getPlayerNo() - 1].setDisabled(false);
 
+                                    System.out.println("You have no tiles of your lowest color, click to change your hand");
+
                                     //CLICK TO CHANGE PIECES FROM THE BAG
                                     changeTiles[gamingPlayer.getPlayerNo() - 1].addListener(new ClickListener() {
                                         @Override
                                         public void clicked(InputEvent event, float x, float y) {
-                                            System.out.println("clicked!");
                                             gamingPlayer.setPlayerPieces(Pieces.discardPieces(bag, gamingPlayer.getGamePieces()));
                                             for (int i = 0; i < 6; i++){
                                                 Group tile = tileView[gamingPlayer.getPlayerNo() - 1][i];
@@ -401,7 +410,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                                     }
                                                 }
                                             }
+
                                         }
+
+
                                     });
                                 }
                             }
@@ -416,6 +428,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                         }
                     }
                 });
+                //changeTiles[gamingPlayer.getPlayerNo() - 1].setDisabled(true);
             }
         });
     }
