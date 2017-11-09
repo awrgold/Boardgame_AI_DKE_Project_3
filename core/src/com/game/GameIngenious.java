@@ -13,10 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class GameIngenious extends Game {
 
-    GameIngenious game;
-
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 800;
+    
     public int nOfPlayer;
 
     public Player[] players;
