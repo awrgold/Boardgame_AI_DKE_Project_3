@@ -15,26 +15,21 @@ public class GameIngenious extends Game {
 
     GameIngenious game;
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 800;
     public int nOfPlayer;
-
     public Player[] players;
     public Player gamingPlayer;
-
-
     public SpriteBatch batch;
-
     private Viewport screenPort;
 
-
     public void create() {
-
         batch = new SpriteBatch();
         // this.setScreen( new MenuScreen(this));
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
-
     }
+
+
+
+
 
 }
