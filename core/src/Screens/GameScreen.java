@@ -17,19 +17,22 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.game.GameIngenious;
+import com.game.GameManager;
 import com.game.Pieces;
 import com.game.Player;
 import org.codetome.hexameter.core.api.*;
 import com.badlogic.gdx.Gdx;
 import rx.functions.Action1;
 
+
 public class GameScreen extends AbstractScreen implements GameHandler {
 
     protected GameIngenious game;
+    protected GameManager manager;
 
     private Group selectedTile;
     private Group hexagonView;
-    private Group[][] tileView;
+    public static Group[][] tileView;
 
     private HexagonActor first;
 
@@ -39,8 +42,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     // we use this to store information about the selected tile
     private int selectedTileIndex;
 
-    public Player[] players;
-    public Player gamingPlayer;
 
     private Skin skin;
 
@@ -51,7 +52,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
     private Table root;
 
-	private TextButton[] changeTiles;
+	public static TextButton[] changeTiles;
 
 
 
@@ -62,37 +63,20 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     private CustomLabel p1;
     private CustomLabel p2;
 
-    ArrayList<Sprite[]> bag = Pieces.createBagPieces(); //Create the bag
-
-
     public GameScreen(GameIngenious game) {
     // Build screen, add skins, add players
 
         this.game = game;
+        this.manager = new GameManager();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
-        players = new Player[Constants.getNumberOfPlayers()];
 
-        for (int x = 1; x <= players.length; x++){
-            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
-        }
-
-        changeTiles = new TextButton[2];
-
-        for (int i = 1; i <= 2; i++){
-            changeTiles[i - 1] = new TextButton("Player " + i + "\n\nChange Tiles", skin);
-        }
+        tileView = new Group[manager.getnOfPlayer()][];
 
 
-        tileView = new Group[players.length][];
-        gamingPlayer = players[0];
-
-        changeTiles[gamingPlayer.getPlayerNo() - 1].setDisabled(true);
 
 
     }
-
-
 
 
                                          /* Build the stage upon which actors exist: ----------------------------------*/
@@ -103,9 +87,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         Stage stage  = new Stage();
         // ...
         updateBoard();
-
         updateHand();
-
 
         this.root = new Table();
         this.root.setFillParent(true);
@@ -117,34 +99,48 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         Table scoreColumn = new Table();
 
         //scoreColumn.debug(Debug.all);
-        p1 =new CustomLabel("Player 1 Score : "+ players[0].scoreToString(), skin);
-        p2 = new CustomLabel("Player 2 Score : "+players[1].scoreToString(), skin);
-        ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350,players[0].getPlayerScore());
+        p1 = new CustomLabel("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString(), skin);
+        p2 = new CustomLabel("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString(), skin);
+
+        ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore());
 
         scoreColumn.add(scorebars1);
-
         scoreColumn.row();
-
         scoreColumn.add(p1).bottom().padTop(20).padBottom(30);
         scoreColumn.row();
 
-        ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350,players[1].getPlayerScore());
-        scoreColumn.add(scorebars2);
+        ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore());
 
+        scoreColumn.add(scorebars2);
         scoreColumn.row();
         scoreColumn.add(p2).bottom();
-
         root.add(scoreColumn).colspan(3).expand().fill();
 
         // Create the board
         Table boardColumn = new Table();
 
+        //2 buttons for change hand
+        changeTiles = new TextButton[2];
 
-        // boardColumn.row().height(100).top().expandX();
-        boardColumn.row().height(130).top().expandX().left();
+        for (int i = 1; i <= 2; i++){
+            changeTiles[i - 1] = new TextButton("Change Tiles", skin);
+        }
+
+
+
+
+
+
+
+        //changeTiles[manager.getGamingPlayer().getPlayerNo() - 1].setDisabled(true);
+
+
+        //boardColumn.row().height(100).top().expandX();
         //boardColumn.add(new Label("Player 1 Hand", skin));
+        boardColumn.row().height(130).top().expandX().left();
         boardColumn.add(changeTiles[0]).height(100).bottom();
-        changeTiles[0].setDisabled(true);
+        changeTiles[0].setTouchable(Touchable.disabled);
+        changeTiles[0].setVisible(false);
 
        for (int i = 0; i < 6; i++) {
            // boardColumn.add(tv[0][i]);
@@ -163,11 +159,13 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
-        // boardColumn.row().height(100).bottom().expandX();
-        boardColumn.row().height(130).bottom().expandX().left();
+        //boardColumn.row().height(100).bottom().expandX();
         //boardColumn.add(new Label("Player 2 Hand", skin));
+        boardColumn.row().height(130).bottom().expandX().left();
         boardColumn.add(changeTiles[1]).height(100).top();
-        changeTiles[1].setDisabled(true);
+        changeTiles[1].setTouchable(Touchable.disabled);
+        changeTiles[1].setVisible(false);
+
         for (int i = 0; i < 6; i++) {
            // boardColumn.add(tv[1][i]);
            boardColumn.add(tileView[1][i]);
@@ -176,6 +174,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         root.add(boardColumn).colspan(6).expand().fill();
         root.pack();
+
 
         addActor(root);
 
@@ -193,9 +192,9 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 .setRadius(Constants.getHexRadius());
 
 
-        for (int p = 0; p < players.length; p++){
+        for (int p = 0; p < manager.getnOfPlayer(); p++){
 
-            Player playerP = players[p];
+            Player playerP = manager.getPlayerByIndex(p);
             tileView[p] = new Group[6];
 
             // now repeat for the 6 tiles
@@ -243,7 +242,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 }
 
 
-                                if(Arrays.asList(tileView[gamingPlayer.getPlayerNo() - 1]).contains(hexTile.getParent())){
+                                if(Arrays.asList(tileView[manager.getGamingPlayer().getPlayerNo() - 1]).contains(hexTile.getParent())){
 
                                     hexTile.getParent().moveBy(0, 30);
                                     touched[0] = hexTile.getSprite();
@@ -264,7 +263,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
                                 } else {
                                     // selectedTile.moveBy(0, 30);
-                                    System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
+                                    System.out.println("It's the turn of player " + manager.getGamingPlayer().getPlayerNo());
                                 }
                             }
                         });
@@ -272,10 +271,11 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 });
 
                 //add tileGroup to tileView
-                this.tileView[p][i] = tileGroup;
+                tileView[p][i] = tileGroup;
             }
         }
     }
+
     private void updateBoard() {
         //grid builder
         final HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
@@ -353,7 +353,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                             hexActor.setHexColor(getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
-                            Player.updateScore(gamingPlayer, hexActor, grid);
+                            Player.updateScore(manager.getGamingPlayer(), hexActor, grid);
 
                             // Place the second hexagon in the tile
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == Constants.emptySprite){
@@ -362,20 +362,20 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 hexActor.setHexColor(getSpriteColor(hexActor));
                                 touched[1] = null;
                                 first = null;
-                                Player.updateScore(gamingPlayer, hexActor, grid);
+                                Player.updateScore(manager.getGamingPlayer(), hexActor, grid);
 
                                 // after the second click remove from hand the placed tile
-                                gamingPlayer.getGamePieces().remove(selectedTileIndex);
+                                manager.getGamingPlayer().getGamePieces().remove(selectedTileIndex);
 
                                 // take a new one
-                                Pieces.takePiece(bag, gamingPlayer.getGamePieces());
+                                Pieces.takePiece(manager.getBag(), manager.getGamingPlayer().getGamePieces());
 
                                 // and set the new sprites
                                 int ind = 0;
                                 for (Actor hex : selectedTile.getChildren()){
                                     if (hex instanceof HexagonActor){
                                         HexagonActor one = (HexagonActor) hex;
-                                        one.setSprite(gamingPlayer.getGamePieces().get(0)[ind]);
+                                        one.setSprite(manager.getGamingPlayer().getGamePieces().get(0)[ind]);
                                         ind++;
                                     }
                                 }
@@ -385,37 +385,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 //-----------------------MOVE IN GAMEINGENIOUS------------------------------------
 
                                 //change player
-                                gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+                                manager.changeGamingPlayer();
 
-
-                                // Check if hand has any tiles of lowest color:
-                                if (!gamingPlayer.isLowestScoreTilePresent()){
-                                    changeTiles[gamingPlayer.getPlayerNo() - 1].setDisabled(false);
-
-                                    System.out.println("You have no tiles of your lowest color, click to change your hand");
-
-                                    //CLICK TO CHANGE PIECES FROM THE BAG
-                                    changeTiles[gamingPlayer.getPlayerNo() - 1].addListener(new ClickListener() {
-                                        @Override
-                                        public void clicked(InputEvent event, float x, float y) {
-                                            gamingPlayer.setPlayerPieces(Pieces.discardPieces(bag, gamingPlayer.getGamePieces()));
-                                            for (int i = 0; i < 6; i++){
-                                                Group tile = tileView[gamingPlayer.getPlayerNo() - 1][i];
-                                                int index = 0;
-                                                for (Actor hex : tile.getChildren()){
-                                                    if (hex instanceof HexagonActor){
-                                                        HexagonActor first = (HexagonActor) hex;
-                                                        first.setSprite(gamingPlayer.getGamePieces().get(i)[index]);
-                                                        index++;
-                                                    }
-                                                }
-                                            }
-
-                                        }
-
-
-                                    });
-                                }
                             }
                             // if you click on the same tile you just placed
                             else {
@@ -437,8 +408,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        p1.updateText("Player 1 Score : "+ players[0].scoreToString());
-        p2.updateText("Player 2 Score : "+players[1].scoreToString());
+        p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
+        p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
         super.act(delta);
         super.draw();

@@ -14,11 +14,6 @@ import org.codetome.hexameter.core.api.HexagonalGrid;
  */
 public class GameIngenious extends Game {
 
-    GameIngenious game;
-
-    public int nOfPlayer;
-    public Player[] players;
-    public Player gamingPlayer;
     public SpriteBatch batch;
     private Viewport screenPort;
 
@@ -29,31 +24,6 @@ public class GameIngenious extends Game {
         ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
     }
 
-    public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
-        // Check if players score is complete or if no tiles can be placed.
-
-        int[] playerScore = player.getPlayerScore();
-        int totalScore = 0;
-        for (int i = 0; i <= 5; i++) {
-            totalScore += playerScore[i];
-        }
-        if (totalScore == 108) {
-            return true;
-        }
-
-        /*
-        For each Hexagon()
-        {
-            If getHexColor() == "Null"
-            {
-                Find neighbours
-                If any neighbour getHexColor() == "null" return false;
-            }
-        }
-         */
-        return true;
-
-    }
 
 
 
