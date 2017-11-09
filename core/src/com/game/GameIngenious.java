@@ -7,6 +7,7 @@ import Systems.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.codetome.hexameter.core.api.HexagonalGrid;
 
 /**
  * Root of the game which holds the screens and delegates the rendering/updating to the currently active screen.
@@ -26,6 +27,32 @@ public class GameIngenious extends Game {
         // this.setScreen( new MenuScreen(this));
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+    }
+
+    public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
+        // Check if players score is complete or if no tiles can be placed.
+
+        int[] playerScore = player.getPlayerScore();
+        int totalScore = 0;
+        for (int i = 0; i <= 5; i++) {
+            totalScore += playerScore[i];
+        }
+        if (totalScore == 108) {
+            return true;
+        }
+
+        /*
+        For each Hexagon()
+        {
+            If getHexColor() == "Null"
+            {
+                Find neighbours
+                If any neighbour getHexColor() == "null" return false;
+            }
+        }
+         */
+        return true;
+
     }
 
 
