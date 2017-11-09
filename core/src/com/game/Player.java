@@ -17,12 +17,6 @@ import static GameConstants.Constants.*;
 
 public class Player {
 
-    private boolean isAI;
-    private String name;
-
-    private int[] PlayerScore = new int[6];
-    private static Sprite[] PlayerScoreSprite = new Sprite[6];
-
 
 /*
 int[0] = blue
@@ -33,8 +27,18 @@ int[4] = violet
 int[5] = red
 */
 
+
+    private boolean isAI;
+
+    private int[] PlayerScore = new int[6];
     int playerNo;
+
     ArrayList<Sprite[]> playerPieces = new ArrayList<>();
+    private static Sprite[] PlayerScoreSprite = new Sprite[6];
+
+    private String name;
+
+
 
     public Player(int playerNo, ArrayList<Sprite[]> playerPieces) {
         this.playerNo = playerNo;
@@ -49,12 +53,7 @@ int[5] = red
         PlayerScoreSprite[4] = Constants.violetSprite;
         PlayerScoreSprite[5] = Constants.redSprite;
 
-
-
-
     }
-
-
 
     public boolean isAI() {
         this.isAI = isAI;

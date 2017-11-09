@@ -13,18 +13,20 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class GameIngenious extends Game {
 
-    private Viewport screenPort;
-    public SpriteBatch batch;
     GameIngenious game;
+
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 800;
     public int nOfPlayer;
 
     public Player[] players;
-
     public Player gamingPlayer;
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 800;
-/* @Michael Add Game Loop,Game State Check Methods, Player Selection, Score calculations,.... (call and generate user input/Ambiguous-let s see what feels best)
-* */
+
+
+    public SpriteBatch batch;
+
+    private Viewport screenPort;
+
 
     public void create() {
 

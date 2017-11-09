@@ -22,28 +22,33 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 public class Pieces {
 
-
     static Sprite[] BB = {blueSprite, blueSprite};
-    static Sprite[] YY = {yellowSprite, yellowSprite};
-    static Sprite[] OO = {orangeSprite, orangeSprite};
-    static Sprite[] PP = {purpleSprite, purpleSprite};
-    static Sprite[] VV = {violetSprite, violetSprite};
-    static Sprite[] RR = {redSprite, redSprite};
-    static Sprite[] BR = {blueSprite, redSprite};
-    static Sprite[] BY = {blueSprite, yellowSprite};
-    static Sprite[] BP = {blueSprite, purpleSprite};
     static Sprite[] BO = {blueSprite, orangeSprite};
+    static Sprite[] BP = {blueSprite, purpleSprite};
+    static Sprite[] BR = {blueSprite, redSprite};
     static Sprite[] BV = {blueSprite, violetSprite};
-    static Sprite[] RY = {redSprite, yellowSprite};
-    static Sprite[] RP = {redSprite, purpleSprite};
+    static Sprite[] BY = {blueSprite, yellowSprite};
+
+    static Sprite[] OO = {orangeSprite, orangeSprite};
+    static Sprite[] OV = {orangeSprite, violetSprite};
+
+    static Sprite[] PO = {purpleSprite, orangeSprite};
+    static Sprite[] PP = {purpleSprite, purpleSprite};
+    static Sprite[] PV = {purpleSprite, violetSprite};
+
+    static Sprite[] RR = {redSprite, redSprite};
+
     static Sprite[] RO = {redSprite, orangeSprite};
+    static Sprite[] RP = {redSprite, purpleSprite};
     static Sprite[] RV = {redSprite, violetSprite};
+    static Sprite[] RY = {redSprite, yellowSprite};
+
+    static Sprite[] VV = {violetSprite, violetSprite};
+
     static Sprite[] YP = {yellowSprite, purpleSprite};
     static Sprite[] YO = {yellowSprite, orangeSprite};
     static Sprite[] YV = {yellowSprite, violetSprite};
-    static Sprite[] PO = {purpleSprite, orangeSprite};
-    static Sprite[] PV = {purpleSprite, violetSprite};
-    static Sprite[] OV = {orangeSprite, violetSprite};
+    static Sprite[] YY = {yellowSprite, yellowSprite};
 
 
 
@@ -79,8 +84,6 @@ public class Pieces {
     }
 
 
-
-
     //Distributes 6 pieces to a player at the start of the game
     public static ArrayList<Sprite[]> distributePieces(ArrayList<Sprite[]> allPieces) {
         ArrayList<Sprite[]> playerPieces = new ArrayList<>();
@@ -92,6 +95,8 @@ public class Pieces {
         }
         return playerPieces;
     }
+
+
     //Fills the amount of pieces of a player back up to 6
     public static ArrayList<Sprite[]> takePiece(ArrayList<Sprite[]> allPieces, ArrayList<Sprite[]> playerPieces){
         while(playerPieces.size() < 6){
@@ -103,6 +108,8 @@ public class Pieces {
         }
         return playerPieces;
     }
+
+
 
     //Discards all the pieces in the players hand and distributes new ones to the player
     public static ArrayList<Sprite[]> discardPieces(ArrayList<Sprite[]> allPieces, ArrayList<Sprite[]> playerPieces){

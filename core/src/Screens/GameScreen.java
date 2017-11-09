@@ -1,9 +1,6 @@
 package Screens;
-
-
 import java.util.*;
 import java.util.List;
-
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameCustomAssets.CustomLabel;
@@ -22,53 +19,50 @@ import com.game.GameIngenious;
 import com.game.Pieces;
 import com.game.Player;
 import org.codetome.hexameter.core.api.*;
-
 import com.badlogic.gdx.Gdx;
-
 import rx.functions.Action1;
-
 
 public class GameScreen extends AbstractScreen implements GameHandler {
 
     protected GameIngenious game;
-    private Skin skin;
 
-    public Player[] players;
-    public Player gamingPlayer;
-    public HexagonalGrid grid;
-    public HexagonalGrid[] tiles = new HexagonalGrid[6];
-
-
-    private Table root;
+    private Group selectedTile;
     private Group hexagonView;
     private Group[][] tileView;
 
+    private HexagonActor first;
+
+    public HexagonalGrid grid;
+    public HexagonalGrid[] tiles = new HexagonalGrid[6];
+
     // we use this to store information about the selected tile
+    private int selectedTileIndex;
+
+    public Player[] players;
+    public Player gamingPlayer;
+
+    private Skin skin;
+
     private Sprite[] touched = {null, null};
-
 	private Sprite mainMenuButton;
-	private TextButton[] changeTiles;
-
 
     private SpriteBatch batch;
 
+    private Table root;
 
-    private HexagonActor first;
-    private Group selectedTile;
-    private int selectedTileIndex;
+	private TextButton[] changeTiles;
 
 
-    /*
-    Build the game screen: ---------------------------------------------------
-     */
 
-    // create the BAG
-    ArrayList<Sprite[]> bag = Pieces.createBagPieces();
+                                         /* Build the game screen: --------------------------------------------------- */
 
-    // public HexagonalGridCalculator calculator = builder.buildCalculatorFor(grid);
+
 
     private CustomLabel p1;
     private CustomLabel p2;
+
+    ArrayList<Sprite[]> bag = Pieces.createBagPieces(); //Create the bag
+
 
     public GameScreen(GameIngenious game) {
     // Build screen, add skins, add players
@@ -97,11 +91,11 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
 
 
-    /*
-    Build the stage upon which actors exist: ----------------------------------
-     */
+
+                                         /* Build the stage upon which actors exist: ----------------------------------*/
+
     // Subclasses must load actors in this method
-    @SuppressWarnings("unchecked")
+
 	public void buildStage() {
         Stage stage  = new Stage();
         // ...
@@ -214,7 +208,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 Sprite[] oneOfSix = playerP.getGamePieces().get(i);
 
 
-
                 //override call for each grid
                 tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
                     @Override
@@ -243,7 +236,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
                                 if(touched[0] != null && touched[1] != null) {
 
-                                   selectedTile.moveBy(0, -30);
+                                    selectedTile.moveBy(0, -30);
 
                                 }
 
@@ -270,7 +263,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                     selectedTile = hexTile.getParent();
 
                                 } else {
-                                   // selectedTile.moveBy(0, 30);
+                                    // selectedTile.moveBy(0, 30);
                                     System.out.println("It's the turn of player " + gamingPlayer.getPlayerNo());
                                 }
                             }
@@ -283,9 +276,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
             }
         }
     }
-
     private void updateBoard() {
-        // ...
         //grid builder
         final HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(Constants.getBoardHeight())
@@ -300,7 +291,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         this.hexagonView = new Group();
-      //  this.gbv = new GameBoardView();
+        //  this.gbv = new GameBoardView();
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -318,7 +309,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
                 hexagon.setSatelliteData(new Link(hexActor));
 
-            
+
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
@@ -364,7 +355,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                             touched[0] = null;
                             Player.updateScore(gamingPlayer, hexActor, grid);
 
-                        // Place the second hexagon in the tile
+                            // Place the second hexagon in the tile
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == Constants.emptySprite){
                             if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
                                 hexActor.setSprite(touched[1]);
@@ -388,11 +379,9 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                         ind++;
                                     }
                                 }
-
                                 selectedTile.moveBy(0, -30);
 
                                 //change player
-
                                 gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
 
                                 // Check if hand has any tiles of lowest color:
@@ -413,23 +402,17 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                                         HexagonActor first = (HexagonActor) hex;
                                                         first.setSprite(gamingPlayer.getGamePieces().get(i)[index]);
                                                         index++;
-
                                                     }
-
                                                 }
                                             }
                                         }
                                     });
-
-
                                 }
-
                             }
                             // if you click on the same tile you just placed
                             else {
                                 System.out.println("Select a neighbor");
                             }
-
                         } else if (touched[0] == null && touched[1] == null){
                             System.out.println("Select a piece from your hand!");
                         } else {
@@ -439,12 +422,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 });
             }
         });
-
-
-
-
-   }
-    @Override
+    }
+    
     public void render(float delta) {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);

@@ -47,7 +47,7 @@ public class Constants {
     // Hexagon parameters
     public static final int TILE_HEIGHT = 1;
     public static final int TILE_WIDTH = 2;
-    public static final int hexRadius = 40;
+    public static final int hexRadius = 33;
 
     public final static HexagonOrientation HEXAGON_ORIENTATION = POINTY_TOP;
 

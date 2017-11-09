@@ -1,4 +1,3 @@
-
 package Screens;
 
 import Interfaces.AbstractScreen;
