@@ -384,19 +384,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 }
                                 selectedTile.moveBy(0, -30);
 
-                                //-----------------------MOVE IN GAMEINGENIOUS------------------------------------
 
                                 //change player
-                                if(Player.hasIngenious(gamingPlayer)){
-                                    gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+                                if(Player.hasIngenious(manager.getGamingPlayer())){
+                                    manager.changeGamingPlayer(false);
                                 } else {
-                                    gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+                                    manager.changeGamingPlayer(true);
                                 }
 
-                                //-----------------------MOVE IN GAMEINGENIOUS------------------------------------
-
-                                //change player
-                                manager.changeGamingPlayer();
 
                             }
                             // if you click on the same tile you just placed

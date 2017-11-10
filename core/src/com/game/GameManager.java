@@ -53,8 +53,13 @@ public class GameManager {
         return this.gamingPlayer;
     }
 
-    public void changeGamingPlayer(){
-        gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+    public void changeGamingPlayer(boolean change){
+        if (change){
+            gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+        } else {
+            gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+        }
+
 
         // Check if hand has any tiles of lowest color:
         if (!gamingPlayer.isLowestScoreTilePresent()){
