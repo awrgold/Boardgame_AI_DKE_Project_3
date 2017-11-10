@@ -25,21 +25,6 @@ public class GameIngenious extends Game {
     }
 
 
-        int[] playerScore = player.getPlayerScore();
-        int totalScore = 0;
-        boolean completeScore = true;
-        for (int i = 0; i <= 5; i++) {
-            if (playerScore[i] < 18) // Check if all colors are 18 or higher.
-            {
-                completeScore = false;
-            }
-        }
-        if (completeScore == true) // If all colors are 18 or higher, game is over.
-        {
-            return true;
-        }
-
-
 
 
 }
