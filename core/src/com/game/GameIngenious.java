@@ -13,12 +13,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class GameIngenious extends Game {
 
-<<<<<<< refs/remotes/origin/Cas
     GameIngenious game;
 
-=======
-    
->>>>>>> Merge branch 'Giulio'
     public int nOfPlayer;
     public Player[] players;
     public Player gamingPlayer;

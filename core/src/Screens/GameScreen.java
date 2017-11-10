@@ -103,7 +103,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         Stage stage  = new Stage();
         // ...
         updateBoard();
-
         updateHand();
 
 
@@ -276,6 +275,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
             }
         }
     }
+
+
     private void updateBoard() {
         //grid builder
         final HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
@@ -355,6 +356,8 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                             touched[0] = null;
                             Player.updateScore(gamingPlayer, hexActor, grid);
 
+
+
                             // Place the second hexagon in the tile
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == Constants.emptySprite){
                             if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
@@ -363,6 +366,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 touched[1] = null;
                                 first = null;
                                 Player.updateScore(gamingPlayer, hexActor, grid);
+
 
                                 // after the second click remove from hand the placed tile
                                 gamingPlayer.getGamePieces().remove(selectedTileIndex);
@@ -381,12 +385,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 }
                                 selectedTile.moveBy(0, -30);
 
-
                                 //-----------------------MOVE IN GAMEINGENIOUS------------------------------------
 
                                 //change player
-                                gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
-
+                                if(Player.hasIngenious(gamingPlayer)){
+                                    gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+                                } else {
+                                    gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+                                }
 
                                 // Check if hand has any tiles of lowest color:
                                 if (!gamingPlayer.isLowestScoreTilePresent()){
