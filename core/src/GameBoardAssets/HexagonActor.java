@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
@@ -101,5 +102,53 @@ public class HexagonActor extends Image{
     }
     public Hexagon<Link> getHexagon(){
         return hexagon;
+    }
+
+    // Gets the color of a sprite
+    public static String getSpriteColor(HexagonActor hexActor){
+        Texture texture = hexActor.getSprite().getTexture();
+        String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
+
+        String violet = "colours/violet.png";
+        String red =    "colours/red.png";
+        String blue =   "colours/blue.png";
+        String yellow = "colours/yellow.png";
+        String orange = "colours/orange.png";
+        String purple = "colours/purple.png";
+
+
+        if(path.equals(purple)){
+            path = "P";
+            return path;
+        }
+
+        else if(path.equals(red)){
+            path = "R";
+            return path;
+        }
+
+        else if(path.equals(blue)){
+            path = "B";
+            return path;
+        }
+
+        else if(path.equals(yellow)){
+            path = "Y";
+            return path;
+        }
+
+        else if(path.equals(orange)){
+            path = "O";
+            return path;
+        }
+
+        else if(path.equals(violet)){
+            path = "V";
+            return path;
+        }
+
+        else{
+            return path;
+        }
     }
 }

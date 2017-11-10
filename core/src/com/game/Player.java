@@ -37,6 +37,7 @@ int[5] = red
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
 
     private String name;
+    private static boolean[] colorIngenious = new boolean[6];
 
 
 
@@ -89,6 +90,8 @@ int[5] = red
         for (int v : CalculateScoreHex(hexGrid, hexActor)){
             player.PlayerScore[i] += v;
         }
+
+
 
     }
 
@@ -269,6 +272,21 @@ int[5] = red
         return sums;
     }
 
+    public static boolean hasIngenious(Player player){
+        for (int i = 0; i < 6; i++){
+            if(player.PlayerScore[i] >= 18 && !colorIngenious[i]){
+                // Ingenious!
+                colorIngenious[i] = true;
+                System.out.println("Player " + player.getPlayerNo() + " has reached Ingenious for color " + i + "!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean[] getIngeniousList(){
+        return colorIngenious;
+    }
 
 }
 

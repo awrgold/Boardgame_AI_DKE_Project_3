@@ -350,19 +350,22 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                         // Ensure that what we've clicked on is an empty space to place the tile upon
                         if(touched[0] != null && hexActor.getSprite() == Constants.emptySprite){
                             hexActor.setSprite(touched[0]);
-                            hexActor.setHexColor(getSpriteColor(hexActor));
+                            hexActor.setHexColor(HexagonActor.getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
                             Player.updateScore(manager.getGamingPlayer(), hexActor, grid);
+
+
 
                             // Place the second hexagon in the tile
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == Constants.emptySprite){
                             if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
                                 hexActor.setSprite(touched[1]);
-                                hexActor.setHexColor(getSpriteColor(hexActor));
+                                hexActor.setHexColor(HexagonActor.getSpriteColor(hexActor));
                                 touched[1] = null;
                                 first = null;
                                 Player.updateScore(manager.getGamingPlayer(), hexActor, grid);
+
 
                                 // after the second click remove from hand the placed tile
                                 manager.getGamingPlayer().getGamePieces().remove(selectedTileIndex);
@@ -381,6 +384,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 }
                                 selectedTile.moveBy(0, -30);
 
+                                //-----------------------MOVE IN GAMEINGENIOUS------------------------------------
+
+                                //change player
+                                if(Player.hasIngenious(gamingPlayer)){
+                                    gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+                                } else {
+                                    gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+                                }
 
                                 //-----------------------MOVE IN GAMEINGENIOUS------------------------------------
 
@@ -420,53 +431,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         batch.dispose();
     }
 
-    // Gets the color of a sprite
-    public String getSpriteColor(HexagonActor hexActor){
-        Texture texture = hexActor.getSprite().getTexture();
-        String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
-
-        String violet = "colours/violet.png";
-        String red =    "colours/red.png";
-        String blue =   "colours/blue.png";
-        String yellow = "colours/yellow.png";
-        String orange = "colours/orange.png";
-        String purple = "colours/purple.png";
-
-
-        if(path.equals(purple)){
-            path = "P";
-            return path;
-        }
-
-        else if(path.equals(red)){
-            path = "R";
-            return path;
-        }
-
-        else if(path.equals(blue)){
-            path = "B";
-            return path;
-        }
-
-        else if(path.equals(yellow)){
-            path = "Y";
-            return path;
-        }
-
-        else if(path.equals(orange)){
-            path = "O";
-            return path;
-        }
-
-        else if(path.equals(violet)){
-            path = "V";
-            return path;
-        }
-
-        else{
-            return path;
-        }
-    }
 
 }
 
