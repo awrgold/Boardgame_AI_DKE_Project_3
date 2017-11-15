@@ -15,6 +15,7 @@ import jdk.nashorn.internal.runtime.regexp.joni.exception.ErrorMessages;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.Point;
 import org.codetome.hexameter.core.api.contract.SatelliteData;
+import GameConstants.Constants;
 
 import java.util.List;
 
@@ -45,9 +46,35 @@ public class HexagonActor extends Image{
     }
 
     public void setHexColor(String color){
-        if (color == "R" || color == "O" || color == "Y" || color == "B" || color == "P" || color == "V"){
+        if (color.equals("R")){
             this.hexColor = color;
-        }else{
+            this.setSprite(Constants.redSprite);
+            return;
+        } if (color.equals("O")){
+            this.hexColor = color;
+            this.setSprite(Constants.orangeSprite);
+            return;
+        } if (color.equals("Y")){
+            this.hexColor = color;
+            this.setSprite(Constants.yellowSprite);
+            return;
+        } if (color.equals("B")){
+            this.hexColor = color;
+            this.setSprite(Constants.blueSprite);
+            return;
+        } if (color.equals("P")){
+            this.hexColor = color;
+            this.setSprite(Constants.purpleSprite);
+            return;
+        } if (color.equals("V")){
+            this.hexColor = color;
+            this.setSprite(Constants.violetSprite);
+            return;
+        } if (color.equals("EMPTY")){
+            this.hexColor = color;
+            this.setSprite(Constants.emptySprite);
+
+        } else{
             System.out.println("Invalid color choice, use the CAPITAL first letter of the color");
             System.out.println("Choices: R, O, Y, B, P, V");
         }
@@ -115,6 +142,8 @@ public class HexagonActor extends Image{
         String yellow = "colours/yellow.png";
         String orange = "colours/orange.png";
         String purple = "colours/purple.png";
+        String empty = "4players.png";
+
 
 
         if(path.equals(purple)){
@@ -147,8 +176,13 @@ public class HexagonActor extends Image{
             return path;
         }
 
-        else{
+        else if(path.equals(empty)){
+            path = "EMPTY";
             return path;
+        }
+
+        else {
+            return null;
         }
     }
 }
