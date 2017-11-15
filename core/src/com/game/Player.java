@@ -222,6 +222,7 @@ int[5] = red
         Hexagon startingHex = hexActor.getHexagon();
         Hexagon currentHex;
 
+
         // loop 6 times (6 directions)
         for (int d = 0; d < 6; d++){
             // beginning with each loop, start a result at 0

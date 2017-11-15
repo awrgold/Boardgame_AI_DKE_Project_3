@@ -420,13 +420,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         super.act(delta);
         super.draw();
-
     }
 
     public void dispose(){
         super.dispose();
         batch.dispose();
     }
+
+
 
 
 }
