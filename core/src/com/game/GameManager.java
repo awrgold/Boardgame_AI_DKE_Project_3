@@ -127,16 +127,6 @@ public class GameManager {
             return true;
         }
 
-        /*
-        For each Hexagon()
-        {
-            If getHexColor() == "Null"
-            {
-                Find neighbours
-                If any neighbour getHexColor() == "null" return false;
-            }
-        }
-         */
         return true;
 
     }
