@@ -388,6 +388,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 //change player
                                 if(Player.hasIngenious(manager.getGamingPlayer())){
                                     manager.changeGamingPlayer(false);
+                                    System.out.println("INGENIOUS!");
                                 } else {
                                     manager.changeGamingPlayer(true);
                                 }
@@ -419,6 +420,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         super.act(delta);
         super.draw();
+
     }
 
     public void dispose(){

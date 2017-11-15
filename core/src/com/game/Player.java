@@ -3,16 +3,12 @@ package com.game;
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import Tools.Link;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
-import org.omg.CORBA.CurrentHelper;
 
-import java.io.Console;
 import java.util.ArrayList;
-import static GameConstants.Constants.*;
 
 
 public class Player {
@@ -30,7 +26,7 @@ int[5] = red
 
     private boolean isAI;
 
-    private int[] PlayerScore = new int[6];
+    private int[] playerScore = new int[6];
     int playerNo;
 
     ArrayList<Sprite[]> playerPieces = new ArrayList<>();
@@ -45,7 +41,7 @@ int[5] = red
         this.playerNo = playerNo;
         this.playerPieces = playerPieces;
         for (int i = 0; i < 6; i++){
-            this.PlayerScore[i] = 0;
+            this.playerScore[i] = 0;
         }
         PlayerScoreSprite[0] = Constants.blueSprite;
         PlayerScoreSprite[1] = Constants.yellowSprite;
@@ -61,8 +57,9 @@ int[5] = red
         return isAI;
     }
 
+
     public int getColorScore(int color){
-        return PlayerScore[color];
+        return playerScore[color];
     }
 
     public void setPlayerPieces(ArrayList<Sprite[]> newPieces) { this.playerPieces = newPieces; }
@@ -88,7 +85,7 @@ int[5] = red
 
         //update score
         for (int v : CalculateScoreHex(hexGrid, hexActor)){
-            player.PlayerScore[i] += v;
+            player.playerScore[i] += v;
         }
 
 
@@ -103,14 +100,14 @@ int[5] = red
 
         String p = "| ";
         for (int j = 0; j <= 5; j++) {
-            String s = PlayerScore[j] + " | ";
+            String s = playerScore[j] + " | ";
             p = p.concat(s);
         }
         return p;
     }
 
     public int[] getPlayerScore() {
-        return PlayerScore;
+        return playerScore;
     }
 
     private boolean isAColorPresent(Sprite color){
@@ -128,13 +125,13 @@ int[5] = red
         ArrayList<Integer> indexesOfLowest = new ArrayList<>();
 
         for (int i = 0; i < 6; i++){
-            if(PlayerScore[i] < lowest){
-                lowest = PlayerScore[i];
+            if(playerScore[i] < lowest){
+                lowest = playerScore[i];
             }
         }
 
         for (int i = 0; i < 6; i++){
-            if (PlayerScore[i] == lowest){
+            if (playerScore[i] == lowest){
                 indexesOfLowest.add(i);
             }
 
@@ -274,7 +271,7 @@ int[5] = red
 
     public static boolean hasIngenious(Player player){
         for (int i = 0; i < 6; i++){
-            if(player.PlayerScore[i] >= 18 && !colorIngenious[i]){
+            if(player.playerScore[i] >= 18 && !colorIngenious[i]){
                 // Ingenious!
                 colorIngenious[i] = true;
                 System.out.println("Player " + player.getPlayerNo() + " has reached Ingenious for color " + i + "!");
