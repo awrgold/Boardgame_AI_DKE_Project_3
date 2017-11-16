@@ -14,7 +14,7 @@ public class Bar extends ProgressBar {
     private int width;
     private int height;
 
-    public Bar(int width, int height,Color color, int n) {
+    public Bar(int width, int height, Color color, int n) {
         super(0f, 1f, 0.01f, false, new ProgressBarStyle());
         this.barColor = color;
         this.width = width;
@@ -23,15 +23,6 @@ public class Bar extends ProgressBar {
         getStyle().background = Utils.getColoredDrawable(width, height, Color.WHITE);
         getStyle().knob = Utils.getColoredDrawable(val, height, barColor);
 
-        //getStyle().knobBefore = Utils.getColoredDrawable(val, height, barColor);
-       // getStyle().knobAfter = Utils.getColoredDrawable(val, height, barColor);
-
-//        setWidth(width);
-//        setHeight(height);
-//        setAnimateDuration(0.0f);
-//        setValue(1f);
-//
-//        setAnimateDuration(0.25f);
     }
 
     public void act( float delta) {

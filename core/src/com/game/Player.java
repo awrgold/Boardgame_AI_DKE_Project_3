@@ -136,9 +136,10 @@ int[5] = red
 
             }
         }
-
-
-
+        if (player.playerScore[i] > 18)
+        {
+            player.playerScore[i] = 18;
+        }
 
     }
 
