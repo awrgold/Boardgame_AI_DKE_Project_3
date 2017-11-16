@@ -79,7 +79,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     }
 
 
-                                         /* Build the stage upon which actors exist: ----------------------------------*/
+    /* Build the stage upon which actors exist: ----------------------------------*/
 
     // Subclasses must load actors in this method
 
@@ -127,14 +127,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         }
 
 
-
-
-
-
-
-        //changeTiles[manager.getGamingPlayer().getPlayerNo() - 1].setDisabled(true);
-
-
         //boardColumn.row().height(100).top().expandX();
         //boardColumn.add(new Label("Player 1 Hand", skin));
         boardColumn.row().height(130).top().expandX().left();
@@ -159,6 +151,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
+
         //boardColumn.row().height(100).bottom().expandX();
         //boardColumn.add(new Label("Player 2 Hand", skin));
         boardColumn.row().height(130).bottom().expandX().left();
@@ -178,18 +171,15 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
         addActor(root);
 
+
+
     }
 
     private void updateHand() {
 
 
         // Build the tiles
-        final HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
-                .setGridHeight(Constants.getTileHeight())
-                .setGridWidth(Constants.getTileWidth())
-                .setGridLayout(Constants.getTileLayout())
-                .setOrientation(Constants.getHexagonOrientation())
-                .setRadius(Constants.getHexRadius());
+        final HexagonalGridBuilder<Link> tileBuilder = Constants.tile;
 
 
         for (int p = 0; p < manager.getnOfPlayer(); p++){
@@ -276,23 +266,15 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         }
     }
 
+
     private void updateBoard() {
-        //grid builder
-        final HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
-                .setGridHeight(Constants.getBoardHeight())
-                .setGridWidth(Constants.getBoardWidth())
-                .setGridLayout(Constants.getBoardLayout())
-                .setOrientation(Constants.getHexagonOrientation())
-                .setRadius(Constants.getHexRadius());
 
+        //this.grid = manager.getBoard();
 
-        HexagonalGrid<Link> grid = gridBuilder.build();
-        this.grid = grid;
+        hexagonView = new Group();
 
         // Create a HexagonActor for each Hexagon and attach it to the group
-        this.hexagonView = new Group();
-        //  this.gbv = new GameBoardView();
-        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+        manager.getBoard().getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
 
@@ -305,47 +287,47 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
                 hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
-                hexagonView.addActor(hexActor);
-
-                hexagon.setSatelliteData(new Link(hexActor));
-
-
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
                 if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setSprite(Constants.blueSprite);
                     hexActor.setHexColor("B");
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setSprite(Constants.yellowSprite);
                     hexActor.setHexColor("Y");
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setSprite(Constants.orangeSprite);
                     hexActor.setHexColor("O");
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setSprite(Constants.purpleSprite);
                     hexActor.setHexColor("P");
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setSprite(Constants.violetSprite);
                     hexActor.setHexColor("V");
                 } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setSprite(Constants.redSprite);
                     hexActor.setHexColor("R");
                 } else {
-                    hexActor.setSprite(Constants.emptySprite);
+                    hexActor.setHexColor("EMPTY");
                 }
 
+                hexagon.setSatelliteData(new Link(hexActor));
+
+                hexagonView.addActor(hexActor);
+//------------------------------------------------------------------------------------------------------------------------------------------
+                //if(manager.getGamingPlayer() == manager.getPlayers()[0]){
+
+                    //here we will place the method that display the AI move (selected Tile, hexagons where the tile is placed)
+
+                    //manager.changeGamingPlayer();
+                //}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
 
                 hexActor.addListener(new ClickListener(){
 
-                    /*
-                    This method allows click interaction with the tiles and the board, and then updates the score based on where a tile is placed.
-                     */
+
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
 
+                        HexagonActor actorOne;
 
                         // Ensure that what we've clicked on is an empty space to place the tile upon
                         if(touched[0] != null && hexActor.getSprite() == Constants.emptySprite){
@@ -353,19 +335,18 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                             hexActor.setHexColor(HexagonActor.getSpriteColor(hexActor));
                             first = hexActor;
                             touched[0] = null;
-                            Player.updateScore(manager.getGamingPlayer(), hexActor, grid);
+                            Player.updateScore(manager.getGamingPlayer(), hexActor, manager.getBoard(), first);
 
 
 
                             // Place the second hexagon in the tile
                         } else if (touched[0] == null && touched[1] != null && hexActor.getSprite() == Constants.emptySprite){
-                            if (grid.getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
+                            if (manager.getBoard().getNeighborsOf(first.getHexagon()).contains(hexActor.getHexagon())){
                                 hexActor.setSprite(touched[1]);
                                 hexActor.setHexColor(HexagonActor.getSpriteColor(hexActor));
                                 touched[1] = null;
+                                Player.updateScore(manager.getGamingPlayer(), hexActor, manager.getBoard(), first);
                                 first = null;
-                                Player.updateScore(manager.getGamingPlayer(), hexActor, grid);
-
 
                                 // after the second click remove from hand the placed tile
                                 manager.getGamingPlayer().getGamePieces().remove(selectedTileIndex);
@@ -385,13 +366,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 selectedTile.moveBy(0, -30);
 
 
-                                //change player
-                                if(Player.hasIngenious(manager.getGamingPlayer())){
-                                    manager.changeGamingPlayer(false);
-                                    System.out.println("INGENIOUS!");
-                                } else {
-                                    manager.changeGamingPlayer(true);
-                                }
+                                manager.changeGamingPlayer();
 
 
                             }
@@ -406,10 +381,14 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                         }
                     }
                 });
-                //changeTiles[gamingPlayer.getPlayerNo() - 1].setDisabled(true);
             }
+
         });
+
     }
+
+
+
     
     public void render(float delta) {
 

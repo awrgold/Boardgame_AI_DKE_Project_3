@@ -1,10 +1,12 @@
 package GameConstants;
 
+import Tools.Link;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.HexagonOrientation;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
 
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
@@ -24,8 +26,6 @@ public class Constants {
     public static Sprite redSprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
 
-
-
     // Board parameters
     public static final int sc_Height = 480;
     public static final int sc_Width = 640;
@@ -39,6 +39,16 @@ public class Constants {
     public static final int BOARD_WIDTH = 11;
     public final static HexagonalGridLayout TILE_LAYOUT = RECTANGULAR;
     public final static HexagonalGridLayout BOARD_LAYOUT = HEXAGONAL;
+    public static final int hexRadius = 40;
+    public final static HexagonOrientation HEXAGON_ORIENTATION = POINTY_TOP;
+
+    //gridBuilder
+    public static final HexagonalGridBuilder<Link> grid = new HexagonalGridBuilder<Link>()
+            .setGridHeight(11)
+            .setGridWidth(11)
+            .setGridLayout(HEXAGONAL)
+            .setOrientation(POINTY_TOP)
+            .setRadius(40);
 
     // Window parameters
     public static final int windowWidth = 1920;
@@ -47,9 +57,15 @@ public class Constants {
     // Hexagon parameters
     public static final int TILE_HEIGHT = 1;
     public static final int TILE_WIDTH = 2;
-    public static final int hexRadius = 40;
 
-    public final static HexagonOrientation HEXAGON_ORIENTATION = POINTY_TOP;
+    public static final HexagonalGridBuilder<Link> tile = new HexagonalGridBuilder<Link>()
+            .setGridHeight(1)
+            .setGridWidth(2)
+            .setGridLayout(RECTANGULAR)
+            .setOrientation(POINTY_TOP)
+            .setRadius(40);
+
+
 
     // Player parameters
     public static int noPlayers = 2;

@@ -1,7 +1,9 @@
 package com.game;
 
 import GameBoardAssets.HexagonActor;
+import GameConstants.Constants;
 import Screens.GameScreen;
+import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,7 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import rx.Observable;
+import rx.functions.Action1;
 
 import java.util.ArrayList;
 
@@ -20,6 +25,7 @@ public class GameManager {
     private Player gamingPlayer;
     private ArrayList<Sprite[]> bag;
     private int[][] points;
+    private HexagonalGrid<Link> board;
 
 
     public GameManager(){
@@ -32,9 +38,29 @@ public class GameManager {
             points[x - 1] = players[x - 1].getPlayerScore();
         }
         gamingPlayer = players[0];
+        board = Constants.grid.build();
 
     }
 
+
+
+    public HexagonalGrid<Link> getBoard() {
+        return board;
+    }
+
+    public void status(){
+        board.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon<Link> linkHexagon) {
+                if (linkHexagon.getSatelliteData().isPresent()){
+                    // create a link for the actor and hex of the next hex from current
+                    Link hexLink = (Link) linkHexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+                    System.out.println(currentHexActor.getHexColor());
+                }
+            }
+        });
+    }
 
     public Player[] getPlayers(){
         return this.players;
@@ -52,9 +78,10 @@ public class GameManager {
         return this.gamingPlayer;
     }
 
-    public void changeGamingPlayer(boolean change){
-        if (change){
+    public void changeGamingPlayer(){
+        if (!gamingPlayer.hasIngenious()){
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+            status();
         } else {
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
         }

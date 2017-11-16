@@ -72,9 +72,11 @@ int[5] = red
         return playerNo;
     }
 
-    public static void updateScore(Player player, HexagonActor hexActor, HexagonalGrid hexGrid) {
+    public static void updateScore(Player player, HexagonActor hexActor, HexagonalGrid hexGrid, HexagonActor one) {
 
         int i = 0;
+
+        int avoid = -1;
 
         if (hexActor.getHexColor().equals("B")) i = 0;
         if (hexActor.getHexColor().equals("Y")) i = 1;
@@ -84,9 +86,57 @@ int[5] = red
         if (hexActor.getHexColor().equals("R")) i = 5;
 
         //update score
-        for (int v : CalculateScoreHex(hexGrid, hexActor)){
-            player.playerScore[i] += v;
+        if (hexActor == one){
+            for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
+                player.playerScore[i] += v;
+            }
+
+        } else {
+            if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == 1 &&
+                    hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
+                avoid = 3;
+                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
+                    player.playerScore[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
+                    hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
+                avoid = 0;
+                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
+                    player.playerScore[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
+                    hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1){
+                avoid = 5;
+                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
+                    player.playerScore[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == 1 &&
+                    hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1){
+                avoid = 2;
+                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
+                    player.playerScore[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1 &&
+                    hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
+                avoid = 4;
+                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
+                    player.playerScore[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1 &&
+                    hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
+                avoid = 1;
+                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
+                    player.playerScore[i] += v;
+                }
+
+            }
         }
+
 
 
 
@@ -213,7 +263,7 @@ int[5] = red
         }
     }
 
-    public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor) {
+    public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor, int avoidNext) {
 
         //calculates all the points in all directions for each hexagon placed on the board
         //return an array with points for each directions
@@ -225,6 +275,9 @@ int[5] = red
 
         // loop 6 times (6 directions)
         for (int d = 0; d < 6; d++){
+            if (d == avoidNext){
+                continue;
+            }
             // beginning with each loop, start a result at 0
             int result = 0;
             // boolean for each color that is the same until it becomes false
@@ -270,12 +323,12 @@ int[5] = red
         return sums;
     }
 
-    public static boolean hasIngenious(Player player){
+    public boolean hasIngenious(){
         for (int i = 0; i < 6; i++){
-            if(player.playerScore[i] >= 18 && !colorIngenious[i]){
+            if(playerScore[i] >= 18 && !colorIngenious[i]){
                 // Ingenious!
                 colorIngenious[i] = true;
-                System.out.println("Player " + player.getPlayerNo() + " has reached Ingenious for color " + i + "!");
+                System.out.println("Player " + playerNo + " has reached Ingenious for color " + i + "!");
                 return true;
             }
         }
