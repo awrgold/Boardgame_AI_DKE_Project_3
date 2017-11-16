@@ -26,7 +26,8 @@ public class GameManager {
     private ArrayList<Sprite[]> bag;
     private int[][] points;
     private HexagonalGrid<Link> board;
-
+    private int player1TurnNumber = 0;
+    private int player2TurnNumber = 0;
 
     public GameManager(){
         nOfPlayer = 2;
@@ -78,12 +79,34 @@ public class GameManager {
         return this.gamingPlayer;
     }
 
+    public int getTotalTurnNumber(){
+        return player1TurnNumber + player2TurnNumber;
+    }
+
+    public int getPlayer1TurnNumber(){
+        return player1TurnNumber;
+    }
+
+    public int getPlayer2TurnNumber(){
+        return player2TurnNumber;
+    }
+
     public void changeGamingPlayer(){
         if (!gamingPlayer.hasIngenious()){
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+            if(getGamingPlayer().getPlayerNo() == 0){
+                player1TurnNumber++;
+            }else{
+                player2TurnNumber++;
+            }
             status();
         } else {
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+            if(getGamingPlayer().getPlayerNo() == 0){
+                player1TurnNumber++;
+            }else{
+                player2TurnNumber++;
+            }
         }
 
 
@@ -154,5 +177,6 @@ public class GameManager {
         return true;
 
     }
+
 
 }
