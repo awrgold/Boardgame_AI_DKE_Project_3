@@ -19,22 +19,21 @@ public class GameM {
     private Player[] players;
     private Player gamingPlayer;
     private ArrayList<Sprite[]> bag;
-    private boolean turn;
+    private int[][] points;
+
 
     public GameM(){
         nOfPlayer = 2;
         players = new Player[2];
+        points = new int[2][];
         bag = Pieces.createBagPieces();
-        turn = true;
         for (int x = 1; x <= nOfPlayer; x++){
             players[x - 1] = new Player(x, Pieces.distributePieces(bag));
+            points[x - 1] = players[x - 1].getPlayerScore();
         }
         gamingPlayer = players[0];
 
     }
-
-
-
 
 
     public Player[] getPlayers(){
@@ -92,19 +91,11 @@ public class GameM {
 
             });
         }
-    }
-
-    public void checkGameState(){
-        if(!this.turn)
-            this.turn = true;
+        // Call updateGraph()
     }
 
     public ArrayList<Sprite[]> getBag() {
         return bag;
-    }
-
-    public boolean getTurnBool(){
-        return this.turn;
     }
 
     public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
@@ -124,18 +115,12 @@ public class GameM {
             return true;
         }
 
-        /*
-        For each Hexagon()
-        {
-            If getHexColor() == "Null"
-            {
-                Find neighbours
-                If any neighbour getHexColor() == "null" return false;
-            }
-        }
-         */
         return true;
 
     }
+
+    /*
+    Implement updateGraph()
+     */
 
 }

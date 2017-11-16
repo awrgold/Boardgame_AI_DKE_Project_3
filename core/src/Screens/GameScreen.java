@@ -1,23 +1,21 @@
 package Screens;
 import java.util.*;
-import java.util.List;
+
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameCustomAssets.CustomLabel;
+import GameLogic.GameHandler;
 import GameScoreAssets.ScoreBarGroup;
 import Interfaces.AbstractScreen;
-import Interfaces.GameHandler;
+import Interfaces.Strategy;
 import Tools.Link;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.game.GameIngenious;
-import com.game.GameManager;
+import com.game.GameM;
 import com.game.Pieces;
 import com.game.Player;
 import org.codetome.hexameter.core.api.*;
@@ -25,10 +23,12 @@ import com.badlogic.gdx.Gdx;
 import rx.functions.Action1;
 
 
-public class GameScreen extends AbstractScreen implements GameHandler {
-
+public class GameScreen extends AbstractScreen {
+    //game data
+    protected Strategy comStrategy;
+    protected GameHandler handler;
     protected GameIngenious game;
-    protected GameManager manager;
+    protected GameM manager;
 
     private Group selectedTile;
     private Group hexagonView;
@@ -54,6 +54,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
 	public static TextButton[] changeTiles;
 
+    public static final String TAG = GameScreen.class.getName();
 
 
     /* Build the game screen: --------------------------------------------------- */
@@ -63,11 +64,13 @@ public class GameScreen extends AbstractScreen implements GameHandler {
     private CustomLabel p1;
     private CustomLabel p2;
 
-    public GameScreen(GameIngenious game) {
+    public GameScreen(GameIngenious game, Strategy comStrategy) {
     // Build screen, add skins, add players
 
         this.game = game;
-        this.manager = new GameManager();
+        this.comStrategy = comStrategy;
+        this.manager = new GameM();
+        handler = new GameHandler(game, comStrategy);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
 

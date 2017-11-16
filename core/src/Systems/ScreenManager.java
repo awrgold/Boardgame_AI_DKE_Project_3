@@ -1,7 +1,7 @@
 package Systems;
 
 import Interfaces.AbstractScreen;
-import Screens.ScreenEnum;
+import Enum.ScreenEnum;
 import com.badlogic.gdx.Screen;
 import com.game.GameIngenious;
 
