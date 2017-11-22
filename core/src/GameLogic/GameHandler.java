@@ -2,7 +2,6 @@ package GameLogic;
 
 import IPLAYER.AIPlayer;
 import IPLAYER.HumanPlayer;
-import Interfaces.AbstractHexBoard;
 import Interfaces.Strategy;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.game.GameIngenious;

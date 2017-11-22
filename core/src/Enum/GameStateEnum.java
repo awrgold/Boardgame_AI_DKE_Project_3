@@ -3,6 +3,9 @@ package Enum;
 import GameLogic.GameState;
 
 public enum GameStateEnum {
+    /*
+    enumerate and define statesz
+     */
     PLAYER_TURN {
         @Override
         public GameState getState(Object... params) {

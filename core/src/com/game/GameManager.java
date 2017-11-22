@@ -2,6 +2,9 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import GameLogic.AIStrategy;
+import IPLAYER.AIPlayer;
+import IPLAYER.HumanPlayer;
 import Screens.GameScreen;
 import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,49 +22,52 @@ import rx.functions.Action1;
 import java.util.ArrayList;
 
 public class GameManager {
-
     private int nOfPlayer;
+    private int hn;
+    private int ain;
     private Player[] players;
     private Player gamingPlayer;
     private ArrayList<Sprite[]> bag;
     private int[][] points;
-    private HexagonalGrid<Link> board;
-
+    private boolean endGame=false;
+    private HexagonalGrid board;
+    //  private ArrayList<Moves, reward>;
 
     public GameManager(){
         nOfPlayer = 2;
         players = new Player[2];
         points = new int[2][];
+
+
+    }
+    /*
+    use set up method and game loop with the gamestates to manage the game variables
+     */
+    public void setUp(){
+        ain=0;
+        hn=1;
         bag = Pieces.createBagPieces();
         for (int x = 1; x <= nOfPlayer; x++){
-            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
+            if (x-1==ain){
+                players[x - 1] = new AIPlayer(x, Pieces.distributePieces(bag),board, new AIStrategy());
+
+            }
+            if (x-1==hn){
+                players[x - 1] = new HumanPlayer(x, Pieces.distributePieces(bag),board);
+
+            }
+//            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
             points[x - 1] = players[x - 1].getPlayerScore();
         }
         gamingPlayer = players[0];
-        board = Constants.grid.build();
-
     }
-
-
-
-    public HexagonalGrid<Link> getBoard() {
-        return board;
+    public void gameLoop(){
+        while(!endGame){
+        /*
+        game check methods
+         */
+        }
     }
-
-    public void status(){
-        board.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon<Link> linkHexagon) {
-                if (linkHexagon.getSatelliteData().isPresent()){
-                    // create a link for the actor and hex of the next hex from current
-                    Link hexLink = (Link) linkHexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
-                    System.out.println(currentHexActor.getHexColor());
-                }
-            }
-        });
-    }
-
     public Player[] getPlayers(){
         return this.players;
     }
@@ -78,10 +84,9 @@ public class GameManager {
         return this.gamingPlayer;
     }
 
-    public void changeGamingPlayer(){
-        if (!gamingPlayer.hasIngenious()){
+    public void changeGamingPlayer(boolean change){
+        if (change){
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
-            status();
         } else {
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
         }
@@ -144,6 +149,10 @@ public class GameManager {
 
         return true;
 
+    }
+
+    public HexagonalGrid getBoard() {
+        return board;
     }
 
     /*

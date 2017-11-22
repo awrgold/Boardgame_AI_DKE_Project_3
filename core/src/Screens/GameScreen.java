@@ -4,7 +4,6 @@ import java.util.*;
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameCustomAssets.CustomLabel;
-import GameLogic.GameHandler;
 import GameScoreAssets.ScoreBarGroup;
 import Interfaces.AbstractScreen;
 import Interfaces.Strategy;
@@ -15,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.game.GameIngenious;
-import com.game.GameM;
+import com.game.GameManager;
 import com.game.Pieces;
 import com.game.Player;
 import org.codetome.hexameter.core.api.*;
@@ -25,10 +24,10 @@ import rx.functions.Action1;
 
 public class GameScreen extends AbstractScreen {
     //game data
-    protected Strategy comStrategy;
-    protected GameHandler handler;
+
+ //   protected GameHandler handler;
     protected GameIngenious game;
-    protected GameM manager;
+    protected GameManager manager;
 
     private Group selectedTile;
     private Group hexagonView;
@@ -64,13 +63,12 @@ public class GameScreen extends AbstractScreen {
     private CustomLabel p1;
     private CustomLabel p2;
 
-    public GameScreen(GameIngenious game, Strategy comStrategy) {
+    public GameScreen(GameIngenious game) {
     // Build screen, add skins, add players
 
         this.game = game;
-        this.comStrategy = comStrategy;
-        this.manager = new GameM();
-        handler = new GameHandler(game, comStrategy);
+        this.manager = new GameManager();
+        //handler = new GameHandler(game, comStrategy);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
 
