@@ -63,7 +63,11 @@ public class GameManager {
         });
     }
 
-    //public static placement(String c1, String c2, Hexagon h1, Hexagon h2, Sprite[])
+    //public static placement(String c1, String c2, Hexagon h1, Hexagon h2, Sprite[]){
+
+
+
+    //}
 
     public Player[] getPlayers(){
         return this.players;
