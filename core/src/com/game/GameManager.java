@@ -63,6 +63,8 @@ public class GameManager {
         });
     }
 
+    //public static placement(String c1, String c2, Hexagon h1, Hexagon h2, Sprite[])
+
     public Player[] getPlayers(){
         return this.players;
     }
@@ -93,6 +95,8 @@ public class GameManager {
 
     public void changeGamingPlayer(){
         if (!gamingPlayer.hasIngenious()){
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
             if(getGamingPlayer().getPlayerNo() == 0){
                 player1TurnNumber++;
@@ -100,7 +104,10 @@ public class GameManager {
                 player2TurnNumber++;
             }
             status();
+
         } else {
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
             if(getGamingPlayer().getPlayerNo() == 0){
                 player1TurnNumber++;
