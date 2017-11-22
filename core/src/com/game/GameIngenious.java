@@ -17,11 +17,10 @@ public class GameIngenious extends Game {
     public SpriteBatch batch;
     private Viewport screenPort;
 
-    public GameIngenious() {
-    }
+
 
     public void create() {
-        batch = new SpriteBatch();
+       batch = new SpriteBatch();
        showGameScreen();
     }
     /*

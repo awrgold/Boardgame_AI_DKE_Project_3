@@ -24,7 +24,7 @@ import rx.functions.Action1;
 public class GameScreen extends AbstractScreen {
     //game data
 
- //   protected GameHandler handler;
+    //   protected GameHandler handler;
     protected GameIngenious game;
     protected GameManager manager;
 
@@ -44,13 +44,13 @@ public class GameScreen extends AbstractScreen {
     private Skin skin;
 
     private Sprite[] touched = {null, null};
-	private Sprite mainMenuButton;
+    private Sprite mainMenuButton;
 
     private SpriteBatch batch;
 
     private Table root;
 
-	public static TextButton[] changeTiles;
+    public static TextButton[] changeTiles;
 
     public static final String TAG = GameScreen.class.getName();
 
@@ -63,7 +63,7 @@ public class GameScreen extends AbstractScreen {
     private CustomLabel p2;
 
     public GameScreen(GameIngenious game) {
-    // Build screen, add skins, add players
+        // Build screen, add skins, add players
 
         this.game = game;
         this.manager = new GameManager();
@@ -83,7 +83,7 @@ public class GameScreen extends AbstractScreen {
 
     // Subclasses must load actors in this method
 
-	public void buildStage() {
+    public void buildStage() {
         Stage stage  = new Stage();
         // ...
         updateBoard();
@@ -134,9 +134,9 @@ public class GameScreen extends AbstractScreen {
         changeTiles[0].setTouchable(Touchable.disabled);
         changeTiles[0].setVisible(false);
 
-       for (int i = 0; i < 6; i++) {
-           // boardColumn.add(tv[0][i]);
-           boardColumn.add(tileView[0][i]);
+        for (int i = 0; i < 6; i++) {
+            // boardColumn.add(tv[0][i]);
+            boardColumn.add(tileView[0][i]);
 
         }
 
@@ -160,8 +160,8 @@ public class GameScreen extends AbstractScreen {
         changeTiles[1].setVisible(false);
 
         for (int i = 0; i < 6; i++) {
-           // boardColumn.add(tv[1][i]);
-           boardColumn.add(tileView[1][i]);
+            // boardColumn.add(tv[1][i]);
+            boardColumn.add(tileView[1][i]);
 
         }
 
@@ -269,7 +269,7 @@ public class GameScreen extends AbstractScreen {
 
     private void updateBoard() {
 
-        //this.grid = manager.getBoard();
+        this.grid = manager.getBoard();
 
         hexagonView = new Group();
 
@@ -312,9 +312,9 @@ public class GameScreen extends AbstractScreen {
 //------------------------------------------------------------------------------------------------------------------------------------------
                 //if(manager.getGamingPlayer() == manager.getPlayers()[0]){
 
-                    //here we will place the method that display the AI move (selected Tile, hexagons where the tile is placed)
+                //here we will place the method that display the AI move (selected Tile, hexagons where the tile is placed)
 
-                    //manager.changeGamingPlayer();
+                //manager.changeGamingPlayer();
                 //}
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -389,7 +389,7 @@ public class GameScreen extends AbstractScreen {
 
 
 
-    
+
     public void render(float delta) {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
@@ -410,6 +410,7 @@ public class GameScreen extends AbstractScreen {
 
 
 }
+
 
 
 

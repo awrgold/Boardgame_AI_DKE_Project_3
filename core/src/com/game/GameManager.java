@@ -40,7 +40,7 @@ public class GameManager {
         nOfPlayer = 2;
         players = new Player[2];
         points = new int[2][];
-
+    setUp();
 
     }
     /*
@@ -63,7 +63,11 @@ public class GameManager {
             points[x - 1] = players[x - 1].getPlayerScore();
         }
         gamingPlayer = players[0];
+        board = Constants.grid.build();
+
     }
+
+
     public void gameLoop(){
         while(!endGame){
         /*
