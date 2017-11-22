@@ -32,6 +32,9 @@ public class GameManager {
     private boolean endGame=false;
     private HexagonalGrid board;
     //  private ArrayList<Moves, reward>;
+    private HexagonalGrid<Link> board;
+    private int player1TurnNumber = 0;
+    private int player2TurnNumber = 0;
 
     public GameManager(){
         nOfPlayer = 2;
@@ -68,6 +71,27 @@ public class GameManager {
          */
         }
     }
+
+    public void status(){
+        board.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon<Link> linkHexagon) {
+                if (linkHexagon.getSatelliteData().isPresent()){
+                    // create a link for the actor and hex of the next hex from current
+                    Link hexLink = (Link) linkHexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+                    System.out.println(currentHexActor.getHexColor());
+                }
+            }
+        });
+    }
+
+    //public static placement(String c1, String c2, Hexagon h1, Hexagon h2, Sprite[]){
+
+
+
+    //}
+
     public Player[] getPlayers(){
         return this.players;
     }
@@ -84,11 +108,39 @@ public class GameManager {
         return this.gamingPlayer;
     }
 
-    public void changeGamingPlayer(boolean change){
-        if (change){
+    public int getTotalTurnNumber(){
+        return player1TurnNumber + player2TurnNumber;
+    }
+
+    public int getPlayer1TurnNumber(){
+        return player1TurnNumber;
+    }
+
+    public int getPlayer2TurnNumber(){
+        return player2TurnNumber;
+    }
+
+    public void changeGamingPlayer(){
+        if (!gamingPlayer.hasIngenious()){
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+            if(getGamingPlayer().getPlayerNo() == 0){
+                player1TurnNumber++;
+            }else{
+                player2TurnNumber++;
+            }
+            status();
+
         } else {
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+            if(getGamingPlayer().getPlayerNo() == 0){
+                player1TurnNumber++;
+            }else{
+                player2TurnNumber++;
+            }
         }
 
 

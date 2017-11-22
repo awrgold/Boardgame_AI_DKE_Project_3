@@ -29,9 +29,7 @@ public class ScoreBarGroup extends VerticalGroup{
         this.bars = new Bar[num];
         this.w = width;
         this.h = height;
-
-create();
-
+        create();
     }
 
     public void create(){
@@ -43,7 +41,7 @@ create();
         colors[3] = Color.PURPLE;
         colors[4] = Color.VIOLET;
         colors[5] = Color.RED;
-//        colors[6] = Color.DARK_GRAY;
+        //colors[6] = Color.DARK_GRAY;
 
 
         for (int i = 0; i < num; i++){
