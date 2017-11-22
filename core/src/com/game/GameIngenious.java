@@ -24,6 +24,9 @@ public class GameIngenious extends Game {
         batch = new SpriteBatch();
        showGameScreen();
     }
+    /*
+    show specific screen directly
+     */
     public void showGameScreen(){
     ScreenManager.getInstance().initialize(this);
     ScreenManager.getInstance().showScreen( ScreenEnum.GAME);

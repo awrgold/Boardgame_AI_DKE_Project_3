@@ -30,7 +30,7 @@ public class GameManager {
     private ArrayList<Sprite[]> bag;
     private int[][] points;
     private boolean endGame=false;
-    private HexagonalGrid board;
+
     //  private ArrayList<Moves, reward>;
     private HexagonalGrid<Link> board;
     private int player1TurnNumber = 0;
@@ -203,7 +203,7 @@ public class GameManager {
 
     }
 
-    public HexagonalGrid getBoard() {
+    public HexagonalGrid<Link> getBoard() {
         return board;
     }
 

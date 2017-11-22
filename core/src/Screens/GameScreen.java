@@ -366,7 +366,7 @@ public class GameScreen extends AbstractScreen {
                                 selectedTile.moveBy(0, -30);
 
 
-                                manager.changeGamingPlayer(true);
+                                manager.changeGamingPlayer();
 
 
                             }
