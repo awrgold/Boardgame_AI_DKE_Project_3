@@ -22,10 +22,15 @@ public class GameIngenious extends Game {
 
     public void create() {
         batch = new SpriteBatch();
-        // this.setScreen( new MenuScreen(this));
-        ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+       showGameScreen();
     }
-
+    public void showGameScreen(){
+    ScreenManager.getInstance().initialize(this);
+    ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+    }
+    public void ShowMenuScreen(){
+        ScreenManager.getInstance().initialize(this);
+        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
+    }
  
 }

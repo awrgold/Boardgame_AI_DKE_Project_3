@@ -340,6 +340,20 @@ int[5] = red
         return colorIngenious;
     }
 
+    /*
+    Possibly set the move for the player
+     */
+
+    public void makeMove(){
+    selectTile();
+    placeTile();
+}
+
+    public void selectTile() {
+    }
+    public void placeTile(){
+
+    }
 }
 
 

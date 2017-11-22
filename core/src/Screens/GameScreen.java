@@ -6,7 +6,6 @@ import GameConstants.Constants;
 import GameCustomAssets.CustomLabel;
 import GameScoreAssets.ScoreBarGroup;
 import Interfaces.AbstractScreen;
-import Interfaces.Strategy;
 import Tools.Link;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -367,7 +366,7 @@ public class GameScreen extends AbstractScreen {
                                 selectedTile.moveBy(0, -30);
 
 
-                                manager.changeGamingPlayer();
+                                manager.changeGamingPlayer(true);
 
 
                             }
