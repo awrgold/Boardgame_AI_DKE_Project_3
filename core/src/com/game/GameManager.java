@@ -152,6 +152,9 @@ public class GameManager {
 
     }
 
+    public void applyState(GameState state){
+
+    }
     // Apply action, create new state, tell tree to update root
 
 

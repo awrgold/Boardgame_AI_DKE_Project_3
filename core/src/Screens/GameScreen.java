@@ -132,10 +132,8 @@ public class GameScreen extends AbstractScreen {
         changeTiles[0].setTouchable(Touchable.disabled);
         changeTiles[0].setVisible(false);
 
-        for (int i = 0; i < 6; i++) {
-            // boardColumn.add(tv[0][i]);
-            boardColumn.add(tileView[0][i]);
-
+       for (int i = 0; i < 6; i++) {
+           boardColumn.add(tileView[0][i]);
         }
 
         boardColumn.row();
@@ -364,7 +362,7 @@ public class GameScreen extends AbstractScreen {
                                 selectedTile.moveBy(0, -30);
 
                                 //TODO: Fix this, find way to change gaming player.
-                              //  manager.changeGamingPlayer();
+                                //manager.changeGamingPlayer();
 
 
                             }

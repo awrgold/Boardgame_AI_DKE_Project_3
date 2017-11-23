@@ -24,6 +24,16 @@ public class Edge {
         return childNode;
     }
 
+    public void setParentNode(Node parent){
+        this.parentNode = parent;
+    }
+
+    public void setChildNode(Node child){
+        this.childNode = child;
+    }
+
+
+
 
 
 }
