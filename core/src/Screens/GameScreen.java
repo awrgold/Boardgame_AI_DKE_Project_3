@@ -12,10 +12,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.game.GameIngenious;
-import com.game.GameManager;
-import com.game.Pieces;
-import com.game.Player;
+import com.game.*;
 import org.codetome.hexameter.core.api.*;
 import com.badlogic.gdx.Gdx;
 import rx.functions.Action1;
@@ -53,6 +50,8 @@ public class GameScreen extends AbstractScreen {
     public static TextButton[] changeTiles;
 
     public static final String TAG = GameScreen.class.getName();
+	//private Board prova;
+
 
 
     /* Build the game screen: --------------------------------------------------- */
@@ -73,6 +72,8 @@ public class GameScreen extends AbstractScreen {
 
         tileView = new Group[manager.getnOfPlayer()][];
 
+        //this.prova = new Board();
+
 
     }
 
@@ -84,7 +85,7 @@ public class GameScreen extends AbstractScreen {
     public void buildStage() {
         Stage stage  = new Stage();
         // ...
-        updateBoard();
+        //updateBoard();
         updateHand();
 
         this.root = new Table();
@@ -143,7 +144,7 @@ public class GameScreen extends AbstractScreen {
 
         // GBV  and PHV Change
         boardColumn.row().height(750).width(-200);
-        boardColumn.add(hexagonView).expandY().center();
+        boardColumn.add(manager.getBoard().initializeBoard()).expandY().center();
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
@@ -173,11 +174,6 @@ public class GameScreen extends AbstractScreen {
 
     private void updateHand() {
 
-
-        // Build the tiles
-        final HexagonalGridBuilder<Link> tileBuilder = Constants.tile;
-
-
         for (int p = 0; p < manager.getnOfPlayer(); p++){
 
             Player playerP = manager.getPlayerByIndex(p);
@@ -185,18 +181,10 @@ public class GameScreen extends AbstractScreen {
 
             // now repeat for the 6 tiles
             for (int i = 0; i < 6; i++){
-
-                //give it a grid (2x1)
-                HexagonalGrid<Link> tile = tileBuilder.build();
-                this.tiles[i] = tile;
-
-                //create a group that contains the 2 hexagons
-                Group tileGroup = new Group();
-
-                //get one of the six couple of sprites
-                Sprite[] oneOfSix = playerP.getGamePieces().get(i);
+                tileView[p][i] = playerP.getGamePieces()[i].generateTile();
 
 
+/*
                 //override call for each grid
                 tiles[i].getHexagons().forEach(new Action1<Hexagon<Link>>() {
                     @Override
@@ -219,6 +207,8 @@ public class GameScreen extends AbstractScreen {
                         /*
                         Create a click listener for the tiles in your hand: --------------------------
                          */
+
+/*
                         hexTile.addListener(new ClickListener(){
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
@@ -254,10 +244,9 @@ public class GameScreen extends AbstractScreen {
                             }
                         });
                     }
-                });
+                }); */
 
-                //add tileGroup to tileView
-                tileView[p][i] = tileGroup;
+
             }
         }
     }
@@ -267,7 +256,7 @@ public class GameScreen extends AbstractScreen {
 
         this.grid = manager.getBoard();
 
-        hexagonView = new Group();
+       /* hexagonView = new Group();
 
         // Create a HexagonActor for each Hexagon and attach it to the group
         manager.getBoard().getHexagons().forEach(new Action1<Hexagon<Link>>() {
@@ -379,7 +368,7 @@ public class GameScreen extends AbstractScreen {
                 });
             }
 
-        });
+        });*/
 
     }
 
@@ -392,7 +381,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
-
+       // manager.render(delta,Renderer);
         super.act(delta);
         super.draw();
     }

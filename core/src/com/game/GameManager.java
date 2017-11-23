@@ -64,8 +64,8 @@ public class GameManager {
         // board = Constants.grid.build();
 
         // NEW SHIT HERE 22 Nov
-        GameState startingState = new GameState();
-        gameTree.buildTree(startingState);
+        this.currentState = new GameState();
+        //gameTree.buildTree(startingState);
 
     }
 
@@ -77,7 +77,7 @@ public class GameManager {
 //         */
 //        }
 
-    public HexagonalGrid<Link> getBoard() {
+    public Board getBoard() {
         return currentState.getCurrentBoard();
     }
 
@@ -108,7 +108,7 @@ public class GameManager {
     }
 
     public int getnOfPlayer(){
-        return currentState.getGamingPlayer().playerNo;
+        return currentState.getPlayers().length;
     }
 
     public Player getGamingPlayer(){
@@ -152,10 +152,13 @@ public class GameManager {
 
     }
 
-    public void applyState(GameState state){
+    public void changeState(Action a){
 
     }
     // Apply action, create new state, tell tree to update root
 
+    public void render(float delta) {
 
+
+    }
 }
