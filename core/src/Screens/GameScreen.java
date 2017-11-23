@@ -403,6 +403,7 @@ public class GameScreen extends AbstractScreen {
 
     public void dispose(){
         super.dispose();
+        this.dispose();
         batch.dispose();
     }
 
