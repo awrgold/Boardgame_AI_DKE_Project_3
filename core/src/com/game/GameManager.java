@@ -2,11 +2,11 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import Tools.Link;
+import TreeStructure.Tree;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
-import rx.Observable;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
