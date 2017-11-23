@@ -1,19 +1,9 @@
 package com.game;
 
 import GameBoardAssets.HexagonActor;
-import GameConstants.Constants;
-import GameLogic.AIStrategy;
-import IPLAYER.AIPlayer;
-import IPLAYER.HumanPlayer;
-import Screens.GameScreen;
 import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.Observable;
