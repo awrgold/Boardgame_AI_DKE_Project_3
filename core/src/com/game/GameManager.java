@@ -33,8 +33,19 @@ public class GameManager {
 
     //  private ArrayList<Moves, reward>;
     private HexagonalGrid<Link> board;
+
+    //private int nOfPlayer;
+    //private Player[] players = new Player[Constants.getNumberOfPlayers()];
+    //private Player gamingPlayer;
+    //private static ArrayList<Sprite[]> bag;
+    //private int[][] points;
+    //private HexagonalGrid<Link> board;
+
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
+    private GameState currentState;
+    private HexagonalGrid<Link> currentBoard;
+    private Tree gameTree;
 
     public GameManager(){
         nOfPlayer = 2;
@@ -50,6 +61,10 @@ public class GameManager {
         ain=0;
         hn=1;
         bag = Pieces.createBagPieces();
+        // nOfPlayer = 2;
+        // points = new int[2][];
+        // bag = Pieces.createBagPieces();
+        /*
         for (int x = 1; x <= nOfPlayer; x++){
             if (x-1==ain){
                 players[x - 1] = new AIPlayer(x, Pieces.distributePieces(bag),board, new AIStrategy());
@@ -62,8 +77,13 @@ public class GameManager {
 //            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
             points[x - 1] = players[x - 1].getPlayerScore();
         }
-        gamingPlayer = players[0];
-        board = Constants.grid.build();
+        */
+        // gamingPlayer = players[0];
+        // board = Constants.grid.build();
+
+        // NEW SHIT HERE 22 Nov
+        GameState startingState = new GameState();
+        gameTree.buildTree(startingState);
 
     }
 
@@ -74,10 +94,13 @@ public class GameManager {
         game check methods
          */
         }
+
+    public HexagonalGrid<Link> getBoard() {
+        return currentState.getGameBoard();
     }
 
     public void status(){
-        board.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+        currentBoard.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon<Link> linkHexagon) {
                 if (linkHexagon.getSatelliteData().isPresent()){
@@ -90,26 +113,24 @@ public class GameManager {
         });
     }
 
-    //public static placement(String c1, String c2, Hexagon h1, Hexagon h2, Sprite[]){
-
-
-
-    //}
+    public GameState getCurrentState(){
+        return gameTree.getRoot().getState();
+    }
 
     public Player[] getPlayers(){
-        return this.players;
+        return currentState.getPlayers();
     }
 
     public Player getPlayerByIndex(int i){
-        return this.players[i];
+        return currentState.getPlayer(i);
     }
 
     public int getnOfPlayer(){
-        return this.nOfPlayer;
+        return currentState.getGamingPlayer().playerNo;
     }
 
     public Player getGamingPlayer(){
-        return this.gamingPlayer;
+        return currentState.getGamingPlayer();
     }
 
     public int getTotalTurnNumber(){
@@ -124,66 +145,8 @@ public class GameManager {
         return player2TurnNumber;
     }
 
-    public void changeGamingPlayer(){
-        if (!gamingPlayer.hasIngenious()){
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
-            gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
-            if(getGamingPlayer().getPlayerNo() == 0){
-                player1TurnNumber++;
-            }else{
-                player2TurnNumber++;
-            }
-            status();
-
-        } else {
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
-            gamingPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
-            if(getGamingPlayer().getPlayerNo() == 0){
-                player1TurnNumber++;
-            }else{
-                player2TurnNumber++;
-            }
-        }
-
-
-        // Check if hand has any tiles of lowest color:
-        if (!gamingPlayer.isLowestScoreTilePresent()){
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
-
-            System.out.println("You have no tiles of your lowest color, click to change your hand");
-
-            //CLICK TO CHANGE PIECES FROM THE BAG
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    gamingPlayer.setPlayerPieces(Pieces.discardPieces(bag, gamingPlayer.getGamePieces()));
-                    for (int i = 0; i < 6; i++){
-                        Group tile = GameScreen.tileView[gamingPlayer.getPlayerNo() - 1][i];
-                        int index = 0;
-                        for (Actor hex : tile.getChildren()){
-                            if (hex instanceof HexagonActor){
-                                HexagonActor first = (HexagonActor) hex;
-                                first.setSprite(gamingPlayer.getGamePieces().get(i)[index]);
-                                index++;
-                            }
-                        }
-                    }
-                    GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
-                    GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
-
-                }
-
-
-            });
-        }
-        // Call updateGraph()
-    }
-
     public ArrayList<Sprite[]> getBag() {
-        return bag;
+        return currentState.getCurrentTileBag();
     }
 
     public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
@@ -207,12 +170,7 @@ public class GameManager {
 
     }
 
-    public HexagonalGrid<Link> getBoard() {
-        return board;
-    }
+    // Apply action, create new state, tell tree to update root
 
-    /*
-    Implement updateGraph()
-     */
 
 }
