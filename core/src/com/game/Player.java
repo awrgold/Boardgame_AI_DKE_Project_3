@@ -172,11 +172,14 @@ int[5] = red
 
     public boolean isLowestScoreTilePresent(){
         int lowest = 18;
+        int lowIndex = -1;
         ArrayList<Integer> indexesOfLowest = new ArrayList<>();
+        System.out.println(indexesOfLowest.size());
 
         for (int i = 0; i < 6; i++){
             if(playerScore[i] < lowest){
                 lowest = playerScore[i];
+                lowIndex = i;
             }
         }
 
@@ -187,13 +190,18 @@ int[5] = red
 
         }
 
-        for (int i : indexesOfLowest){
-            System.out.println(i);
-            if (!isAColorPresent(PlayerScoreSprite[i])){
-                return false;
-            }
+        if (indexesOfLowest.size() == 1 && !isAColorPresent(PlayerScoreSprite[lowIndex])) {
+            return false;
+        } if (indexesOfLowest.size() > 1 && lowest > 0){
+            for (int i : indexesOfLowest){
+                if (!isAColorPresent(PlayerScoreSprite[i])){
+                    return false;
+                }
 
+            }
         }
+
+
         return true;
     }
 
