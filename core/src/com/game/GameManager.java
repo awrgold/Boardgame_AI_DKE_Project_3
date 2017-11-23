@@ -75,7 +75,7 @@ public class GameManager {
     }
 
     public GameState getCurrentState(){
-        return gameTree.getRoot();
+        return gameTree.getRoot().getState();
     }
 
     public Player[] getPlayers(){
