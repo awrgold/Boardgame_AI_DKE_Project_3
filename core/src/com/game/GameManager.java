@@ -88,7 +88,7 @@ public class GameManager {
 //        }
 
     public HexagonalGrid<Link> getBoard() {
-        return currentState.getGameBoard();
+        return currentState.getCurrentBoard();
     }
 
     public void status(){
@@ -138,7 +138,7 @@ public class GameManager {
     }
 
     public ArrayList<Sprite[]> getBag() {
-        return currentState.getCurrentTileBag();
+        return currentState.getCurrentBag();
     }
 
     public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
