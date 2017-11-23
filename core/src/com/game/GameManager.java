@@ -50,8 +50,6 @@ public class GameManager {
         GameState startingState = new GameState();
         gameTree.buildTree(startingState);
 
-
-
     }
 
 
