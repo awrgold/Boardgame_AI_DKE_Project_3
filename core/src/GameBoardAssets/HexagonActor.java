@@ -86,6 +86,17 @@ public class HexagonActor extends Image{
 
     public void setSprite(Sprite sprite){
         this.sprite = sprite;
+
+        if(sprite == Constants.emptySprite){ this.hexColor = "EMPTY"; }
+        if(sprite == Constants.redSprite){ this.hexColor = "R"; }
+        if(sprite == Constants.blueSprite){ this.hexColor = "B"; }
+        if(sprite == Constants.purpleSprite){ this.hexColor = "P"; }
+        if(sprite == Constants.violetSprite){ this.hexColor = "V"; }
+        if(sprite == Constants.orangeSprite){ this.hexColor = "O"; }
+        if(sprite == Constants.yellowSprite){ this.hexColor = "Y"; }
+
+
+
     }
 
     public Sprite getSprite(){ return this.sprite; }

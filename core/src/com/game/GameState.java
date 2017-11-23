@@ -1,5 +1,6 @@
 package com.game;
 
+import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,13 +10,13 @@ import java.util.ArrayList;
 public class GameState {
 
     private Player[] players;
-    private HexagonalGrid<Link> currentBoard;
+    private Board currentBoard;
     private ArrayList<Sprite[]> currentBag;
-    private Player gamingPlayer;
+    public Player gamingPlayer;
 
     public GameState() {
         players = new Player[Constants.getNumberOfPlayers()];
-        currentBoard = Constants.grid.build();
+        currentBoard = new Board();
         currentBag = Pieces.createBagPieces();
         gamingPlayer = players[0];
 
@@ -24,7 +25,7 @@ public class GameState {
         }
     }
 
-    private GameState(Player[] players, HexagonalGrid<Link> currentBoard, ArrayList<Sprite[]> currentBag) {
+    private GameState(Player[] players, Board currentBoard, ArrayList<Sprite[]> currentBag) {
         this.players = players;
         this.currentBoard = currentBoard;
         this.currentBag = currentBag;
@@ -34,7 +35,7 @@ public class GameState {
         return players;
     }
 
-    public HexagonalGrid<Link> getCurrentBoard() {
+    public Board getCurrentBoard() {
         return currentBoard;
     }
 
@@ -48,6 +49,23 @@ public class GameState {
 
     public Player getPlayer(int i){
         return players[i];
+    }
+
+    public void applyAction(Action a){
+
+        if (a.getH1().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH1().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getT1().getHexColor());
+        }
+        if (a.getH2().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH2().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getT2().getHexColor());
+        }
+
     }
 
 

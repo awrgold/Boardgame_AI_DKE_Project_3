@@ -29,17 +29,21 @@ int[5] = red
     private int[] playerScore = new int[6];
     int playerNo;
 
-    ArrayList<Sprite[]> playerPieces = new ArrayList<>();
+    Tile[] playerPieces = new Tile[6];
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
 
     private String name;
     private static boolean[] colorIngenious = new boolean[6];
 
+    private Action move = new Action();
 
 
-    public Player(int playerNo, ArrayList<Sprite[]> playerPieces) {
+
+    public Player(int playerNo, ArrayList<Sprite[]> piecesSprites) {
         this.playerNo = playerNo;
-        this.playerPieces = playerPieces;
+        for (int i = 0; i < 6 ; i++){
+            this.playerPieces[i] = new Tile(piecesSprites.get(i));
+        }
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
@@ -52,6 +56,26 @@ int[5] = red
 
     }
 
+    public void setTileToMove1(HexagonActor t1){
+        move.setT1(t1);
+    }
+
+    public void setTileToMove2(HexagonActor t2){
+        move.setT2(t2);
+    }
+
+    public void setHexMove1(Hexagon h1){
+        move.setH1(h1);
+    }
+
+    public void setHexMove2(Hexagon h2){
+        move.setH2(h2);
+    }
+
+    public Action getMove() {
+        return move;
+    }
+
     public boolean isAI() {
         this.isAI = isAI;
         return isAI;
@@ -61,9 +85,13 @@ int[5] = red
         return playerScore[color];
     }
 
-    public void setPlayerPieces(ArrayList<Sprite[]> newPieces) { this.playerPieces = newPieces; }
+    public void setPlayerPieces(ArrayList<Sprite[]> newPieces) {
+        for (int i = 0; i < 6 ; i++){
+            playerPieces[i] = new Tile(newPieces.get(i));
+        }
+    }
 
-    public ArrayList<Sprite[]> getGamePieces() {
+    public Tile[] getGamePieces() {
         return this.playerPieces;
     }
 
@@ -161,8 +189,8 @@ int[5] = red
     }
 
     private boolean isAColorPresent(Sprite color){
-        for (Sprite[] tile : playerPieces){
-            if(tile[0] == color || tile[1] == color){
+        for (Tile tile : playerPieces){
+            if(tile.getColors()[0] == color || tile.getColors()[1] == color){
                 return true;
             }
         }
