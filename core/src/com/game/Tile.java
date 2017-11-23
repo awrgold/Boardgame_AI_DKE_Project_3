@@ -15,7 +15,7 @@ import rx.functions.Action1;
 
 import java.util.Arrays;
 
-import static Screens.GameScreen.manager;
+//import static Screens.GameScreen.manager;
 import static Screens.GameScreen.tileView;
 
 

@@ -381,7 +381,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
-
+       // manager.render(delta,Renderer);
         super.act(delta);
         super.draw();
     }

@@ -127,5 +127,8 @@ public class GameManager {
     }
     // Apply action, create new state, tell tree to update root
 
+    public void render(float delta) {
 
+
+    }
 }
