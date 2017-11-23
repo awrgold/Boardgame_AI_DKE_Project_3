@@ -24,4 +24,19 @@ public class Node {
         return childrenEdges;
     }
 
+    public void setParentEdge(Edge parent){
+        this.parentEdge = parent;
+    }
+
+    public void setChildrenEdges(ArrayList<Edge> children){
+        this.childrenEdges = children;
+    }
+
+    public void setState(GameState state){
+        this.state = state;
+    }
+
+
+
+
 }
