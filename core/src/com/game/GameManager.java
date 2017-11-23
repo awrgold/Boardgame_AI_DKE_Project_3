@@ -22,24 +22,18 @@ import rx.functions.Action1;
 import java.util.ArrayList;
 
 public class GameManager {
-    private int nOfPlayer;
-    private int hn;
-    private int ain;
-    private Player[] players;
-    private Player gamingPlayer;
-    private ArrayList<Sprite[]> bag;
-    private int[][] points;
-    private boolean endGame=false;
+//    private int nOfPlayer;
+//    private int hn;
+//    private int ain;
+//    private Player[] players;
+//    private Player gamingPlayer;
+//    private ArrayList<Sprite[]> bag;
+//    private int[][] points;
+//    private boolean endGame=false;
 
     //  private ArrayList<Moves, reward>;
     private HexagonalGrid<Link> board;
 
-    //private int nOfPlayer;
-    //private Player[] players = new Player[Constants.getNumberOfPlayers()];
-    //private Player gamingPlayer;
-    //private static ArrayList<Sprite[]> bag;
-    //private int[][] points;
-    //private HexagonalGrid<Link> board;
 
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
@@ -48,22 +42,20 @@ public class GameManager {
     private Tree gameTree;
 
     public GameManager(){
-        nOfPlayer = 2;
-        players = new Player[2];
-        points = new int[2][];
-    setUp();
+//        nOfPlayer = 2;
+//        players = new Player[2];
 
-    }
+//    setUp();
+
+//    }
     /*
     use set up method and game loop with the gamestates to manage the game variables
      */
-    public void setUp(){
-        ain=0;
-        hn=1;
-        bag = Pieces.createBagPieces();
-        // nOfPlayer = 2;
-        // points = new int[2][];
-        // bag = Pieces.createBagPieces();
+//    public void setUp(){
+//        ain=0;
+//        hn=1;
+//        bag = Pieces.createBagPieces();
+//        points = new int[2][];
         /*
         for (int x = 1; x <= nOfPlayer; x++){
             if (x-1==ain){
@@ -88,12 +80,12 @@ public class GameManager {
     }
 
 
-    public void gameLoop(){
-        while(!endGame){
-        /*
-        game check methods
-         */
-        }
+ //   public void gameLoop(){
+//        while(!endGame){
+//        /*
+//        game check methods
+//         */
+//        }
 
     public HexagonalGrid<Link> getBoard() {
         return currentState.getGameBoard();
