@@ -32,7 +32,7 @@ public class GameManager {
 //    private boolean endGame=false;
 
     //  private ArrayList<Moves, reward>;
-    private HexagonalGrid<Link> board;
+//    private HexagonalGrid<Link> board;
 
 
     private int player1TurnNumber = 0;
