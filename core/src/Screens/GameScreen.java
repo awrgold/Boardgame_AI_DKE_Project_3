@@ -254,7 +254,7 @@ public class GameScreen extends AbstractScreen {
 
     private void updateBoard() {
 
-        this.grid = manager.getBoard();
+        //this.grid = manager.getBoard();
 
        /* hexagonView = new Group();
 

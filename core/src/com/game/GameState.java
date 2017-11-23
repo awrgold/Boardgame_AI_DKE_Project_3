@@ -21,7 +21,7 @@ public class GameState {
         gamingPlayer = players[0];
 
         for (int x = 1; x <= players.length; x++){
-            players[x - 1] = new Player(x, Pieces.distributePieces(currentBag));
+            players[x - 1] = new Player(x, Pieces.distributePieces(currentBag),currentBoard);
         }
     }
 

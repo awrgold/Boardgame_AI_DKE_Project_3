@@ -23,25 +23,23 @@ int[4] = violet
 int[5] = red
 */
 
-
-    //private boolean isAI;
-
     private int[] playerScore = new int[6];
     int playerNo;
-
-    Tile[] playerPieces = new Tile[6];
+    private Tile selectedTile;
+    private Tile[] playerPieces = new Tile[6];
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
 
     private String name;
     private static boolean[] colorIngenious = new boolean[6];
-    private HexagonalGrid board;
+    private Board board;
 
     private Action move = new Action();
 
 
 
-    public Player(int playerNo, ArrayList<Sprite[]> piecesSprites) {
+    public Player(int playerNo, ArrayList<Sprite[]> piecesSprites, Board board) {
         this.playerNo = playerNo;
+        this.board = board;
         for (int i = 0; i < 6 ; i++){
             this.playerPieces[i] = new Tile(piecesSprites.get(i));
         }
@@ -77,10 +75,7 @@ int[5] = red
         return move;
     }
 
-    public boolean isAI() {
-        this.isAI = isAI;
-        return isAI;
-    }
+
 
     public int getColorScore(int color){
         return playerScore[color];

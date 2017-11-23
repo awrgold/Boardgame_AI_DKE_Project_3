@@ -2,6 +2,7 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import Interfaces.GroupView;
 import Tools.Link;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -73,11 +74,13 @@ public class Tile {
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexTile.getHexColor());
                         selected = true;
-                        tileGroup.moveBy(0, 30);
+                        tileGroup.moveBy(0, 10);
+
                         //manager.getGamingPlayer().setTileToMove1(hexTile);
                         Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
                         if (two instanceof HexagonActor){
                             second = (HexagonActor) two;
+
                             //manager.getGamingPlayer().setTileToMove2(second);
                         }
 

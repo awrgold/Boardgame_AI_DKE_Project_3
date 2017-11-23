@@ -47,7 +47,5 @@ public class Action {
         this.t1 = t1;
     }
 
-    public void setT2(HexagonActor t2) {
-        this.t2 = t2;
-    }
+    public void setT2(HexagonActor t2) { this.t2 = t2; }
 }
