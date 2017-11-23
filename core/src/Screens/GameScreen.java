@@ -74,8 +74,6 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         tileView = new Group[manager.getnOfPlayer()][];
 
 
-
-
     }
 
 
@@ -365,7 +363,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                                 }
                                 selectedTile.moveBy(0, -30);
 
-
+                                //TODO: Fix this, find way to change gaming player.
                                 manager.changeGamingPlayer();
 
 

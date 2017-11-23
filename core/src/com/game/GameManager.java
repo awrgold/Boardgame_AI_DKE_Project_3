@@ -20,13 +20,6 @@ import java.util.ArrayList;
 
 public class GameManager {
 
-    //private int nOfPlayer;
-    //private Player[] players = new Player[Constants.getNumberOfPlayers()];
-    //private Player gamingPlayer;
-    //private static ArrayList<Sprite[]> bag;
-    //private int[][] points;
-    //private HexagonalGrid<Link> board;
-
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
@@ -55,7 +48,7 @@ public class GameManager {
 
 
     public HexagonalGrid<Link> getBoard() {
-        return currentState.getGameBoard();
+        return currentState.getCurrentBoard();
     }
 
     public void status(){
@@ -105,7 +98,7 @@ public class GameManager {
     }
 
     public ArrayList<Sprite[]> getBag() {
-        return currentState.getCurrentTileBag();
+        return currentState.getCurrentBag();
     }
 
     public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
