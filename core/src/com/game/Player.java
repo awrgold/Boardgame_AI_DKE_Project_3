@@ -57,7 +57,6 @@ int[5] = red
         return isAI;
     }
 
-
     public int getColorScore(int color){
         return playerScore[color];
     }
