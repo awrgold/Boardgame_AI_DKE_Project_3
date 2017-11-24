@@ -51,6 +51,13 @@ public class GameState {
         return players[i];
     }
 
+    public Action getMove(Player p){
+        p.setClicked();
+        p.setHexMove1(currentBoard.getFirst());
+        p.setHexMove2(currentBoard.getSecond());
+        return p.getMove();
+    }
+
     public void applyAction(Action a){
 
         if (a.getH1().getSatelliteData().isPresent()){

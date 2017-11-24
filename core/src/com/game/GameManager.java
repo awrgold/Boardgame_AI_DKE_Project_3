@@ -154,6 +154,18 @@ public class GameManager {
     }
 
     public void changeState(Action a){
+        if (a.getH1().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH1().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getT1().getHexColor());
+        }
+        if (a.getH2().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH2().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getT2().getHexColor());
+        }
 
     }
     // Apply action, create new state, tell tree to update root

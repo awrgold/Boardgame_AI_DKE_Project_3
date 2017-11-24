@@ -159,15 +159,14 @@ public class GameScreen extends AbstractScreen {
         for (int p = 0; p < manager.getnOfPlayer(); p++){
 
             Player playerP = manager.getPlayerByIndex(p);
-            tileView[p] = new Group[6];
+            tileView[p] = playerP.getHand().updateHand();
 
+            manager.changeState(manager.getGamingPlayer().getMove());
 
                 // now repeat for the 6 tiles
                 for (int i = 0; i < 6; i++) {
                     tileView[p][i] = playerP.getGamePieces()[i].generateTile();
                 }
-
-
 
 /*
                 //override call for each grid
@@ -232,7 +231,7 @@ public class GameScreen extends AbstractScreen {
                 }); */
 
 
- //           }
+            }
         }
     }
 
