@@ -16,12 +16,22 @@ public class Board{
     private HexagonalGrid<Link> grid;
     private Group boardView;
     private boolean secondTouch;
+    private Hexagon first;
+    private Hexagon second;
 
 
     public Board(){
         this.grid = Constants.grid.build();
         boardView = new Group();
         secondTouch = false;
+    }
+
+    public Hexagon getFirst() {
+        return first;
+    }
+
+    public Hexagon getSecond() {
+        return second;
     }
 
     public Group initializeBoard(){
@@ -66,9 +76,11 @@ public class Board{
                         if(!secondTouch){
                             //GameScreen.manager.getGamingPlayer().setHexMove1(hexagon);
                             secondTouch = true;
+                            first = hexActor.getHexagon();
                         } else {
                             //GameScreen.manager.getGamingPlayer().setHexMove2(hexagon);
                             secondTouch = false;
+                            second = hexActor.getHexagon();
                         }
 
 /*

@@ -15,7 +15,6 @@ import rx.functions.Action1;
 
 import java.util.Arrays;
 
-import static Screens.GameScreen.manager;
 import static Screens.GameScreen.tileView;
 
 
@@ -24,13 +23,17 @@ public class Tile {
     private Group tileGroup;
     private Sprite[] colors;
     private boolean selected;
-    private HexagonActor second;
+    private HexagonActor first;
 
     public Tile(Sprite[] colors){
         this.grid = Constants.tile.build();
         this.tileGroup = new Group();
         this.colors = colors;
         this.selected = false;
+    }
+
+    public HexagonActor getFirst() {
+        return first;
     }
 
     public Sprite[] getColors(){
@@ -73,13 +76,14 @@ public class Tile {
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println(hexTile.getHexColor());
                         selected = true;
+                        first = hexTile;
                         tileGroup.moveBy(0, 30);
                         //manager.getGamingPlayer().setTileToMove1(hexTile);
-                        Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
-                        if (two instanceof HexagonActor){
-                            second = (HexagonActor) two;
+                        //Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
+                        //if (two instanceof HexagonActor){
+                            //second = (HexagonActor) two;
                             //manager.getGamingPlayer().setTileToMove2(second);
-                        }
+                        //}
 
 
 

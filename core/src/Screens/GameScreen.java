@@ -177,11 +177,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         for (int p = 0; p < manager.getnOfPlayer(); p++){
 
             Player playerP = manager.getPlayerByIndex(p);
-            tileView[p] = new Group[6];
+            tileView[p] = playerP.getHand().updateHand();
 
-            // now repeat for the 6 tiles
-            for (int i = 0; i < 6; i++){
-                tileView[p][i] = playerP.getGamePieces()[i].generateTile();
+            manager.changeState(manager.getGamingPlayer().getMove());
+
 
 
 /*
@@ -247,7 +246,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
                 }); */
 
 
-            }
+            //}
         }
     }
 

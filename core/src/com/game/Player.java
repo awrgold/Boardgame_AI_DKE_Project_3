@@ -4,15 +4,12 @@ import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 
 import java.util.ArrayList;
-
-
-public class Player {
-
 
 /*
 int[0] = blue
@@ -24,17 +21,16 @@ int[5] = red
 */
 
 
+public class Player {
+
     private boolean isAI;
-
     private int[] playerScore = new int[6];
-    int playerNo;
-
-    Tile[] playerPieces = new Tile[6];
+    private int playerNo;
+    private Tile[] playerPieces = new Tile[6];
+    private Hand hand;
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
-
     private String name;
     private static boolean[] colorIngenious = new boolean[6];
-
     private Action move = new Action();
 
 
@@ -44,6 +40,7 @@ int[5] = red
         for (int i = 0; i < 6 ; i++){
             this.playerPieces[i] = new Tile(piecesSprites.get(i));
         }
+        this.hand = new Hand(playerPieces);
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
@@ -55,6 +52,23 @@ int[5] = red
         PlayerScoreSprite[5] = Constants.redSprite;
 
     }
+
+    public Hand getHand(){
+        return this.hand;
+    }
+
+    public void setClicked(){
+        HexagonActor one = hand.getSelected().getFirst();
+        move.setT1(one);
+        Actor two = one.getParent().getChildren().get(Math.abs(one.getHexagon().getGridX() - 1));
+        if (two instanceof HexagonActor){
+            HexagonActor second = (HexagonActor) two;
+            move.setT2(second);
+        }
+
+    }
+
+
 
     public void setTileToMove1(HexagonActor t1){
         move.setT1(t1);
@@ -80,6 +94,7 @@ int[5] = red
         this.isAI = isAI;
         return isAI;
     }
+
 
     public int getColorScore(int color){
         return playerScore[color];
