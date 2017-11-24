@@ -2,6 +2,7 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import GameLogic.Results;
 import Screens.GameScreen;
 import Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -71,7 +72,7 @@ public class Board{
                             secondTouch = false;
                         }
 
-/*
+/**
                         HexagonActor actorOne;
 
                         // Ensure that what we've clicked on is an empty space to place the tile upon
@@ -132,6 +133,48 @@ public class Board{
         return boardView;
     }
 
+//    public Board boardAfterMove(CellPosition position, CellValue newValue) {
+//        Board nextBoard = new Board(this);
+//        nextBoard.cells[position.r][position.c].position = position;
+//        nextBoard.cells[position.r][position.c].value = newValue;
+//        return nextBoard;
+//    }
 
+//    public void setCell(CellPosition position, CellValue value) {
+//        if (cells[position.r][position.c].value == CellValue.EMPTY) {
+//            cells[position.r][position.c].value = value;
+//        } else {
+//            Gdx.app.log(TAG, "cell already taken");
+//        }
+//    }
 
+    public void clearBoard() {
+//        this.cells = new Cell[3][3];
+//        for (int r = 0; r < 3; r++) {
+//            for (int c = 0; c < 3; c++) {
+//                cells[r][c] = new Cell(new CellPosition(r, c));
+//            }
+//        }
+    }
+
+  //  public Tile cellAtPosition(CellPosition position) {
+  //      return t
+  //  }
+
+ //   public Results getResults() {
+//        Results tempResults = new Results();
+//        for (CellPosition[] pattern: Constants.WINNING_PATTERNS) {
+//            Cell cell = cells[pattern[0].r][pattern[0].c];
+//            if (cell.value == CellValue.EMPTY) {
+//                continue;
+//            }
+//            if (cells[pattern[0].r][pattern[0].c].value == cells[pattern[1].r][pattern[1].c].value &&
+//                    cells[pattern[1].r][pattern[1].c].value == cells[pattern[2].r][pattern[2].c].value) {
+//                tempResults.setWinner(cells[pattern[0].r][pattern[0].c].value);
+//                tempResults.setHasWinner(true);
+//                break;
+//            }
+//        }
+//        return tempResults;
+  //  }
 }

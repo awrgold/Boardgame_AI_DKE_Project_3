@@ -21,38 +21,23 @@ import rx.functions.Action1;
 public class GameScreen extends AbstractScreen {
     //game data
 
-    //   protected GameHandler handler;
+
     protected GameIngenious game;
     protected GameManager manager;
 
-    private Group selectedTile;
-    private Group hexagonView;
+
     public static Group[][] tileView;
 
-    private HexagonActor first;
-
-    public HexagonalGrid grid;
-    public HexagonalGrid[] tiles = new HexagonalGrid[6];
-
-    // we use this to store information about the selected tile
-    private int selectedTileIndex;
 
 
     private Skin skin;
 
-    private Sprite[] touched = {null, null};
-    private Sprite mainMenuButton;
-
-    private SpriteBatch batch;
 
     private Table root;
 
     public static TextButton[] changeTiles;
 
     public static final String TAG = GameScreen.class.getName();
-	//private Board prova;
-
-
 
     /* Build the game screen: --------------------------------------------------- */
 
@@ -72,8 +57,6 @@ public class GameScreen extends AbstractScreen {
 
         tileView = new Group[manager.getnOfPlayer()][];
 
-        //this.prova = new Board();
-
 
     }
 
@@ -83,8 +66,7 @@ public class GameScreen extends AbstractScreen {
     // Subclasses must load actors in this method
 
     public void buildStage() {
-        Stage stage  = new Stage();
-        // ...
+
         //updateBoard();
         updateHand();
 
@@ -179,9 +161,12 @@ public class GameScreen extends AbstractScreen {
             Player playerP = manager.getPlayerByIndex(p);
             tileView[p] = new Group[6];
 
-            // now repeat for the 6 tiles
-            for (int i = 0; i < 6; i++){
-                tileView[p][i] = playerP.getGamePieces()[i].generateTile();
+
+                // now repeat for the 6 tiles
+                for (int i = 0; i < 6; i++) {
+                    tileView[p][i] = playerP.getGamePieces()[i].generateTile();
+                }
+
 
 
 /*
@@ -247,7 +232,7 @@ public class GameScreen extends AbstractScreen {
                 }); */
 
 
-            }
+ //           }
         }
     }
 
@@ -389,8 +374,7 @@ public class GameScreen extends AbstractScreen {
     public void dispose(){
         super.dispose();
         this.dispose();
-        batch.dispose();
-    }
+        }
 
 
 

@@ -381,6 +381,11 @@ int[5] = red
 }
 
     public void selectTile() {
+        for (int i = 0; i < 6 ; i++){
+           if(playerPieces[i].isSelected()){
+
+           }
+        }
     }
     public void placeTile(){
 

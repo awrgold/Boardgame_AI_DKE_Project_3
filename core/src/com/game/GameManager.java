@@ -12,9 +12,9 @@ import rx.functions.Action1;
 import java.util.ArrayList;
 
 public class GameManager {
-//    private int nOfPlayer;
-//    private int hn;
-//    private int ain;
+  // private int nOfPlayer;
+    //private int hn;
+    // private int ain;
 //    private Player[] players;
 //    private Player gamingPlayer;
 //    private ArrayList<Sprite[]> bag;
@@ -90,6 +90,7 @@ public class GameManager {
                     Link hexLink = (Link) linkHexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
                     System.out.println(currentHexActor.getHexColor());
+
                 }
             }
         });
@@ -156,7 +157,30 @@ public class GameManager {
 
     }
     // Apply action, create new state, tell tree to update root
+//    public void moveAIPlayer() {
+//        CellPosition changedPosition = player2.makeAIMove();
+//        didMoveAtPosition(changedPosition, player2.getPlayerType());
+//        checkEndGame();
+//    }
 
+//    public void moveHumanPlayer(PlayerType playerType, CellPosition position) {
+//        if (playerType == PlayerType.PLAYER_O) {
+//            return;
+//        } else {
+//            HumanPlayer human = (HumanPlayer) player1;
+//            CellPosition changedPosition = human.setCellAtPosition(position);
+//            didMoveAtPosition(changedPosition, human.getPlayerType());
+//            makeNextMove();
+//        }
+//    }
+
+//    public void makeNextMove() {
+//        if (board.gameOver() == false) {
+//            moveAIPlayer();
+//        } else {
+//            endGame();
+//        }
+//    }
     public void render(float delta) {
 
 
