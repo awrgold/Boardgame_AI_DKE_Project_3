@@ -20,7 +20,7 @@ import rx.functions.Action1;
 //import static Screens.GameScreen.tileView;
 
 
-public class Tile {
+public class Tile  {
     private HexagonalGrid<Link> grid;
     private Group tileGroup;
     private Sprite[] colors;
@@ -52,7 +52,7 @@ public class Tile {
 
     public void deselect(){
         selected = false;
-        tileGroup.moveBy(0, -30);
+       // tileGroup.moveBy(0, -30);
     }
 
     public Group generateTile(){
@@ -89,7 +89,7 @@ public class Tile {
                  //       System.out.println();
                         selected = true;
                         first = hexTile;
-                        tileGroup.moveBy(0, 30);
+                       //tileGroup.moveBy(0, 30);
 //                        tileGroup.moveBy(0, 30);
 
                         //manager.getGamingPlayer().setTileToMove1(hexTile);

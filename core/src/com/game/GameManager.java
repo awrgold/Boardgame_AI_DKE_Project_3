@@ -197,4 +197,10 @@ public class GameManager {
 
 
     }
+
+    public boolean isGamingPlayer(Player playerP) {
+        boolean p;
+
+        return p;
+    }
 }
