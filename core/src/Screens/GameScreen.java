@@ -161,7 +161,7 @@ public class GameScreen extends AbstractScreen {
             Player playerP = manager.getPlayerByIndex(p);
             tileView[p] = playerP.getHand().updateHand();
 
-            manager.changeState(manager.getGamingPlayer().getMove());
+      //      manager.changeState(manager.getGamingPlayer().getMove());
 
                 // now repeat for the 6 tiles
                 for (int i = 0; i < 6; i++) {
@@ -231,7 +231,7 @@ public class GameScreen extends AbstractScreen {
                 }); */
 
 
-            }
+    //        }
         }
     }
 

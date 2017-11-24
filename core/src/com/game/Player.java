@@ -20,9 +20,10 @@ int[4] = violet
 int[5] = red
 */
 
+public class Player{
 
-    private boolean isAI;
-
+   // private boolean isAI;
+    private Hand hand;
     private int[] playerScore = new int[6];
     int playerNo;
     private Tile selectedTile;

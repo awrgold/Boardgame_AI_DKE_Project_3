@@ -14,10 +14,10 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 
-import static Screens.GameScreen.manager;
-import static Screens.GameScreen.tileView;
+//import static Screens.GameScreen.manager;
+//import static Screens.GameScreen.tileView;
 
 
 public class Tile {
