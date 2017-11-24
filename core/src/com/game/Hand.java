@@ -2,22 +2,33 @@ package com.game;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 
+import java.util.ArrayList;
+
 public class Hand {
-    private Tile[] hand;
+    private ArrayList<Tile> hand;
     private Group[] handView;
 
-    public Hand(Tile[] tiles){
+    public Hand(ArrayList<Tile> tiles){
         this.hand = tiles;
     }
 
-    public Group[] updateHand(){
+    public ArrayList<Tile> getPieces() {
+        return hand;
+    }
 
+    public void pickFromBag(Tile picked){
+        hand.add(picked);
+    }
+
+    public void removeFromHand(Tile placed){
+        hand.remove(placed);
+    }
+
+    public Group[] displayHand(){
         handView = new Group[6];
-
         for (int i = 0; i < 6; i++){
-            handView[i] = hand[i].generateTile();
+            handView[i] = hand.get(i).displayHand();
         }
-
         return handView;
     }
 
@@ -30,4 +41,6 @@ public class Hand {
         }
         return null;
     }
+
+
 }

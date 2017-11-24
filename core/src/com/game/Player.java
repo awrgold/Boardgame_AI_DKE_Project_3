@@ -26,20 +26,15 @@ public class Player {
     private boolean isAI;
     private int[] playerScore = new int[6];
     private int playerNo;
-    private Tile[] playerPieces = new Tile[6];
     private Hand hand;
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
-    private String name;
     private static boolean[] colorIngenious = new boolean[6];
     private Action move = new Action();
 
 
 
-    public Player(int playerNo, ArrayList<Sprite[]> piecesSprites) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces) {
         this.playerNo = playerNo;
-        for (int i = 0; i < 6 ; i++){
-            this.playerPieces[i] = new Tile(piecesSprites.get(i));
-        }
         this.hand = new Hand(playerPieces);
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
@@ -57,6 +52,7 @@ public class Player {
         return this.hand;
     }
 
+    /*
     public void setClicked(){
         HexagonActor one = hand.getSelected().getFirst();
         move.setT1(one);
@@ -66,25 +62,7 @@ public class Player {
             move.setT2(second);
         }
 
-    }
-
-
-
-    public void setTileToMove1(HexagonActor t1){
-        move.setT1(t1);
-    }
-
-    public void setTileToMove2(HexagonActor t2){
-        move.setT2(t2);
-    }
-
-    public void setHexMove1(Hexagon h1){
-        move.setH1(h1);
-    }
-
-    public void setHexMove2(Hexagon h2){
-        move.setH2(h2);
-    }
+    }*/
 
     public Action getMove() {
         return move;
@@ -95,19 +73,8 @@ public class Player {
         return isAI;
     }
 
-
     public int getColorScore(int color){
         return playerScore[color];
-    }
-
-    public void setPlayerPieces(ArrayList<Sprite[]> newPieces) {
-        for (int i = 0; i < 6 ; i++){
-            playerPieces[i] = new Tile(newPieces.get(i));
-        }
-    }
-
-    public Tile[] getGamePieces() {
-        return this.playerPieces;
     }
 
     public int getPlayerNo() {
@@ -204,7 +171,7 @@ public class Player {
     }
 
     private boolean isAColorPresent(Sprite color){
-        for (Tile tile : playerPieces){
+        for (Tile tile : hand.getPieces()){
             if(tile.getColors()[0] == color || tile.getColors()[1] == color){
                 return true;
             }

@@ -144,6 +144,10 @@ public class Board{
         return boardView;
     }
 
+    //public Group updateBoard(Action a){
+
+    //}
+
 
 
 }

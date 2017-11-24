@@ -1,20 +1,19 @@
 package com.game;
 
 import GameBoardAssets.HexagonActor;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.Hexagon;
 
 public class Action {
     private Hexagon h1;
     private Hexagon h2;
 
-    private HexagonActor t1;
-    private HexagonActor t2;
+    Tile tile;
 
-    public Action(Hexagon h1, Hexagon h2, HexagonActor t1, HexagonActor t2){
+    public Action(Hexagon h1, Hexagon h2, Tile t){
         this.h1 = h1;
         this.h2 = h2;
-        this.t1 = t1;
-        this.t2 = t2;
+        this.tile = t;
     }
 
     public Action(){};
@@ -27,27 +26,19 @@ public class Action {
         return h2;
     }
 
-    public HexagonActor getT1() {
-        return t1;
+    public Tile getTile() {
+        return tile;
     }
 
-    public HexagonActor getT2() {
-        return t2;
+    public Sprite[] getColors(){
+        Sprite[] colors = new Sprite[2];
+
+        colors[0] = tile.getFirst().getSprite();
+
+        colors[1] = tile.getSecond().getSprite();
+
+        return colors;
     }
 
-    public void setH1(Hexagon h1) {
-        this.h1 = h1;
-    }
 
-    public void setH2(Hexagon h2) {
-        this.h2 = h2;
-    }
-
-    public void setT1(HexagonActor t1) {
-        this.t1 = t1;
-    }
-
-    public void setT2(HexagonActor t2) {
-        this.t2 = t2;
-    }
 }
