@@ -32,53 +32,57 @@ public class GameManager {
     private Tree gameTree;
 
     public GameManager(){
-//        nOfPlayer = 2;
-//        players = new Player[2];
-
-//    setUp();
-
-//    }
-    /*
-    use set up method and game loop with the gamestates to manage the game variables
-     */
-//    public void setUp(){
-//        ain=0;
-//        hn=1;
-//        bag = Pieces.createBagPieces();
-//        points = new int[2][];
+        // nOfPlayer = 2;
+        // points = new int[2][];
+        // bag = Pieces.createBagPieces();
         /*
         for (int x = 1; x <= nOfPlayer; x++){
-            if (x-1==ain){
-                players[x - 1] = new AIPlayer(x, Pieces.distributePieces(bag),board, new AIStrategy());
-
-            }
-            if (x-1==hn){
-                players[x - 1] = new HumanPlayer(x, Pieces.distributePieces(bag),board);
-
-            }
-//            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
+            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
             points[x - 1] = players[x - 1].getPlayerScore();
         }
         */
         // gamingPlayer = players[0];
         // board = Constants.grid.build();
 
-        // NEW SHIT HERE 22 Nov
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
 
     }
 
 
- //   public void gameLoop(){
-//        while(!endGame){
-//        /*
-//        game check methods
-//         */
-//        }
+    public GameState getCurrentState(){
+        return gameTree.getRoot().getState();
+    }
+
+
+    public Player[] getPlayers(){
+        return currentState.getPlayers();
+    }
+
+    public Player getPlayerByIndex(int i){
+        return currentState.getPlayer(i);
+    }
+
+    public Player getGamingPlayer(){
+        return currentState.getGamingPlayer();
+    }
+
+    public int getnOfPlayer(){
+        return currentState.getPlayers().length;
+    }
+
+    public Hand getHandByIndex(int i){
+        return getPlayers()[i].getHand();
+    }
+
 
     public Board getBoard() {
         return currentState.getCurrentBoard();
+    }
+
+
+    public Bag getBag() {
+        return currentState.getCurrentBag();
     }
 
     public void status(){
@@ -96,25 +100,11 @@ public class GameManager {
         });
     }
 
-    public GameState getCurrentState(){
-        return gameTree.getRoot().getState();
-    }
 
-    public Player[] getPlayers(){
-        return currentState.getPlayers();
-    }
 
-    public Player getPlayerByIndex(int i){
-        return currentState.getPlayer(i);
-    }
 
-    public int getnOfPlayer(){
-        return currentState.getPlayers().length;
-    }
 
-    public Player getGamingPlayer(){
-        return currentState.getGamingPlayer();
-    }
+
 
     public int getTotalTurnNumber(){
         return player1TurnNumber + player2TurnNumber;
@@ -128,9 +118,6 @@ public class GameManager {
         return player2TurnNumber;
     }
 
-    public ArrayList<Sprite[]> getBag() {
-        return currentState.getCurrentBag();
-    }
 
     public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
         // Check if players score is complete or if no tiles can be placed.
@@ -153,7 +140,7 @@ public class GameManager {
 
     }
 
-    public void changeState(Action a){
+    /*public void changeState(Action a){
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
@@ -167,7 +154,7 @@ public class GameManager {
             currentHexActor.setHexColor(a.getT2().getHexColor());
         }
 
-    }
+    }*/
     // Apply action, create new state, tell tree to update root
 //    public void moveAIPlayer() {
 //        CellPosition changedPosition = player2.makeAIMove();

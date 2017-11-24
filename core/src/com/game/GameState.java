@@ -11,54 +11,49 @@ public class GameState {
 
     private Player[] players;
     private Board currentBoard;
-    private ArrayList<Sprite[]> currentBag;
+    private Bag currentBag;
     public Player gamingPlayer;
 
     public GameState() {
         players = new Player[Constants.getNumberOfPlayers()];
         currentBoard = new Board();
-        currentBag = Pieces.createBagPieces();
+        currentBag = new Bag(Pieces.createBagPieces());
         gamingPlayer = players[0];
 
         for (int x = 1; x <= players.length; x++){
-            players[x - 1] = new Player(x, Pieces.distributePieces(currentBag),currentBoard);
+            players[x - 1] = new Player(x, currentBag.pickSix());
         }
     }
 
-    private GameState(Player[] players, Board currentBoard, ArrayList<Sprite[]> currentBag) {
+    private GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
         this.players = players;
         this.currentBoard = currentBoard;
         this.currentBag = currentBag;
+        this.gamingPlayer = gamingPlayer;
     }
 
     public Player[] getPlayers(){
         return players;
     }
 
+    public Player getGamingPlayer(){
+        return gamingPlayer;
+    }
+
     public Board getCurrentBoard() {
         return currentBoard;
     }
 
-    public ArrayList<Sprite[]> getCurrentBag() {
+    public Bag getCurrentBag() {
         return currentBag;
-    }
-
-    public Player getGamingPlayer(){
-        return gamingPlayer;
     }
 
     public Player getPlayer(int i){
         return players[i];
     }
 
-    public Action getMove(Player p){
-        p.setClicked();
-        p.setHexMove1(currentBoard.getFirst());
-        p.setHexMove2(currentBoard.getSecond());
-        return p.getMove();
-    }
 
-    public void applyAction(Action a){
+    /*public void applyAction(Action a){
 
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
@@ -73,7 +68,7 @@ public class GameState {
             currentHexActor.setHexColor(a.getT2().getHexColor());
         }
 
-    }
+    }*/
 
 
 

@@ -16,11 +16,9 @@ import rx.functions.Action1;
 
 //import java.util.Arrays;
 
-//import static Screens.GameScreen.manager;
-//import static Screens.GameScreen.tileView;
+import static Screens.GameScreen.tileView;
 
-
-public class Tile  {
+public class Tile {
     private HexagonalGrid<Link> grid;
     private Group tileGroup;
     private Sprite[] colors;
@@ -42,6 +40,17 @@ public class Tile  {
         return first;
     }
 
+    public HexagonActor getSecond(){
+        Actor two = first.getParent().getChildren().get(Math.abs(first.getHexagon().getGridX() - 1));
+
+        HexagonActor second = null;
+        if (two instanceof HexagonActor){
+            HexagonActor other = (HexagonActor) two;
+            second = other;
+        }
+        return second;
+    }
+
     public Sprite[] getColors(){
         return this.colors;
     }
@@ -55,7 +64,7 @@ public class Tile  {
        // tileGroup.moveBy(0, -30);
     }
 
-    public Group generateTile(){
+    public Group displayHand(){
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
