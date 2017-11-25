@@ -29,7 +29,7 @@ public class Player {
     private Hand hand;
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
     private static boolean[] colorIngenious = new boolean[6];
-    private Action move = new Action();
+
 
 
 
@@ -64,8 +64,16 @@ public class Player {
 
     }*/
 
-    public Action getMove() {
-        return move;
+    public Tile getSelectedTile() {
+        Tile selected = null;
+        for (Tile t : hand.getPieces()){
+            if(t.isSelected()){
+                selected = t;
+            }
+        }
+        return selected;
+
+
     }
 
     public boolean isAI() {
@@ -80,6 +88,8 @@ public class Player {
     public int getPlayerNo() {
         return playerNo;
     }
+
+
 
     public static void updateScore(Player player, HexagonActor hexActor, HexagonalGrid hexGrid, HexagonActor one) {
 

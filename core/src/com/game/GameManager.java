@@ -33,11 +33,17 @@ public class GameManager {
 
     }
 
+    public void updateState(){
+        System.out.println("what");
+        //Action move = new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
+        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
+
+    }
+
 
     public GameState getCurrentState(){
         return gameTree.getRoot().getState();
     }
-
 
     public Player[] getPlayers(){
         return currentState.getPlayers();
@@ -55,6 +61,8 @@ public class GameManager {
         return currentState.getPlayers().length;
     }
 
+
+
     public Hand getHandByIndex(int i){
         return getPlayers()[i].getHand();
     }
@@ -63,6 +71,8 @@ public class GameManager {
     public Board getBoard() {
         return currentState.getCurrentBoard();
     }
+
+
 
 
     public Bag getBag() {
@@ -102,10 +112,15 @@ public class GameManager {
     }
 
 
-    public boolean endGameCheck(Player player, HexagonalGrid hexGrid) {
+    public boolean endGameCheck() {
+        if (player1TurnNumber < 100){
+            return false;
+        } else {
+            return true;
+        }
         // Check if players score is complete or if no tiles can be placed.
 
-        int[] playerScore = player.getPlayerScore();
+        /*int[] playerScore = getGamingPlayer().getPlayerScore();
         int totalScore = 0;
         boolean completeScore = true;
         for (int i = 0; i <= 5; i++) {
@@ -119,25 +134,15 @@ public class GameManager {
             return true;
         }
 
-        return true;
+        return true;*/
 
     }
 
-    /*public void changeState(Action a){
-        if (a.getH1().getSatelliteData().isPresent()){
-            // create a link for the actor and hex of the next hex from current
-            Link hexLink = (Link) a.getH1().getSatelliteData().get();
-            HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getT1().getHexColor());
-        }
-        if (a.getH2().getSatelliteData().isPresent()){
-            // create a link for the actor and hex of the next hex from current
-            Link hexLink = (Link) a.getH2().getSatelliteData().get();
-            HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getT2().getHexColor());
-        }
+    public void changeState(Action action){
+        currentState = currentState.applyAction(action);
+        System.out.println(action.toString());
 
-    }*/
+    }
     // Apply action, create new state, tell tree to update root
 
 

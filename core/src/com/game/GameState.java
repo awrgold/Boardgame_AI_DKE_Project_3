@@ -2,8 +2,14 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import Screens.GameScreen;
 import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import java.util.ArrayList;
 
@@ -52,23 +58,92 @@ public class GameState {
         return players[i];
     }
 
+    public Player changeGamingPlayer(){
+        Player nextPlayer;
+        if (!gamingPlayer.hasIngenious()){
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
 
-    /*public void applyAction(Action a){
+
+        } else {
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+
+        }
+
+        return nextPlayer;
+
+
+
+    }
+
+    public void activateButtonIfNeeded(){
+        // Check if hand has any tiles of lowest color:
+        if (!gamingPlayer.isLowestScoreTilePresent()){
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
+            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
+
+            System.out.println("You have no tiles of your lowest color, click to change your hand");
+
+            //CLICK TO CHANGE PIECES FROM THE BAG
+            GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
+                    for (int i = 0; i < 6; i++) {
+                        Group tile = gamingPlayer.getHand().displayHand()[i];
+                        int index = 0;
+                        for (Actor hex : tile.getChildren()) {
+                            if (hex instanceof HexagonActor) {
+                                HexagonActor first = (HexagonActor) hex;
+                                first.setSprite(gamingPlayer.getHand().getPieces().get(i).getColors()[index]);
+                                index++;
+                            }
+                        }
+                    }
+                    GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setTouchable(Touchable.disabled);
+                    GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
+
+                }
+
+
+            });
+        }
+    }
+
+
+
+    public GameState applyAction(Action a){
+
+        GameState nextState;
+
+        System.out.println("something");
 
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getT1().getHexColor());
+            currentHexActor.setHexColor(a.getTileColors()[0]);
         }
+
         if (a.getH2().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH2().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getT2().getHexColor());
+            currentHexActor.setHexColor(a.getTileColors()[1]);
         }
 
-    }*/
+        gamingPlayer.getHand().removeFromHand(a.getTile());
+        gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
+
+        nextState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
+
+        return nextState;
+
+
+    }
 
 
 }

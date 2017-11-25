@@ -50,6 +50,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 	public void buildStage() {
         Stage stage  = new Stage();
 
+        while (!manager.endGameCheck()){
+            manager.updateState();
+        }
+
         this.root = new Table();
         this.root.setFillParent(true);
 
@@ -124,6 +128,10 @@ public class GameScreen extends AbstractScreen implements GameHandler {
 
 
         addActor(root);
+
+    }
+
+    public static void update(){
 
     }
 

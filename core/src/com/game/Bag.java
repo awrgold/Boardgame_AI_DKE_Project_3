@@ -50,9 +50,7 @@ public class Bag {
     }
 
     public ArrayList<Tile> replaceHand(ArrayList<Tile> hand) {
-        for (Tile t : hand){
-            bag.add(t);
-        }
+        bag.addAll(hand);
         return pickSix();
     }
 }

@@ -8,7 +8,7 @@ public class Action {
     private Hexagon h1;
     private Hexagon h2;
 
-    Tile tile;
+    private Tile tile;
 
     public Action(Hexagon h1, Hexagon h2, Tile t){
         this.h1 = h1;
@@ -16,7 +16,7 @@ public class Action {
         this.tile = t;
     }
 
-    public Action(){};
+    //public Action(){};
 
     public Hexagon getH1() {
         return h1;
@@ -30,14 +30,31 @@ public class Action {
         return tile;
     }
 
-    public Sprite[] getColors(){
-        Sprite[] colors = new Sprite[2];
+    public void setTile(Tile tile) {
+        this.tile = tile;
+    }
 
-        colors[0] = tile.getFirst().getSprite();
+    public void setH1(Hexagon h1) {
+        this.h1 = h1;
+    }
 
-        colors[1] = tile.getSecond().getSprite();
+    public void setH2(Hexagon h2) {
+        this.h2 = h2;
+    }
+
+    public String[] getTileColors(){
+        String[] colors = new String[2];
+
+        colors[0] = tile.getFirst().getHexColor();
+
+        colors[1] = tile.getSecond().getHexColor();
 
         return colors;
+    }
+
+    public String toString(){
+        return "Placing Tile: " + tile.getFirst().getHexColor() + " - " + tile.getSecond().getHexColor() +
+                " || in hexagons: " + h1.getCubeCoordinate().toAxialKey() + " - " + h2.getCubeCoordinate().toAxialKey();
     }
 
 
