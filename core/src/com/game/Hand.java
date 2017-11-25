@@ -1,6 +1,6 @@
 package com.game;
 
-import Interfaces.GroupView;
+
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import java.util.ArrayList;

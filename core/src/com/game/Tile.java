@@ -16,7 +16,7 @@ import rx.functions.Action1;
 
 //import java.util.Arrays;
 
-import static Screens.GameScreen.tileView;
+//import static Screens.GameScreen.tileView;
 
 public class Tile {
     private HexagonalGrid<Link> grid;

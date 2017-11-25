@@ -28,11 +28,11 @@ public class GameScreen extends AbstractScreen {
     protected GameIngenious game;
     protected GameManager manager;
     private Skin skin;
-	private Sprite mainMenuButton;
+
     private Table root;
 	public static TextButton[] changeTiles;
-    private CustomLabel p1;
-    private CustomLabel p2;
+    //private CustomLabel p1;
+    //private CustomLabel p2;
 
     SpriteBatch batch;
     public static final String TAG = GameScreen.class.getName();
@@ -55,7 +55,7 @@ public class GameScreen extends AbstractScreen {
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
 
-        tileView = new Group[manager.getnOfPlayer()][];
+        //tileView = new Group[manager.getnOfPlayer()][];
 
         //this.prova = new Board();
 

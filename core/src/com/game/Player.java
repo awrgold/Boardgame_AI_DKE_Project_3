@@ -23,7 +23,7 @@ int[5] = red
 public class Player{
 
    // private boolean isAI;
-    private Hand hand;
+    //private Hand hand;
     private int[] playerScore = new int[6];
     private int playerNo;
     private Hand hand;
@@ -35,8 +35,9 @@ public class Player{
 
 
 
-    public Player(int playerNo, ArrayList<Sprite[]> piecesSprites, Board board) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces, Board board) {
         this.playerNo = playerNo;
+        this.board = board;
         this.hand = new Hand(playerPieces);
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
@@ -365,11 +366,7 @@ public class Player{
 }
 
     public void selectTile() {
-        for (int i = 0; i < 6 ; i++){
-           if(playerPieces[i].isSelected()){
 
-           }
-        }
     }
     public void placeTile(){
 

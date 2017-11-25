@@ -40,7 +40,7 @@ public class Action {
         return colors;
     }
 
-    public void setT2(HexagonActor t2) {
-        this.t2 = t2;
-    }
+//    public void setT2(HexagonActor t2) {
+//        this.t2 = t2;
+//    }
 }
