@@ -31,7 +31,7 @@ public class Player{
     private static boolean[] colorIngenious = new boolean[6];
     private Board board;
 
-    private Action move = new Action();
+    //private Action move = new Action();
 
 
 

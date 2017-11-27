@@ -1,6 +1,7 @@
 package com.game;
 
 import GameBoardAssets.HexagonActor;
+import Systems.AbstractSystem;
 import Tools.Link;
 import TreeStructure.Tree;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,7 +12,7 @@ import rx.functions.Action1;
 
 import java.util.ArrayList;
 
-public class GameManager {
+public class GameManager extends AbstractSystem {
   // private int nOfPlayer;
     //private int hn;
     // private int ain;
@@ -50,9 +51,9 @@ public class GameManager {
     }
 
     public void updateState(){
-        System.out.println("what");
+       // System.out.println("what");
         //Action move = new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
-        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
+//        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
 
     }
 
@@ -186,11 +187,18 @@ public class GameManager {
 //        }
 //    }
     public void render(float delta) {
-
+        //you can do it here*  updateState();
 
     }
 
-  //  public boolean isGamingPlayer(Player playerP) {
+    @Override
+    public void proccessStep(GameIngenious game, float delta) {
+        // while (!endGameCheck()){
+      // here is better*  updateState();
+  //  }
+    }
+
+    //  public boolean isGamingPlayer(Player playerP) {
 //        boolean p;
 //
 //        return p;

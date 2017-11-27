@@ -3,6 +3,7 @@ package com.game;
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameLogic.Results;
+import Interfaces.GroupView;
 import Screens.GameScreen;
 import Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,30 +14,26 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
-public class Board{
+public class Board extends GroupView{
     private HexagonalGrid<Link> grid;
-    private Group boardView;
+   // private Group boardView;
     private boolean secondTouch;
     private Hexagon first;
     private Hexagon second;
 
 
     public Board(){
+        super();
         this.grid = Constants.grid.build();
-        boardView = new Group();
+      //  boardView = new Group();
         secondTouch = false;
+        create();
     }
 
-    public Hexagon getFirst() {
-        return first;
-    }
 
-    public Hexagon getSecond() {
-        return second;
-    }
 
-    public Group initializeBoard(){
 
+    public void create(){
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -65,7 +62,7 @@ public class Board{
 
                 hexagon.setSatelliteData(new Link(hexActor));
 
-                boardView.addActor(hexActor);
+                addActor(hexActor);
 
                 hexActor.addListener(new ClickListener(){
 
@@ -84,6 +81,71 @@ public class Board{
                             second = hexActor.getHexagon();
 
                         }
+                    }
+                });
+            }
+        });
+    };
+    public void act( float delta) {
+        super.act(delta);
+    }
+    public Hexagon getFirst() {
+        return first;
+    }
+
+    public Hexagon getSecond() {
+        return second;
+    }
+
+  //  public Group initializeBoard(){
+
+//        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+//            @Override
+//            public void call(Hexagon hexagon) {
+//                // Create the Actor and link it to the hexagon (and vice-versa)
+//                final HexagonActor hexActor = new HexagonActor(hexagon);
+//
+//                hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+//
+//                //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
+//
+//                if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
+//                    hexActor.setHexColor("B");
+//                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
+//                    hexActor.setHexColor("Y");
+//                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
+//                    hexActor.setHexColor("O");
+//                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
+//                    hexActor.setHexColor("P");
+//                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
+//                    hexActor.setHexColor("V");
+//                } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
+//                    hexActor.setHexColor("R");
+//                } else {
+//                    hexActor.setHexColor("EMPTY");
+//                }
+//
+//                hexagon.setSatelliteData(new Link(hexActor));
+//
+//                boardView.addActor(hexActor);
+//
+//                hexActor.addListener(new ClickListener(){
+//
+//
+//
+//                    @Override
+//                    public void clicked(InputEvent event, float x, float y) {
+//                        System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
+//                        if(!secondTouch){
+//                            //GameScreen.manager.getGamingPlayer().setHexMove1(hexagon);
+//                            secondTouch = true;
+//                            first = hexActor.getHexagon();
+//                        } else {
+//                            //GameScreen.manager.getGamingPlayer().setHexMove2(hexagon);
+//                            secondTouch = false;
+//                            second = hexActor.getHexagon();
+//
+//                        }
 
 /**
                         HexagonActor actorOne;
@@ -138,13 +200,13 @@ public class Board{
                         } else {
                             System.out.println("This slot is full! Color here is: " + hexActor.getHexColor());
                         }*/
-                    }
-                });
-            }
-        });
-
-        return boardView;
-    }
+//                    }
+//                });
+//            }
+//        });
+//
+//        return boardView;
+//    }
 
     //public Group updateBoard(Action a){
 

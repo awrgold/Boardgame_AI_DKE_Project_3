@@ -18,9 +18,9 @@ import rx.functions.Action1;
 
 //import static Screens.GameScreen.tileView;
 
-public class Tile {
+public class Tile extends GroupView{
     private HexagonalGrid<Link> grid;
-    private Group tileGroup;
+   // private GroupView tileGroup;
     private Sprite[] colors;
     private boolean selected;
     private HexagonActor hexA;
@@ -29,42 +29,15 @@ public class Tile {
     private HexagonActor first;
 
     public Tile(Sprite[] colors){
-        this.grid = Constants.tile.build();
-        this.tileGroup = new Group();
+        super();
+        //   this.tileGroup = new GroupView();
         this.colors = colors;
         this.selected = false;
+        create();
 
     }
 
-    public HexagonActor getFirst() {
-        return first;
-    }
-
-    public HexagonActor getSecond(){
-        Actor two = first.getParent().getChildren().get(Math.abs(first.getHexagon().getGridX() - 1));
-
-        HexagonActor second = null;
-        if (two instanceof HexagonActor){
-            HexagonActor other = (HexagonActor) two;
-            second = other;
-        }
-        return second;
-    }
-
-    public Sprite[] getColors(){
-        return this.colors;
-    }
-
-    public boolean isSelected(){
-        return selected;
-    }
-
-    public void deselect(){
-        selected = false;
-       // tileGroup.moveBy(0, -30);
-    }
-
-    public Group displayHand(){
+    public void create(){this.grid = Constants.tile.build();
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -73,7 +46,7 @@ public class Tile {
                 //give both the sprites
                 if(hexagon.getGridX() == 0) {
                     hexTile.setSprite(colors[0]);
-                   setHexA(hexTile);
+                    setHexA(hexTile);
 
                 } else {
                     hexTile.setSprite(colors[1]);
@@ -84,7 +57,7 @@ public class Tile {
                 hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                 //and pass everything in tileGroup
-                tileGroup.addActor(hexTile);
+                addActor(hexTile);
                 hexagon.setSatelliteData(new Link(hexTile));
 
                 /*
@@ -93,19 +66,19 @@ public class Tile {
                 hexTile.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                       System.out.println(getPieceColors(hexTile));
+                        System.out.println(getPieceColors(hexTile));
                         hex = hexTile;
-                 //       System.out.println();
+                        //       System.out.println();
                         selected = true;
                         first = hexTile;
-                       //tileGroup.moveBy(0, 30);
+                        //tileGroup.moveBy(0, 30);
 //                        tileGroup.moveBy(0, 30);
 
                         //manager.getGamingPlayer().setTileToMove1(hexTile);
                         //Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
                         //if (two instanceof HexagonActor){
-                            //second = (HexagonActor) two;
-                            //manager.getGamingPlayer().setTileToMove2(second);
+                        //second = (HexagonActor) two;
+                        //manager.getGamingPlayer().setTileToMove2(second);
                         //}
 
 
@@ -144,11 +117,123 @@ public class Tile {
                 });
             }
         });
-
-        return tileGroup;
-
-
     }
+    public void act( float delta) {
+        super.act(delta);
+    }
+    public HexagonActor getFirst() {
+        return first;
+    }
+
+    public HexagonActor getSecond(){
+        Actor two = first.getParent().getChildren().get(Math.abs(first.getHexagon().getGridX() - 1));
+
+        HexagonActor second = null;
+        if (two instanceof HexagonActor){
+            HexagonActor other = (HexagonActor) two;
+            second = other;
+        }
+        return second;
+    }
+
+    public Sprite[] getColors(){
+        return this.colors;
+    }
+
+    public boolean isSelected(){
+        return selected;
+    }
+
+    public void deselect(){
+        selected = false;
+       // tileGroup.moveBy(0, -30);
+    }
+
+ //   public GroupView displayHand(){
+//        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+//            @Override
+//            public void call(Hexagon hexagon) {
+//                final HexagonActor hexTile = new HexagonActor(hexagon);
+//
+//                //give both the sprites
+//                if(hexagon.getGridX() == 0) {
+//                    hexTile.setSprite(colors[0]);
+//                   setHexA(hexTile);
+//
+//                } else {
+//                    hexTile.setSprite(colors[1]);
+//                    setHexB(hexTile);
+//
+//                }
+//
+//                hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+//
+//                //and pass everything in tileGroup
+//                tileGroup.addActor(hexTile);
+//                hexagon.setSatelliteData(new Link(hexTile));
+//
+//                /*
+//                        Create a click listener for the tiles in your hand: --------------------------
+//                         */
+//                hexTile.addListener(new ClickListener(){
+//                    @Override
+//                    public void clicked(InputEvent event, float x, float y) {
+//                       System.out.println(getPieceColors(hexTile));
+//                        hex = hexTile;
+//                 //       System.out.println();
+//                        selected = true;
+//                        first = hexTile;
+//                       //tileGroup.moveBy(0, 30);
+////                        tileGroup.moveBy(0, 30);
+//
+//                        //manager.getGamingPlayer().setTileToMove1(hexTile);
+//                        //Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
+//                        //if (two instanceof HexagonActor){
+//                            //second = (HexagonActor) two;
+//                            //manager.getGamingPlayer().setTileToMove2(second);
+//                        //}
+//
+//
+//
+//
+///*
+//                        if(touched[0] != null && touched[1] != null) {
+//                            selectedTile.moveBy(0, -30);
+//                        }
+//
+//
+//                        if(Arrays.asList(tileView[manager.getGamingPlayer().getPlayerNo() - 1]).contains(hexTile.getParent())){
+//
+//                            hexTile.getParent().moveBy(0, 30);
+//                            touched[0] = hexTile.getSprite();
+//                            Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
+//
+//                            if (two instanceof HexagonActor){
+//                                HexagonActor other = (HexagonActor) two;
+//                                touched[1] = other.getSprite();
+//                            }
+//
+//                            //find the index in player's hand
+//                            for (Sprite[] s : playerP.getGamePieces()){
+//                                if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
+//                                    selectedTileIndex = playerP.getGamePieces().indexOf(s);
+//                                }
+//                            }
+//                            selectedTile = hexTile.getParent();
+//
+//                        } else {
+//                            // selectedTile.moveBy(0, 30);
+//                            System.out.println("It's the turn of player " + manager.getGamingPlayer().getPlayerNo());
+//                        }*/
+//                    }
+//                });
+//            }
+//        });
+
+  //      return tileGroup;
+
+
+   // }
 
     public String getPieceColors(HexagonActor hexTile) {
        HexagonActor temp=null;

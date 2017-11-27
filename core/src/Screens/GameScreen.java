@@ -66,9 +66,7 @@ public class GameScreen extends AbstractScreen {
 	public void buildStage() {
         Stage stage  = new Stage();
 
-        while (!manager.endGameCheck()){
-            manager.updateState();
-        }
+
 
         this.root = new Table();
         this.root.setFillParent(true);
@@ -121,7 +119,7 @@ public class GameScreen extends AbstractScreen {
         boardColumn.row().height(400).width(-450);
         // GBV  and PHV Change
         boardColumn.row().height(750).width(-200);
-        boardColumn.add(manager.getBoard().initializeBoard()).expandY().center();
+        boardColumn.add(manager.getBoard()).expandY().center();
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
@@ -158,7 +156,11 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
-       // manager.render(delta,Renderer);
+       // while (!manager.endGameCheck()){
+            //build render* use while here if necessary* manager.render(delta,Renderer);
+
+      //  }
+
         super.act(delta);
         super.draw();
     }

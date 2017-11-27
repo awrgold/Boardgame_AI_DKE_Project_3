@@ -1,13 +1,14 @@
 package com.game;
 
 
+import Interfaces.GroupView;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import java.util.ArrayList;
 
 public class Hand {
     private ArrayList<Tile> hand;
-    private Group[] handView;
+    private GroupView[] handView;
 
     public Hand(ArrayList<Tile> tiles){
         this.hand = tiles;
@@ -30,10 +31,10 @@ public class Hand {
     }
 
 
-    public Group[] displayHand(){
-        handView = new Group[6];
+    public GroupView[] displayHand(){
+        handView = new GroupView[6];
         for (int i = 0; i < 6; i++){
-            handView[i] = hand.get(i).displayHand();
+            handView[i] = hand.get(i);
         }
         return handView;
     }
