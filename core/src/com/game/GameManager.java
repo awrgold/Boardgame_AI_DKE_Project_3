@@ -51,8 +51,9 @@ public class GameManager extends AbstractSystem {
     }
 
     public void updateState(){
-       // System.out.println("what");
-        //Action move = new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
+       // currentState.toString();
+        //Action move = new Action
+        // (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
 //        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
 
     }
@@ -186,16 +187,13 @@ public class GameManager extends AbstractSystem {
 //            endGame();
 //        }
 //    }
-    public void render(float delta) {
-        //you can do it here*  updateState();
 
-    }
 
     @Override
-    public void proccessStep(GameIngenious game, float delta) {
-        // while (!endGameCheck()){
-      // here is better*  updateState();
-  //  }
+    public void proccessStep(float delta) {
+       if (!endGameCheck()){
+            updateState();
+       }
     }
 
     //  public boolean isGamingPlayer(Player playerP) {

@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import java.util.ArrayList;
 
 public class Hand {
+    private Tile  selectedTile ;
+    private int selected;
     private ArrayList<Tile> hand;
     private GroupView[] handView;
 
@@ -36,28 +38,26 @@ public class Hand {
         for (int i = 0; i < 6; i++){
             handView[i] = hand.get(i);
         }
+
         return handView;
+
     }
-    public void checkSelected(Tile [] h) {
-//        for (Tile t : h) {
-//            Tile temp = null;
-//            if (t.isSelected()) {
-//                temp = t;
-//            }
-//            if (t != temp) {
-//                t.deselect();
-//
-//            }
-//        }
-    }
-    public Tile getSelected(){
-        for (Tile x : hand){
-            if(x.isSelected()){
-                x.deselect();
-                return x;
-            }
+
+
+    public void setSelectedTile(Tile t,int i){
+        t = selectedTile;
+        if(!t.isSelected()){
+            t.setSelected();
         }
-        return null;
+        updateHand(i);
+    }
+
+    private void updateHand(int i) {
+
+    }
+
+    public Tile getSelected(){
+        return selectedTile;
     }
 
 

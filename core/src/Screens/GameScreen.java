@@ -25,7 +25,7 @@ public class GameScreen extends AbstractScreen {
     //game data
 
 
-    protected GameIngenious game;
+   // protected GameIngenious game;
     protected GameManager manager;
     private Skin skin;
 
@@ -46,10 +46,10 @@ public class GameScreen extends AbstractScreen {
     private CustomLabel p1;
     private CustomLabel p2;
 
-    public GameScreen(GameIngenious game) {
+    public GameScreen() {
     // Build screen, add skins, add players
 
-        this.game = game;
+       // this.game = game;
         this.manager = new GameManager();
         //handler = new GameHandler(game, comStrategy);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -109,7 +109,9 @@ public class GameScreen extends AbstractScreen {
         changeTiles[0].setVisible(false);
 
        for (int i = 0; i < 6; i++) {
+
            boardColumn.add(manager.getHandByIndex(0).displayHand()[i]);
+
         }
 
         boardColumn.row();
@@ -156,10 +158,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
-       // while (!manager.endGameCheck()){
-            //build render* use while here if necessary* manager.render(delta,Renderer);
-
-      //  }
+        manager.proccessStep(delta);
 
         super.act(delta);
         super.draw();
