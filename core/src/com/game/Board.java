@@ -82,6 +82,7 @@ public class Board{
                             //GameScreen.manager.getGamingPlayer().setHexMove2(hexagon);
                             secondTouch = false;
                             second = hexActor.getHexagon();
+
                         }
 
 /**

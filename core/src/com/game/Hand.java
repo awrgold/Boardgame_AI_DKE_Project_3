@@ -25,6 +25,11 @@ public class Hand {
         hand.remove(placed);
     }
 
+    public void changeTiles(ArrayList<Tile> tiles){
+        this.hand = tiles;
+    }
+
+
     public Group[] displayHand(){
         handView = new Group[6];
         for (int i = 0; i < 6; i++){
