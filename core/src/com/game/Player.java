@@ -9,7 +9,10 @@ import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Queue;
 
 /*
 int[0] = blue
@@ -366,6 +369,54 @@ public class Player {
     public boolean[] getIngeniousList(){
         return colorIngenious;
     }
+
+    public ArrayList<Integer> getScoreQ(){
+        ArrayList<Integer> scoreQ = new ArrayList<>();
+        for (int i : playerScore){
+            scoreQ.add(playerScore[i]);
+        }
+        Collections.sort(scoreQ, Collections.reverseOrder());
+        return scoreQ;
+    }
+
+    public boolean hasManyLowestColors(){
+        int counter = 0;
+        for (int i : playerScore){
+            int temp = playerScore[i];
+            for (int j = i; j < playerScore.length; j++){
+                if (playerScore[j] == temp){
+                    counter++;
+                }
+            }
+
+        }
+        if (counter > 2){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasTwoLowestColors(){
+        int counter = 0;
+        for (int i : playerScore){
+            int temp = playerScore[i];
+            for (int j = i; j < playerScore.length; j++){
+                if (playerScore[j] == temp){
+                    counter++;
+                }
+            }
+        }
+        if (counter == 2){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasOneLowestColor(){
+        
+    }
+
+
 
 }
 

@@ -119,7 +119,7 @@ public class GameState {
 
         GameState nextState;
 
-        System.out.println("something");
+        System.out.println("something something something Dark Side...");
 
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
