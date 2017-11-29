@@ -24,7 +24,7 @@ public class Board extends GroupView{
 
     public Board(){
         super();
-        this.grid = Constants.grid.build();
+
       //  boardView = new Group();
         secondTouch = false;
         create();
@@ -34,6 +34,11 @@ public class Board extends GroupView{
 
 
     public void create(){
+        this.grid = Constants.grid.build();
+
+    }
+    public void act( float delta) {
+        super.act(delta);
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -138,9 +143,6 @@ public class Board extends GroupView{
                 });
             }
         });
-    };
-    public void act( float delta) {
-        super.act(delta);
     }
     public Hexagon getFirst() {
         return first;
