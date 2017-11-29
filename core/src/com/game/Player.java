@@ -10,6 +10,7 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
 int[0] = blue
@@ -30,6 +31,7 @@ public class Player{
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
     private static boolean[] colorIngenious = new boolean[6];
     private Board board;
+    private ArrayList<Integer> scoreQ = new ArrayList<>();
 
     //private Action move = new Action();
 
@@ -381,6 +383,39 @@ public class Player{
     public void placeTile(){
 
     }
+
+    public ArrayList<Integer> getScoreQ(){
+
+        ArrayList<Integer> indexes = new ArrayList<>();
+
+        for (int i : playerScore){
+            scoreQ.add(playerScore[i]);
+        }
+
+        Collections.sort(scoreQ, Collections.reverseOrder());
+
+        for (int i : scoreQ){
+            for (int j = i; j < scoreQ.size(); j++){
+                if (scoreQ.get(i) == playerScore[j]){
+                    indexes.add(j);
+                    j++;
+                }
+            }
+        }
+        return indexes;
+    }
+
+    public int howManyLowestColors(){
+        int count = 0;
+        for (int i = 1; i < scoreQ.size(); i++){
+            if (scoreQ.get(i).equals(scoreQ.get(0))){
+                count++;
+            }
+        }
+        return count;
+    }
+
+
 }
 
 
