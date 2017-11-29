@@ -72,7 +72,9 @@ final HexagonActor hexTile = new HexagonActor(hexagon);
         hexTile.addListener(new ClickListener(){
 @Override
 public void clicked(InputEvent event, float x, float y) {
-   // handleTouch();
+
+
+    // handleTouch();
 //if(!isSelected()) {
 //    hex = hexTile;
 //    System.out.println(getPieceColors(hexTile) + " selected");
