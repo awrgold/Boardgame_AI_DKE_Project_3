@@ -4,14 +4,16 @@ package com.game;
 import Interfaces.GroupView;
 import Systems.AbstractSystem;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 
 public class Hand extends GroupView{
 
     private ArrayList<Tile> hand;
-    private GroupView[] handView;
+    //private GroupView[] handView;
     private Tile selectedTile;
     private int s;
 
@@ -22,29 +24,19 @@ public class Hand extends GroupView{
         create();
     }
     public void create(){
-        handView = new GroupView[6];
-        for (int i = 0; i < 6; i++){
-            handView[i] = hand.get(i);
-            addActorAt( i , handView[i]);
-        }
+        //handView = new GroupView[6];
+        //for (int i = 0; i < 6; i++){
+            //handView[i] = hand.get(i);
+            //addActorAt( i , handView[i]);
+
+
+        //}
+
+
 
     }
     public void act( float delta) {
         super.act(delta);
-
-        for (int i = 0; i < 6; i++){
-//            handView[i] = hand.get(i);
-            if(hand.get(i).isSelected()){
-               deselectTiles(i);
-//
-           }
-//            if(selectedTile !=null && !hand.get(i).isSelected()) {
-//                deselectTile(hand.get(s),i);
-//
-//                selectTile(hand.get(i),i);
-//            }
-      }
-
     }
 
     public ArrayList<Tile> getPieces() {
@@ -74,12 +66,23 @@ public class Hand extends GroupView{
         this.hand = tiles;
     }
 
+    public void swapSelected(Tile newOne){
+        for (Tile t : hand){
+            if (t != newOne && t.isSelected()){
+                t.setSelected(false);
+                t.moveBy(0, -30);
+            }
+        }
+        newOne.setSelected(true);
+        selectedTile = newOne;
+    }
+
 
 
 
 
 
     public GroupView showTile(int i) {
-        return handView[i];
+        return hand.get(i);
     }
 }

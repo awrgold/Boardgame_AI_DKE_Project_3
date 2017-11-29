@@ -38,7 +38,7 @@ public class Board extends GroupView{
 
     }
     public void act( float delta) {
-        super.act(delta);
+
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -75,7 +75,7 @@ public class Board extends GroupView{
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                       handle(event);
+
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
                         if(!secondTouch){
                             //GameScreen.manager.getGamingPlayer().setHexMove1(hexagon);
@@ -144,6 +144,8 @@ public class Board extends GroupView{
                 });
             }
         });
+
+        super.act(delta);
     }
     public Hexagon getFirst() {
         return first;

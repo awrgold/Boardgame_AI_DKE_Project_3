@@ -32,6 +32,7 @@ public class Tile extends GroupView{
         this.selected = false;
         //this.c = false;
         create();
+        first = getHexA();
 
     }
 
@@ -40,103 +41,120 @@ public class Tile extends GroupView{
     }
 
     public void act( float delta) {
-        super.act(delta);
+
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-@Override
-public void call(Hexagon hexagon) {
-final HexagonActor hexTile = new HexagonActor(hexagon);
+            @Override
+            public void call(Hexagon hexagon) {
+                final HexagonActor hexTile = new HexagonActor(hexagon);
 
-        //give both the sprites
-        if(hexagon.getGridX() == 0) {
-        hexTile.setSprite(colors[0]);
-        setHexA(hexTile);
+                //give both the sprites
+                if(hexagon.getGridX() == 0) {
+                    hexTile.setSprite(colors[0]);
+                    setHexA(hexTile);
 
-        } else {
-        hexTile.setSprite(colors[1]);
-        setHexB(hexTile);
+                } else {
+                    hexTile.setSprite(colors[1]);
+                    setHexB(hexTile);
 
-        }
+                }
 
-        hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+                hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
-        //and pass everything in tileGroup
-        addActor(hexTile);
-        hexagon.setSatelliteData(new Link(hexTile));
+                //and pass everything in tileGroup
+                addActor(hexTile);
+                hexagon.setSatelliteData(new Link(hexTile));
 
+                hexTile.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println(hexTile.getHexColor());
 
-                /*
-                        Create a click listener for the tiles in your hand: --------------------------
-                         */
+                    }
+                });
 
-        hexTile.addListener(new ClickListener(){
-@Override
-public void clicked(InputEvent event, float x, float y) {
+            }
 
-
-    // handleTouch();
-//if(!isSelected()) {
-//    hex = hexTile;
-//    System.out.println(getPieceColors(hexTile) + " selected");
-//    first = hexTile;
-//    setSelected(true);
-//    moveBy(0,30);
-//}else{
-//    moveBy(0,-30);
-//    setSelected(false);
-//    System.out.println(getPieceColors(hexTile) + " deselected");
-//}
+        });
+        super.act(delta);
+    }
 
 
-        //manager.getGamingPlayer().setTileToMove1(hexTile);
-        //Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
-        //if (two instanceof HexagonActor){
-        //second = (HexagonActor) two;
-        //manager.getGamingPlayer().setTileToMove2(second);
-        //}
 
 
+
+
+                //        Create a click listener for the tiles in your hand: --------------------------
+
+
+
+
+
+                        // handleTouch();
+                    //if(!isSelected()) {
+                    //    hex = hexTile;
+                    //    System.out.println(getPieceColors(hexTile) + " selected");
+                    //    first = hexTile;
+                    //    setSelected(true);
+                    //    moveBy(0,30);
+                    //}else{
+                    //    moveBy(0,-30);
+                    //    setSelected(false);
+                    //    System.out.println(getPieceColors(hexTile) + " deselected");
+                    //}
+
+
+                            //manager.getGamingPlayer().setTileToMove1(hexTile);
+                            //Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
+                            //if (two instanceof HexagonActor){
+                            //second = (HexagonActor) two;
+                            //manager.getGamingPlayer().setTileToMove2(second);
+                            //}
 
 
 /*
-                        if(touched[0] != null && touched[1] != null) {
-                            selectedTile.moveBy(0, -30);
-                        }
 
 
-                        if(Arrays.asList(tileView[manager.getGamingPlayer().getPlayerNo() - 1]).contains(hexTile.getParent())){
+                                            if(touched[0] != null && touched[1] != null) {
+                                                selectedTile.moveBy(0, -30);
+                                            }
 
-                            hexTile.getParent().moveBy(0, 30);
-                            touched[0] = hexTile.getSprite();
-                            Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
 
-                            if (two instanceof HexagonActor){
-                                HexagonActor other = (HexagonActor) two;
-                                touched[1] = other.getSprite();
-                            }
+                                            if(Arrays.asList(tileView[manager.getGamingPlayer().getPlayerNo() - 1]).contains(hexTile.getParent())){
 
-                            //find the index in player's hand
-                            for (Sprite[] s : playerP.getGamePieces()){
-                                if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
-                                    selectedTileIndex = playerP.getGamePieces().indexOf(s);
-                                }
-                            }
-                            selectedTile = hexTile.getParent();
+                                                hexTile.getParent().moveBy(0, 30);
+                                                touched[0] = hexTile.getSprite();
+                                                Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
 
-                        } else {
-                            // selectedTile.moveBy(0, 30);
-                            System.out.println("It's the turn of player " + manager.getGamingPlayer().getPlayerNo());
+                                                if (two instanceof HexagonActor){
+                                                    HexagonActor other = (HexagonActor) two;
+                                                    touched[1] = other.getSprite();
+                                                }
+
+                                                //find the index in player's hand
+                                                for (Sprite[] s : playerP.getGamePieces()){
+                                                    if((s[0] == touched[0] && s[1] == touched[1]) || (s[1] == touched[0] && s[0] == touched[1])){
+                                                        selectedTileIndex = playerP.getGamePieces().indexOf(s);
+                                                    }
+                                                }
+                                                selectedTile = hexTile.getParent();
+
+                                            } else {
+                                                // selectedTile.moveBy(0, 30);
+                                                System.out.println("It's the turn of player " + manager.getGamingPlayer().getPlayerNo());
+                                            }
+                    }
+
+
+                            });
+                    }
+                            });
                         }*/
-}
 
 
-        });
-}
-        });
-    }
     public void setSelected(boolean s) {
-    this.selected=s;
-            }
+        selected = s;
+    }
 
     public HexagonActor getFirst() {
         return first;
