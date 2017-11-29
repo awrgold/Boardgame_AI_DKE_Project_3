@@ -93,7 +93,7 @@ public class GameState {
                 public void clicked(InputEvent event, float x, float y) {
                     gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
                     for (int i = 0; i < 6; i++) {
-                        Group tile = gamingPlayer.getHand().displayHand()[i];
+                        Group tile = gamingPlayer.getHand();
                         int index = 0;
                         for (Actor hex : tile.getChildren()) {
                             if (hex instanceof HexagonActor) {

@@ -4,10 +4,8 @@ import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import Interfaces.GroupView;
 import Tools.Link;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -20,7 +18,7 @@ import rx.functions.Action1;
 
 public class Tile extends GroupView{
     private HexagonalGrid<Link> grid;
-
+    private boolean c;
     private Sprite[] colors;
     private boolean selected;
     private HexagonActor hexA;
@@ -32,6 +30,7 @@ public class Tile extends GroupView{
         super();
         this.colors = colors;
         this.selected = false;
+        this.c = false;
         create();
 
     }
@@ -65,33 +64,26 @@ final HexagonActor hexTile = new HexagonActor(hexagon);
         addActor(hexTile);
         hexagon.setSatelliteData(new Link(hexTile));
 
+
                 /*
                         Create a click listener for the tiles in your hand: --------------------------
                          */
+
         hexTile.addListener(new ClickListener(){
 @Override
 public void clicked(InputEvent event, float x, float y) {
-        //  int n = 0;
-        //  if (n==0) {
-        //  n++;
-    if (!isSelected()) {
+if(!isSelected()) {
+    hex = hexTile;
+    System.out.println(getPieceColors(hexTile) + " selected");
+    first = hexTile;
+    setSelected(true);
+    moveBy(0,30);
+}else{
+    moveBy(0,-30);
+    setSelected(false);
+    System.out.println(getPieceColors(hexTile) + " deselected");
+}
 
-        hex = hexTile;
-        setSelected();
-        //       System.out.println();
-        System.out.println(getPieceColors(hexTile)+" selected ");
-        first = hexTile;
-    }else{
-
-        deselect();
-        System.out.println(getPieceColors(hexTile)+" deselected ");
-    }
-        //   moveBy(0, 30);
-//                      }else{
-//                          n=0;
-//                          deselect();
-//                      }
-//                        tileGroup.moveBy(0, 30);
 
         //manager.getGamingPlayer().setTileToMove1(hexTile);
         //Actor two = hexTile.getParent().getChildren().get(Math.abs(hexTile.getHexagon().getGridX() - 1));
@@ -139,18 +131,10 @@ public void clicked(InputEvent event, float x, float y) {
 }
         });
     }
-    public void setSelected() {
+    public void setSelected(boolean s) {
+    this.selected=s;
+            }
 
-
-        selected = true;
-        moveBy(0,30);
-    }
-    public void deselect() {
-
-        selected = false;
-        moveBy(0, -30);
-
-    }
     public HexagonActor getFirst() {
         return first;
     }

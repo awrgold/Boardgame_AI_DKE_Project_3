@@ -110,7 +110,7 @@ public class GameScreen extends AbstractScreen {
 
        for (int i = 0; i < 6; i++) {
 
-           boardColumn.add(manager.getHandByIndex(0).displayHand()[i]);
+           boardColumn.add(manager.getHandByIndex(0).showTile(i));
 
         }
 
@@ -135,7 +135,7 @@ public class GameScreen extends AbstractScreen {
         changeTiles[1].setVisible(false);
 
         for (int i = 0; i < 6; i++) {
-            boardColumn.add(manager.getHandByIndex(1).displayHand()[i]);
+            boardColumn.add(manager.getHandByIndex(1).showTile(i));
 
         }
 
