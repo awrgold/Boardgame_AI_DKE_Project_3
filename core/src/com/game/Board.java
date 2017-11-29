@@ -16,7 +16,7 @@ import rx.functions.Action1;
 
 public class Board extends GroupView{
     private HexagonalGrid<Link> grid;
-   // private Group boardView;
+
     private boolean secondTouch;
     private Hexagon first;
     private Hexagon second;
@@ -25,7 +25,7 @@ public class Board extends GroupView{
     public Board(){
         super();
 
-      //  boardView = new Group();
+
         secondTouch = false;
         create();
     }
@@ -75,6 +75,7 @@ public class Board extends GroupView{
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                       handle(event);
                         System.out.println(hexActor.getHexagon().getGridX() + ", " + hexActor.getHexagon().getGridY() + ", " + hexActor.getHexagon().getGridZ());
                         if(!secondTouch){
                             //GameScreen.manager.getGamingPlayer().setHexMove1(hexagon);

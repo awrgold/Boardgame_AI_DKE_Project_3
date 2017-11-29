@@ -8,7 +8,11 @@ public abstract class GroupView extends Group  {
 
     }
     public void create(){};
-    public void act( float delta) {
+    public void act( float delta)
+    {
         super.act(delta);
+    }
+    public void handleTouch(){
+
     }
 }

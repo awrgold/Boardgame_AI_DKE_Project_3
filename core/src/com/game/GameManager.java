@@ -13,37 +13,17 @@ import rx.functions.Action1;
 import java.util.ArrayList;
 
 public class GameManager extends AbstractSystem {
-  // private int nOfPlayer;
-    //private int hn;
-    // private int ain;
-//    private Player[] players;
-//    private Player gamingPlayer;
-//    private ArrayList<Sprite[]> bag;
-//    private int[][] points;
-//    private boolean endGame=false;
 
-    //  private ArrayList<Moves, reward>;
-//    private HexagonalGrid<Link> board;
 
 
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
-    private HexagonalGrid<Link> currentBoard;
+
     private Tree gameTree;
 
     public GameManager(){
-        // nOfPlayer = 2;
-        // points = new int[2][];
-        // bag = Pieces.createBagPieces();
-        /*
-        for (int x = 1; x <= nOfPlayer; x++){
-            players[x - 1] = new Player(x, Pieces.distributePieces(bag));
-            points[x - 1] = players[x - 1].getPlayerScore();
-        }
-        */
-        // gamingPlayer = players[0];
-        // board = Constants.grid.build();
+
 
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
@@ -96,26 +76,6 @@ public class GameManager extends AbstractSystem {
     public Bag getBag() {
         return currentState.getCurrentBag();
     }
-
-    public void status(){
-        currentBoard.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon<Link> linkHexagon) {
-                if (linkHexagon.getSatelliteData().isPresent()){
-                    // create a link for the actor and hex of the next hex from current
-                    Link hexLink = (Link) linkHexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
-                    System.out.println(currentHexActor.getHexColor());
-
-                }
-            }
-        });
-    }
-
-
-
-
-
 
 
     public int getTotalTurnNumber(){

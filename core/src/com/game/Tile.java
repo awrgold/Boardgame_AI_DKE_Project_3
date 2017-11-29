@@ -18,7 +18,7 @@ import rx.functions.Action1;
 
 public class Tile extends GroupView{
     private HexagonalGrid<Link> grid;
-    private boolean c;
+    //private boolean c;
     private Sprite[] colors;
     private boolean selected;
     private HexagonActor hexA;
@@ -30,7 +30,7 @@ public class Tile extends GroupView{
         super();
         this.colors = colors;
         this.selected = false;
-        this.c = false;
+        //this.c = false;
         create();
 
     }
@@ -72,17 +72,18 @@ final HexagonActor hexTile = new HexagonActor(hexagon);
         hexTile.addListener(new ClickListener(){
 @Override
 public void clicked(InputEvent event, float x, float y) {
-if(!isSelected()) {
-    hex = hexTile;
-    System.out.println(getPieceColors(hexTile) + " selected");
-    first = hexTile;
-    setSelected(true);
-    moveBy(0,30);
-}else{
-    moveBy(0,-30);
-    setSelected(false);
-    System.out.println(getPieceColors(hexTile) + " deselected");
-}
+   // handleTouch();
+//if(!isSelected()) {
+//    hex = hexTile;
+//    System.out.println(getPieceColors(hexTile) + " selected");
+//    first = hexTile;
+//    setSelected(true);
+//    moveBy(0,30);
+//}else{
+//    moveBy(0,-30);
+//    setSelected(false);
+//    System.out.println(getPieceColors(hexTile) + " deselected");
+//}
 
 
         //manager.getGamingPlayer().setTileToMove1(hexTile);
