@@ -155,10 +155,11 @@ public class Board extends GroupView{
         return second;
     }
 
+    public boolean gameOver(){
+        return false;
+    }
 
-
-
-
-
-
+    public HexagonalGrid<Link> getGrid() {
+        return grid;
+    }
 }

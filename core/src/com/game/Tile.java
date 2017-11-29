@@ -65,18 +65,11 @@ public class Tile extends GroupView{
                 addActor(hexTile);
                 hexagon.setSatelliteData(new Link(hexTile));
 
-                hexTile.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        System.out.println(hexTile.getHexColor());
-
-                    }
-                });
 
             }
 
         });
-        super.act(delta);
+        //super.act(delta);
     }
 
 

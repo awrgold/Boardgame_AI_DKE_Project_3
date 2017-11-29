@@ -16,7 +16,11 @@ public class Action {
         this.tile = t;
     }
 
-    //public Action(){};
+    public Action(){
+        this.h1 = null;
+        this.h2 = null;
+        this.tile = null;
+    };
 
     public Hexagon getH1() {
         return h1;

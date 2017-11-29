@@ -19,8 +19,9 @@ public class GameIngenious extends Game {
 
 
 
+    @Override
     public void create() {
-       batch = new SpriteBatch();
+       //batch = new SpriteBatch();
        showGameScreen();
     }
     /*

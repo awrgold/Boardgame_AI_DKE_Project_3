@@ -24,11 +24,10 @@ public class GameState {
         players = new Player[Constants.getNumberOfPlayers()];
         currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
-        gamingPlayer = players[0];
-
         for (int x = 1; x <= players.length; x++){
             players[x - 1] = new Player(x, currentBag.pickSix(),currentBoard);
         }
+        gamingPlayer = players[0];
     }
 
     private GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
@@ -93,7 +92,7 @@ public class GameState {
                 public void clicked(InputEvent event, float x, float y) {
                     gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
                     for (int i = 0; i < 6; i++) {
-                        Group tile = gamingPlayer.getHand();
+                        Group tile = gamingPlayer.getHand().getPieces().get(i);
                         int index = 0;
                         for (Actor hex : tile.getChildren()) {
                             if (hex instanceof HexagonActor) {
