@@ -436,7 +436,7 @@ public class Player{
     }
 
     //TODO
-    public ArrayList<Tile> getTilesSortedByScore(ArrayList<Integer> scoreIndexQ){
+    public ArrayList<Tile> getSortedTiles(){
 
         /*
         Priorities:
@@ -447,35 +447,64 @@ public class Player{
         5) Doubles of third lowest score
         6) random
          */
-        // to be sorted
+        // tiles in hand to be sorted by priority
         ArrayList<Tile> scoreTileQ = this.getHand().getPieces();
         // list of colors found in hand
         ArrayList<Sprite[]> tileColors = new ArrayList<>();
-        // scoreTupleQ of tuples ranked by indexes from getScoreQ()
+        // scoreTupleQ of tuples tied to index, needs to be sorted, used to sort scoreTileQ
         ArrayList<ScoreTuple> scoreTupleQ = new ArrayList<>();
 
-
-        int temp = 0;
-        for (int i : scoreIndexQ){
+        // sort the scoreTupleQ based on score index (lowest to highest).
+        // Use this to find the color tied to score index!!!
+        for (int i : getScoreQ()){
             tileColors.set(i, this.getHand().getPieces().get(i).getColors());
 
-            if (scoreTuples.get(i).getScoreIndex() == scoreIndexQ.get(i)){
-                scoreTupleQ.set(i, scoreTuples.get(i));
-                i++;
+            for (int j = 0; j < scoreTupleQ.size(); j++){
+
+                if (getScoreQ().get(i) == scoreTuples.get(j).getScoreIndex()){
+                    scoreTupleQ.set(i, scoreTuples.get(j));
+                    i++;
+                }
             }
+        }
 
-
+        int temp = 0;
+        for (int i : getScoreQ()){
             for (Tile t : scoreTileQ){
-                // find doubles
-                if (t.getFirst().getHexColor().equals(scoreTileQ.get(i).getFirst().getSpriteColor()) && t.getSecond().getHexColor().equals(scoreTileQ.get(i).getSecond().getSpriteColor())){
+
+                /*
+                PRIORITY HEURISTICS:
+                 */
+
+                // find doubles of the lowest color
+                if (t.getFirst().getHexColor().equals(scoreTupleQ.get(0).getScoreColorString()) && t.getSecond().getHexColor().equals(scoreTupleQ.get(0).getScoreColorString())){
                     scoreTileQ.set(temp,t);
                     temp++;
                 }
                 // find (2)
-               // if (t.getFirst().getHexColor())
+                if (t.getFirst().getHexColor().equals(scoreTupleQ.get(0).getScoreColorString()) && t.getSecond().getHexColor().equals(scoreTupleQ.get(1).getScoreColorString())){
+                    scoreTileQ.set(temp,t);
+                    temp++;
+                }
+                // find (3)
+                if (t.getFirst().getHexColor().equals(scoreTupleQ.get(0).getScoreColorString()) && t.getSecond().getHexColor().equals(scoreTupleQ.get(2).getScoreColorString())){
+                    scoreTileQ.set(temp,t);
+                    temp++;
+                }
+                // find (4)
+                if (t.getFirst().getHexColor().equals(scoreTupleQ.get(1).getScoreColorString()) && t.getSecond().getHexColor().equals(scoreTupleQ.get(1).getScoreColorString())){
+                    scoreTileQ.set(temp,t);
+                    temp++;
+                }
+                // find (5)
+                if (t.getFirst().getHexColor().equals(scoreTupleQ.get(2).getScoreColorString()) && t.getSecond().getHexColor().equals(scoreTupleQ.get(2).getScoreColorString())){
+                    scoreTileQ.set(temp,t);
+                    temp++;
+                }
+                // find (6) - random
+                scoreTileQ.set(i,t);
             }
         }
-
         return scoreTileQ;
     }
 }

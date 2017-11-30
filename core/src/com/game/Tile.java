@@ -161,7 +161,7 @@ public void clicked(InputEvent event, float x, float y) {
         return selected;
     }
 
-
+    /*
     public String[] getPieceColors(HexagonActor hexTile) {
         HexagonActor temp=null;
         if(hexTile != getHexA()){
@@ -176,6 +176,7 @@ public void clicked(InputEvent event, float x, float y) {
 
         return pColor;
     }
+    */
 
     public HexagonActor getHexA() {
         return hexA;

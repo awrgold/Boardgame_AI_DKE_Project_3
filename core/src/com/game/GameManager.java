@@ -1,5 +1,6 @@
 package com.game;
 
+import GameAI.*;
 import GameBoardAssets.HexagonActor;
 import Systems.AbstractSystem;
 import Tools.Link;
@@ -30,10 +31,14 @@ public class GameManager extends AbstractSystem {
     }
 
     public void updateState(){
-       // currentState.toString();
-        //Action move = new Action
-        // (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
-//        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
+
+        currentState.toString();
+
+        changeState(GreedySearch.getNextMove())
+        /*
+        Action move = (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
+        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
+        */
 
     }
 

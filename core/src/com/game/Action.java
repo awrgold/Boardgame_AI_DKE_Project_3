@@ -10,9 +10,9 @@ public class Action {
     private GameState state;
     private Tile tile;
 
-    public Action(Hexagon h1, Hexagon h2, Tile t){
-        this.h1 = h1;
-        this.h2 = h2;
+    public Action(Tile t){
+        this.h1 = t.getHexA().getHexagon();
+        this.h2 = t.getHexB().getHexagon();
         this.tile = t;
     }
 
