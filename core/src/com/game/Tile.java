@@ -21,9 +21,6 @@ public class Tile extends GroupView{
     //private boolean c;
     private Sprite[] colors;
     private boolean selected;
-    private HexagonActor hexA;
-    private HexagonActor hexB;
-    private HexagonActor hex;
     private HexagonActor first;
 
     public Tile(Sprite[] colors){
@@ -32,7 +29,7 @@ public class Tile extends GroupView{
         this.selected = false;
         //this.c = false;
         create();
-        first = getHexA();
+
 
     }
 
@@ -51,11 +48,11 @@ public class Tile extends GroupView{
                 //give both the sprites
                 if(hexagon.getGridX() == 0) {
                     hexTile.setSprite(colors[0]);
-                    setHexA(hexTile);
+
 
                 } else {
                     hexTile.setSprite(colors[1]);
-                    setHexB(hexTile);
+
 
                 }
 
@@ -149,6 +146,10 @@ public class Tile extends GroupView{
         selected = s;
     }
 
+    public void setFirst(HexagonActor clicked){
+        first = clicked;
+    }
+
     public HexagonActor getFirst() {
         return first;
     }
@@ -176,7 +177,7 @@ public class Tile extends GroupView{
 
 
 
-    public String getPieceColors(HexagonActor hexTile) {
+    /*public String getPieceColors(HexagonActor hexTile) {
        HexagonActor temp=null;
         if(hexTile != getHexA()){
             temp = getHexA();
@@ -188,23 +189,8 @@ public class Tile extends GroupView{
 
 
         return pcolor;
-    }
+    }*/
 
-    public HexagonActor getHexA() {
-        return hexA;
-    }
-
-    public void setHexA(HexagonActor hexA) {
-        this.hexA = hexA;
-    }
-
-    public HexagonActor getHexB() {
-        return hexB;
-    }
-
-    public void setHexB(HexagonActor hexB) {
-        this.hexB = hexB;
-    }
 
 
 }

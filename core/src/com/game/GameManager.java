@@ -31,8 +31,6 @@ public class GameManager extends AbstractSystem {
 
 
     public GameManager(){
-
-
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
@@ -131,6 +129,7 @@ public class GameManager extends AbstractSystem {
         System.out.println(action.toString());
 
     }
+
     // Apply action, create new state, tell tree to update root
 //    public void moveAIPlayer() {
 //        CellPosition changedPosition = player2.makeAIMove();
@@ -165,7 +164,7 @@ public class GameManager extends AbstractSystem {
        }
     }
 
-    public void handleTileTouch(Vector2 worldTouch, int y){
+    public void handleTileTouch(Vector2 worldTouch){
         //System.out.println(getGamingPlayer().getHand().getPieces().get(0).getHexA().getHexColor());
         outerloop:
         for (Tile tile : getGamingPlayer().getHand().getPieces()){
@@ -189,14 +188,17 @@ public class GameManager extends AbstractSystem {
                     }
                     if (inX && inY) {
                         System.out.println("found");
+                        if (move.getTile() != null){
+                            move.getTile().moveBy(0, -30);
+                        }
 
+                        tile.setFirst(clicked);
                         move.setTile(tile);
                         tile.moveBy(0, 30);
 
 
                         System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());
                         break outerloop;
-
                     }
 
                 }
@@ -214,7 +216,6 @@ public class GameManager extends AbstractSystem {
             if (hex instanceof HexagonActor){
                 HexagonActor clicked = (HexagonActor) hex;
                 Vector2 hexLoc = clicked.localToStageCoordinates(new Vector2());
-                Hexagon one = clicked.getHexagon();
 
                 if (worldTouch.x > hexLoc.x &&
                         worldTouch.x < hexLoc.x + Constants.getHexRadius() * 2) {
@@ -225,7 +226,14 @@ public class GameManager extends AbstractSystem {
                     inY = true;
                 }
                 if (inX && inY) {
-                    System.out.println("found");
+                    //System.out.println("found");
+                    if (!second){
+                        move.setH1(clicked.getHexagon());
+                        System.out.println("setting h1");
+                    } else {
+                        move.setH2(clicked.getHexagon());
+                        System.out.println("setting h2");
+                    }
 
                     System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());
                     break;
@@ -236,23 +244,19 @@ public class GameManager extends AbstractSystem {
     }
 
     public boolean handleTouch(Vector2 worldTouch){
-        if(move.getTile() == null){
-            if (getGamingPlayer().getPlayerNo() == 2){
-                System.out.println("p2");
-                handleTileTouch(worldTouch, 0);
-                return true;
-            } else {
-                System.out.println("p1");
-                handleTileTouch(worldTouch, 1350);
-                return true;
-            }
+        if (getGamingPlayer().getPlayerNo() == 2){
+            System.out.println("p2");
+            handleTileTouch(worldTouch);
+        } if(getGamingPlayer().getPlayerNo() == 1) {
+            System.out.println("p1");
+            handleTileTouch(worldTouch);
 
-
+        } if (move.getH1() != null && move.getH2() == null){
+            handleBoardTouch(true, worldTouch);
+            changeState(move);
         } if (move.getH1() == null){
             handleBoardTouch(false, worldTouch);
-            return true;
-        } if (move.getH2() == null){
-            handleBoardTouch(true, worldTouch);
+        } if (move.getH1() != null && move.getH2() != null){
             return true;
         }
         return true;
@@ -263,9 +267,4 @@ public class GameManager extends AbstractSystem {
 
     }
 
-    //  public boolean isGamingPlayer(Player playerP) {
-//        boolean p;
-//
-//        return p;
-   // }
 }

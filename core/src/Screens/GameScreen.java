@@ -186,6 +186,7 @@ public class GameScreen extends AbstractScreen {
         stage.act(delta);
         stage.draw();
         //renderer.end();
+
     }
 
     public void dispose(){
