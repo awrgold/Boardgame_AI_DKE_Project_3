@@ -43,9 +43,9 @@ public class Tile extends GroupView{
         super.act(delta);
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-@Override
-public void call(Hexagon hexagon) {
-final HexagonActor hexTile = new HexagonActor(hexagon);
+    @Override
+    public void call(Hexagon hexagon) {
+    final HexagonActor hexTile = new HexagonActor(hexagon);
 
         //give both the sprites
         if(hexagon.getGridX() == 0) {
@@ -162,21 +162,19 @@ public void clicked(InputEvent event, float x, float y) {
     }
 
 
-
-
-
-    public String getPieceColors(HexagonActor hexTile) {
-       HexagonActor temp=null;
+    public String[] getPieceColors(HexagonActor hexTile) {
+        HexagonActor temp=null;
         if(hexTile != getHexA()){
             temp = getHexA();
         }
         if(hexTile != getHexB()){
             temp = getHexB();
         }
-       String pcolor=hexTile.getHexColor()+" | "+ temp.getHexColor();
+        String[] pColor = new String[2];
+        pColor[0] = hexTile.getHexColor();
+        pColor[1] = temp.getHexColor();
 
-
-        return pcolor;
+        return pColor;
     }
 
     public HexagonActor getHexA() {

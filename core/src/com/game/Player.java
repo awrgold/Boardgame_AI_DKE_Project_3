@@ -23,8 +23,7 @@ int[5] = red
 
 public class Player{
 
-   // private boolean isAI;
-    //private Hand hand;
+    //private boolean isAI;
     private int[] playerScore = new int[6];
     private int playerNo;
     private Hand hand;
@@ -386,6 +385,8 @@ public class Player{
 
     public ArrayList<Integer> getScoreQ(){
 
+        // under construction
+
         ArrayList<Integer> indexes = new ArrayList<>();
 
         for (int i : playerScore){
@@ -415,7 +416,34 @@ public class Player{
         return count;
     }
 
+    public ArrayList<Tile> getTilesSortedByScore(ArrayList<Integer> scoreIndexQ){
 
+        /*
+        Priorities:
+        1) Doubles of lowest score
+        2) Tiles with lowest score + 2nd lowest score
+        3) Tiles with lowest score + 3rd lowest score
+        4) Doubles of second lowest score
+        5) Doubles of third lowest score
+        6) random
+         */
+        // to be sorted
+        ArrayList<Tile> scoreTileQ = this.getHand().getPieces();
+        // list of colors found in hand
+        ArrayList<Sprite[]> tileColors = new ArrayList<>();
+        // scoreQ of integer indexes
+        ArrayList<Integer> scoreQ = this.getScoreQ();
+
+        for (int i : scoreIndexQ){
+            tileColors.set(i, this.getHand().getPieces().get(i).getColors());
+
+            for (Tile t : scoreTileQ){
+                if (t.getFirst().getHexColor() == scoreQ.get(i).)
+            }
+        }
+
+        return scoreTileQ;
+    }
 }
 
 
