@@ -18,6 +18,8 @@ public class Tree {
         return root;
     }
 
-
+    public void setRoot(Node nextRoot){
+        this.root = nextRoot;
+    }
 
 }

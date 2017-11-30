@@ -32,15 +32,12 @@ public class Node {
         this.parentEdge = parent;
     }
 
-    public void setChildrenEdges(ArrayList<Edge> children){
-        this.childrenEdges = children;
+    public void addChildEdge(Edge childEdge){
+        childrenEdges.add(childEdge);
     }
 
     public void setState(GameState state){
         this.state = state;
     }
-
-
-
 
 }

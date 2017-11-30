@@ -472,7 +472,7 @@ public class Player{
                     temp++;
                 }
                 // find (2)
-                if (t.getFirst().getHexColor())
+               // if (t.getFirst().getHexColor())
             }
         }
 

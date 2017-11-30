@@ -7,11 +7,16 @@ public class Edge {
     private Action action;
     private Node parentNode;
     private Node childNode;
+    private Tree tree;
 
-    public Edge(Node parent, Node child, Action action){
+    public Edge(Tree tree, Node parent, Node child, Action action){
         this.parentNode = parent;
         this.childNode = child;
         this.action = action;
+        this.tree = tree;
+
+        parent.addChildEdge(this);
+        child.setParentEdge(this);
     }
 
     public Action getAction(){
@@ -32,6 +37,10 @@ public class Edge {
 
     public void setChildNode(Node child){
         this.childNode = child;
+    }
+
+    public Tree getTree(){
+        return tree;
     }
 
 
