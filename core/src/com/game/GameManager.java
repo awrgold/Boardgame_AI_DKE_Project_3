@@ -127,6 +127,7 @@ public class GameManager extends AbstractSystem {
     public void changeState(Action action){
         currentState = currentState.applyAction(action);
         System.out.println(action.toString());
+        move = new Action();
 
     }
 
@@ -254,7 +255,7 @@ public class GameManager extends AbstractSystem {
         } if (move.getH1() != null && move.getH2() == null){
             handleBoardTouch(true, worldTouch);
             changeState(move);
-        } if (move.getH1() == null){
+        } if (move.getH1() == null && move.getTile() != null){
             handleBoardTouch(false, worldTouch);
         } if (move.getH1() != null && move.getH2() != null){
             return true;
