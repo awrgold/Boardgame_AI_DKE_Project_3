@@ -26,7 +26,7 @@ public class GameManager extends AbstractSystem {
 
 
         this.currentState = new GameState();
-        //gameTree.buildTree(startingState);
+        gameTree.buildTree(currentState, null, null);
 
     }
 

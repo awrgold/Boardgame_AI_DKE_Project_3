@@ -2,6 +2,7 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import GameScoreAssets.ScoreTuple;
 import Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -31,6 +32,8 @@ public class Player{
     private static boolean[] colorIngenious = new boolean[6];
     private Board board;
     private ArrayList<Integer> scoreQ = new ArrayList<>();
+    private ArrayList<ScoreTuple> scoreTuples = new ArrayList<>();
+
 
     //private Action move = new Action();
 
@@ -40,16 +43,30 @@ public class Player{
         this.playerNo = playerNo;
         this.board = board;
         this.hand = new Hand(playerPieces);
+
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
         PlayerScoreSprite[0] = Constants.blueSprite;
+        ScoreTuple tuple0 = new ScoreTuple(0, Constants.blueSprite);
         PlayerScoreSprite[1] = Constants.yellowSprite;
+        ScoreTuple tuple1 = new ScoreTuple(1, Constants.yellowSprite);
         PlayerScoreSprite[2] = Constants.orangeSprite;
+        ScoreTuple tuple2 = new ScoreTuple(2, Constants.orangeSprite);
         PlayerScoreSprite[3] = Constants.purpleSprite;
+        ScoreTuple tuple3 = new ScoreTuple(3, Constants.purpleSprite);
         PlayerScoreSprite[4] = Constants.violetSprite;
+        ScoreTuple tuple4 = new ScoreTuple(4, Constants.violetSprite);
         PlayerScoreSprite[5] = Constants.redSprite;
+        ScoreTuple tuple5 = new ScoreTuple(5, Constants.redSprite);
 
+        // add tuple objects that can be sorted in "dictionary" format
+        scoreTuples.add(0, tuple0);
+        scoreTuples.add(1, tuple1);
+        scoreTuples.add(2, tuple2);
+        scoreTuples.add(3, tuple3);
+        scoreTuples.add(4, tuple4);
+        scoreTuples.add(5, tuple5);
     }
 
     public Hand getHand(){
@@ -406,6 +423,8 @@ public class Player{
         return indexes;
     }
 
+
+
     public int howManyLowestColors(){
         int count = 0;
         for (int i = 1; i < scoreQ.size(); i++){
@@ -416,6 +435,7 @@ public class Player{
         return count;
     }
 
+    //TODO
     public ArrayList<Tile> getTilesSortedByScore(ArrayList<Integer> scoreIndexQ){
 
         /*
@@ -431,14 +451,28 @@ public class Player{
         ArrayList<Tile> scoreTileQ = this.getHand().getPieces();
         // list of colors found in hand
         ArrayList<Sprite[]> tileColors = new ArrayList<>();
-        // scoreQ of integer indexes
-        ArrayList<Integer> scoreQ = this.getScoreQ();
+        // scoreTupleQ of tuples ranked by indexes from getScoreQ()
+        ArrayList<ScoreTuple> scoreTupleQ = new ArrayList<>();
 
+
+        int temp = 0;
         for (int i : scoreIndexQ){
             tileColors.set(i, this.getHand().getPieces().get(i).getColors());
 
+            if (scoreTuples.get(i).getScoreIndex() == scoreIndexQ.get(i)){
+                scoreTupleQ.set(i, scoreTuples.get(i));
+                i++;
+            }
+
+
             for (Tile t : scoreTileQ){
-                if (t.getFirst().getHexColor() == scoreQ.get(i).)
+                // find doubles
+                if (t.getFirst().getHexColor().equals(scoreTileQ.get(i).getFirst().getSpriteColor()) && t.getSecond().getHexColor().equals(scoreTileQ.get(i).getSecond().getSpriteColor())){
+                    scoreTileQ.set(temp,t);
+                    temp++;
+                }
+                // find (2)
+                if (t.getFirst().getHexColor())
             }
         }
 

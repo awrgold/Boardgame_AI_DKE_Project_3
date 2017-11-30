@@ -139,13 +139,14 @@ public class HexagonActor extends Actor{
         //draw the sprite on the actor
         batch.draw(sprite, getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
     }
+
     public Hexagon<Link> getHexagon(){
         return hexagon;
     }
 
     // Gets the color of a sprite
-    public static String getSpriteColor(HexagonActor hexActor){
-        Texture texture = hexActor.getSprite().getTexture();
+    public String getSpriteColor(){
+        Texture texture = this.getSprite().getTexture();
         String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
 
         String violet = "colours/violet.png";
@@ -154,7 +155,7 @@ public class HexagonActor extends Actor{
         String yellow = "colours/yellow.png";
         String orange = "colours/orange.png";
         String purple = "colours/purple.png";
-        String empty = "4players.png";
+        String empty =  "4players.png";
 
 
 

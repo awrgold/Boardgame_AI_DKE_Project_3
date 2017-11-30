@@ -193,5 +193,14 @@ public void clicked(InputEvent event, float x, float y) {
         this.hexB = hexB;
     }
 
+    public String[] getTileColors(){
+        String[] colors = new String[2];
+
+        colors[0] = first.getHexColor();
+
+        colors[1] = getSecond().getHexColor();
+
+        return colors;
+    }
 
 }

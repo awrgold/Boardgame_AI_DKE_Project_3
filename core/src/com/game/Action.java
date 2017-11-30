@@ -42,6 +42,7 @@ public class Action {
         this.h2 = h2;
     }
 
+    /*
     public String[] getTileColors(){
         String[] colors = new String[2];
 
@@ -51,6 +52,7 @@ public class Action {
 
         return colors;
     }
+    */
 
     public String toString(){
         return "Placing Tile: " + tile.getFirst().getHexColor() + " - " + tile.getSecond().getHexColor() +

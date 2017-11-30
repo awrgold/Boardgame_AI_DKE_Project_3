@@ -10,8 +10,10 @@ public class Node {
     private Edge parentEdge;
     private ArrayList<Edge> childrenEdges;
 
-    public Node(GameState state){
+    public Node(GameState state, Edge parentEdge, ArrayList<Edge> childrenEdges){
         this.state = state;
+        this.parentEdge = parentEdge;
+        this.childrenEdges = childrenEdges;
     }
 
     public GameState getState(){
