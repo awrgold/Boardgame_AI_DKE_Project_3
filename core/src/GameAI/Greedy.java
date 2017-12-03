@@ -5,13 +5,15 @@ import com.game.*;
 
 public class Greedy implements GreedySearch {
 
-    SmartGreedyEval eval1 = new SmartGreedyEval();
+    Action getNextMove();
+
+    SmartEvaluations eval1 = new SmartEvaluations();
 
     public Action getNextMove(GameState state){
 
         Player nowPlaying = state.getGamingPlayer();
 
-        return eval1.smartGreedySearch(state);
+        return eval1.smartEvaluations(state);
 
     }
 

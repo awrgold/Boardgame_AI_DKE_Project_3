@@ -4,7 +4,7 @@ import com.game.Action;
 import com.game.GameState;
 import com.game.Tile;
 
-public class SmartGreedyEval {
+public class SmartEvaluations {
 
     /*
         - If start of game (3+ lowest colors):
@@ -27,13 +27,13 @@ public class SmartGreedyEval {
         --- Return Action that maximizes score
          */
 
-    public SmartGreedyEval(){
+    public SmartEvaluations(){
 
     }
 
 
 
-    public Action smartGreedySearch(GameState state){
+    public Action smartEvaluations(GameState state){
 
         if(state.getGamingPlayer().howManyLowestColors() > 2){
             /*
