@@ -76,14 +76,15 @@ public class ScoreBarGroup extends VerticalGroup{
 
     }
     public void act( float delta) {
-        super.act(delta);
-        for (int i = 0; i<num;i++){
-            int v = scores[i];
-            int j = (v*140)/18;
-            String s = Integer.toString(v);
-            cl[i].updateText(s);
-            bars[i].updateVal(j);
-        }
+//        super.act(delta);
+//        for (int i = 0; i<num;i++){
+//            int v = scores[i];
+//            int j = (v*140)/18;
+//
+//            String s = Integer.toString(v);
+//            cl[i].updateText(s);
+//            bars[i].updateVal(j);
+//        }
 
 
     }

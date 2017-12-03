@@ -31,7 +31,7 @@ public class GameScreen extends AbstractScreen {
     GameManager manager;
     private Skin skin;
 
-    private Stage stage;
+   // private Stage stage;
     private Table root;
 	public static TextButton[] changeTiles;
     //private CustomLabel p1;
@@ -53,7 +53,6 @@ public class GameScreen extends AbstractScreen {
 
     public GameScreen(GameIngenious game) {
     // Build screen, add skins, add players
-
         this.game = game;
         //this.manager = new GameManager();
         //handler = new GameHandler(game, comStrategy);
@@ -61,18 +60,19 @@ public class GameScreen extends AbstractScreen {
         //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
         manager = new GameManager();
 
-
+        buildStage();
 
 
     }
 
 
 	public void buildStage() {
+
         viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
         batch = new SpriteBatch();
-        stage = new Stage(viewport);
+        //stage = new Stage(viewport);
+        setViewport(viewport);
         Gdx.input.setInputProcessor(this);
-
 
         this.root = new Table();
         this.root.setFillParent(true);
@@ -150,7 +150,8 @@ public class GameScreen extends AbstractScreen {
         root.pack();
 
 
-        stage.addActor(root);
+        //stage.addActor(root);
+        addActor(root);
 
     }
 
@@ -183,16 +184,19 @@ public class GameScreen extends AbstractScreen {
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
         manager.proccessStep(delta);
-        buildStage();
-        stage.act(delta);
-        stage.draw();
+
+
+       this.act(delta);
+        this.draw();
         //renderer.end();
 
     }
 
     public void dispose(){
+       // stage.dispose();
         super.dispose();
-        stage.dispose();
+
+
     }
 
     @Override
