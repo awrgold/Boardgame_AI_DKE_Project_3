@@ -27,22 +27,27 @@ public class Hand{
         return hand;
     }
 
-    private void deselectTiles( int s) {
+    /*private void deselectTiles( int s) {
         for (int i = 0; i < 6; i++){
             if(i!=s && hand.get(i).isSelected()){
                 hand.get(i).setSelected(false);
             }
 
             }
-        }
+        }*/
 
 
 
     public void pickFromBag(Tile picked){
-        hand.add(picked);
+        hand.add(s, picked);
     }
 
     public void removeFromHand(Tile placed){
+        for (int i = 0; i < 6; i++){
+            if (hand.get(i) == placed){
+                s = i;
+            }
+        }
         hand.remove(placed);
     }
 

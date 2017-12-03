@@ -37,7 +37,13 @@ public class GameManager extends AbstractSystem {
 
     }
 
-    public void updateState(){
+    public void updateState(float delta){
+        getBoard().act(delta);
+        for (Player p : getPlayers()){
+            for (Tile t : p.getHand().getPieces()){
+                t.act(delta);
+            }
+        }
        // currentState.toString();
         //
         // (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
@@ -125,8 +131,9 @@ public class GameManager extends AbstractSystem {
     }
 
     public void changeState(Action action){
+        action.toString();
         currentState = currentState.applyAction(action);
-        System.out.println(action.toString());
+
         move = new Action();
 
     }
@@ -161,7 +168,7 @@ public class GameManager extends AbstractSystem {
     @Override
     public void proccessStep(float delta) {
        if (!endGameCheck()){
-            updateState();
+            updateState(delta);
        }
     }
 
@@ -180,25 +187,30 @@ public class GameManager extends AbstractSystem {
                     Hexagon one = clicked.getHexagon();
 
                     if (worldTouch.x > hexLoc.x &&
-                            worldTouch.x < hexLoc.x + Constants.getHexRadius() * 2) {
+                            worldTouch.x < hexLoc.x + Constants.getHexRadius() * 1.5) {
                         inX = true;
                     }
                     if (worldTouch.y > hexLoc.y &&
-                            worldTouch.y < hexLoc.y + Constants.getHexRadius() * 2) {
+                            worldTouch.y < hexLoc.y + Constants.getHexRadius() * 1.5) {
                         inY = true;
                     }
                     if (inX && inY) {
-                        System.out.println("found");
                         if (move.getTile() != null){
                             move.getTile().moveBy(0, -30);
                         }
 
                         tile.setFirst(clicked);
+                        tile.setSelected(true);
                         move.setTile(tile);
+
+                        /**the tile is not moving*/
+
+                        System.out.println("Actor Position Before moveBy on Group is : "+tile.getX()+" And "+tile.getY());
                         tile.moveBy(0, 30);
+                        System.out.println("After moveBy applied on Group, Actor Position is : "+tile.getX()+" And "+tile.getY());
 
 
-                        System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());
+                        System.out.println(clicked.getHexColor() + " - " + tile.getSecond().getHexColor());
                         break outerloop;
                     }
 
@@ -219,21 +231,21 @@ public class GameManager extends AbstractSystem {
                 Vector2 hexLoc = clicked.localToStageCoordinates(new Vector2());
 
                 if (worldTouch.x > hexLoc.x &&
-                        worldTouch.x < hexLoc.x + Constants.getHexRadius() * 2) {
+                        worldTouch.x < hexLoc.x + Constants.getHexRadius() * 1.5) {
                     inX = true;
                 }
                 if (worldTouch.y > hexLoc.y &&
-                        worldTouch.y < hexLoc.y + Constants.getHexRadius() * 2) {
+                        worldTouch.y < hexLoc.y + Constants.getHexRadius() * 1.5) {
                     inY = true;
                 }
                 if (inX && inY) {
-                    //System.out.println("found");
+
                     if (!second){
                         move.setH1(clicked.getHexagon());
-                        System.out.println("setting h1");
+
                     } else {
                         move.setH2(clicked.getHexagon());
-                        System.out.println("setting h2");
+
                     }
 
                     System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());

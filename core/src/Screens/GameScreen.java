@@ -165,7 +165,7 @@ public class GameScreen extends AbstractScreen {
     }
 
 
-    
+
     public void render(float delta) {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
@@ -183,6 +183,7 @@ public class GameScreen extends AbstractScreen {
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
         manager.proccessStep(delta);
+        buildStage();
         stage.act(delta);
         stage.draw();
         //renderer.end();

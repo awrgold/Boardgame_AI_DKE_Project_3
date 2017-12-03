@@ -36,9 +36,6 @@ public class Board extends GroupView{
     public void create(){
         this.grid = Constants.grid.build();
 
-    }
-    public void act( float delta) {
-
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
@@ -68,8 +65,16 @@ public class Board extends GroupView{
                 hexagon.setSatelliteData(new Link(hexActor));
 
                 addActor(hexActor);
+            }
+        });
+    }
+    //!!
+    public void act( float delta) {
+        //System.out.println("board");
 
-                hexActor.addListener(new ClickListener(){
+
+
+                /*hexActor.addListener(new ClickListener(){
 
 
 
@@ -87,7 +92,7 @@ public class Board extends GroupView{
                             second = hexActor.getHexagon();
 
                         }
-                    }
+                    }*/
                     /**
                      HexagonActor actorOne;
 
@@ -141,9 +146,8 @@ public class Board extends GroupView{
                      } else {
                      System.out.println("This slot is full! Color here is: " + hexActor.getHexColor());
                      }*/
-                });
-            }
-        });
+                //});
+
 
         super.act(delta);
     }

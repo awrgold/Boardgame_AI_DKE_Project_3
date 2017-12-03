@@ -34,11 +34,8 @@ public class Tile extends GroupView{
     }
 
     public void create(){
+
         this.grid = Constants.tile.build();
-    }
-
-    public void act( float delta) {
-
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -66,7 +63,12 @@ public class Tile extends GroupView{
             }
 
         });
-        //super.act(delta);
+
+    }
+
+    public void act( float delta) {
+
+        super.act(delta);
     }
 
 
