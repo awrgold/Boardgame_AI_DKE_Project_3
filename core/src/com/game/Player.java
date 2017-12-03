@@ -26,7 +26,7 @@ public class Player{
 
     //private boolean isAI;
     private int[] playerScore = new int[6];
-    private int playerNo;
+    public static int playerNo;
     private Hand hand;
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
     private static boolean[] colorIngenious = new boolean[6];
