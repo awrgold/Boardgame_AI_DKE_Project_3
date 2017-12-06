@@ -34,7 +34,8 @@ public class GameManager extends AbstractSystem {
 
         currentState.toString();
 
-        changeState(GreedySearch.getNextMove())
+        changeState(GreedySearch.getNextMove());
+
         /*
         Action move = (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
         changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
