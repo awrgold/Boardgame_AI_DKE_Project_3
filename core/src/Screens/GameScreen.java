@@ -89,7 +89,7 @@ public class GameScreen extends AbstractScreen {
         scoreColumn.add(scorebars1);
         scoreColumn.row();
         scoreColumn.add(p1).bottom().padTop(20).padBottom(30);
-        scoreColumn.row();
+        scoreColumn.row().expandX();
         ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore());
         scoreColumn.add(scorebars2);
         scoreColumn.row();
