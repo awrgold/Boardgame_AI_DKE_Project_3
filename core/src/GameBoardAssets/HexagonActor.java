@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
 import javafx.application.Preloader;
@@ -19,7 +20,7 @@ import GameConstants.Constants;
 
 import java.util.List;
 
-public class HexagonActor extends Image{
+public class HexagonActor extends Actor{
 
     protected Hexagon<Link> hexagon;
     private Sprite sprite;
@@ -196,4 +197,5 @@ public class HexagonActor extends Image{
             return null;
         }
     }
+
 }

@@ -1,12 +1,16 @@
-package Screens;
+package Enum;
 
+import GameLogic.AIStrategy;
 import Interfaces.AbstractScreen;
+import Interfaces.Strategy;
+import Screens.GameScreen;
+import Screens.MenuScreen;
 import com.game.GameIngenious;
-import com.game.GameManager;
 
 public enum ScreenEnum {
     MAIN_MENU {
-        public AbstractScreen getScreen(Object... params) {
+        public AbstractScreen getScreen(Object... params)
+        {
             return new MenuScreen();
         }
     },

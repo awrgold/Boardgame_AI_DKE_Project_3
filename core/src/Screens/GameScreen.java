@@ -1,22 +1,21 @@
 package Screens;
 import java.util.*;
-import java.util.List;
+
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameCustomAssets.CustomLabel;
 import GameScoreAssets.ScoreBarGroup;
 import Interfaces.AbstractScreen;
-import Interfaces.GameHandler;
 import Tools.Link;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.*;
 import org.codetome.hexameter.core.api.*;
@@ -24,40 +23,61 @@ import com.badlogic.gdx.Gdx;
 import rx.functions.Action1;
 
 
-public class GameScreen extends AbstractScreen implements GameHandler {
+public class GameScreen extends AbstractScreen {
+    //game data
 
-    protected GameIngenious game;
-    protected GameManager manager;
+
+    GameIngenious game;
+    GameManager manager;
     private Skin skin;
-	private Sprite mainMenuButton;
+
+    private Stage stage;
     private Table root;
 	public static TextButton[] changeTiles;
+    //private CustomLabel p1;
+    //private CustomLabel p2;
+    ExtendViewport viewport;
+
+    //ShapeRenderer renderer;
+    SpriteBatch batch;
+    public static final String TAG = GameScreen.class.getName();
+
+
+
+    /* Build the game screen: --------------------------------------------------- */
+
+
+
     private CustomLabel p1;
     private CustomLabel p2;
 
-    SpriteBatch batch;
-
-
-
     public GameScreen(GameIngenious game) {
+    // Build screen, add skins, add players
+
         this.game = game;
-        this.manager = new GameManager();
+        //this.manager = new GameManager();
+        //handler = new GameHandler(game, comStrategy);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
+        //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
+        manager = new GameManager();
+
+
+
+
     }
 
 
 	public void buildStage() {
-        Stage stage  = new Stage();
+        viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
+        batch = new SpriteBatch();
+        stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(this);
 
-        while (!manager.endGameCheck()){
-            manager.updateState();
-        }
 
         this.root = new Table();
         this.root.setFillParent(true);
 
-        //root.debug(Debug.all);
+        //root.debug(Table.Debug.all);
 
         // Create the score column add a score bar group for each player
         // can be generated directly from list of players
@@ -95,8 +115,11 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         changeTiles[0].setVisible(false);
 
        for (int i = 0; i < 6; i++) {
-           boardColumn.add(manager.getHandByIndex(0).displayHand()[i]);
+
+           boardColumn.add(manager.getHandByIndex(0).showTile(i));
+
         }
+
 
         boardColumn.row();
 
@@ -105,7 +128,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         boardColumn.row().height(400).width(-450);
         // GBV  and PHV Change
         boardColumn.row().height(750).width(-200);
-        boardColumn.add(manager.getBoard().initializeBoard()).expandY().center();
+        boardColumn.add(manager.getBoard()).expandY().center();
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
@@ -119,7 +142,7 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         changeTiles[1].setVisible(false);
 
         for (int i = 0; i < 6; i++) {
-            boardColumn.add(manager.getHandByIndex(1).displayHand()[i]);
+            boardColumn.add(manager.getHandByIndex(1).showTile(i));
 
         }
 
@@ -127,35 +150,68 @@ public class GameScreen extends AbstractScreen implements GameHandler {
         root.pack();
 
 
-        addActor(root);
+        stage.addActor(root);
 
     }
 
-    public static void update(){
 
+    @Override
+    public void resize (int width, int height) {
+        viewport.update(width, height, true);
     }
 
-    
+    public static Vector2 getStageLocation(Actor actor) {
+        return actor.localToStageCoordinates(new Vector2(0, 0));
+    }
+
+
+
     public void render(float delta) {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+
+        batch.begin();
+        batch.end();
+        // setup drawing for world
+        viewport.apply();
+        //renderer.setProjectionMatrix(viewport.getCamera().combined);
+        //renderer.begin(ShapeRenderer.ShapeType.Filled);
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
-        super.act(delta);
-        super.draw();
+        manager.proccessStep(delta);
+        buildStage();
+        stage.act(delta);
+        stage.draw();
+        //renderer.end();
+
     }
 
     public void dispose(){
         super.dispose();
-        batch.dispose();
+        stage.dispose();
+    }
+
+    @Override
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+        if (!manager.getBoard().gameOver()) {
+            Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
+            //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
+            manager.handleTouch(worldTouch);
+        } else {
+            manager.reset();
+        }
+        return true;
     }
 
 
 
 
 }
+
 
 
 

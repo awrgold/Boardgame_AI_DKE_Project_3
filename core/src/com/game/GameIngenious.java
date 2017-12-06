@@ -1,13 +1,13 @@
 package com.game;
 
-import Screens.MenuScreen;
-import Screens.ScreenEnum;
-import Systems.AbstractSystem;
+import Enum.ScreenEnum;
+import GameLogic.AIStrategy;
+import Interfaces.Strategy;
+import Screens.GameScreen;
 import Systems.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import org.codetome.hexameter.core.api.HexagonalGrid;
 
 /**
  * Root of the game which holds the screens and delegates the rendering/updating to the currently active screen.
@@ -17,14 +17,23 @@ public class GameIngenious extends Game {
     public SpriteBatch batch;
     private Viewport screenPort;
 
+
+
+    @Override
     public void create() {
-        batch = new SpriteBatch();
-        // this.setScreen( new MenuScreen(this));
-        ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+       //batch = new SpriteBatch();
+       showGameScreen();
     }
-
-
-
-
+    /*
+    show specific screen directly
+     */
+    public void showGameScreen(){
+    ScreenManager.getInstance().initialize(this);
+    ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+    }
+    public void ShowMenuScreen(){
+        ScreenManager.getInstance().initialize(this);
+        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
+    }
+ 
 }

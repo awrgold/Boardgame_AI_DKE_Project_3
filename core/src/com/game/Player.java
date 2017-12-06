@@ -9,7 +9,6 @@ import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Queue;
@@ -23,8 +22,7 @@ int[4] = violet
 int[5] = red
 */
 
-
-public class Player {
+public class Player{
 
     private boolean isAI;
     private int[] playerScore = new int[6];
@@ -32,12 +30,15 @@ public class Player {
     private Hand hand;
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
     private static boolean[] colorIngenious = new boolean[6];
+    private Board board;
+
+    //private Action move = new Action();
 
 
 
-
-    public Player(int playerNo, ArrayList<Tile> playerPieces) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces, Board board) {
         this.playerNo = playerNo;
+        this.board = board;
         this.hand = new Hand(playerPieces);
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
@@ -79,10 +80,6 @@ public class Player {
 
     }
 
-    public boolean isAI() {
-        this.isAI = isAI;
-        return isAI;
-    }
 
     public int getColorScore(int color){
         return playerScore[color];
@@ -212,6 +209,7 @@ public class Player {
             }
 
         }
+        System.out.println("LowIndex = " + lowIndex);
 
         if (indexesOfLowest.size() == 1 && !isAColorPresent(PlayerScoreSprite[lowIndex])) {
             return false;
@@ -412,12 +410,29 @@ public class Player {
         return false;
     }
 
+    /*
     public boolean hasOneLowestColor(){
 
     }
+    */
 
 
 
+    /*
+    Possibly set the move for the player
+     */
+
+    public void makeMove(){
+    selectTile();
+    placeTile();
+}
+
+    public void selectTile() {
+
+    }
+    public void placeTile(){
+
+    }
 }
 
 

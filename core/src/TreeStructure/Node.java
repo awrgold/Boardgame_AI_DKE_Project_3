@@ -1,4 +1,6 @@
-package com.game;
+package TreeStructure;
+
+import com.game.GameState;
 
 import java.util.ArrayList;
 
