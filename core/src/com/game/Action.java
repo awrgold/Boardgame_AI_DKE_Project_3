@@ -10,10 +10,11 @@ public class Action {
     private GameState state;
     private Tile tile;
 
-    public Action(Tile t){
+    public Action(Tile t, GameState nextState){
         this.h1 = t.getHexA().getHexagon();
         this.h2 = t.getHexB().getHexagon();
         this.tile = t;
+        this.state = nextState;
     }
 
     //public Action(){};
@@ -40,6 +41,10 @@ public class Action {
 
     public void setH2(Hexagon h2) {
         this.h2 = h2;
+    }
+
+    public GameState getState() {
+        return state;
     }
 
     public String[] getTileColors(){

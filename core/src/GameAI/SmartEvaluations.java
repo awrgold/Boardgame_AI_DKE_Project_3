@@ -69,6 +69,7 @@ public class SmartEvaluations {
             7) Return action placing that tile
              */
         }
+        return Action();
     }
 
 }
