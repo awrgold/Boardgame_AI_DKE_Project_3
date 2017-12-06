@@ -36,13 +36,15 @@ public class Hand extends GroupView{
 //            handView[i] = hand.get(i);
             if(hand.get(i).isSelected()){
                deselectTiles(i);
-//
+
            }
-//            if(selectedTile !=null && !hand.get(i).isSelected()) {
-//                deselectTile(hand.get(s),i);
-//
-//                selectTile(hand.get(i),i);
-//            }
+           /*
+           if(selectedTile !=null && !hand.get(i).isSelected()) {
+               deselectTile(hand.get(s),i);
+
+              selectTile(hand.get(i),i);
+          }
+            */
       }
 
     }

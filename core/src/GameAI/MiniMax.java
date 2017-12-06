@@ -60,8 +60,9 @@ public class MiniMax implements MiniMaxSearch{
            //Min Player
 
            bestScore = Integer.MAX_VALUE;
+
            //for each child
-           score = MiniMax(depth- 1)
+           score = MiniMax(depth- 1);
            if (score < bestScore) bestScore = score;
            return bestScore;
 

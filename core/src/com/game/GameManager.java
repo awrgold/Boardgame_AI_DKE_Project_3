@@ -103,7 +103,7 @@ public class GameManager extends AbstractSystem {
         }
         // Check if players score is complete or if no tiles can be placed.
 
-        /*int[] playerScore = getGamingPlayer().getPlayerScore();
+        /* int[] playerScore = getGamingPlayer().getPlayerScore();
         int totalScore = 0;
         boolean completeScore = true;
         for (int i = 0; i <= 5; i++) {
@@ -117,7 +117,7 @@ public class GameManager extends AbstractSystem {
             return true;
         }
 
-        return true;*/
+        return true; */
 
     }
 
@@ -126,33 +126,35 @@ public class GameManager extends AbstractSystem {
         System.out.println(action.toString());
 
     }
-    // Apply action, create new state, tell tree to update root
-//    public void moveAIPlayer() {
-//        CellPosition changedPosition = player2.makeAIMove();
-//        didMoveAtPosition(changedPosition, player2.getPlayerType());
-//        checkEndGame();
-//    }
 
-//    public void moveHumanPlayer(PlayerType playerType, CellPosition position) {
-//        if (playerType == PlayerType.PLAYER_O) {
-//            return;
-//        } else {
-//            HumanPlayer human = (HumanPlayer) player1;
-//            CellPosition changedPosition = human.setCellAtPosition(position);
-//            didMoveAtPosition(changedPosition, human.getPlayerType());
-//            makeNextMove();
-//        }
-//    }
+    /*
+     Apply action, create new state, tell tree to update root
+   public void moveAIPlayer() {
+    CellPosition changedPosition = player2.makeAIMove();
+       didMoveAtPosition(changedPosition, player2.getPlayerType());
+     checkEndGame();
+   }
 
-//    public void makeNextMove() {
-//        if (board.gameOver() == false) {
-//            moveAIPlayer();
-//        } else {
-//            endGame();
-//        }
-//    }
+    public void moveHumanPlayer(PlayerType playerType, CellPosition position) {
+        if (playerType == PlayerType.PLAYER_O) {
+            return;
+        } else {
+            HumanPlayer human = (HumanPlayer) player1;
+            CellPosition changedPosition = human.setCellAtPosition(position);
+            didMoveAtPosition(changedPosition, human.getPlayerType());
+            makeNextMove();
+        }
+    }
 
+    public void makeNextMove() {
+        if (board.gameOver() == false) {
+            moveAIPlayer();
+        } else {
+            endGame();
+        }
+    }
 
+*/
     @Override
     public void proccessStep(float delta) {
        if (!endGameCheck()){
@@ -160,9 +162,11 @@ public class GameManager extends AbstractSystem {
        }
     }
 
-    //  public boolean isGamingPlayer(Player playerP) {
-//        boolean p;
-//
-//        return p;
-   // }
+    /*
+      public boolean isGamingPlayer(Player playerP) {
+       boolean p;
+
+       return p;
+    }
+   */
 }
