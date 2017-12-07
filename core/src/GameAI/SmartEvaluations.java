@@ -1,5 +1,6 @@
 package GameAI;
 
+import TreeStructure.Node;
 import com.game.Action;
 import com.game.GameState;
 import com.game.Tile;
@@ -27,13 +28,18 @@ public class SmartEvaluations {
         --- Return Action that maximizes score
          */
 
+
+
     public SmartEvaluations(){
 
     }
 
 
 
+
     public Action smartEvaluations(GameState state){
+
+        Action newAction;
 
         if(state.getGamingPlayer().howManyLowestColors() > 2){
             /*
@@ -45,7 +51,7 @@ public class SmartEvaluations {
             7) Return action placing that tile
              */
 
-            Action newAction = new Action(state.getGamingPlayer().getSortedTiles().get(0));
+            newAction = new Action(state.getGamingPlayer().getSortedTiles().get(0), state);
         }
 
         if(state.getGamingPlayer().howManyLowestColors() == 2){
@@ -57,6 +63,7 @@ public class SmartEvaluations {
             6) Choose tile with best score, or at random if score is same (can update to predict future moves)
             7) Return action placing that tile
              */
+            newAction = new Action();
         }
 
         if(state.getGamingPlayer().howManyLowestColors() == 1){
@@ -68,8 +75,10 @@ public class SmartEvaluations {
             6) Choose tile with best score, or at random if score is same (can update to predict future moves)
             7) Return action placing that tile
              */
+
+            newAction = newAction();
         }
-        return Action();
+        return newAction;
     }
 
 }

@@ -9,11 +9,13 @@ public class Node {
     private GameState state;
     private Edge parentEdge;
     private ArrayList<Edge> childrenEdges;
+    private static double weight = 0;
 
-    public Node(GameState state, Edge parentEdge, ArrayList<Edge> childrenEdges){
+    public Node(GameState state, Edge parentEdge, ArrayList<Edge> childrenEdges, double weight){
         this.state = state;
         this.parentEdge = parentEdge;
         this.childrenEdges = childrenEdges;
+        this.weight = weight;
     }
 
     public GameState getState(){
@@ -34,6 +36,14 @@ public class Node {
 
     public void addChildEdge(Edge childEdge){
         childrenEdges.add(childEdge);
+    }
+
+    public double getWeight(){
+        return weight;
+    }
+
+    public void setWeight(double weight){
+        this.weight = weight;
     }
 
     public void setState(GameState state){

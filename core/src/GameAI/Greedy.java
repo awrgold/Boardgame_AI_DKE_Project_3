@@ -5,7 +5,7 @@ import com.game.*;
 
 public class Greedy implements GreedySearch {
 
-    Action getNextMove();
+    // Action getNextMove();
 
     SmartEvaluations eval1 = new SmartEvaluations();
 

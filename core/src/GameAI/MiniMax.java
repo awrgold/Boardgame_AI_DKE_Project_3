@@ -1,5 +1,7 @@
 package GameAI;
 
+import TreeStructure.Edge;
+import TreeStructure.Tree;
 import com.game.*;
 
 public class MiniMax implements MiniMaxSearch{
@@ -7,7 +9,7 @@ public class MiniMax implements MiniMaxSearch{
     private int score;
     private int bestScore;
 
-    Action getNextMove();
+    // Action getNextMove();
 
 
 
@@ -44,14 +46,14 @@ public class MiniMax implements MiniMaxSearch{
     */
 
 
-   public int MiniMax(int depth){
+   public int MiniMax(Tree tree, int depth){
 
        //Max player
        if (Player.playerNo == 0) {
            bestScore = Integer.MIN_VALUE;
 
            //for each child
-           score = MiniMax(depth - 1);
+           score = MiniMax(tree, depth - 1);
            if (score > bestScore) bestScore = score;
            return bestScore;
 
@@ -61,13 +63,14 @@ public class MiniMax implements MiniMaxSearch{
 
            bestScore = Integer.MAX_VALUE;
            //for each child
-           score = MiniMax(depth- 1)
+           for (Edge e : tree.getRoot().getChildrenEdges()){
+               if (e.getChildNode().getState().)
+           }
+           score = MiniMax(tree, depth- 1);
            if (score < bestScore) bestScore = score;
            return bestScore;
 
            }
-
-
    }
 
 

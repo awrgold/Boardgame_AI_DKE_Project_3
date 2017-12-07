@@ -11,7 +11,7 @@ public class Tree {
     public Tree(){}
 
     public void buildTree(GameState state, Edge parentEdge, ArrayList<Edge> children){
-        root = new Node(state, null, null);
+        root = new Node(state, null, null, 0);
     }
 
     public Node getRoot(){
