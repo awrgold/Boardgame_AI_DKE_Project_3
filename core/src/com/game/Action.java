@@ -7,14 +7,13 @@ import org.codetome.hexameter.core.api.Hexagon;
 public class Action {
     private Hexagon h1;
     private Hexagon h2;
-    private GameState state;
+
     private Tile tile;
 
-    public Action(Tile t, GameState nextState){
-        this.h1 = t.getHexA().getHexagon();
-        this.h2 = t.getHexB().getHexagon();
+    public Action(Hexagon h1, Hexagon h2, Tile t){
+        this.h1 = h1;
+        this.h2 = h2;
         this.tile = t;
-        this.state = nextState;
     }
 
     public Action(){
@@ -47,10 +46,6 @@ public class Action {
         this.h2 = h2;
     }
 
-    public GameState getState() {
-        return state;
-    }
-
     public String[] getTileColors(){
         String[] colors = new String[2];
 
@@ -60,7 +55,6 @@ public class Action {
 
         return colors;
     }
-
 
     public String toString(){
         if(tile != null && h1 != null && h2 != null){

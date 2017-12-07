@@ -4,6 +4,6 @@ import com.game.Action;
 
 public interface GreedySearch {
 
-    Action getNextMove();
+    // Action getNextMove();
 
 }

@@ -1,9 +1,11 @@
 package com.game;
 
+import GameAI.TestingManager;
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import Screens.GameScreen;
 import Tools.Link;
+import TreeStructure.Node;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -18,11 +20,13 @@ public class GameState {
     private Player[] players;
     private Board currentBoard;
     private Bag currentBag;
-    public Player gamingPlayer;
+    private Player gamingPlayer;
+    private double stateWeight;
 
     public GameState() {
         players = new Player[Constants.getNumberOfPlayers()];
         currentBoard = new Board();
+        currentBoard.create();
         currentBag = new Bag(Pieces.createBagPieces());
         for (int x = 1; x <= players.length; x++){
             players[x - 1] = new Player(x, currentBag.pickSix(),currentBoard);
@@ -56,6 +60,14 @@ public class GameState {
 
     public Player getPlayer(int i){
         return players[i];
+    }
+
+    public void setStateWeight(double weight){
+        this.stateWeight = weight;
+    }
+
+    public double getStateWeight(){
+        return  stateWeight;
     }
 
     public Player changeGamingPlayer(){

@@ -25,14 +25,9 @@ public class Board extends GroupView{
 
     public Board(){
         super();
-
-
         secondTouch = false;
-        create();
+        // create();
     }
-
-
-
 
     public void create(){
         this.grid = Constants.grid.build();

@@ -22,7 +22,7 @@ public class GameIngenious extends Game {
     @Override
     public void create() {
        //batch = new SpriteBatch();
-       showGameScreen();
+       //showGameScreen();
     }
     /*
     show specific screen directly
@@ -35,5 +35,6 @@ public class GameIngenious extends Game {
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
     }
- 
+
+
 }

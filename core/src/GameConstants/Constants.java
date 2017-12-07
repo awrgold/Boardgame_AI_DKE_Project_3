@@ -17,7 +17,6 @@ public class Constants {
 
     //Colors
     public static Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-
     public static Sprite blueSprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
     public static Sprite yellowSprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
     public static Sprite orangeSprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
@@ -43,6 +42,7 @@ public class Constants {
     public final static HexagonOrientation HEXAGON_ORIENTATION = POINTY_TOP;
 
     //gridBuilder
+    @SuppressWarnings("unchecked")
     public static final HexagonalGridBuilder<Link> grid = new HexagonalGridBuilder<Link>()
             .setGridHeight(11)
             .setGridWidth(11)
@@ -58,6 +58,7 @@ public class Constants {
     public static final int TILE_HEIGHT = 1;
     public static final int TILE_WIDTH = 2;
 
+    @SuppressWarnings("unchecked")
     public static final HexagonalGridBuilder<Link> tile = new HexagonalGridBuilder<Link>()
             .setGridHeight(1)
             .setGridWidth(2)

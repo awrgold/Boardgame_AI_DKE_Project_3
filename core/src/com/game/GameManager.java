@@ -25,6 +25,7 @@ public class GameManager extends AbstractSystem {
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
+    private TestingManager tm = new TestingManager();
 
     private Tree gameTree;
 
@@ -36,6 +37,7 @@ public class GameManager extends AbstractSystem {
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
+        tm.run();
 
     }
 
@@ -46,14 +48,9 @@ public class GameManager extends AbstractSystem {
                 t.act(delta);
             }
         }
-       // currentState.toString();
-        //
-        // (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
-//        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
-
         currentState.toString();
 
-        changeState(GreedySearch.getNextMove());
+        // changeState(GreedySearch.getNextMove());
 
         /*
         Action move = (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
@@ -142,41 +139,6 @@ public class GameManager extends AbstractSystem {
 
     }
 
-    // Apply action, create new state, tell tree to update root
-//    public void moveAIPlayer() {
-//        CellPosition changedPosition = player2.makeAIMove();
-//        didMoveAtPosition(changedPosition, player2.getPlayerType());
-//        checkEndGame();
-//    }
-
-    /*
-     Apply action, create new state, tell tree to update root
-   public void moveAIPlayer() {
-    CellPosition changedPosition = player2.makeAIMove();
-       didMoveAtPosition(changedPosition, player2.getPlayerType());
-     checkEndGame();
-   }
-
-    public void moveHumanPlayer(PlayerType playerType, CellPosition position) {
-        if (playerType == PlayerType.PLAYER_O) {
-            return;
-        } else {
-            HumanPlayer human = (HumanPlayer) player1;
-            CellPosition changedPosition = human.setCellAtPosition(position);
-            didMoveAtPosition(changedPosition, human.getPlayerType());
-            makeNextMove();
-        }
-    }
-
-    public void makeNextMove() {
-        if (board.gameOver() == false) {
-            moveAIPlayer();
-        } else {
-            endGame();
-        }
-    }
-
-*/
     @Override
     public void proccessStep(float delta) {
        if (!endGameCheck()){

@@ -7,7 +7,7 @@ public class MiniMax implements MiniMaxSearch{
     private int score;
     private int bestScore;
 
-    Action getNextMove();
+    //Action getNextMove();
 
 
 
