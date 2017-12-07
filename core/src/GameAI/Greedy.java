@@ -4,7 +4,7 @@ import com.game.*;
 
 
 public class Greedy implements GreedySearch {
-
+/*
     public Action getNextMove(GameState state){
         /*
         - If start of game (3+ lowest colors):
@@ -25,10 +25,10 @@ public class Greedy implements GreedySearch {
         --- Try placements that increase score
         --- Prioritize placements that lead to ingenious
         --- Return Action that maximizes score
-         */
+
 
         Player nowPlaying = state.getGamingPlayer();
 
         if(state.getGamingPlayer().getScoreQ().get(0))
-    }
+    }*/
 }

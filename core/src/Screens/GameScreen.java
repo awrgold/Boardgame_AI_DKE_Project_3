@@ -77,7 +77,7 @@ public class GameScreen extends AbstractScreen {
         this.root = new Table();
         this.root.setFillParent(true);
 
-        //root.debug(Table.Debug.all);
+        root.debug(Table.Debug.all);
 
         // Create the score column add a score bar group for each player
         // can be generated directly from list of players
@@ -112,13 +112,16 @@ public class GameScreen extends AbstractScreen {
         boardColumn.row().height(130).top().expandX().left();
         boardColumn.add(changeTiles[0]).height(100).bottom();
         changeTiles[0].setTouchable(Touchable.disabled);
-        changeTiles[0].setVisible(false);
+        changeTiles[0].setVisible(true);
 
-       for (int i = 0; i < 6; i++) {
+        boardColumn.add(manager.getHandByIndex(0));
+
+        /*for (int i = 0; i < 6; i++) {
 
            boardColumn.add(manager.getHandByIndex(0).showTile(i));
 
-        }
+        }*/
+
 
 
         boardColumn.row();
@@ -139,12 +142,14 @@ public class GameScreen extends AbstractScreen {
         boardColumn.row().height(130).bottom().expandX().left();
         boardColumn.add(changeTiles[1]).height(100).top();
         changeTiles[1].setTouchable(Touchable.disabled);
-        changeTiles[1].setVisible(false);
+        changeTiles[1].setVisible(true);
 
+        boardColumn.add(manager.getHandByIndex(1));
+        /*
         for (int i = 0; i < 6; i++) {
             boardColumn.add(manager.getHandByIndex(1).showTile(i));
 
-        }
+        }*/
 
         root.add(boardColumn).colspan(6).expand().fill();
         root.pack();
