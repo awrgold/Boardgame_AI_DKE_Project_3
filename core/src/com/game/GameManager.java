@@ -15,6 +15,7 @@ import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class GameManager extends AbstractSystem {
 
@@ -72,24 +73,17 @@ public class GameManager extends AbstractSystem {
         return currentState.getPlayers().length;
     }
 
-
-
     public Hand getHandByIndex(int i){
         return getPlayers()[i].getHand();
     }
-
 
     public Board getBoard() {
         return currentState.getCurrentBoard();
     }
 
-
-
-
     public Bag getBag() {
         return currentState.getCurrentBag();
     }
-
 
     public int getTotalTurnNumber(){
         return player1TurnNumber + player2TurnNumber;
@@ -240,11 +234,30 @@ public class GameManager extends AbstractSystem {
                 }
                 if (inX && inY) {
 
-                    if (!second){
-                        move.setH1(clicked.getHexagon());
+                    if (second){
+                        if(clicked.getHexColor().equals("EMPTY")){
+                            if(getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())){
+                                System.out.println("found");
+                                move.setH2(clicked.getHexagon());
+                            } else {
+                                System.out.println("Select a neighbor");
+                            }
+                        } else {
+                            System.out.println("select an empty hexagon");
+                        }
+
+
+
+
 
                     } else {
-                        move.setH2(clicked.getHexagon());
+                        if(clicked.getHexColor().equals("EMPTY")){
+                            move.setH1(clicked.getHexagon());
+                        } else {
+                            System.out.println("select an empty hexagon");
+                        }
+
+
 
                     }
 
@@ -266,7 +279,9 @@ public class GameManager extends AbstractSystem {
 
         } if (move.getH1() != null && move.getH2() == null){
             handleBoardTouch(true, worldTouch);
-            changeState(move);
+            if (move.getH2() != null){
+                changeState(move);
+            }
         } if (move.getH1() == null && move.getTile() != null){
             handleBoardTouch(false, worldTouch);
         } if (move.getH1() != null && move.getH2() != null){

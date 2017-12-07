@@ -67,7 +67,7 @@ public class ScoreBarGroup extends VerticalGroup{
             // wrapper.setHeight(height);
             wrapper.setOrigin(wrapper.getPrefWidth() / 2, wrapper.getPrefHeight() / 2);
             // wrapper.setRotation(30);
-           wrapper.setScaleX(2f);
+            wrapper.setScaleX(2f);
            // addActor(cl[i]);
             //addActor(bars[i]);
             addActor(wrapperl);

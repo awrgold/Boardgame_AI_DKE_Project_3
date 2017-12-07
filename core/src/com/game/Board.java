@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import rx.Observable;
 import rx.functions.Action1;
 
 public class Board extends GroupView{
@@ -160,7 +161,9 @@ public class Board extends GroupView{
     }
 
     public boolean gameOver(){
+        Observable<Hexagon<Link>> allHexagons = grid.getHexagons();
         return false;
+
     }
 
     public HexagonalGrid<Link> getGrid() {
