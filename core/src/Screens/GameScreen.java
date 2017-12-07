@@ -186,7 +186,7 @@ public class GameScreen extends AbstractScreen {
         manager.proccessStep(delta);
 
 
-       this.act(delta);
+        this.act(delta);
         this.draw();
         //renderer.end();
 
