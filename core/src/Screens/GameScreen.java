@@ -11,9 +11,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.*;
 import org.codetome.hexameter.core.api.*;
@@ -25,15 +27,18 @@ public class GameScreen extends AbstractScreen {
     //game data
 
 
-   // protected GameIngenious game;
-    protected GameManager manager;
+    GameIngenious game;
+    GameManager manager;
     private Skin skin;
 
+   // private Stage stage;
     private Table root;
 	public static TextButton[] changeTiles;
     //private CustomLabel p1;
     //private CustomLabel p2;
+    ExtendViewport viewport;
 
+    //ShapeRenderer renderer;
     SpriteBatch batch;
     public static final String TAG = GameScreen.class.getName();
 
@@ -46,32 +51,33 @@ public class GameScreen extends AbstractScreen {
     private CustomLabel p1;
     private CustomLabel p2;
 
-    public GameScreen() {
+    public GameScreen(GameIngenious game) {
     // Build screen, add skins, add players
-
-       // this.game = game;
-        this.manager = new GameManager();
+        this.game = game;
+        //this.manager = new GameManager();
         //handler = new GameHandler(game, comStrategy);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
+        //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
+        manager = new GameManager();
 
-        //tileView = new Group[manager.getnOfPlayer()][];
-
-        //this.prova = new Board();
+        buildStage();
 
 
     }
 
 
 	public void buildStage() {
-        Stage stage  = new Stage();
 
-
+        viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
+        batch = new SpriteBatch();
+        //stage = new Stage(viewport);
+        setViewport(viewport);
+        Gdx.input.setInputProcessor(this);
 
         this.root = new Table();
         this.root.setFillParent(true);
 
-        //root.debug(Debug.all);
+        //root.debug(Table.Debug.all);
 
         // Create the score column add a score bar group for each player
         // can be generated directly from list of players
@@ -83,7 +89,7 @@ public class GameScreen extends AbstractScreen {
         scoreColumn.add(scorebars1);
         scoreColumn.row();
         scoreColumn.add(p1).bottom().padTop(20).padBottom(30);
-        scoreColumn.row();
+        scoreColumn.row().expandX();
         ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore());
         scoreColumn.add(scorebars2);
         scoreColumn.row();
@@ -114,6 +120,7 @@ public class GameScreen extends AbstractScreen {
 
         }
 
+
         boardColumn.row();
 
        //board
@@ -143,31 +150,66 @@ public class GameScreen extends AbstractScreen {
         root.pack();
 
 
+        //stage.addActor(root);
         addActor(root);
 
     }
 
-    public static void update(){
 
+    @Override
+    public void resize (int width, int height) {
+        viewport.update(width, height, true);
     }
-    
-    
+
+    public static Vector2 getStageLocation(Actor actor) {
+        return actor.localToStageCoordinates(new Vector2(0, 0));
+    }
+
+
+
     public void render(float delta) {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+
+        batch.begin();
+        batch.end();
+        // setup drawing for world
+        viewport.apply();
+        //renderer.setProjectionMatrix(viewport.getCamera().combined);
+        //renderer.begin(ShapeRenderer.ShapeType.Filled);
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
+
         manager.proccessStep(delta);
 
-        super.act(delta);
-        super.draw();
+
+        this.act(delta);
+        this.draw();
+        //renderer.end();
+
     }
 
     public void dispose(){
+       // stage.dispose();
         super.dispose();
-        this.dispose();
+
+
+    }
+
+    @Override
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+        if (!manager.getBoard().gameOver()) {
+            Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
+            //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
+            manager.handleTouch(worldTouch);
+        } else {
+            manager.reset();
         }
+        return true;
+    }
 
 
 

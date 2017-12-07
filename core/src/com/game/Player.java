@@ -226,6 +226,7 @@ public class Player{
             }
 
         }
+        System.out.println("LowIndex = " + lowIndex);
 
         if (indexesOfLowest.size() == 1 && !isAColorPresent(PlayerScoreSprite[lowIndex])) {
             return false;
