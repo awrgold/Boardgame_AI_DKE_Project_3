@@ -58,6 +58,7 @@ public class ScoreBarGroup extends VerticalGroup{
             cl[i].setColor(colors[i]);
             bars[i] = new Bar(w,barH,colors[i],j);
             //bars[i].setBounds(w/2,barH/2,w,barH);
+
             //wrap bars
             Container wrapperl = new Container(cl[i]);
             Container wrapper = new Container(bars[i]);
@@ -66,7 +67,7 @@ public class ScoreBarGroup extends VerticalGroup{
             // wrapper.setHeight(height);
             wrapper.setOrigin(wrapper.getPrefWidth() / 2, wrapper.getPrefHeight() / 2);
             // wrapper.setRotation(30);
-           wrapper.setScaleX(2f);
+            wrapper.setScaleX(2f);
            // addActor(cl[i]);
             //addActor(bars[i]);
             addActor(wrapperl);
@@ -80,10 +81,11 @@ public class ScoreBarGroup extends VerticalGroup{
         for (int i = 0; i<num;i++){
             int v = scores[i];
             int j = (v*140)/18;
+
             String s = Integer.toString(v);
             cl[i].updateText(s);
-            bars[i].updateVal(j);
-        }
+           bars[i].updateVal(j);
+       }
 
 
     }

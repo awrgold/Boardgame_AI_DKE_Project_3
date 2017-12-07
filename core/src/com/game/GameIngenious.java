@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class GameIngenious extends Game {
 
-    public SpriteBatch batch;
+  //  public SpriteBatch batch;
     private Viewport screenPort;
 
 
