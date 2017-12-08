@@ -156,6 +156,10 @@ public class Tile extends GroupView{
         first = clicked;
     }
 
+    public HexagonActor[] getActors() {
+        return actors;
+    }
+
     public HexagonActor getFirst() {
         return first;
     }

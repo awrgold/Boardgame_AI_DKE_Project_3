@@ -6,6 +6,7 @@ import Screens.GameScreen;
 import Systems.AbstractSystem;
 import Tools.Link;
 import TreeStructure.Tree;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import com.badlogic.gdx.math.Vector2;
@@ -129,6 +130,7 @@ public class GameManager extends AbstractSystem {
         action.toString();
         currentState = currentState.applyAction(action);
 
+
         move = new Action();
 
     }
@@ -194,6 +196,7 @@ public class GameManager extends AbstractSystem {
     }
 
     public void handleBoardTouch(boolean second, Vector2 worldTouch){
+        getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
         for (Actor hex : getBoard().getChildren()){
             boolean inX = false;
             boolean inY = false;

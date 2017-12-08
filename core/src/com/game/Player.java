@@ -1,10 +1,7 @@
 package com.game;
 
 import GameBoardAssets.HexagonActor;
-import GameConstants.Constants;
 import Tools.Link;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -26,7 +23,7 @@ public class Player{
     private int[] playerScore = new int[6];
     private int playerNo;
     private Hand hand;
-    private static Sprite[] PlayerScoreSprite = new Sprite[6];
+    private String[] playerScoreString = new String[6];
     private static boolean[] colorIngenious = new boolean[6];
 
 
@@ -40,12 +37,12 @@ public class Player{
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
-        PlayerScoreSprite[0] = Constants.blueSprite;
-        PlayerScoreSprite[1] = Constants.yellowSprite;
-        PlayerScoreSprite[2] = Constants.orangeSprite;
-        PlayerScoreSprite[3] = Constants.purpleSprite;
-        PlayerScoreSprite[4] = Constants.violetSprite;
-        PlayerScoreSprite[5] = Constants.redSprite;
+        playerScoreString[0] = "B";
+        playerScoreString[1] = "Y";
+        playerScoreString[2] = "O";
+        playerScoreString[3] = "P";
+        playerScoreString[4] = "V";
+        playerScoreString[5] = "R";
 
     }
 
@@ -146,12 +143,13 @@ public class Player{
         return playerScore;
     }
 
-    private boolean isAColorPresent(Sprite color){
+    private boolean isAColorPresent(String color){
         for (Tile tile : hand.getPieces()){
-            if(tile.getColors()[0] == color || tile.getColors()[1] == color){
+            if(tile.getActors()[0].getHexColor().equals(color) || tile.getActors()[1].getHexColor().equals(color)){
                 return true;
             }
         }
+        System.out.println(color + " is not present");
         return false;
 
     }
@@ -176,11 +174,11 @@ public class Player{
         }
         System.out.println("LowIndex = " + lowIndex);
 
-        if (indexesOfLowest.size() == 1 && !isAColorPresent(PlayerScoreSprite[lowIndex])) {
+        if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreString[lowIndex])) {
             return false;
         } if (indexesOfLowest.size() > 1 && lowest > 0){
             for (int i : indexesOfLowest){
-                if (!isAColorPresent(PlayerScoreSprite[i])){
+                if (!isAColorPresent(playerScoreString[i])){
                     return false;
                 }
 
@@ -380,34 +378,50 @@ public class Player{
     //TRYING TO IMPLEMENT THE STRATEGY
 
 //  FIND THE LOWEST COLORS
-    public String[] lowestColors(){
-        String[] lowestColors = new String[6]; //probably an arraylist is better
+    public ArrayList<String> lowestColors(){
+        ArrayList<String> lowestColors = new ArrayList<>();
         int lowest = 18;
-        int lowIndex = -1;
-        ArrayList<Integer> indexesOfLowest = new ArrayList<>();
 
         for (int i = 0; i < 6; i++){
             if(playerScore[i] < lowest){
                 lowest = playerScore[i];
-                lowIndex = i;
+
             }
         }
 
         for (int i = 0; i < 6; i++){
             if (playerScore[i] == lowest){
-                indexesOfLowest.add(i);
+                lowestColors.add(playerScoreString[i]);
             }
 
         }
+        System.out.println("lowest colors: " + lowestColors.get(0));
         return lowestColors;
 
     }
-/*
+
 //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
-    public HashMap<Tile, String> bestTilesToPlace(String[] colors){
+    public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors){
+        HashMap<Tile, String> pieces = new HashMap<>();
+
+        for(String color : colors){
+            for(Tile t : hand.getPieces()){
+                if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
+                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
+                    pieces.put(t, color);
+                    System.out.println(color + " - " + color);
+                    break;
+                } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
+                    pieces.put(t, color);
+
+                }
+            }
+        }
+
+        return pieces;
 
     }
-
+/*
 //  FOR A TILE RETURN THE GAME STATE THAT RETURN THE HIGHEST SCORE ON THE INTERESTED COLOR
     public GameState bestMoveForTile(Tile t, Board currentBoard, String color){
 
@@ -416,7 +430,7 @@ public class Player{
 //  APPLY THE STRATEGY AND RETURN ALL POSSIBLE STATES
     public ArrayList<GameState> applyStrategy(Board currentBoard){
         ArrayList<GameState> aiMoves = new ArrayList<>();
-        String[] colorsToPlay = lowestColors();
+        ArrayList<String> colorsToPlay = lowestColors();
         HashMap<Tile, String> tilesToPlay = bestTilesToPlace(colorsToPlay);
 
         for (HashMap.Entry<Tile, String> entry : tilesToPlay.entrySet()) {
