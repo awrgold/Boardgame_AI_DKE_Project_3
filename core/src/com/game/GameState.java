@@ -4,6 +4,7 @@ import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import Screens.GameScreen;
 import Tools.Link;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -25,7 +26,7 @@ public class GameState {
         currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
         for (int x = 1; x <= players.length; x++){
-            players[x - 1] = new Player(x, currentBag.pickSix(),currentBoard);
+            players[x - 1] = new Player(x, currentBag.pickSix());
         }
         gamingPlayer = players[0];
     }
@@ -85,6 +86,7 @@ public class GameState {
         if (!gamingPlayer.isLowestScoreTilePresent()){
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
+
 
             System.out.println("You have no tiles of your lowest color, click to change your hand");
 

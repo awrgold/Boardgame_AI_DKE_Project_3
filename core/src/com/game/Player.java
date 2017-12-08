@@ -9,9 +9,7 @@ import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Queue;
+import java.util.*;
 
 /*
 int[0] = blue
@@ -30,15 +28,14 @@ public class Player{
     private Hand hand;
     private static Sprite[] PlayerScoreSprite = new Sprite[6];
     private static boolean[] colorIngenious = new boolean[6];
-    private Board board;
+
 
     //private Action move = new Action();
 
 
 
-    public Player(int playerNo, ArrayList<Tile> playerPieces, Board board) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces) {
         this.playerNo = playerNo;
-        this.board = board;
         this.hand = new Hand(playerPieces);
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
@@ -56,31 +53,6 @@ public class Player{
         return this.hand;
     }
 
-    /*
-    public void setClicked(){
-        HexagonActor one = hand.getSelected().getFirst();
-        move.setT1(one);
-        Actor two = one.getParent().getChildren().get(Math.abs(one.getHexagon().getGridX() - 1));
-        if (two instanceof HexagonActor){
-            HexagonActor second = (HexagonActor) two;
-            move.setT2(second);
-        }
-
-    }*/
-
-    public Tile getSelectedTile() {
-        Tile selected = null;
-        for (Tile t : hand.getPieces()){
-            if(t.isSelected()){
-                selected = t;
-            }
-        }
-        return selected;
-
-
-    }
-
-
     public int getColorScore(int color){
         return playerScore[color];
     }
@@ -88,8 +60,6 @@ public class Player{
     public int getPlayerNo() {
         return playerNo;
     }
-
-
 
     public static void updateScore(Player player, HexagonActor hexActor, HexagonalGrid hexGrid, HexagonActor one) {
 
@@ -162,10 +132,6 @@ public class Player{
 
     }
 
-    public void printScore(){
-        System.out.println(scoreToString());
-    }
-
     public String scoreToString(){
 
         String p = "| ";
@@ -194,7 +160,6 @@ public class Player{
         int lowest = 18;
         int lowIndex = -1;
         ArrayList<Integer> indexesOfLowest = new ArrayList<>();
-        System.out.println(indexesOfLowest.size());
 
         for (int i = 0; i < 6; i++){
             if(playerScore[i] < lowest){
@@ -364,6 +329,8 @@ public class Player{
         return false;
     }
 
+
+
     public boolean[] getIngeniousList(){
         return colorIngenious;
     }
@@ -410,29 +377,58 @@ public class Player{
         return false;
     }
 
-    /*
-    public boolean hasOneLowestColor(){
+    //TRYING TO IMPLEMENT THE STRATEGY
+
+//  FIND THE LOWEST COLORS
+    public String[] lowestColors(){
+        String[] lowestColors = new String[6]; //probably an arraylist is better
+        int lowest = 18;
+        int lowIndex = -1;
+        ArrayList<Integer> indexesOfLowest = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++){
+            if(playerScore[i] < lowest){
+                lowest = playerScore[i];
+                lowIndex = i;
+            }
+        }
+
+        for (int i = 0; i < 6; i++){
+            if (playerScore[i] == lowest){
+                indexesOfLowest.add(i);
+            }
+
+        }
+        return lowestColors;
 
     }
-    */
-
-
-
-    /*
-    Possibly set the move for the player
-     */
-
-    public void makeMove(){
-    selectTile();
-    placeTile();
-}
-
-    public void selectTile() {
+/*
+//  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
+    public HashMap<Tile, String> bestTilesToPlace(String[] colors){
 
     }
-    public void placeTile(){
+
+//  FOR A TILE RETURN THE GAME STATE THAT RETURN THE HIGHEST SCORE ON THE INTERESTED COLOR
+    public GameState bestMoveForTile(Tile t, Board currentBoard, String color){
 
     }
+
+//  APPLY THE STRATEGY AND RETURN ALL POSSIBLE STATES
+    public ArrayList<GameState> applyStrategy(Board currentBoard){
+        ArrayList<GameState> aiMoves = new ArrayList<>();
+        String[] colorsToPlay = lowestColors();
+        HashMap<Tile, String> tilesToPlay = bestTilesToPlace(colorsToPlay);
+
+        for (HashMap.Entry<Tile, String> entry : tilesToPlay.entrySet()) {
+            aiMoves.add(bestMoveForTile(entry.getKey(), currentBoard, entry.getValue()));
+        }
+
+        return aiMoves;
+
+
+    }
+*/
+
 }
 
 

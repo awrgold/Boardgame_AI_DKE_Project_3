@@ -2,6 +2,7 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import Screens.GameScreen;
 import Systems.AbstractSystem;
 import Tools.Link;
 import TreeStructure.Tree;
@@ -132,31 +133,7 @@ public class GameManager extends AbstractSystem {
 
     }
 
-    // Apply action, create new state, tell tree to update root
-//    public void moveAIPlayer() {
-//        CellPosition changedPosition = player2.makeAIMove();
-//        didMoveAtPosition(changedPosition, player2.getPlayerType());
-//        checkEndGame();
-//    }
 
-//    public void moveHumanPlayer(PlayerType playerType, CellPosition position) {
-//        if (playerType == PlayerType.PLAYER_O) {
-//            return;
-//        } else {
-//            HumanPlayer human = (HumanPlayer) player1;
-//            CellPosition changedPosition = human.setCellAtPosition(position);
-//            didMoveAtPosition(changedPosition, human.getPlayerType());
-//            makeNextMove();
-//        }
-//    }
-
-//    public void makeNextMove() {
-//        if (board.gameOver() == false) {
-//            moveAIPlayer();
-//        } else {
-//            endGame();
-//        }
-//    }
 
 
     @Override
