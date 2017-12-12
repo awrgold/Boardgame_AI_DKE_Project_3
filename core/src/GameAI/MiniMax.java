@@ -1,9 +1,12 @@
 package GameAI;
 
+import TreeStructure.Tree;
 import com.game.*;
 
 public class MiniMax implements MiniMaxSearch{
 
+    Tree tree;
+    Tree root;
     private int score;
     private int bestScore;
 
@@ -12,38 +15,34 @@ public class MiniMax implements MiniMaxSearch{
 
 
    /*
-        Tree search Algo explanation and procedure
+        1. Construct the complete game tree
 
-        lowest color == 1
-        --- If double tile is found AND + 18 on score on the next move than give +1000
-        --- If double tile is found and its the lowest color +750
-        --- If and a tile of that color is placed on next move then +500
+        2. Evaluate scores for leaves using the evaluation function
 
-       Lowest color == 2
-       --- Double tile of second lowest +300
-       --- Tile with lowest color +200
+        3. Back-up scores from leaves to root, considering the player type:
+            3A. For max player, select the child with the maximum score
+            3B. For min player, select the child with the minimum score
 
-       Lowest color > 3
-       -- Double tiles +150
-       -- Tiles + 50
-
-
-       Based on the Evaluation function and our "priority queue", those points are given for the given move.
-       Those points will be useful when build the tree and apply the min and max when comparisons between move are made
-
-       BestScore should be set up to -infinity so that any move would be better than nothing
-       ( also better so that the first move is taken as best move to be compared)`
-
-       Set up Player one to Maximize and Player 2 to Minimize. No matter which player is who.
-
-       Set up a gameover method that check if no longer moves can be made ( Check if a leaf node is reached )
-
-       A child is basically the next move
-
+        4. At the root node, choose the node with max value and perform the corresponding move
 
     */
 
+    public void constructTree() {
+        tree = new Tree();
+        tree.getRoot();
+        tree.setRoot(root);
+        tree.buildTree();
+    }
 
+
+}
+
+
+
+
+
+
+   /*
    public int MiniMax(int depth){
 
        //Max player
@@ -70,6 +69,8 @@ public class MiniMax implements MiniMaxSearch{
 
 
    }
+
+   */
 
 
 }
