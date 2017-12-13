@@ -27,7 +27,6 @@ public class GameManager{
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
-    private TestingManager tm = new TestingManager();
 
     private Tree gameTree;
 
@@ -39,7 +38,7 @@ public class GameManager{
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-        tm.run();
+
 
     }
     
@@ -58,9 +57,10 @@ public class GameManager{
         
         Action move = (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
         changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
-        */
+
 
     }
+    */
 
 
     public GameState getCurrentState(){

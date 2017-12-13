@@ -3,6 +3,7 @@ package GameAI;
 import TreeStructure.Tree;
 import com.game.*;
 
+/*
 public class MiniMax implements MiniMaxSearch{
 
     Tree tree;
@@ -27,22 +28,23 @@ public class MiniMax implements MiniMaxSearch{
 
     */
 
+    /*
     public void constructTree() {
         tree = new Tree();
         tree.getRoot();
         tree.setRoot(root);
         tree.buildTree();
     }
-
-
-}
-
+    */
 
 
 
 
 
-   /*
+
+
+    /*
+
    public int MiniMax(int depth){
 
        //Max player
@@ -70,7 +72,8 @@ public class MiniMax implements MiniMaxSearch{
 
    }
 
-   */
+
 
 
 }
+*/

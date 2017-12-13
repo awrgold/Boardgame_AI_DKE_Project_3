@@ -22,7 +22,7 @@ public class GameIngenious extends Game {
     @Override
     public void create() {
        //batch = new SpriteBatch();
-       //showGameScreen();
+       showGameScreen();
     }
     /*
     show specific screen directly

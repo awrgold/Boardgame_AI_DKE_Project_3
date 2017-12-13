@@ -75,21 +75,13 @@ public class GameState {
         if (!gamingPlayer.hasIngenious()){
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
-            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
-
-
-
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
         } else {
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
-            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
-
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
         }
-
         return nextPlayer;
-
-
-
     }
 
     public void activateButtonIfNeeded(){
@@ -98,10 +90,9 @@ public class GameState {
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
 
-
             System.out.println("You have no tiles of your lowest color, click to change your hand");
 
-            /** the button doesn't appear */
+            /* the button doesn't appear */
 
             //CLICK TO CHANGE PIECES FROM THE BAG
             GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].addListener(new ClickListener() {
@@ -158,7 +149,6 @@ public class GameState {
 
         gamingPlayer.getHand().removeFromHand(a.getTile());
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
-
 
         nextState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
 

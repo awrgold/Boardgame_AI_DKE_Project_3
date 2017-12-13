@@ -4,6 +4,7 @@ import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameScoreAssets.ScoreTuple;
 import Tools.Link;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -32,6 +33,7 @@ public class Player{
     private Board board;
     private ArrayList<Integer> scoreQ = new ArrayList<>();
     private ArrayList<ScoreTuple> scoreTuples = new ArrayList<>();
+    private Sprite[] PlayerScoreSprite = new Sprite[6];
 
 
     //private Action move = new Action();
@@ -360,6 +362,7 @@ public class Player{
         return colorIngenious;
     }
 
+    /*
     public ArrayList<Integer> getScoreQ(){
         ArrayList<Integer> scoreQ = new ArrayList<>();
         for (int i : playerScore){
@@ -368,39 +371,8 @@ public class Player{
         Collections.sort(scoreQ, Collections.reverseOrder());
         return scoreQ;
     }
+    */
 
-    public boolean hasManyLowestColors(){
-        int counter = 0;
-        for (int i : playerScore){
-            int temp = playerScore[i];
-            for (int j = i; j < playerScore.length; j++){
-                if (playerScore[j] == temp){
-                    counter++;
-                }
-            }
-
-        }
-        if (counter > 2){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hasTwoLowestColors(){
-        int counter = 0;
-        for (int i : playerScore){
-            int temp = playerScore[i];
-            for (int j = i; j < playerScore.length; j++){
-                if (playerScore[j] == temp){
-                    counter++;
-                }
-            }
-        }
-        if (counter == 2){
-            return true;
-        }
-        return false;
-    }
 
     //TRYING TO IMPLEMENT THE STRATEGY
 
