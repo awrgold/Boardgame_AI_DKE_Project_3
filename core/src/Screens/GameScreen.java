@@ -189,7 +189,7 @@ public class GameScreen extends AbstractScreen {
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
-        manager.proccessStep(delta);
+        //manager.proccessStep(delta);
 
 
         this.act(delta);

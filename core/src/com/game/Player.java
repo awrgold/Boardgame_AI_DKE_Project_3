@@ -395,7 +395,7 @@ public class Player{
             }
 
         }
-        System.out.println("lowest colors: " + lowestColors.get(0));
+        System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
         return lowestColors;
 
     }
@@ -409,7 +409,7 @@ public class Player{
                 if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
                     pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
                     pieces.put(t, color);
-                    System.out.println(color + " - " + color);
+                    System.out.println("Found a double to place: " + color + " - " + color);
                     break;
                 } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
                     pieces.put(t, color);
@@ -417,6 +417,7 @@ public class Player{
                 }
             }
         }
+
 
         return pieces;
 

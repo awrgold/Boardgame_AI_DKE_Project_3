@@ -19,7 +19,7 @@ import rx.functions.Action1;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GameManager extends AbstractSystem {
+public class GameManager{
 
 
 
@@ -40,19 +40,19 @@ public class GameManager extends AbstractSystem {
 
     }
 
-    public void updateState(float delta){
+    /*public void updateState(float delta){
         getBoard().act(delta);
         for (Player p : getPlayers()){
             for (Tile t : p.getHand().getPieces()){
                 t.act(delta);
             }
-        }
+        }*/
        // currentState.toString();
         //
         // (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
 //        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
 
-    }
+    //}
 
 
     public GameState getCurrentState(){
@@ -100,12 +100,12 @@ public class GameManager extends AbstractSystem {
     }
 
 
-    public boolean endGameCheck() {
-        if (player1TurnNumber < 100){
+    /*public boolean endGameCheck() {
+        if (!getBoard().gameOver()){
             return false;
         } else {
             return true;
-        }
+        }*/
         // Check if players score is complete or if no tiles can be placed.
 
         /*int[] playerScore = getGamingPlayer().getPlayerScore();
@@ -124,11 +124,13 @@ public class GameManager extends AbstractSystem {
 
         return true;*/
 
-    }
+    //}
 
     public void changeState(Action action){
         action.toString();
+
         currentState = currentState.applyAction(action);
+        getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
 
 
         move = new Action();
@@ -138,12 +140,16 @@ public class GameManager extends AbstractSystem {
 
 
 
-    @Override
+    /*@Override
     public void proccessStep(float delta) {
-       if (!endGameCheck()){
-            updateState(delta);
+       if (!getBoard().gameOver()){
+            //updateState(delta);
+       } else {
+           System.out.println("GAME OVER");
        }
-    }
+
+
+    }*/
 
     public void handleTileTouch(Vector2 worldTouch){
         //System.out.println(getGamingPlayer().getHand().getPieces().get(0).getHexA().getHexColor());
@@ -196,7 +202,7 @@ public class GameManager extends AbstractSystem {
     }
 
     public void handleBoardTouch(boolean second, Vector2 worldTouch){
-        getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
+        //getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
         for (Actor hex : getBoard().getChildren()){
             boolean inX = false;
             boolean inY = false;
@@ -251,10 +257,10 @@ public class GameManager extends AbstractSystem {
 
     public boolean handleTouch(Vector2 worldTouch){
         if (getGamingPlayer().getPlayerNo() == 2){
-            System.out.println("p2");
+
             handleTileTouch(worldTouch);
         } if(getGamingPlayer().getPlayerNo() == 1) {
-            System.out.println("p1");
+
             handleTileTouch(worldTouch);
 
         } if (move.getH1() != null && move.getH2() == null){
