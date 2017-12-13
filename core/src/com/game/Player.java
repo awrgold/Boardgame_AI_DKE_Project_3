@@ -4,14 +4,13 @@ import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
 import GameScoreAssets.ScoreTuple;
 import Tools.Link;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.*;
 
 /*
 int[0] = blue
@@ -24,11 +23,11 @@ int[5] = red
 
 public class Player{
 
-    //private boolean isAI;
+    private boolean isAI;
     private int[] playerScore = new int[6];
     public static int playerNo;
     private Hand hand;
-    private static Sprite[] PlayerScoreSprite = new Sprite[6];
+    private String[] playerScoreString = new String[6];
     private static boolean[] colorIngenious = new boolean[6];
     private Board board;
     private ArrayList<Integer> scoreQ = new ArrayList<>();
@@ -39,9 +38,8 @@ public class Player{
 
 
 
-    public Player(int playerNo, ArrayList<Tile> playerPieces, Board board) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces) {
         this.playerNo = playerNo;
-        this.board = board;
         this.hand = new Hand(playerPieces);
 
         for (int i = 0; i < 6; i++){
@@ -59,6 +57,12 @@ public class Player{
         ScoreTuple tuple4 = new ScoreTuple(4, Constants.violetSprite);
         PlayerScoreSprite[5] = Constants.redSprite;
         ScoreTuple tuple5 = new ScoreTuple(5, Constants.redSprite);
+        playerScoreString[0] = "B";
+        playerScoreString[1] = "Y";
+        playerScoreString[2] = "O";
+        playerScoreString[3] = "P";
+        playerScoreString[4] = "V";
+        playerScoreString[5] = "R";
 
         // add tuple objects that can be sorted in "dictionary" format
         scoreTuples.add(0, tuple0);
@@ -73,31 +77,6 @@ public class Player{
         return this.hand;
     }
 
-    /*
-    public void setClicked(){
-        HexagonActor one = hand.getSelected().getFirst();
-        move.setT1(one);
-        Actor two = one.getParent().getChildren().get(Math.abs(one.getHexagon().getGridX() - 1));
-        if (two instanceof HexagonActor){
-            HexagonActor second = (HexagonActor) two;
-            move.setT2(second);
-        }
-
-    }*/
-
-    public Tile getSelectedTile() {
-        Tile selected = null;
-        for (Tile t : hand.getPieces()){
-            if(t.isSelected()){
-                selected = t;
-            }
-        }
-        return selected;
-
-
-    }
-
-
     public int getColorScore(int color){
         return playerScore[color];
     }
@@ -105,8 +84,6 @@ public class Player{
     public int getPlayerNo() {
         return playerNo;
     }
-
-
 
     public static void updateScore(Player player, HexagonActor hexActor, HexagonalGrid hexGrid, HexagonActor one) {
 
@@ -179,10 +156,6 @@ public class Player{
 
     }
 
-    public void printScore(){
-        System.out.println(scoreToString());
-    }
-
     public String scoreToString(){
 
         String p = "| ";
@@ -197,12 +170,13 @@ public class Player{
         return playerScore;
     }
 
-    private boolean isAColorPresent(Sprite color){
+    private boolean isAColorPresent(String color){
         for (Tile tile : hand.getPieces()){
-            if(tile.getColors()[0] == color || tile.getColors()[1] == color){
+            if(tile.getActors()[0].getHexColor().equals(color) || tile.getActors()[1].getHexColor().equals(color)){
                 return true;
             }
         }
+        System.out.println(color + " is not present");
         return false;
 
     }
@@ -211,7 +185,6 @@ public class Player{
         int lowest = 18;
         int lowIndex = -1;
         ArrayList<Integer> indexesOfLowest = new ArrayList<>();
-        System.out.println(indexesOfLowest.size());
 
         for (int i = 0; i < 6; i++){
             if(playerScore[i] < lowest){
@@ -228,11 +201,11 @@ public class Player{
         }
         System.out.println("LowIndex = " + lowIndex);
 
-        if (indexesOfLowest.size() == 1 && !isAColorPresent(PlayerScoreSprite[lowIndex])) {
+        if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreString[lowIndex])) {
             return false;
         } if (indexesOfLowest.size() > 1 && lowest > 0){
             for (int i : indexesOfLowest){
-                if (!isAColorPresent(PlayerScoreSprite[i])){
+                if (!isAColorPresent(playerScoreString[i])){
                     return false;
                 }
 
@@ -381,23 +354,76 @@ public class Player{
         return false;
     }
 
+
+
     public boolean[] getIngeniousList(){
         return colorIngenious;
     }
 
-    /*
-    Possibly set the move for the player
-     */
-
-    public void makeMove(){
-    selectTile();
-    placeTile();
-}
-
-    public void selectTile() {
-
+    public ArrayList<Integer> getScoreQ(){
+        ArrayList<Integer> scoreQ = new ArrayList<>();
+        for (int i : playerScore){
+            scoreQ.add(playerScore[i]);
+        }
+        Collections.sort(scoreQ, Collections.reverseOrder());
+        return scoreQ;
     }
-    public void placeTile(){
+
+    public boolean hasManyLowestColors(){
+        int counter = 0;
+        for (int i : playerScore){
+            int temp = playerScore[i];
+            for (int j = i; j < playerScore.length; j++){
+                if (playerScore[j] == temp){
+                    counter++;
+                }
+            }
+
+        }
+        if (counter > 2){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasTwoLowestColors(){
+        int counter = 0;
+        for (int i : playerScore){
+            int temp = playerScore[i];
+            for (int j = i; j < playerScore.length; j++){
+                if (playerScore[j] == temp){
+                    counter++;
+                }
+            }
+        }
+        if (counter == 2){
+            return true;
+        }
+        return false;
+    }
+
+    //TRYING TO IMPLEMENT THE STRATEGY
+
+//  FIND THE LOWEST COLORS
+    public ArrayList<String> lowestColors(){
+        ArrayList<String> lowestColors = new ArrayList<>();
+        int lowest = 18;
+
+        for (int i = 0; i < 6; i++){
+            if(playerScore[i] < lowest){
+                lowest = playerScore[i];
+
+            }
+        }
+
+        for (int i = 0; i < 6; i++){
+            if (playerScore[i] == lowest){
+                lowestColors.add(playerScoreString[i]);
+            }
+
+        }
+        System.out.println("lowest colors: " + lowestColors.get(0));
+        return lowestColors;
 
     }
 
@@ -508,6 +534,50 @@ public class Player{
         }
         return scoreTileQ;
     }
+
+//  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
+    public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors){
+        HashMap<Tile, String> pieces = new HashMap<>();
+
+        for(String color : colors){
+            for(Tile t : hand.getPieces()){
+                if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
+                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
+                    pieces.put(t, color);
+                    System.out.println(color + " - " + color);
+                    break;
+                } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
+                    pieces.put(t, color);
+
+                }
+            }
+        }
+
+        return pieces;
+
+    }
+/*
+//  FOR A TILE RETURN THE GAME STATE THAT RETURN THE HIGHEST SCORE ON THE INTERESTED COLOR
+    public GameState bestMoveForTile(Tile t, Board currentBoard, String color){
+
+    }
+
+//  APPLY THE STRATEGY AND RETURN ALL POSSIBLE STATES
+    public ArrayList<GameState> applyStrategy(Board currentBoard){
+        ArrayList<GameState> aiMoves = new ArrayList<>();
+        ArrayList<String> colorsToPlay = lowestColors();
+        HashMap<Tile, String> tilesToPlay = bestTilesToPlace(colorsToPlay);
+
+        for (HashMap.Entry<Tile, String> entry : tilesToPlay.entrySet()) {
+            aiMoves.add(bestMoveForTile(entry.getKey(), currentBoard, entry.getValue()));
+        }
+
+        return aiMoves;
+
+
+    }
+*/
+
 }
 
 

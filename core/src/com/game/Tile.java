@@ -21,12 +21,14 @@ public class Tile extends GroupView{
     //private boolean c;
     private Sprite[] colors;
     private boolean selected;
+    private HexagonActor[] actors;
     private HexagonActor first;
 
     public Tile(Sprite[] colors){
         super();
         this.colors = colors;
         this.selected = false;
+        this.actors = new HexagonActor[2];
         //this.c = false;
         create();
 
@@ -45,10 +47,12 @@ public class Tile extends GroupView{
                 //give both the sprites
                 if(hexagon.getGridX() == 0) {
                     hexTile.setSprite(colors[0]);
+                    actors[0] = hexTile;
 
 
                 } else {
                     hexTile.setSprite(colors[1]);
+                    actors[1] = hexTile;
 
 
                 }
@@ -150,6 +154,10 @@ public class Tile extends GroupView{
 
     public void setFirst(HexagonActor clicked){
         first = clicked;
+    }
+
+    public HexagonActor[] getActors() {
+        return actors;
     }
 
     public HexagonActor getFirst() {

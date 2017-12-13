@@ -94,11 +94,12 @@ public class GameScreen extends AbstractScreen {
         scoreColumn.add(scorebars2);
         scoreColumn.row();
         scoreColumn.add(p2).bottom();
-        root.add(scoreColumn).colspan(3).expand().fill();
+        root.add(scoreColumn).colspan(2).expand().fill();
 
 
         // Create the board
         Table boardColumn = new Table();
+        //boardColumn.debug();
 
         //2 buttons for change hand
         changeTiles = new TextButton[2];
@@ -109,19 +110,22 @@ public class GameScreen extends AbstractScreen {
         //p1 tiles
         //boardColumn.row().height(100).top().expandX();
         //boardColumn.add(new Label("Player 1 Hand", skin));
-        boardColumn.row().height(130).top().expandX().left();
-        boardColumn.add(changeTiles[0]).height(100).bottom();
+        boardColumn.row().height(130).top().fillX();
+        boardColumn.add(changeTiles[0]).height(100).width(100).bottom().left();
         changeTiles[0].setTouchable(Touchable.disabled);
         changeTiles[0].setVisible(false);
 
-       for (int i = 0; i < 6; i++) {
+        boardColumn.add(manager.getHandByIndex(0)).expandX().center();
+
+        /*for (int i = 0; i < 6; i++) {
 
            boardColumn.add(manager.getHandByIndex(0).showTile(i));
 
-        }
+        }*/
 
 
-        boardColumn.row();
+
+        boardColumn.row().fillX();
 
        //board
         // boardColumn.debug(Debug.all);
@@ -136,17 +140,19 @@ public class GameScreen extends AbstractScreen {
         //p2 tiles
         //boardColumn.row().height(100).bottom().expandX();
         //boardColumn.add(new Label("Player 2 Hand", skin));
-        boardColumn.row().height(130).bottom().expandX().left();
-        boardColumn.add(changeTiles[1]).height(100).top();
+        boardColumn.row().height(130).bottom().fillX();
+        boardColumn.add(changeTiles[1]).height(100).width(100).top().left();
         changeTiles[1].setTouchable(Touchable.disabled);
         changeTiles[1].setVisible(false);
 
+        boardColumn.add(manager.getHandByIndex(1)).expandX().center();
+        /*
         for (int i = 0; i < 6; i++) {
             boardColumn.add(manager.getHandByIndex(1).showTile(i));
 
-        }
+        }*/
 
-        root.add(boardColumn).colspan(6).expand().fill();
+        root.add(boardColumn).colspan(4).expand().left().fillY();
         root.pack();
 
 

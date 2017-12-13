@@ -10,16 +10,26 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 
-public class Hand{
+public class Hand extends GroupView{
 
     private ArrayList<Tile> hand;
     //private GroupView[] handView;
     private Tile selectedTile;
-    private int s;
+    private float s;
 
     public Hand(ArrayList<Tile> tiles){
 
         this.hand = tiles;
+        create();
+    }
+
+    public void create(){
+        float x = 0;
+        for (Tile tile: hand){
+            tile.setPosition(x, 0);
+            addActor(tile);
+            x += 180;
+        }
     }
 
 
@@ -39,16 +49,15 @@ public class Hand{
 
 
     public void pickFromBag(Tile picked){
-        hand.add(s, picked);
+        hand.add(picked);
+        picked.setPosition(s, 0);
+        addActor(picked);
     }
 
     public void removeFromHand(Tile placed){
-        for (int i = 0; i < 6; i++){
-            if (hand.get(i) == placed){
-                s = i;
-            }
-        }
+        s = placed.getX();
         hand.remove(placed);
+        removeActor(placed);
     }
 
     public void changeTiles(ArrayList<Tile> tiles){
@@ -59,7 +68,7 @@ public class Hand{
         for (Tile t : hand){
             if (t != newOne && t.isSelected()){
                 t.setSelected(false);
-                t.moveBy(0, -30);
+                t.moveBy(0, -10);
             }
         }
         newOne.setSelected(true);
@@ -73,5 +82,9 @@ public class Hand{
 
     public GroupView showTile(int i) {
         return hand.get(i);
+    }
+
+    public void act( float delta) {
+        super.act(delta);
     }
 }
