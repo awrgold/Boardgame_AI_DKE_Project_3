@@ -17,6 +17,7 @@ import rx.functions.Action1;
 
 public class Board extends GroupView{
     private HexagonalGrid<Link> grid;
+    private boolean over;
 
     private boolean secondTouch;
     private Hexagon first;
@@ -155,11 +156,48 @@ public class Board extends GroupView{
         return second;
     }
 
-    public boolean gameOver(){
-        Observable<Hexagon<Link>> allHexagons = grid.getHexagons();
-        return false;
+    public boolean gameOver() {
+        this.over = true;
+        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                if (hexagon.getSatelliteData().isPresent()) {
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
 
+                    if (currentHexActor.getHexColor().equals("EMPTY")) {
+                        //System.out.println("(" + hexagon.getGridX() + ", " + hexagon.getGridY() + ", " + hexagon.getGridZ() + ") is empty");
+                        for (Object hex : grid.getNeighborsOf(hexagon)) {
+                            if (hex instanceof Hexagon) {
+                                Hexagon currentNeighbor = (Hexagon) hex;
+
+                                if (currentNeighbor.getSatelliteData().isPresent()) {
+                                    Link neighLink = (Link) hexagon.getSatelliteData().get();
+                                    HexagonActor neighHexActor = neighLink.getActor();
+                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+                                        //System.out.println("empty neighbor");
+                                        over = false;
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        if (over){
+            System.out.println("GAME OVER");
+        }
+        return over;
     }
+
+
+
+
+
+
 
     public HexagonalGrid<Link> getGrid() {
         return grid;
