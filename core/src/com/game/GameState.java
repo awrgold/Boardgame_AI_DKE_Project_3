@@ -134,6 +134,7 @@ public class GameState {
             currentHexActor.setHexColor(a.getTileColors()[0]);
             first = currentHexActor;
             Player.updateScore(gamingPlayer, currentHexActor, currentBoard.getGrid(), currentHexActor);
+            gamingPlayer.updateLabel();
         }
 
         if (a.getH2().getSatelliteData().isPresent()){
@@ -144,7 +145,7 @@ public class GameState {
             if (first != null){
                 Player.updateScore(gamingPlayer, currentHexActor, currentBoard.getGrid(), first);
             }
-
+    gamingPlayer.updateLabel();
         }
 
         gamingPlayer.getHand().removeFromHand(a.getTile());

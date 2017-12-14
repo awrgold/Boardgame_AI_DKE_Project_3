@@ -2,9 +2,13 @@ package com.game;
 
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import GameCustomAssets.CustomLabel;
+import GameScoreAssets.ScoreBarGroup;
 import GameScoreAssets.ScoreTuple;
 import Tools.Link;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -34,16 +38,19 @@ public class Player{
     private ArrayList<Integer> scoreQ = new ArrayList<>();
     private ArrayList<ScoreTuple> scoreTuples = new ArrayList<>();
     private Sprite[] PlayerScoreSprite = new Sprite[6];
-
-
+    private CustomLabel pLabel;
+    private ScoreBarGroup scoreBar;
     //private Action move = new Action();
-
+    private Skin skin;
 
 
     public Player(int playerNo, ArrayList<Tile> playerPieces) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
-
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        this.scoreBar = new ScoreBarGroup(250,350,getPlayerScore());
+        pLabel = new CustomLabel("Player "+ playerNo +" Score : "+ scoreToString(), skin);
+        pLabel.setFontScale(1.5f);
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
@@ -528,6 +535,16 @@ public class Player{
 
         return pieces;
 
+    }
+
+    public ScoreBarGroup getScoreBar() {
+        return scoreBar;
+    }
+    public void updateLabel(){
+    pLabel.updateText("Player "+ playerNo +" Score : "+ scoreToString());
+    }
+    public CustomLabel getLabel() {
+       return pLabel;
     }
 /*
 //  FOR A TILE RETURN THE GAME STATE THAT RETURN THE HIGHEST SCORE ON THE INTERESTED COLOR

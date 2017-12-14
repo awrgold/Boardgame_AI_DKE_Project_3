@@ -78,18 +78,24 @@ public class ScoreBarGroup extends VerticalGroup{
     }
     public void act( float delta) {
         super.act(delta);
+        //String s="";
         for (int i = 0; i<num;i++){
             int v = scores[i];
             int j = (v*140)/18;
-
-            String s = Integer.toString(v);
-            cl[i].updateText(s);
+//             s = Integer.toString(v);
+          //  cl[i].updateText(s);
            bars[i].updateVal(j);
        }
-
+updateLabel();
 
     }
-
+    public void updateLabel() {
+        for (int i = 0; i < num; i++) {
+            int v = scores[i];
+            String s = Integer.toString(v);
+            cl[i].updateText(s);
+        }
+    }
     public int getRandom(){
         int n = (int) (Math.random()* 18);
         return n;

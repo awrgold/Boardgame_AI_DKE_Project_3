@@ -41,7 +41,7 @@ public class GameScreen extends AbstractScreen {
     //ShapeRenderer renderer;
     SpriteBatch batch;
     public static final String TAG = GameScreen.class.getName();
-
+int n = 0;
 
 
     /* Build the game screen: --------------------------------------------------- */
@@ -49,7 +49,7 @@ public class GameScreen extends AbstractScreen {
 
 
     private CustomLabel p1;
-    private CustomLabel p2;
+//    private CustomLabel p2;
 
     public GameScreen(GameIngenious game) {
     // Build screen, add skins, add players
@@ -83,17 +83,16 @@ public class GameScreen extends AbstractScreen {
         // can be generated directly from list of players
         Table scoreColumn = new Table();
         //scoreColumn.debug(Debug.all);
-        p1 = new CustomLabel("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString(), skin);
-        p2 = new CustomLabel("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString(), skin);
-        ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore());
-        scoreColumn.add(scorebars1);
+        scoreColumn.add(manager.getScoreBarByIndex(0));
         scoreColumn.row();
-        scoreColumn.add(p1).bottom().padTop(20).padBottom(30);
+
+        scoreColumn.add(manager.getLabelByIndex(0)).bottom().padTop(20).padBottom(30);
         scoreColumn.row().expandX();
-        ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore());
-        scoreColumn.add(scorebars2);
+
+        scoreColumn.add(manager.getScoreBarByIndex(1));
         scoreColumn.row();
-        scoreColumn.add(p2).bottom();
+        //scoreColumn.add(p2).bottom();
+        scoreColumn.add(manager.getLabelByIndex(1)).bottom();
         root.add(scoreColumn).colspan(2).expand().fill();
 
 
@@ -186,8 +185,6 @@ public class GameScreen extends AbstractScreen {
         viewport.apply();
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
-        p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
-        p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
         //manager.proccessStep(delta);
 
@@ -202,7 +199,6 @@ public class GameScreen extends AbstractScreen {
        // stage.dispose();
         super.dispose();
 
-
     }
 
     @Override
@@ -211,7 +207,7 @@ public class GameScreen extends AbstractScreen {
             Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
             //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
             manager.handleTouch(worldTouch);
-        } else {
+        }else {
             manager.reset();
         }
         return true;

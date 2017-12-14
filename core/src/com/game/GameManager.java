@@ -3,6 +3,8 @@ package com.game;
 import GameAI.*;
 import GameBoardAssets.HexagonActor;
 import GameConstants.Constants;
+import GameCustomAssets.CustomLabel;
+import GameScoreAssets.ScoreBarGroup;
 import Screens.GameScreen;
 import Systems.AbstractSystem;
 import Tools.Link;
@@ -289,4 +291,11 @@ public class GameManager{
 
     }
 
+    public ScoreBarGroup getScoreBarByIndex(int i){
+        return getPlayers()[i].getScoreBar();
+    }
+
+    public CustomLabel getLabelByIndex(int i) {
+        return getPlayers()[i].getLabel();
+    }
 }
