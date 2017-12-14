@@ -48,9 +48,9 @@ public class Player{
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        this.scoreBar = new ScoreBarGroup(250,350,getPlayerScore());
+        this.scoreBar = new ScoreBarGroup(500,500,getPlayerScore());
         pLabel = new CustomLabel("Player "+ playerNo +" Score : "+ scoreToString(), skin);
-        pLabel.setFontScale(1.5f);
+        pLabel.setFontScale(2f);
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }

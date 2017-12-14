@@ -56,6 +56,7 @@ public class ScoreBarGroup extends VerticalGroup{
 
             cl[i]=new CustomLabel(s, skin);
             cl[i].setColor(colors[i]);
+            cl[i].setFontScale(2f);
             bars[i] = new Bar(w,barH,colors[i],j);
             //bars[i].setBounds(w/2,barH/2,w,barH);
 
@@ -67,7 +68,8 @@ public class ScoreBarGroup extends VerticalGroup{
             // wrapper.setHeight(height);
             wrapper.setOrigin(wrapper.getPrefWidth() / 2, wrapper.getPrefHeight() / 2);
             // wrapper.setRotation(30);
-            wrapper.setScaleX(2f);
+            wrapper.setScaleX(3f);
+            wrapperl.setScale(2f);
            // addActor(cl[i]);
             //addActor(bars[i]);
             addActor(wrapperl);
