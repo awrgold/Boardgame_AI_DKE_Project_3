@@ -15,6 +15,9 @@ import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.Observable;
 import rx.functions.Action1;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 public class Board extends GroupView{
     private HexagonalGrid<Link> grid;
     private boolean over;
@@ -169,22 +172,24 @@ public class Board extends GroupView{
                 if (hexagon.getSatelliteData().isPresent()) {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
+                    System.out.println(currentHexActor.getHexColor());
 
                     if (currentHexActor.getHexColor().equals("EMPTY")) {
-                        //System.out.println("(" + hexagon.getGridX() + ", " + hexagon.getGridY() + ", " + hexagon.getGridZ() + ") is empty");
+                        System.out.println("(" + hexagon.getGridX() + ", " + hexagon.getGridY() + ", " + hexagon.getGridZ() + ") is empty");
                         for (Object hex : grid.getNeighborsOf(hexagon)) {
                             if (hex instanceof Hexagon) {
                                 Hexagon currentNeighbor = (Hexagon) hex;
 
                                 if (currentNeighbor.getSatelliteData().isPresent()) {
-                                    Link neighLink = (Link) hexagon.getSatelliteData().get();
+                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
                                     HexagonActor neighHexActor = neighLink.getActor();
                                     if (neighHexActor.getHexColor().equals("EMPTY")) {
-                                        //System.out.println("empty neighbor");
+                                        System.out.println("empty neighbor");
                                         over = false;
 
                                         break;
                                     }
+
                                 }
                             }
                         }
@@ -192,6 +197,7 @@ public class Board extends GroupView{
                 }
             }
         });
+        System.out.println("Explored all the board, Game Over: " + over);
         if (over){
             System.out.println("GAME OVER");
         }

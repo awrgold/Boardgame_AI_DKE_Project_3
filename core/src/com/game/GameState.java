@@ -13,6 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import static java.util.Arrays.sort;
 
 public class GameState {
 
@@ -77,8 +80,26 @@ public class GameState {
 
         return nextPlayer;
 
+    }
 
+    public Player getWinner(){
+        Player winner;
+        int[] p1Score = getPlayer(0).getPlayerScore();
+        int[] p2Score = getPlayer(1).getPlayerScore();
+        Arrays.sort(p1Score);
+        Arrays.sort(p2Score);
 
+        for (int i = 0; i < 6; i++){
+            if (p1Score[i] < p2Score[i]){
+                winner = players[1];
+                return winner;
+            } if (p2Score[i] < p1Score[i]){
+                winner = players[0];
+                return winner;
+            }
+
+        }
+        return null;
     }
 
     public void activateButtonIfNeeded(){

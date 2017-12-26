@@ -132,8 +132,11 @@ public class GameManager{
         currentState = currentState.applyAction(action);
         getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
 
-
         move = new Action();
+        if (getBoard().gameOver()){
+            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+
+        }
 
     }
 
@@ -182,12 +185,7 @@ public class GameManager{
                         tile.setSelected(true);
                         move.setTile(tile);
 
-                        /**the tile is not moving*/
-
-                        System.out.println("Actor Position Before moveBy on Group is : "+tile.getX()+" And "+tile.getY());
                         tile.moveBy(0, 30);
-                        System.out.println("After moveBy applied on Group, Actor Position is : "+tile.getX()+" And "+tile.getY());
-
 
                         System.out.println(clicked.getHexColor() + " - " + tile.getSecond().getHexColor());
                         break outerloop;
@@ -223,7 +221,6 @@ public class GameManager{
                     if (second){
                         if(clicked.getHexColor().equals("EMPTY")){
                             if(getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())){
-                                System.out.println("found");
                                 move.setH2(clicked.getHexagon());
                             } else {
                                 System.out.println("Select a neighbor");
@@ -232,10 +229,6 @@ public class GameManager{
                             System.out.println("select an empty hexagon");
                         }
 
-
-
-
-
                     } else {
                         if(clicked.getHexColor().equals("EMPTY")){
                             move.setH1(clicked.getHexagon());
@@ -243,11 +236,9 @@ public class GameManager{
                             System.out.println("select an empty hexagon");
                         }
 
-
-
                     }
 
-                    System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());
+                    //System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());
                     break;
                 }
             }

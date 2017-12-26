@@ -207,13 +207,11 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-        if (!manager.getBoard().gameOver()) {
-            Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
-            //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
-            manager.handleTouch(worldTouch);
-        } else {
-            manager.reset();
-        }
+
+        Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
+        //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
+        manager.handleTouch(worldTouch);
+
         return true;
     }
 
