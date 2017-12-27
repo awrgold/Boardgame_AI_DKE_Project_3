@@ -26,11 +26,6 @@ public class Player{
     private String[] playerScoreString = new String[6];
     private static boolean[] colorIngenious = new boolean[6];
 
-
-    //private Action move = new Action();
-
-
-
     public Player(int playerNo, ArrayList<Tile> playerPieces) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
@@ -43,7 +38,6 @@ public class Player{
         playerScoreString[3] = "P";
         playerScoreString[4] = "V";
         playerScoreString[5] = "R";
-
     }
 
     public Hand getHand(){
@@ -129,8 +123,7 @@ public class Player{
 
     }
 
-    public String scoreToString(){
-
+    public String scoreToString() {
         String p = "| ";
         for (int j = 0; j <= 5; j++) {
             String s = playerScore[j] + " | ";
@@ -172,20 +165,18 @@ public class Player{
             }
 
         }
-        System.out.println("LowIndex = " + lowIndex);
 
         if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreString[lowIndex])) {
             return false;
-        } if (indexesOfLowest.size() > 1 && lowest > 0){
+        }
+
+        if (indexesOfLowest.size() > 1 && lowest > 0){
             for (int i : indexesOfLowest){
                 if (!isAColorPresent(playerScoreString[i])){
                     return false;
                 }
-
             }
         }
-
-
         return true;
     }
 
@@ -327,8 +318,6 @@ public class Player{
         return false;
     }
 
-
-
     public boolean[] getIngeniousList(){
         return colorIngenious;
     }
@@ -395,7 +384,7 @@ public class Player{
             }
 
         }
-        System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
+        //System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
         return lowestColors;
 
     }
@@ -409,7 +398,7 @@ public class Player{
                 if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
                     pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
                     pieces.put(t, color);
-                    System.out.println("Found a double to place: " + color + " - " + color);
+                    //System.out.println("Found a double to place: " + color + " - " + color);
                     break;
                 } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
                     pieces.put(t, color);

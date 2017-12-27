@@ -12,6 +12,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
@@ -21,39 +25,18 @@ import java.util.Collection;
 
 public class GameManager{
 
-
-
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
-
     private Tree gameTree;
-
     private Action move;
-
 
 
     public GameManager(){
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-
     }
-
-    /*public void updateState(float delta){
-        getBoard().act(delta);
-        for (Player p : getPlayers()){
-            for (Tile t : p.getHand().getPieces()){
-                t.act(delta);
-            }
-        }*/
-       // currentState.toString();
-        //
-        // (currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile());
-//        changeState(new Action(currentState.getCurrentBoard().getFirst(), currentState.getCurrentBoard().getSecond(), getGamingPlayer().getSelectedTile()));
-
-    //}
-
 
     public GameState getCurrentState(){
         return gameTree.getRoot().getState();
@@ -99,63 +82,53 @@ public class GameManager{
         return player2TurnNumber;
     }
 
-
-    /*public boolean endGameCheck() {
-        if (!getBoard().gameOver()){
-            return false;
-        } else {
-            return true;
-        }*/
-        // Check if players score is complete or if no tiles can be placed.
-
-        /*int[] playerScore = getGamingPlayer().getPlayerScore();
-        int totalScore = 0;
-        boolean completeScore = true;
-        for (int i = 0; i <= 5; i++) {
-            if (playerScore[i] < 18) // Check if all colors are 18 or higher.
-            {
-                completeScore = false;
-            }
-        }
-        if (completeScore == true) // If all colors are 18 or higher, game is over.
-        {
-            return true;
-        }
-
-        return true;*/
-
-    //}
-
     public void changeState(Action action){
-        action.toString();
-
+        System.out.println(action.toString());
         currentState = currentState.applyAction(action);
         getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
-
         move = new Action();
+        //if the new state is the last of the game, print the winner
         if (getBoard().gameOver()){
             System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-
         }
-
     }
 
+    /*public void handleButtonTouch(Vector2 worldTouch){
 
+        boolean inX = false;
+        boolean inY = false;
 
+        TextButton activeButton = GameScreen.changeTiles[getGamingPlayer().getPlayerNo()];
+        Vector2 activeButtonLoc = activeButton.localToStageCoordinates(new Vector2());
 
-    /*@Override
-    public void proccessStep(float delta) {
-       if (!getBoard().gameOver()){
-            //updateState(delta);
-       } else {
-           System.out.println("GAME OVER");
-       }
-
+        if (worldTouch.x > activeButtonLoc.x &&
+                worldTouch.x < activeButtonLoc.x + 100) {
+            inX = true;
+        }
+        if (worldTouch.y > activeButtonLoc.y &&
+                worldTouch.y < activeButtonLoc.y + 100) {
+            inY = true;
+        }
+        if (inX && inY) {
+            getGamingPlayer().getHand().changeTiles(getBag().replaceHand(getGamingPlayer().getHand().getPieces()));
+            for (int i = 0; i < 6; i++) {
+                Group tile = getGamingPlayer().getHand().getPieces().get(i);
+                int index = 0;
+                for (Actor hex : tile.getChildren()) {
+                    if (hex instanceof HexagonActor) {
+                        HexagonActor first = (HexagonActor) hex;
+                        first.setSprite(getGamingPlayer().getHand().getPieces().get(i).getColors()[index]);
+                        index++;
+                    }
+                }
+            }
+            GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
+        }
 
     }*/
 
     public void handleTileTouch(Vector2 worldTouch){
-        //System.out.println(getGamingPlayer().getHand().getPieces().get(0).getHexA().getHexColor());
         outerloop:
         for (Tile tile : getGamingPlayer().getHand().getPieces()){
             for (Actor hex : tile.getChildren()){
@@ -187,7 +160,6 @@ public class GameManager{
 
                         tile.moveBy(0, 30);
 
-                        System.out.println(clicked.getHexColor() + " - " + tile.getSecond().getHexColor());
                         break outerloop;
                     }
 
@@ -237,12 +209,9 @@ public class GameManager{
                         }
 
                     }
-
-                    //System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());
                     break;
                 }
             }
-
         }
     }
 
@@ -265,10 +234,6 @@ public class GameManager{
             return true;
         }
         return true;
-
-    }
-
-    public void reset(){
 
     }
 

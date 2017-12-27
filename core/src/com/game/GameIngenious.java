@@ -17,8 +17,6 @@ public class GameIngenious extends Game {
   //  public SpriteBatch batch;
     private Viewport screenPort;
 
-
-
     @Override
     public void create() {
        //batch = new SpriteBatch();

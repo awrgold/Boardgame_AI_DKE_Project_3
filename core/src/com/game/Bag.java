@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Bag {
-    ArrayList<Tile> bag;
+    private ArrayList<Tile> bag;
 
     public Bag(ArrayList<Sprite[]> pieces){
         this.bag = new ArrayList<>();
@@ -16,16 +16,6 @@ public class Bag {
         }
     }
 
-    /*public void fillHand(Player player){
-        for(int i = 0; i < 6; i++){
-            if (player.getHand().getPieces()[i] == null){
-                int randomNumber = ThreadLocalRandom.current().nextInt(0, bag.size());
-                Tile piece = bag.get(randomNumber);
-                player.getHand().add(piece);
-                allPieces.remove(piece);
-            }
-        }
-    }*/
 
     public Tile pickTile(){
         int randomNumber = ThreadLocalRandom.current().nextInt(0, bag.size());

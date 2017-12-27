@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.game.GameIngenious;
 
-public abstract class   AbstractScreen extends Stage implements Screen, InputProcessor {
+public abstract class AbstractScreen extends Stage implements Screen, InputProcessor {
 
     protected AbstractScreen() {
         super( new ScreenViewport(new OrthographicCamera()) );

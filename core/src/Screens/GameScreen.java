@@ -24,11 +24,9 @@ import rx.functions.Action1;
 
 
 public class GameScreen extends AbstractScreen {
-    //game data
 
-
-    GameIngenious game;
-    GameManager manager;
+    private GameIngenious game;
+    private GameManager manager;
     private Skin skin;
 
    // private Stage stage;
@@ -36,17 +34,11 @@ public class GameScreen extends AbstractScreen {
 	public static TextButton[] changeTiles;
     //private CustomLabel p1;
     //private CustomLabel p2;
-    ExtendViewport viewport;
+    private ExtendViewport viewport;
 
     //ShapeRenderer renderer;
-    SpriteBatch batch;
+    private SpriteBatch batch;
     public static final String TAG = GameScreen.class.getName();
-
-
-
-    /* Build the game screen: --------------------------------------------------- */
-
-
 
     private CustomLabel p1;
     private CustomLabel p2;
@@ -56,15 +48,11 @@ public class GameScreen extends AbstractScreen {
         this.game = game;
         //this.manager = new GameManager();
         //handler = new GameHandler(game, comStrategy);
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
-        manager = new GameManager();
-
+        this.manager = new GameManager();
         buildStage();
-
-
     }
-
 
 	public void buildStage() {
 
@@ -72,7 +60,7 @@ public class GameScreen extends AbstractScreen {
         batch = new SpriteBatch();
         //stage = new Stage(viewport);
         setViewport(viewport);
-        Gdx.input.setInputProcessor(this);
+        //Gdx.input.setInputProcessor(this);
 
         this.root = new Table();
         this.root.setFillParent(true);
@@ -80,9 +68,7 @@ public class GameScreen extends AbstractScreen {
         //root.debug(Table.Debug.all);
 
         // Create the score column add a score bar group for each player
-        // can be generated directly from list of players
         Table scoreColumn = new Table();
-        //scoreColumn.debug(Debug.all);
         p1 = new CustomLabel("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString(), skin);
         p2 = new CustomLabel("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString(), skin);
         ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore());
@@ -116,15 +102,6 @@ public class GameScreen extends AbstractScreen {
         changeTiles[0].setVisible(false);
 
         boardColumn.add(manager.getHandByIndex(0)).expandX().center();
-
-        /*for (int i = 0; i < 6; i++) {
-
-           boardColumn.add(manager.getHandByIndex(0).showTile(i));
-
-        }*/
-
-
-
         boardColumn.row().fillX();
 
        //board
@@ -136,7 +113,6 @@ public class GameScreen extends AbstractScreen {
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
-
         //p2 tiles
         //boardColumn.row().height(100).bottom().expandX();
         //boardColumn.add(new Label("Player 2 Hand", skin));
@@ -146,17 +122,10 @@ public class GameScreen extends AbstractScreen {
         changeTiles[1].setVisible(false);
 
         boardColumn.add(manager.getHandByIndex(1)).expandX().center();
-        /*
-        for (int i = 0; i < 6; i++) {
-            boardColumn.add(manager.getHandByIndex(1).showTile(i));
-
-        }*/
 
         root.add(boardColumn).colspan(4).expand().left().fillY();
         root.pack();
 
-
-        //stage.addActor(root);
         addActor(root);
 
     }
@@ -178,8 +147,6 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-
         batch.begin();
         batch.end();
         // setup drawing for world
@@ -188,9 +155,6 @@ public class GameScreen extends AbstractScreen {
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
         p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
-
-        //manager.proccessStep(delta);
-
 
         this.act(delta);
         this.draw();

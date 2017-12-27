@@ -68,18 +68,12 @@ public class GameState {
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
-
-
-
         } else {
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
-
         }
-
         return nextPlayer;
-
     }
 
     public Player getWinner(){
@@ -97,7 +91,6 @@ public class GameState {
                 winner = players[0];
                 return winner;
             }
-
         }
         return null;
     }
@@ -108,15 +101,13 @@ public class GameState {
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
 
-
             System.out.println("You have no tiles of your lowest color, click to change your hand");
 
-            /** the button doesn't appear */
-
             //CLICK TO CHANGE PIECES FROM THE BAG
-            GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].addListener(new ClickListener() {
+            /*GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+
                     gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
                     for (int i = 0; i < 6; i++) {
                         Group tile = gamingPlayer.getHand().getPieces().get(i);
@@ -131,19 +122,13 @@ public class GameState {
                     }
                     GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setTouchable(Touchable.disabled);
                     GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
-
                 }
-
-
-            });
+            });*/
         }
     }
 
-
-
     public GameState applyAction(Action a){
         HexagonActor first = null;
-
         GameState nextState;
 
         if (a.getH1().getSatelliteData().isPresent()){
@@ -163,19 +148,13 @@ public class GameState {
             if (first != null){
                 Player.updateScore(gamingPlayer, currentHexActor, currentBoard.getGrid(), first);
             }
-
         }
-
         gamingPlayer.getHand().removeFromHand(a.getTile());
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
-
 
         nextState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
 
         return nextState;
-
-
     }
-
 
 }
