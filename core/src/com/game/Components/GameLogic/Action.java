@@ -1,7 +1,6 @@
-package com.game;
+package com.game.Components.GameLogic;
 
-import GameBoardAssets.HexagonActor;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.game.Components.PlayerAssets.Tile;
 import org.codetome.hexameter.core.api.Hexagon;
 
 public class Action {

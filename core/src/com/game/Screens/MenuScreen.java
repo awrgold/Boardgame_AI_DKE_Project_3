@@ -1,13 +1,10 @@
-package Screens;
+package com.game.Screens;
 
-import GameConstants.Constants;
-import Interfaces.AbstractScreen;
+import com.game.Components.GameConstants.Constants;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.game.GameIngenious;
-
 
 
 public class MenuScreen extends AbstractScreen {
@@ -70,7 +67,7 @@ public class MenuScreen extends AbstractScreen {
 
                 /*if(Gdx.input.isTouched())
                 {
-                    Screens.ScreenManager.getInstance().initialize(this);
+                    com.game.Screens.ScreenManager.getInstance().initialize(this);
                     ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
                 }*/
 

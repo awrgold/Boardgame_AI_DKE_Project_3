@@ -1,11 +1,10 @@
-package GameConstants;
+package com.game.Components.GameConstants;
 
-import Tools.Link;
+import com.game.Components.Tools.Link;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.codetome.hexameter.core.api.HexagonOrientation;
-import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.api.HexagonalGridLayout;
 
@@ -67,7 +66,7 @@ public class Constants {
 
 
 
-    // Player parameters
+    // PlayerAssets parameters
     public static int noPlayers = 2;
 
     public static int getHexRadius(){

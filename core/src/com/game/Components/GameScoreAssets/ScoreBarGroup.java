@@ -1,6 +1,5 @@
-package GameScoreAssets;
+package com.game.Components.GameScoreAssets;
 
-import GameCustomAssets.CustomLabel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -10,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 
 public class ScoreBarGroup extends VerticalGroup{
     private Skin skin;
-  //  private Player player;
+  //  private PlayerAssets player;
     private int w;
     private int h;
     private int num;

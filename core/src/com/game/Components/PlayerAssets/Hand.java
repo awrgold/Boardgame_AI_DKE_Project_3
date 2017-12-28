@@ -1,12 +1,7 @@
-package com.game;
+package com.game.Components.PlayerAssets;
 
 
-import Interfaces.GroupView;
-import Systems.AbstractSystem;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.game.Components.Tools.GroupView;
 
 import java.util.ArrayList;
 

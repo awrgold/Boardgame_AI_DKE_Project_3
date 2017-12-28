@@ -1,6 +1,4 @@
-package GameAI;
-
-import com.game.*;
+package com.game.GameAI;
 
 
 public class Greedy implements GreedySearch {
@@ -27,7 +25,7 @@ public class Greedy implements GreedySearch {
         --- Return Action that maximizes score
 
 
-        Player nowPlaying = state.getGamingPlayer();
+        PlayerAssets nowPlaying = state.getGamingPlayer();
 
         if(state.getGamingPlayer().getScoreQ().get(0))
     }*/

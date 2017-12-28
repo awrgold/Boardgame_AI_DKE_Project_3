@@ -1,12 +1,8 @@
 package com.game;
 
 import Enum.ScreenEnum;
-import GameLogic.AIStrategy;
-import Interfaces.Strategy;
-import Screens.GameScreen;
-import Systems.ScreenManager;
+import com.game.Screens.ScreenManager;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**

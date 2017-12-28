@@ -1,24 +1,11 @@
-package com.game;
+package com.game.Components.GameConstants;
 
 
-import GameConstants.Constants;
-import Tools.Link;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonOrientation;
-import org.codetome.hexameter.core.api.HexagonalGrid;
-import org.codetome.hexameter.core.api.HexagonalGridBuilder;
-import org.codetome.hexameter.core.api.HexagonalGridLayout;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
-import static GameConstants.Constants.*;
-import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
-import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
+import static com.game.Components.GameConstants.Constants.*;
 
 public class Pieces {
 

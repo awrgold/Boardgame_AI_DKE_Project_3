@@ -1,20 +1,18 @@
-package com.game;
+package com.game.Components.PlayerAssets;
 
-import GameBoardAssets.HexagonActor;
-import GameConstants.Constants;
-import Interfaces.GroupView;
-import Tools.Link;
+import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameConstants.Constants;
+import com.game.Components.Tools.GroupView;
+import com.game.Components.Tools.Link;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
 //import java.util.Arrays;
 
-//import static Screens.GameScreen.tileView;
+//import static com.game.Screens.GameScreen.tileView;
 
 public class Tile extends GroupView {
 

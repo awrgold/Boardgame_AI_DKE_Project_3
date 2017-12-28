@@ -1,22 +1,14 @@
-package GameBoardAssets;
+package com.game.Components.Tools;
 
-import Screens.GameScreen;
-import Tools.Link;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
-import javafx.application.Preloader;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ErrorMessages;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.Point;
-import org.codetome.hexameter.core.api.contract.SatelliteData;
-import GameConstants.Constants;
+import com.game.Components.GameConstants.Constants;
 
 import java.util.List;
 

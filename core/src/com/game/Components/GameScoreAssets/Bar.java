@@ -1,6 +1,6 @@
-package GameScoreAssets;
+package com.game.Components.GameScoreAssets;
 
-import Tools.Utils;
+import com.game.Components.Tools.Utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

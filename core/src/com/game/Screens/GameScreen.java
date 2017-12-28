@@ -1,26 +1,17 @@
-package Screens;
-import java.util.*;
+package com.game.Screens;
 
-import GameBoardAssets.HexagonActor;
-import GameConstants.Constants;
-import GameCustomAssets.CustomLabel;
-import GameScoreAssets.ScoreBarGroup;
-import Interfaces.AbstractScreen;
-import Tools.Link;
+import com.game.Components.GameLogic.GameManager;
+import com.game.Components.GameConstants.Constants;
+import com.game.Components.GameScoreAssets.CustomLabel;
+import com.game.Components.GameScoreAssets.ScoreBarGroup;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.*;
-import org.codetome.hexameter.core.api.*;
 import com.badlogic.gdx.Gdx;
-import rx.functions.Action1;
 
 
 public class GameScreen extends AbstractScreen {
@@ -69,8 +60,8 @@ public class GameScreen extends AbstractScreen {
 
         // Create the score column add a score bar group for each player
         Table scoreColumn = new Table();
-        p1 = new CustomLabel("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString(), skin);
-        p2 = new CustomLabel("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString(), skin);
+        p1 = new CustomLabel("PlayerAssets 1 Score : "+ manager.getPlayerByIndex(0).scoreToString(), skin);
+        p2 = new CustomLabel("PlayerAssets 2 Score : "+ manager.getPlayerByIndex(1).scoreToString(), skin);
         ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore());
         scoreColumn.add(scorebars1);
         scoreColumn.row();
@@ -95,7 +86,7 @@ public class GameScreen extends AbstractScreen {
 
         //p1 tiles
         //boardColumn.row().height(100).top().expandX();
-        //boardColumn.add(new Label("Player 1 Hand", skin));
+        //boardColumn.add(new Label("PlayerAssets 1 Hand", skin));
         boardColumn.row().height(130).top().fillX();
         boardColumn.add(changeTiles[0]).height(100).width(100).bottom().left();
         changeTiles[0].setTouchable(Touchable.disabled);
@@ -115,7 +106,7 @@ public class GameScreen extends AbstractScreen {
 
         //p2 tiles
         //boardColumn.row().height(100).bottom().expandX();
-        //boardColumn.add(new Label("Player 2 Hand", skin));
+        //boardColumn.add(new Label("PlayerAssets 2 Hand", skin));
         boardColumn.row().height(130).bottom().fillX();
         boardColumn.add(changeTiles[1]).height(100).width(100).top().left();
         changeTiles[1].setTouchable(Touchable.disabled);
@@ -153,8 +144,8 @@ public class GameScreen extends AbstractScreen {
         viewport.apply();
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
-        p1.updateText("Player 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
-        p2.updateText("Player 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
+        p1.updateText("PlayerAssets 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
+        p2.updateText("PlayerAssets 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
         this.act(delta);
         this.draw();

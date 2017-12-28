@@ -4,6 +4,6 @@ public interface Strategy {
 /*
 for tile selection strategy and move selection Strategy
  */
-    //    CellPosition determineBestPosition(Board board, Player forPlayer);
+    //    CellPosition determineBestPosition(Board board, PlayerAssets forPlayer);
 
 }

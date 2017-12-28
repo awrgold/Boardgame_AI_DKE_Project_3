@@ -1,6 +1,7 @@
-package com.game;
+package com.game.Components.GameAssets;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.game.Components.PlayerAssets.Tile;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;

@@ -1,9 +1,5 @@
-package Tools;
+package com.game.Components.Tools;
 
-import GameBoardAssets.HexagonActor;
-import Screens.GameScreen;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
 public class Link extends DefaultSatelliteData {

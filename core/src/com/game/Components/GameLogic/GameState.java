@@ -1,18 +1,15 @@
-package com.game;
+package com.game.Components.GameLogic;
 
-import GameBoardAssets.HexagonActor;
-import GameConstants.Constants;
-import Screens.GameScreen;
-import Tools.Link;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.game.Components.GameAssets.Bag;
+import com.game.Components.GameAssets.Board;
+import com.game.Components.PlayerAssets.Player;
+import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameConstants.Constants;
+import com.game.Components.GameConstants.Pieces;
+import com.game.Screens.GameScreen;
+import com.game.Components.Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import org.codetome.hexameter.core.api.HexagonalGrid;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 
 import static java.util.Arrays.sort;

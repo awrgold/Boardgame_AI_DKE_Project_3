@@ -1,4 +1,4 @@
-package Tools;
+package com.game.Components.Tools;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;

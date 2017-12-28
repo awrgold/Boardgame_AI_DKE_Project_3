@@ -1,6 +1,6 @@
 package TreeStructure;
 
-import com.game.Action;
+import com.game.Components.GameLogic.Action;
 
 public class Edge {
 
