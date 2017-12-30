@@ -74,7 +74,15 @@ public class GameManager{
     public void changeState(Action action){
         System.out.println(action.toString());
         currentState = currentState.applyAction(action);
-        getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
+        if (getBoard().gameOver()){
+            System.out.println("The winner is: PlayerAssets " + currentState.getWinner().getPlayerNo());
+        }
+        if (getGamingPlayer().isAI()){
+            Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
+            System.out.println(AiMove.toString());
+            currentState = currentState.applyAction(AiMove);
+        }
+
         move = new Action();
         //if the new state is the last of the game, print the winner
         if (getBoard().gameOver()){
@@ -222,6 +230,15 @@ public class GameManager{
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }
+        /*while (!getBoard().gameOver()){
+            Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
+            System.out.println(AiMove.toString());
+            currentState = currentState.applyAction(AiMove);
+            System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
+        }
+        if (getBoard().gameOver()){
+            System.out.println("The winner is: PlayerAssets " + currentState.getWinner().getPlayerNo());
+        }*/
         return true;
 
     }

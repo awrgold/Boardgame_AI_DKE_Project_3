@@ -4,6 +4,7 @@ import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
 import com.game.Components.Tools.Link;
+import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
@@ -93,5 +94,72 @@ public class Board extends GroupView {
         if (over) System.out.println("GAME OVER");
         return over;
     }
+
+    public static Hexagon neighborByDirection(int d, Hexagon hexagon, HexagonalGrid hexagonalGrid){
+
+        // d is the direction [0 = topLeft; 1 = left; 2 = botLeft; 3 = botRight; 4 = right; 5 = topRight]
+        //given a direction the method checks if there is a neighbor, if positive return that neighbor, else null
+
+        Hexagon hexNext;
+
+        if(d == 0) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX(), hexagon.getGridZ() + 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } if(d == 1) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() + 1, hexagon.getGridZ());
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } if(d == 2) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() + 1, hexagon.getGridZ() - 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } if(d == 3) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX(), hexagon.getGridZ() - 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } if(d == 4) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() - 1, hexagon.getGridZ());
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } if(d == 5) {
+            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() - 1, hexagon.getGridZ() + 1);
+            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
+                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
+                return hexNext;
+            } else {
+                return null;
+            }
+
+        } else {
+            return null;
+        }
+    }
+
 
 }

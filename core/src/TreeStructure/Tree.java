@@ -4,7 +4,7 @@ import com.game.Components.GameLogic.GameState;
 
 public class Tree {
 
-    public Node root;
+    private Node root;
 
     public Tree(){}
 

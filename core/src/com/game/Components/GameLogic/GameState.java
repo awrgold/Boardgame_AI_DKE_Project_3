@@ -1,8 +1,11 @@
 package com.game.Components.GameLogic;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.PlayerAssets.Player;
+import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.GameConstants.Pieces;
@@ -25,9 +28,11 @@ public class GameState {
         players = new Player[Constants.getNumberOfPlayers()];
         currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
-        for (int x = 1; x <= players.length; x++){
-            players[x - 1] = new Player(x, currentBag.pickSix());
-        }
+        //for (int x = 1; x <= players.length; x++){
+          //  players[x - 1] = new Player(x, currentBag.pickSix());
+        //}
+        players[0] = new Player(1, currentBag.pickSix(), true);
+        players[1] = new Player(2, currentBag.pickSix(), true);
         gamingPlayer = players[0];
     }
 
@@ -99,6 +104,20 @@ public class GameState {
             GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
 
             System.out.println("You have no tiles of your lowest color, click to change your hand");
+            if (gamingPlayer.isAI()){
+                gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
+                for (int i = 0; i < 6; i++) {
+                    Tile tile = gamingPlayer.getHand().getPieces().get(i);
+                    int index = 0;
+                    for (Actor hex : tile.getChildren()) {
+                        if (hex instanceof HexagonActor) {
+                            HexagonActor first = (HexagonActor) hex;
+                            first.setSprite(gamingPlayer.getHand().getPieces().get(i).getColors()[index]);
+                            index++;
+                        }
+                    }
+                }
+            }
 
             //CLICK TO CHANGE PIECES FROM THE BAG
             /*GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].addListener(new ClickListener() {
@@ -134,7 +153,7 @@ public class GameState {
             HexagonActor currentHexActor = hexLink.getActor();
             currentHexActor.setHexColor(a.getTileColors()[0]);
             first = currentHexActor;
-            Player.updateScore(gamingPlayer, currentHexActor, currentBoard.getGrid(), currentHexActor);
+            Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
         }
 
         if (a.getH2().getSatelliteData().isPresent()){
@@ -143,7 +162,7 @@ public class GameState {
             HexagonActor currentHexActor = hexLink.getActor();
             currentHexActor.setHexColor(a.getTileColors()[1]);
             if (first != null){
-                Player.updateScore(gamingPlayer, currentHexActor, currentBoard.getGrid(), first);
+                Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
             }
         }
         gamingPlayer.getHand().removeFromHand(a.getTile());

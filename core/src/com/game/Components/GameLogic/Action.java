@@ -1,7 +1,11 @@
 package com.game.Components.GameLogic;
 
+import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
+import com.game.Components.Tools.HexagonActor;
+import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.api.HexagonalGrid;
 
 public class Action {
     private Hexagon h1;
@@ -63,6 +67,40 @@ public class Action {
             return "something is missing";
         }
 
+    }
+
+    public int actionGain(HexagonalGrid grid){
+        HexagonActor first = null;
+        int totalGain = 0;
+
+        if (h1.getSatelliteData().isPresent()){
+            Link hexLink = (Link) h1.getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            first = currentHexActor;
+            currentHexActor.setHexColor(tile.getFirst().getHexColor());
+            int[] gain1 = Player.scoreGain(currentHexActor, grid, currentHexActor);
+            for (int i = 0; i < 6; i++){
+                totalGain += gain1[i];
+            }
+            currentHexActor.setHexColor("EMPTY");
+        }
+
+        if (h2.getSatelliteData().isPresent()){
+            Link hexLink = (Link) h2.getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            if (first != null){
+                currentHexActor.setHexColor(tile.getSecond().getHexColor());
+                int[] gain2 = Player.scoreGain(currentHexActor, grid, first);
+                for (int i = 0; i < 6; i++){
+                    totalGain += gain2[i];
+                }
+                currentHexActor.setHexColor("EMPTY");
+            }
+        }
+
+
+        //System.out.println(totalGain);
+        return totalGain;
     }
 
 

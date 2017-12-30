@@ -1,7 +1,12 @@
 package com.game.Components.PlayerAssets;
 
+import com.game.Components.GameAssets.Board;
+import com.game.Components.GameLogic.Action;
+import com.game.Components.GameLogic.GameState;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
+import com.game.GameAI.GreedyStrategy;
+import com.game.GameAI.Strategy;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -25,10 +30,12 @@ public class Player{
     private Hand hand;
     private String[] playerScoreString = new String[6];
     private static boolean[] colorIngenious = new boolean[6];
+    private GreedyStrategy strategy;
 
-    public Player(int playerNo, ArrayList<Tile> playerPieces) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
+        this.isAI = isAI;
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
@@ -38,6 +45,12 @@ public class Player{
         playerScoreString[3] = "P";
         playerScoreString[4] = "V";
         playerScoreString[5] = "R";
+
+        if (isAI) strategy = new GreedyStrategy();
+    }
+
+    public boolean isAI() {
+        return isAI;
     }
 
     public Hand getHand(){
@@ -52,7 +65,20 @@ public class Player{
         return playerNo;
     }
 
-    public static void updateScore(Player player, HexagonActor hexActor, HexagonalGrid hexGrid, HexagonActor one) {
+    public static void updateScore(int[] scoreGains, Player player){
+        for (int i = 0; i < 6; i++){
+            player.playerScore[i] += scoreGains[i];
+            if (player.playerScore[i] > 18)
+            {
+                player.playerScore[i] = 18;
+            }
+        }
+
+    }
+
+    public static int[] scoreGain(HexagonActor hexActor, HexagonalGrid hexGrid, HexagonActor one) {
+
+        int[] scoreGains = new int[6];
 
         int i = 0;
 
@@ -68,7 +94,7 @@ public class Player{
         //update score
         if (hexActor == one){
             for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                player.playerScore[i] += v;
+                scoreGains[i] += v;
             }
 
         } else {
@@ -76,50 +102,49 @@ public class Player{
                     hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
                 avoid = 3;
                 for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    player.playerScore[i] += v;
+                    scoreGains[i] += v;
                 }
 
             } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
                     hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
                 avoid = 0;
                 for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    player.playerScore[i] += v;
+                    scoreGains[i] += v;
                 }
 
             } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
                     hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1){
                 avoid = 5;
                 for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    player.playerScore[i] += v;
+                    scoreGains[i] += v;
                 }
 
             } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == 1 &&
                     hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1){
                 avoid = 2;
                 for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    player.playerScore[i] += v;
+                    scoreGains[i] += v;
                 }
 
             } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1 &&
                     hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
                 avoid = 4;
                 for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    player.playerScore[i] += v;
+                    scoreGains[i] += v;
                 }
 
             } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1 &&
                     hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
                 avoid = 1;
                 for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    player.playerScore[i] += v;
+                    scoreGains[i] += v;
                 }
 
             }
         }
-        if (player.playerScore[i] > 18)
-        {
-            player.playerScore[i] = 18;
-        }
+        //System.out.println(Arrays.toString(scoreGains));
+
+        return scoreGains;
 
     }
 
@@ -180,72 +205,6 @@ public class Player{
         return true;
     }
 
-    public static Hexagon neighborByDirection(int d, Hexagon hexagon, HexagonalGrid hexagonalGrid){
-
-        // d is the direction [0 = topLeft; 1 = left; 2 = botLeft; 3 = botRight; 4 = right; 5 = topRight]
-        //given a direction the method checks if there is a neighbor, if positive return that neighbor, else null
-
-        Hexagon hexNext;
-
-        if(d == 0) {
-            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX(), hexagon.getGridZ() + 1);
-            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
-                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
-                return hexNext;
-            } else {
-                return null;
-            }
-
-        } if(d == 1) {
-            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() + 1, hexagon.getGridZ());
-            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
-                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
-                return hexNext;
-            } else {
-                return null;
-            }
-
-        } if(d == 2) {
-            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() + 1, hexagon.getGridZ() - 1);
-            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
-                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
-                return hexNext;
-            } else {
-                return null;
-            }
-
-        } if(d == 3) {
-            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX(), hexagon.getGridZ() - 1);
-            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
-                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
-                return hexNext;
-            } else {
-                return null;
-            }
-
-        } if(d == 4) {
-            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() - 1, hexagon.getGridZ());
-            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
-                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
-                return hexNext;
-            } else {
-                return null;
-            }
-
-        } if(d == 5) {
-            CubeCoordinate nextCoordinates = CubeCoordinate.fromCoordinates(hexagon.getGridX() - 1, hexagon.getGridZ() + 1);
-            if (hexagonalGrid.getByCubeCoordinate(nextCoordinates).isPresent()) {
-                hexNext = (Hexagon) hexagonalGrid.getByCubeCoordinate(nextCoordinates).get();
-                return hexNext;
-            } else {
-                return null;
-            }
-
-        } else {
-            return null;
-        }
-    }
-
     public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor, int avoidNext) {
 
         //calculates all the points in all directions for each hexagon placed on the board
@@ -272,7 +231,7 @@ public class Player{
             while (sameColor) {
 
                 // make the next hexagon to compare to the current hex
-                Hexagon currentHexNext = Player.neighborByDirection(d, currentHex, hexGrid);
+                Hexagon currentHexNext = Board.neighborByDirection(d, currentHex, hexGrid);
 
                 // if not at the edge...
                 if (currentHexNext != null) {
@@ -389,6 +348,12 @@ public class Player{
 
     }
 
+    public Action applyStrategy(ArrayList<String> lowestColors, Hand currentHand, HexagonalGrid currentGrid){
+        return strategy.decideMove(lowestColors, currentHand, currentGrid);
+
+
+    }
+/*
 //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
     public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors){
         HashMap<Tile, String> pieces = new HashMap<>();
@@ -398,7 +363,7 @@ public class Player{
                 if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
                     pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
                     pieces.put(t, color);
-                    //System.out.println("Found a double to place: " + color + " - " + color);
+                    System.out.println("Found a double to place: " + color + " - " + color);
                     break;
                 } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
                     pieces.put(t, color);
@@ -407,10 +372,14 @@ public class Player{
             }
         }
 
+        for(Tile piece : pieces.keySet()){
+            System.out.println(piece.getActors()[0].getHexColor() + " - " + piece.getActors()[1].getHexColor() + " : is a good tile to place"
+            + " because there is " + pieces.get(piece));
+        }
 
         return pieces;
 
-    }
+    }*/
 /*
 //  FOR A TILE RETURN THE GAME STATE THAT RETURN THE HIGHEST SCORE ON THE INTERESTED COLOR
     public GameState bestMoveForTile(Tile t, Board currentBoard, String color){
