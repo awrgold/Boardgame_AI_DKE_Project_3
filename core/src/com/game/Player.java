@@ -162,7 +162,6 @@ public class Player{
         {
             player.playerScore[i] = 18;
         }
-
     }
 
     public String scoreToString(){
@@ -220,8 +219,6 @@ public class Player{
 
             }
         }
-
-
         return true;
     }
 
@@ -391,7 +388,6 @@ public class Player{
         for (int i = 0; i < 6; i++){
             if(playerScore[i] < lowest){
                 lowest = playerScore[i];
-
             }
         }
 
@@ -399,7 +395,6 @@ public class Player{
             if (playerScore[i] == lowest){
                 lowestColors.add(playerScoreString[i]);
             }
-
         }
         System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
         return lowestColors;

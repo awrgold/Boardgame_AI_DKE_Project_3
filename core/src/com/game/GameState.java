@@ -112,10 +112,7 @@ public class GameState {
                     }
                     GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setTouchable(Touchable.disabled);
                     GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
-
                 }
-
-
             });
         }
     }

@@ -242,26 +242,18 @@ public class GameManager{
                             System.out.println("select an empty hexagon");
                         }
 
-
-
-
-
                     } else {
                         if(clicked.getHexColor().equals("EMPTY")){
                             move.setH1(clicked.getHexagon());
                         } else {
                             System.out.println("select an empty hexagon");
                         }
-
-
-
                     }
 
                     System.out.println("(" + clicked.getHexagon().getGridX() + ", " + clicked.getHexagon().getGridY() + ", " + clicked.getHexagon().getGridZ() + ")" + " - " + clicked.getHexColor());
                     break;
                 }
             }
-
         }
     }
 
