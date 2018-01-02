@@ -90,8 +90,6 @@ public class Board extends GroupView {
                 }
             }
         });
-
-        if (over) System.out.println("GAME OVER");
         return over;
     }
 

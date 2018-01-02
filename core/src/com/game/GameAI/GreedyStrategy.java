@@ -21,10 +21,10 @@ public class GreedyStrategy implements Strategy{
     //A selection function, which chooses the best candidate to be added to the solution (bestTilesToPlace())
     //A feasibility function, that is used to determine if a candidate can be used to contribute to a solution (possibleTilePlacements())
     //An objective function, which assigns a value to a solution, or a partial solution, (bestPlacementForTile())
-    //A solution function, which will indicate when we have discovered a complete solution
+    //A solution function, which will indicate when we have discovered a complete solution (decideMove())
 
     //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
-    public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors, Hand hand){
+    private HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors, Hand hand){
         HashMap<Tile, String> pieces = new HashMap<>();
 
         for(String color : colors){
@@ -50,9 +50,7 @@ public class GreedyStrategy implements Strategy{
 
     }
 
-
-
-    public ArrayList<Action> possibleTilePlacements(Tile tile, HexagonalGrid grid, String color) {
+    private ArrayList<Action> possibleTilePlacements(Tile tile, HexagonalGrid grid, String color) {
         ArrayList<Action> possibleActions = new ArrayList<>();
 
         //ITERATE ALL OVER THE CURRENT BOARD
@@ -130,15 +128,20 @@ public class GreedyStrategy implements Strategy{
 
         });
 
+        if (possibleActions.size() == 0){
+            possibleActions.add(randomAction(tile, grid));
+
+        }
+
         return possibleActions;
     }
 
-    public Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
         int bestGain = 0;
         Action bestPlacement = null;
         for (Action a : all){
             int gain = a.actionGain(grid);
-            if (gain > bestGain) {
+            if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = a;
             }
@@ -146,6 +149,48 @@ public class GreedyStrategy implements Strategy{
         return bestPlacement;
     }
 
+    private Action randomAction(Tile tile, HexagonalGrid grid) {
+        System.out.println("No good moves, doing random action");
+        Action randomAction = new Action();
+        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                //FOR EACH HEXAGON
+                if (hexagon.getSatelliteData().isPresent()) {
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+
+                    if (currentHexActor.getHexColor().equals("EMPTY")) {
+                        for (Object hex : grid.getNeighborsOf(hexagon)) {
+                            if (hex instanceof Hexagon) {
+                                Hexagon currentNeighbor = (Hexagon) hex;
+
+                                if (currentNeighbor.getSatelliteData().isPresent()) {
+                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
+                                    HexagonActor neighHexActor = neighLink.getActor();
+
+                                    //THE FIRST ONE IS THE FIRST PLACEMENT
+                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+                                        randomAction.setH1(hexagon);
+                                        randomAction.setH2(currentNeighbor);
+                                        randomAction.setTile(tile);
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+
+        });
+
+        return randomAction;
+
+    }
 
     public Action decideMove(ArrayList<String> colors, Hand hand, HexagonalGrid grid){
         HashMap<Tile, String> tiles = bestTilesToPlace(colors, hand);
@@ -159,11 +204,14 @@ public class GreedyStrategy implements Strategy{
         int bestGain = 0;
         Action bestAction = null;
         for (Action a : bestMoves){
-            int gain = a.actionGain(grid);
-            if (gain > bestGain) {
-                bestGain = gain;
-                bestAction = a;
+            if (a != null){
+                int gain = a.actionGain(grid);
+                if (gain >= bestGain) {
+                    bestGain = gain;
+                    bestAction = a;
+                }
             }
+
         }
 
         return bestAction;
