@@ -14,7 +14,7 @@ import java.util.List;
 
 public class HexagonActor extends Actor{
 
-    protected Hexagon<Link> hexagon;
+    private Hexagon<Link> hexagon;
     private Sprite sprite;
     private float[] vertices;
     private ShapeRenderer renderer = new ShapeRenderer();
@@ -38,39 +38,42 @@ public class HexagonActor extends Actor{
         setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
     }
 
-    public void setHexColor(String color){
-        if (color.equals("R")){
-            this.hexColor = color;
-            this.setSprite(Constants.redSprite);
-            return;
-        } if (color.equals("O")){
-            this.hexColor = color;
-            this.setSprite(Constants.orangeSprite);
-            return;
-        } if (color.equals("Y")){
-            this.hexColor = color;
-            this.setSprite(Constants.yellowSprite);
-            return;
-        } if (color.equals("B")){
-            this.hexColor = color;
-            this.setSprite(Constants.blueSprite);
-            return;
-        } if (color.equals("P")){
-            this.hexColor = color;
-            this.setSprite(Constants.purpleSprite);
-            return;
-        } if (color.equals("V")){
-            this.hexColor = color;
-            this.setSprite(Constants.violetSprite);
-            return;
-        } if (color.equals("EMPTY")){
-            this.hexColor = color;
-            this.setSprite(Constants.emptySprite);
+    public void setHexColor(){
+        if (hexagon.getSatelliteData().isPresent()) {
+            Link hexLink = hexagon.getSatelliteData().get();
+            String color = hexLink.getColor();
+            System.out.println(color);
+            if (color.equals("R")){
+                this.hexColor = color;
+                this.setSprite(Constants.redSprite);
+                return;
+            } if (color.equals("O")){
+                this.hexColor = color;
+                this.setSprite(Constants.orangeSprite);
+                return;
+            } if (color.equals("Y")){
+                this.hexColor = color;
+                this.setSprite(Constants.yellowSprite);
+                return;
+            } if (color.equals("B")){
+                this.hexColor = color;
+                this.setSprite(Constants.blueSprite);
+                return;
+            } if (color.equals("P")){
+                this.hexColor = color;
+                this.setSprite(Constants.purpleSprite);
+                return;
+            } if (color.equals("V")){
+                this.hexColor = color;
+                this.setSprite(Constants.violetSprite);
+                return;
+            } if (color.equals("EMPTY")){
+                this.hexColor = color;
+                this.setSprite(Constants.emptySprite);
 
-        } else{
-            System.out.println("Invalid color choice, use the CAPITAL first letter of the color");
-            System.out.println("Choices: R, O, Y, B, P, V");
+            }
         }
+
     }
 
     public String getHexColor(){
@@ -79,16 +82,6 @@ public class HexagonActor extends Actor{
 
     public void setSprite(Sprite sprite){
         this.sprite = sprite;
-
-        if(sprite == Constants.emptySprite){ this.hexColor = "EMPTY"; }
-        if(sprite == Constants.redSprite){ this.hexColor = "R"; }
-        if(sprite == Constants.blueSprite){ this.hexColor = "B"; }
-        if(sprite == Constants.purpleSprite){ this.hexColor = "P"; }
-        if(sprite == Constants.violetSprite){ this.hexColor = "V"; }
-        if(sprite == Constants.orangeSprite){ this.hexColor = "O"; }
-        if(sprite == Constants.yellowSprite){ this.hexColor = "Y"; }
-
-
 
     }
 
@@ -131,10 +124,12 @@ public class HexagonActor extends Actor{
         //draw the sprite on the actor
         batch.draw(sprite, getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
     }
+
     public Hexagon<Link> getHexagon(){
         return hexagon;
     }
 
+    /*
     // Gets the color of a sprite
     public static String getSpriteColor(HexagonActor hexActor){
         Texture texture = hexActor.getSprite().getTexture();
@@ -188,6 +183,6 @@ public class HexagonActor extends Actor{
         else {
             return null;
         }
-    }
+    }*/
 
 }

@@ -4,21 +4,17 @@ import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
 public class Link extends DefaultSatelliteData {
 
-    public HexagonActor actor;
+    private String color;
 
-    public String color;
-
-    public Link(HexagonActor actor) {
-
-        this.actor = actor;
-        this.color = actor.getHexColor();
-    }
-
-    public HexagonActor getActor() {
-        return actor;
+    public Link(String color) {
+        this.color = color;
     }
 
     public String getColor() {
         return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

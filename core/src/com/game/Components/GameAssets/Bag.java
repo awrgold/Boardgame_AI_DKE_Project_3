@@ -9,9 +9,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Bag {
     private ArrayList<Tile> bag;
 
-    public Bag(ArrayList<Sprite[]> pieces){
+    public Bag(ArrayList<String[]> pieces){
         this.bag = new ArrayList<>();
-        for (Sprite[] piece : pieces){
+        for (String[] piece : pieces){
             Tile one = new Tile(piece);
             bag.add(one);
         }

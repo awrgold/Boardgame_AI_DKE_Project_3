@@ -1,5 +1,6 @@
 package com.game.Components.PlayerAssets;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
@@ -14,20 +15,17 @@ import rx.functions.Action1;
 
 //import static com.game.Screens.GameScreen.tileView;
 
-public class Tile extends GroupView {
+public class Tile {
 
     private HexagonalGrid<Link> grid;
 
-    private Sprite[] colors;
+    private String[] colors;
     private boolean selected;
-    private HexagonActor[] actors;
     private HexagonActor first;
 
-    public Tile(Sprite[] colors){
-        super();
+    public Tile(String[] colors){
         this.colors = colors;
         this.selected = false;
-        this.actors = new HexagonActor[2];
         create();
     }
 
@@ -38,32 +36,31 @@ public class Tile extends GroupView {
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
-                final HexagonActor hexTile = new HexagonActor(hexagon);
-
-                //give both the sprites
+                //give the colors
                 if(hexagon.getGridX() == 0) {
-                    hexTile.setSprite(colors[0]);
-                    actors[0] = hexTile;
+                    hexagon.setSatelliteData(new Link(colors[0]));
                 } else {
-                    hexTile.setSprite(colors[1]);
-                    actors[1] = hexTile;
+                    hexagon.setSatelliteData(new Link(colors[1]));
                 }
+            }
+        });
+    }
 
+    public Group displayTile(){
+        Group tileGroup = new Group();
+        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                HexagonActor hexTile = new HexagonActor(hexagon);
+                hexTile.setHexColor();
                 hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-                //and pass everything in tileGroup
-                addActor(hexTile);
-                hexagon.setSatelliteData(new Link(hexTile));
 
-
+                tileGroup.addActor(hexTile);
             }
 
         });
 
-    }
-
-    public void act(float delta) {
-
-        super.act(delta);
+        return tileGroup;
     }
 
     public void setSelected(boolean s) {
@@ -72,10 +69,6 @@ public class Tile extends GroupView {
 
     public void setFirst(HexagonActor clicked){
         first = clicked;
-    }
-
-    public HexagonActor[] getActors() {
-        return actors;
     }
 
     public HexagonActor getFirst() {
@@ -93,7 +86,7 @@ public class Tile extends GroupView {
         return second;
     }
 
-    public Sprite[] getColors(){
+    public String[] getColors(){
         return this.colors;
     }
 

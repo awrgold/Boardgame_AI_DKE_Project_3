@@ -22,7 +22,7 @@ public class GameState {
     private Player[] players;
     private Board currentBoard;
     private Bag currentBag;
-    public Player gamingPlayer;
+    private Player gamingPlayer;
 
     public GameState() {
         players = new Player[2];
@@ -31,8 +31,8 @@ public class GameState {
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-        players[0] = new Player(1, currentBag.pickSix(), true);
-        players[1] = new Player(2, currentBag.pickSix(), true);
+        players[0] = new Player(1, currentBag.pickSix(), false);
+        players[1] = new Player(2, currentBag.pickSix(), false);
         gamingPlayer = players[0];
     }
 
@@ -43,9 +43,9 @@ public class GameState {
         this.currentBag = currentBag;
         this.gamingPlayer = gamingPlayer;
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        while (!gamingPlayer.isLowestScoreTilePresent()){
-            activateButtonIfNeeded();
-        }
+        //while (!gamingPlayer.isLowestScoreTilePresent()){
+            //activateButtonIfNeeded();
+        //}
 
 
     }
@@ -103,7 +103,7 @@ public class GameState {
         return null;
     }
 
-    public void activateButtonIfNeeded(){
+   /* public void activateButtonIfNeeded(){
         // Check if hand has any tiles of lowest color:
         //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
         //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
@@ -154,29 +154,28 @@ public class GameState {
             }
         });*/
 
-    }
+    //}
 
     public GameState applyAction(Action a){
-        HexagonActor first = null;
         GameState nextState;
 
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
-            HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getTileColors()[0]);
-            first = currentHexActor;
-            Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
+            hexLink.setColor(a.getTileColors()[0]);
+
+
+            //Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
         }
 
         if (a.getH2().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH2().getSatelliteData().get();
-            HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getTileColors()[1]);
-            if (first != null){
-                Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
-            }
+            hexLink.setColor(a.getTileColors()[1]);
+
+            //if (first != null){
+              //  Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
+            //}
         }
         gamingPlayer.getHand().removeFromHand(a.getTile());
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());

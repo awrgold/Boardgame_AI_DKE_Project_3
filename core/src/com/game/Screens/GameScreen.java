@@ -92,7 +92,7 @@ public class GameScreen extends AbstractScreen {
         changeTiles[0].setTouchable(Touchable.disabled);
         changeTiles[0].setVisible(false);
 
-        boardColumn.add(manager.getHandByIndex(0)).expandX().center();
+        boardColumn.add(manager.getHandByIndex(0).displayHand()).expandX().center();
         boardColumn.row().fillX();
 
        //board
@@ -100,7 +100,7 @@ public class GameScreen extends AbstractScreen {
         boardColumn.row().height(400).width(-450);
         // GBV  and PHV Change
         boardColumn.row().height(750).width(-200);
-        boardColumn.add(manager.getBoard()).expandY().center();
+        boardColumn.add(manager.getBoard().displayBoard()).expandY().center();
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
@@ -111,8 +111,8 @@ public class GameScreen extends AbstractScreen {
         boardColumn.add(changeTiles[1]).height(100).width(100).top().left();
         changeTiles[1].setTouchable(Touchable.disabled);
         changeTiles[1].setVisible(false);
+        boardColumn.add(manager.getHandByIndex(1).displayHand()).expandX().center();
 
-        boardColumn.add(manager.getHandByIndex(1)).expandX().center();
 
         root.add(boardColumn).colspan(4).expand().left().fillY();
         root.pack();
@@ -144,6 +144,7 @@ public class GameScreen extends AbstractScreen {
         viewport.apply();
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
+
         p1.updateText("PlayerAssets 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
         p2.updateText("PlayerAssets 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 

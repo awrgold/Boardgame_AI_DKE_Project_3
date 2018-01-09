@@ -1,5 +1,6 @@
 package com.game.Components.GameAssets;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
@@ -9,13 +10,12 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
-public class Board extends GroupView {
+public class Board {
 
     private HexagonalGrid<Link> grid;
     private boolean over;
 
     public Board(){
-        super();
         create();
     }
 
@@ -25,41 +25,55 @@ public class Board extends GroupView {
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
-                // Create the Actor and link it to the hexagon (and vice-versa)
-                final HexagonActor hexActor = new HexagonActor(hexagon);
 
-                hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
 
-                if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setHexColor("B");
-                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setHexColor("Y");
-                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setHexColor("O");
-                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setHexColor("P");
-                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setHexColor("V");
-                } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setHexColor("R");
+                if (hexagon.getGridX() == -2 && hexagon.getGridY() == -8 && hexagon.getGridZ() == 10) {
+                    hexagon.setSatelliteData(new Link("B"));
+                } else if (hexagon.getGridX() == 3 && hexagon.getGridY() == -13 && hexagon.getGridZ() == 10) {
+                    hexagon.setSatelliteData(new Link("Y"));
+                } else if (hexagon.getGridX() == 8 && hexagon.getGridY() == -13 && hexagon.getGridZ() == 5) {
+                    hexagon.setSatelliteData(new Link("O"));
+                } else if (hexagon.getGridX() == 8 && hexagon.getGridY() == -8 && hexagon.getGridZ() == 0) {
+                    hexagon.setSatelliteData(new Link("P"));
+                } else if (hexagon.getGridX() == 3 && hexagon.getGridY() == -3 && hexagon.getGridZ() == 0) {
+                    hexagon.setSatelliteData(new Link("V"));
+                } else if (hexagon.getGridX() == -2 && hexagon.getGridY() == -3 && hexagon.getGridZ() == 5) {
+                    hexagon.setSatelliteData(new Link("R"));
                 } else {
-                    hexActor.setHexColor("EMPTY");
+                    hexagon.setSatelliteData(new Link("EMPTY"));
                 }
 
-                hexagon.setSatelliteData(new Link(hexActor));
 
-                addActor(hexActor);
+
+
             }
         });
+    }
+
+    public Group displayBoard(){
+        Group boardGroup = new Group();
+        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                HexagonActor hex = new HexagonActor(hexagon);
+                hex.setHexColor();
+                hex.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
+                boardGroup.addActor(hex);
+            }
+
+        });
+
+        return boardGroup;
     }
 
     public HexagonalGrid<Link> getGrid() {
         return grid;
     }
 
-    public boolean gameOver() {
+  /*  public boolean gameOver() {
         this.over = true;
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -91,7 +105,7 @@ public class Board extends GroupView {
             }
         });
         return over;
-    }
+    }*/
 
     public static Hexagon neighborByDirection(int d, Hexagon hexagon, HexagonalGrid hexagonalGrid){
 

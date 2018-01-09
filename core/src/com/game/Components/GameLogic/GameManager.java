@@ -28,7 +28,7 @@ public class GameManager{
     }
 
     public GameState getCurrentState(){
-        return gameTree.getRoot().getState();
+        return currentState;
     }
 
     public void setCurrentState(GameState newState){
@@ -78,13 +78,14 @@ public class GameManager{
     public void changeState(Action action){
         System.out.println(action.toString());
         currentState = currentState.applyAction(action);
-        if (getBoard().gameOver()){
+        move = new Action();
+        /*if (getBoard().gameOver()){
             System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
 
         }
         if (getGamingPlayer().isAI()){
             Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
-            System.out.println(AiMove.toString());
+            System.out.println(AiMove.toString());*/
             //AiMove.getTile().moveBy(0, 30);
             /*try {
                 Thread.sleep(5000);
@@ -92,14 +93,14 @@ public class GameManager{
                 Thread.currentThread().interrupt();
             }*/
 
-            currentState = currentState.applyAction(AiMove);
-        }
+            //currentState = currentState.applyAction(AiMove);
+        //}
 
-        move = new Action();
+        //move = new Action();
         //if the new state is the last of the game, print the winner
-        if (getBoard().gameOver()){
-            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-        }
+        //if (getBoard().gameOver()){
+          //  System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+        //}
     }
 
     /*public void handleButtonTouch(Vector2 worldTouch){
@@ -140,7 +141,7 @@ public class GameManager{
     public void handleTileTouch(Vector2 worldTouch){
         outerloop:
         for (Tile tile : getGamingPlayer().getHand().getPieces()){
-            for (Actor hex : tile.getChildren()){
+            for (Actor hex : tile.displayTile().getChildren()){
                 boolean inX = false;
                 boolean inY = false;
 
@@ -160,14 +161,14 @@ public class GameManager{
                     }
                     if (inX && inY) {
                         if (move.getTile() != null){
-                            move.getTile().moveBy(0, -30);
+                            move.getTile().displayTile().moveBy(0, -30);
                         }
 
                         tile.setFirst(clicked);
                         tile.setSelected(true);
                         move.setTile(tile);
 
-                        tile.moveBy(0, 30);
+                        tile.displayTile().moveBy(0, 30);
 
                         break outerloop;
                     }
@@ -182,7 +183,7 @@ public class GameManager{
 
     public void handleBoardTouch(boolean second, Vector2 worldTouch){
         //getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
-        for (Actor hex : getBoard().getChildren()){
+        for (Actor hex : getBoard().displayBoard().getChildren()){
             boolean inX = false;
             boolean inY = false;
             if (hex instanceof HexagonActor){
@@ -225,7 +226,7 @@ public class GameManager{
     }
 
     public boolean handleTouch(Vector2 worldTouch){
-        /*if (getGamingPlayer().getPlayerNo() == 2){
+        if (getGamingPlayer().getPlayerNo() == 2){
 
             handleTileTouch(worldTouch);
         } if(getGamingPlayer().getPlayerNo() == 1) {
@@ -241,8 +242,8 @@ public class GameManager{
             handleBoardTouch(false, worldTouch);
         } if (move.getH1() != null && move.getH2() != null){
             return true;
-        }*/
-        for (int i = 1; i <= 10; i++){
+        }
+        /*for (int i = 1; i <= 10; i++){
             System.out.println("Game " + i);
             while (!getBoard().gameOver()){
                 Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
@@ -255,7 +256,7 @@ public class GameManager{
                 System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
                 currentState = new GameState();
             }
-        }
+        }*/
 
         return true;
 

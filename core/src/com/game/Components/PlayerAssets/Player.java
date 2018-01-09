@@ -64,7 +64,7 @@ public class Player{
     public int getPlayerNo() {
         return playerNo;
     }
-
+/*
     public static void updateScore(int[] scoreGains, Player player){
         for (int i = 0; i < 6; i++){
             player.playerScore[i] += scoreGains[i];
@@ -147,7 +147,7 @@ public class Player{
         return scoreGains;
 
     }
-
+*/
     public String scoreToString() {
         String p = "| ";
         for (int j = 0; j <= 5; j++) {
@@ -163,7 +163,7 @@ public class Player{
 
     private boolean isAColorPresent(String color){
         for (Tile tile : hand.getPieces()){
-            if(tile.getActors()[0].getHexColor().equals(color) || tile.getActors()[1].getHexColor().equals(color)){
+            if(tile.getColors()[0].equals(color) || tile.getColors()[1].equals(color)){
                 return true;
             }
         }
@@ -204,7 +204,7 @@ public class Player{
         }
         return true;
     }
-
+/*
     public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor, int avoidNext) {
 
         //calculates all the points in all directions for each hexagon placed on the board
@@ -263,7 +263,7 @@ public class Player{
         }
 
         return sums;
-    }
+    }*/
 
     public boolean hasIngenious(){
         for (int i = 0; i < 6; i++){
@@ -348,11 +348,11 @@ public class Player{
 
     }
 
-    public Action applyStrategy(ArrayList<String> lowestColors, Hand currentHand, HexagonalGrid currentGrid){
+    /*public Action applyStrategy(ArrayList<String> lowestColors, Hand currentHand, HexagonalGrid currentGrid){
         return strategy.decideMove(lowestColors, currentHand, currentGrid);
 
 
-    }
+    }*/
 /*
 //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
     public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors){

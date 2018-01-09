@@ -1,27 +1,35 @@
 package com.game.Components.PlayerAssets;
 
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.game.Components.Tools.GroupView;
 
 import java.util.ArrayList;
 
-public class Hand extends GroupView{
+public class Hand {
 
     private ArrayList<Tile> hand;
     private float s;
 
+
     public Hand(ArrayList<Tile> tiles){
         this.hand = tiles;
-        create();
+
     }
 
-    public void create(){
+    public Group displayHand(){
+        Group handGroup = new Group();
         float x = 0;
         for (Tile tile: hand){
-            tile.setPosition(x, 0);
-            addActor(tile);
+            System.out.println(tile.getColors()[0] + " - " + tile.getColors()[1]);
+            Group one = tile.displayTile();
+            handGroup.addActor(one);
+            one.setPosition(x, 0);
+
             x += 180;
         }
+
+        return handGroup;
     }
 
     public ArrayList<Tile> getPieces() {
@@ -30,21 +38,16 @@ public class Hand extends GroupView{
 
     public void pickFromBag(Tile picked){
         hand.add(picked);
-        picked.setPosition(s, 0);
-        addActor(picked);
+
     }
 
     public void removeFromHand(Tile placed){
-        s = placed.getX();
         hand.remove(placed);
-        removeActor(placed);
+
     }
 
     public void changeTiles(ArrayList<Tile> tiles){
         this.hand = tiles;
     }
 
-    public void act(float delta) {
-        super.act(delta);
-    }
 }

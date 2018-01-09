@@ -69,7 +69,7 @@ public class Action {
 
     }
 
-    public int actionGain(HexagonalGrid grid){
+    /*public int actionGain(HexagonalGrid grid){
         HexagonActor first = null;
         int totalGain = 0;
 
@@ -101,7 +101,7 @@ public class Action {
 
         //System.out.println(totalGain);
         return totalGain;
-    }
+    }*/
 
 
 }

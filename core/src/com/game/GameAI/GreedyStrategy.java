@@ -24,7 +24,7 @@ public class GreedyStrategy implements Strategy{
     //A solution function, which will indicate when we have discovered a complete solution (decideMove())
 
     //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
-    private HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors, Hand hand){
+   /* private HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors, Hand hand){
         HashMap<Tile, String> pieces = new HashMap<>();
 
         for(String color : colors){
@@ -216,6 +216,6 @@ public class GreedyStrategy implements Strategy{
 
         return bestAction;
 
-    }
+    }*/
 
 }
