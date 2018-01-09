@@ -80,6 +80,7 @@ public class GameManager{
         currentState = currentState.applyAction(action);
         if (getBoard().gameOver()){
             System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+
         }
         if (getGamingPlayer().isAI()){
             Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
@@ -241,16 +242,21 @@ public class GameManager{
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }*/
-        while (!getBoard().gameOver()){
-            Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
-            System.out.println(AiMove.toString());
-            currentState = currentState.applyAction(AiMove);
-            System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
+        for (int i = 1; i <= 10; i++){
+            System.out.println("Game " + i);
+            while (!getBoard().gameOver()){
+                Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
+                System.out.println(AiMove.toString());
+                currentState = currentState.applyAction(AiMove);
+                System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
+            }
+            if (getBoard().gameOver()){
+                System.out.println("GAME OVER");
+                System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+                currentState = new GameState();
+            }
         }
-        if (getBoard().gameOver()){
-            System.out.println("GAME OVER");
-            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-        }
+
         return true;
 
     }
