@@ -393,7 +393,7 @@ public class GreedyStrategy implements Strategy{
             bestMoves.add(bestPlacementForTestTile(possibleTestTilePlacements(tile, grid, tiles.get(tile)), grid));
 
         }
-        System.out.println(bestMoves.size());
+        // System.out.println("Number of best possible moves: " + bestMoves.size());
         int bestGain = 0;
         TestAction bestAction = null;
         for (TestAction a : bestMoves){
