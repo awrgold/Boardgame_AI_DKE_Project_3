@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Bag {
     private ArrayList<Tile> bag;
 
-    /*
     public Bag(ArrayList<Sprite[]> pieces){
         this.bag = new ArrayList<>();
         for (Sprite[] piece : pieces){
@@ -17,16 +16,6 @@ public class Bag {
             bag.add(one);
         }
     }
-    */
-
-    public Bag(ArrayList<String[]> pieces){
-        this.bag = new ArrayList<>();
-        for (String[] piece : pieces){
-            StringTile one = new Tile(piece);
-            bag.add(one);
-        }
-    }
-
 
     public Tile pickTile(){
         int randomNumber = ThreadLocalRandom.current().nextInt(0, bag.size());

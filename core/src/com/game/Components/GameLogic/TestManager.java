@@ -1,8 +1,6 @@
 package com.game.Components.GameLogic;
 
 import TreeStructure.Tree;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.PlayerAssets.Hand;
