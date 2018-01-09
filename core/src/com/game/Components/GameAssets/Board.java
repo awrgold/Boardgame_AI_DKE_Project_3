@@ -16,7 +16,7 @@ public class Board extends GroupView {
 
     public Board(){
         super();
-        create();
+        // create();
     }
 
     public void create(){

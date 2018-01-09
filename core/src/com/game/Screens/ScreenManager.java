@@ -6,6 +6,7 @@ import com.game.GameIngenious;
 
 
 public class ScreenManager{
+
     // Singleton: unique instance
     private static ScreenManager instance;
 

@@ -16,7 +16,6 @@ public class Constants {
 
     //Colors
     public static Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-
     public static Sprite blueSprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
     public static Sprite yellowSprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
     public static Sprite orangeSprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));

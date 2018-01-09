@@ -31,6 +31,7 @@ public class GameState {
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
+        // currentBoard.create();
         players[0] = new Player(1, currentBag.pickSix(), true);
         players[1] = new Player(2, currentBag.pickSix(), true);
         gamingPlayer = players[0];
@@ -42,8 +43,8 @@ public class GameState {
         this.currentBoard = currentBoard;
         this.currentBag = currentBag;
         this.gamingPlayer = gamingPlayer;
-        //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        activateButtonIfNeeded();
+        // System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
+        // activateButtonIfNeeded();
 
     }
 
@@ -67,6 +68,7 @@ public class GameState {
         return players[i];
     }
 
+    // TODO: Fix this so that there is no dependency on GameScreen
     public Player changeGamingPlayer(){
         Player nextPlayer;
         if (!gamingPlayer.hasIngenious()){

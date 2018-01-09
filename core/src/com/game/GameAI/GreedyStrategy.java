@@ -17,11 +17,16 @@ import java.util.HashMap;
 
 public class GreedyStrategy implements Strategy{
 
-    //A candidate set, from which a solution is created (the hand)
-    //A selection function, which chooses the best candidate to be added to the solution (bestTilesToPlace())
-    //A feasibility function, that is used to determine if a candidate can be used to contribute to a solution (possibleTilePlacements())
-    //An objective function, which assigns a value to a solution, or a partial solution, (bestPlacementForTile())
-    //A solution function, which will indicate when we have discovered a complete solution (decideMove())
+
+    /*
+    Would we rather use a bitmap here instead of a hashmap to avoid collisions and improve efficiency?
+     */
+
+    // A candidate set, from which a solution is created (the hand)
+    // A selection function, which chooses the best candidate to be added to the solution (bestTilesToPlace())
+    // A feasibility function, that is used to determine if a candidate can be used to contribute to a solution (possibleTilePlacements())
+    // An objective function, which assigns a value to a solution, or a partial solution, (bestPlacementForTile())
+    // A solution function, which will indicate when we have discovered a complete solution (decideMove())
 
     //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
     private HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors, Hand hand){
@@ -57,17 +62,20 @@ public class GreedyStrategy implements Strategy{
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
             public void call(Hexagon hexagon) {
+
                 //FOR EACH HEXAGON
                 if (hexagon.getSatelliteData().isPresent()) {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
-                    //IF THE RELATED HEXACTOR'S COLOR IS EQAUL TO ONE IN THE TILE
+
+                    //IF THE RELATED HEXACTOR'S COLOR IS EQUAL TO ONE IN THE TILE
                     if (currentHexActor.getHexColor().equals(color)) {
                         if (color.equals(tile.getActors()[0].getHexColor())) {
                             tile.setFirst(tile.getActors()[0]);
                         } else {
                             tile.setFirst(tile.getActors()[1]);
                         }
+
                         //FIND ALL POSSIBLE PLACEMENTS AROUND THAT TILE
                         Hexagon[][] possiblePlacements = new Hexagon[7][6];
                         int c = 0;
@@ -83,6 +91,7 @@ public class GreedyStrategy implements Strategy{
                                     if (neighHexActor.getHexColor().equals("EMPTY")) {
                                         possiblePlacements[0][c] = currentNeighbor;
                                         int g = 1;
+
                                         //LOOKING FOR FREE NEIGHBORS
                                         for (Object hex2 : grid.getNeighborsOf(currentNeighbor)) {
                                             if (hex2 instanceof Hexagon) {
@@ -95,7 +104,6 @@ public class GreedyStrategy implements Strategy{
                                                     if (neighHexActor2.getHexColor().equals("EMPTY")) {
                                                         possiblePlacements[g][c] = currentNeighbor2;
                                                         g++;
-
                                                     }
                                                 }
                                             }
@@ -103,10 +111,9 @@ public class GreedyStrategy implements Strategy{
                                         c++;
                                     }
                                 }
-
                             }
-
                         }
+                        // ADD TO THE LIST OF POSSIBLE ACTIONS
                         for (int i = 0; i < 6; i++){
                             if (possiblePlacements[0][i] != null){
                                 for (int j = 1; j < 7; j++){
@@ -116,21 +123,14 @@ public class GreedyStrategy implements Strategy{
                                 }
                             }
                         }
-
-
                     }
-
-
                 }
-
             }
-
-
         });
 
+        // IF NO POSSIBLE ACTIONS - DO SOMETHING RANDOM
         if (possibleActions.size() == 0){
             possibleActions.add(randomAction(tile, grid));
-
         }
 
         return possibleActions;
@@ -176,20 +176,14 @@ public class GreedyStrategy implements Strategy{
                                         randomAction.setTile(tile);
                                     }
                                 }
-
                             }
-
                         }
-
                     }
                 }
-
             }
-
         });
 
         return randomAction;
-
     }
 
     public Action decideMove(ArrayList<String> colors, Hand hand, HexagonalGrid grid){

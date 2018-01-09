@@ -101,7 +101,9 @@ public class GameManager{
         }
     }
 
-    /*public void handleButtonTouch(Vector2 worldTouch){
+
+    /*
+    public void handleButtonTouch(Vector2 worldTouch){
 
         boolean inX = false;
         boolean inY = false;
@@ -134,7 +136,8 @@ public class GameManager{
             GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
         }
 
-    }*/
+    }
+    */
 
     public void handleTileTouch(Vector2 worldTouch){
         outerloop:
@@ -222,6 +225,7 @@ public class GameManager{
             }
         }
     }
+
 
     public boolean handleTouch(Vector2 worldTouch){
         /*if (getGamingPlayer().getPlayerNo() == 2){

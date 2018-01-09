@@ -133,6 +133,7 @@ public class GameScreen extends AbstractScreen {
 
 
 
+    //TODO: take all update prints out and put elsewhere
     public void render(float delta) {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
