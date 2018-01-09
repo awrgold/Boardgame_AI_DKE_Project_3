@@ -62,7 +62,6 @@ public class Tile extends GroupView {
     }
 
     public void act(float delta) {
-
         super.act(delta);
     }
 

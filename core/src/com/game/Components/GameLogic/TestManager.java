@@ -1,20 +1,25 @@
 package com.game.Components.GameLogic;
 
+import TreeStructure.TestTree;
 import TreeStructure.Tree;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
+import com.game.Components.GameAssets.TestBag;
+import com.game.Components.GameAssets.TestBoard;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
+import com.game.Components.PlayerAssets.TestHand;
+import com.game.Components.PlayerAssets.TestPlayer;
 import com.game.GameIngenious;
 
 public class TestManager {
 
     private static GameIngenious newGame;
-    private static GameState currentState;
+    private static TestGameState currentState;
     private static int player1TurnNumber = 0;
     private static int player2TurnNumber = 0;
-    private static Tree gameTree;
-    private static Action move;
+    private static TestTree gameTree;
+    private static TestAction move;
 
     public static void main(String[] args) {
 
@@ -32,16 +37,16 @@ public class TestManager {
 
     public TestManager(){
         newGame = new GameIngenious();
-        currentState = new GameState();
+        currentState = new TestGameState();
         gameTree.buildTree(currentState);
-        move = new Action();
+        move = new TestAction();
     }
 
     public static void simulate(int iterations){
 
         for (int i = 0; i < iterations; i++){
             while (!currentState.getCurrentBoard().gameOver()){
-                Action AiMove = currentState.getGamingPlayer().applyStrategy(currentState.getGamingPlayer().lowestColors(), currentState.getGamingPlayer().getHand(), currentState.getCurrentBoard().getGrid());
+                TestAction AiMove = currentState.getGamingPlayer().applyStrategy(currentState.getGamingPlayer().lowestColors(), currentState.getGamingPlayer().getHand(), currentState.getCurrentBoard().getGrid());
                 System.out.println(AiMove.toString());
                 TestManager.setCurrentState(getCurrentState().applyAction(AiMove));
                 System.out.println("Gaming Player: " + currentState.getGamingPlayer().getPlayerNo() + "  Score: " + currentState.getGamingPlayer().scoreToString());
@@ -53,23 +58,23 @@ public class TestManager {
         }
     }
 
-    public static GameState getCurrentState(){
+    public static TestGameState getCurrentState(){
         return gameTree.getRoot().getState();
     }
 
-    public static void setCurrentState(GameState newState){
+    public static void setCurrentState(TestGameState newState){
         currentState = newState;
     }
 
-    public static Player[] getPlayers(){
+    public static TestPlayer[] getPlayers(){
         return currentState.getPlayers();
     }
 
-    public static Player getPlayerByIndex(int i){
+    public static TestPlayer getPlayerByIndex(int i){
         return currentState.getPlayer(i);
     }
 
-    public static Player getGamingPlayer(){
+    public static TestPlayer getGamingPlayer(){
         return currentState.getGamingPlayer();
     }
 
@@ -77,15 +82,15 @@ public class TestManager {
         return currentState.getPlayers().length;
     }
 
-    public static Hand getHandByIndex(int i){
+    public static TestHand getHandByIndex(int i){
         return getPlayers()[i].getHand();
     }
 
-    public static Board getBoard() {
+    public static TestBoard getBoard() {
         return currentState.getCurrentBoard();
     }
 
-    public static Bag getBag() {
+    public static TestBag getBag() {
         return currentState.getCurrentBag();
     }
 
@@ -101,14 +106,14 @@ public class TestManager {
         return player2TurnNumber;
     }
 
-    public static void changeState(Action action){
+    public static void changeState(TestAction action){
         System.out.println(action.toString());
         currentState = currentState.applyAction(action);
         if (getBoard().gameOver()){
             System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
         }
         if (getGamingPlayer().isAI()){
-            Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
+            TestAction AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
             System.out.println(AiMove.toString());
             //AiMove.getTile().moveBy(0, 30);
             /*try {
@@ -120,7 +125,7 @@ public class TestManager {
             currentState = currentState.applyAction(AiMove);
         }
 
-        move = new Action();
+        move = new TestAction();
         //if the new state is the last of the game, print the winner
         if (getBoard().gameOver()){
             System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
