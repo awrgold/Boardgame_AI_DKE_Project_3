@@ -21,29 +21,15 @@ public class TestManager {
     private static TestTree gameTree;
     private static TestAction move;
 
-    public static void main(String[] args) {
-
-        /*
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Ingenious";
-        config.width = 1000;
-        config.height = 800;
-        new LwjglApplication(newGame, config);
-        */
-
-        newGame.create();
+    public TestManager(){
         simulate(1);
     }
 
-    public TestManager(){
-        newGame = new GameIngenious();
-        currentState = new TestGameState();
-        // gameTree.buildTree(currentState);
-        move = new TestAction();
-    }
-
     public static void simulate(int iterations){
-
+        gameTree = new TestTree();
+        currentState = new TestGameState();
+        move = new TestAction();
+        gameTree.buildTree(currentState);
         for (int i = 0; i < iterations; i++){
             while (!currentState.getCurrentBoard().gameOver()){
                 TestAction AiMove = currentState.getGamingPlayer().applyStrategy(currentState.getGamingPlayer().lowestColors(), currentState.getGamingPlayer().getHand(), currentState.getCurrentBoard().getGrid());

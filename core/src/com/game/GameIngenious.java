@@ -1,7 +1,9 @@
 package com.game;
 
 import Enum.ScreenEnum;
+import TreeStructure.TestTree;
 import com.game.Components.GameLogic.GameManager;
+import com.game.Components.GameLogic.TestGameState;
 import com.game.Components.GameLogic.TestManager;
 import com.game.Screens.ScreenManager;
 import com.badlogic.gdx.Game;
@@ -16,17 +18,22 @@ public class GameIngenious extends Game {
     private Viewport screenPort;
     private GameManager manager;
     private TestManager testManager;
+    private TestTree gameTree;
+    private TestGameState testState;
 
     private final boolean isTesting = true;
 
     @Override
     public void create() {
+        gameTree = new TestTree();
+        testState = new TestGameState();
         if (!isTesting){
             manager = new GameManager();
             showGameScreen();
         }else{
             testManager = new TestManager();
         }
+        gameTree.buildTree(testState);
     }
 
 

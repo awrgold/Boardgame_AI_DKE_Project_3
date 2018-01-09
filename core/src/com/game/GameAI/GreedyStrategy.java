@@ -225,6 +225,7 @@ public class GreedyStrategy implements Strategy{
 
     private ArrayList<TestAction> possibleTestTilePlacements(TestTile tile, HexagonalGrid grid, Color color) {
         ArrayList<TestAction> possibleActions = new ArrayList<>();
+        System.out.println("Searching for best placements");
 
         //ITERATE ALL OVER THE CURRENT BOARD
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
@@ -356,7 +357,7 @@ public class GreedyStrategy implements Strategy{
                 //FOR EACH HEXAGON
                 if (hexagon.getSatelliteData().isPresent()) {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
+                    TestHexagonActor currentHexActor = hexLink.getTestActor();
 
                     if (currentHexActor.getHexColor().equals(Color.EMPTY)) {
                         for (Object hex : grid.getNeighborsOf(hexagon)) {
@@ -365,7 +366,7 @@ public class GreedyStrategy implements Strategy{
 
                                 if (currentNeighbor.getSatelliteData().isPresent()) {
                                     Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
-                                    HexagonActor neighHexActor = neighLink.getActor();
+                                    TestHexagonActor neighHexActor = neighLink.getTestActor();
 
                                     //THE FIRST ONE IS THE FIRST PLACEMENT
                                     if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
