@@ -15,13 +15,14 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 public class Constants {
 
     //Colors
-    public static Sprite emptySprite = new Sprite(new Texture(Gdx.files.internal("4players.png")));
-    public static Sprite blueSprite = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
-    public static Sprite yellowSprite = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
-    public static Sprite orangeSprite = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
-    public static Sprite violetSprite = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
-    public static Sprite purpleSprite = new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
-    public static Sprite redSprite = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
+
+    public static Sprite emptySprite; // = new Sprite(new Texture(Gdx.files.internal("4players.png")));
+    public static Sprite blueSprite; // = new Sprite(new Texture(Gdx.files.internal("colours/blue.png")));
+    public static Sprite yellowSprite; // = new Sprite(new Texture(Gdx.files.internal("colours/yellow.png")));
+    public static Sprite orangeSprite; // = new Sprite(new Texture(Gdx.files.internal("colours/orange.png")));
+    public static Sprite violetSprite; // = new Sprite(new Texture(Gdx.files.internal("colours/violet.png")));
+    public static Sprite purpleSprite; //= new Sprite(new Texture(Gdx.files.internal("colours/purple.png")));
+    public static Sprite redSprite; // = new Sprite(new Texture(Gdx.files.internal("colours/red.png")));
 
 
     // Board parameters

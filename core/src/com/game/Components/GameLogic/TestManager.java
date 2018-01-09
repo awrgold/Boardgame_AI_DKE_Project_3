@@ -38,7 +38,7 @@ public class TestManager {
     public TestManager(){
         newGame = new GameIngenious();
         currentState = new TestGameState();
-        gameTree.buildTree(currentState);
+        // gameTree.buildTree(currentState);
         move = new TestAction();
     }
 

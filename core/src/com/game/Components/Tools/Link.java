@@ -22,6 +22,14 @@ public class Link extends DefaultSatelliteData {
         this.c = testActor.getHexColor();
     }
 
+    public TestHexagonActor getTestActor(){
+        return testActor;
+    }
+
+    public Color getTestColor(){
+        return c;
+    }
+
     public HexagonActor getActor() {
         return actor;
     }
