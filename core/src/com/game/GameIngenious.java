@@ -22,7 +22,10 @@ public class GameIngenious extends Game {
 
         long startTime = System.currentTimeMillis();
 
-        for (int i = 1; i <= 10; i++){
+        int player1Win = 0;
+        int player2Win = 0;
+
+        for (int i = 1; i <= 100; i++){
             GameManager manager = new GameManager();
             System.out.println("Game " + i);
             while (!manager.getBoard().gameOver()){
@@ -34,11 +37,15 @@ public class GameIngenious extends Game {
             if (manager.getBoard().gameOver()){
                 //System.out.println("GAME OVER");
                 System.out.println("The winner is: Player " + manager.getCurrentState().getWinner().getPlayerNo());
+                if (manager.getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
+                else player2Win++;
             }
         }
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         System.out.println(totalTime + " ms");
+        System.out.println("Player 1 won: " + player1Win + " times");
+        System.out.println("Player 2 won: " + player2Win + " times");
 
     }
     /*

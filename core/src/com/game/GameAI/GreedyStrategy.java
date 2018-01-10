@@ -41,10 +41,15 @@ public class GreedyStrategy implements Strategy{
             }
         }
 
+        if (pieces.keySet().size() == 0){
+            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor());
+            //System.out.println("totally random");
+        }
+
         //for(Tile piece : pieces.keySet()){
             //System.out.print(piece.getActors()[0].getHexColor() + "-" + piece.getActors()[1].getHexColor() + "  ");
         //}
-        //System.out.print(" <--- pieces to play \n");
+        //System.out.println(pieces.entrySet().size() + " <--- pieces to play");
 
         return pieces;
 
@@ -171,6 +176,7 @@ public class GreedyStrategy implements Strategy{
 
                                     //THE FIRST ONE IS THE FIRST PLACEMENT
                                     if (neighHexActor.getHexColor().equals("EMPTY")) {
+
                                         randomAction.setH1(hexagon);
                                         randomAction.setH2(currentNeighbor);
                                         randomAction.setTile(tile);
@@ -200,6 +206,7 @@ public class GreedyStrategy implements Strategy{
             bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
 
         }
+
         //System.out.println(bestMoves.size());
         int bestGain = 0;
         Action bestAction = null;
