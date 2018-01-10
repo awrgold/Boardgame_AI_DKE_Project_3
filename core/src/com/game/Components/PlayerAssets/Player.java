@@ -6,6 +6,7 @@ import com.game.Components.GameLogic.GameState;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import com.game.GameAI.GreedyStrategy;
+import com.game.GameAI.RandomStrategy;
 import com.game.GameAI.Strategy;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -30,7 +31,7 @@ public class Player{
     private Hand hand;
     private String[] playerScoreString = new String[6];
     private static boolean[] colorIngenious = new boolean[6];
-    private GreedyStrategy strategy;
+    private Strategy strategy;
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI) {
         this.playerNo = playerNo;
@@ -46,7 +47,8 @@ public class Player{
         playerScoreString[4] = "V";
         playerScoreString[5] = "R";
 
-        if (isAI) strategy = new GreedyStrategy();
+        if (isAI && playerNo == 1) strategy = new GreedyStrategy();
+        else if (isAI && playerNo == 2) strategy = new RandomStrategy();
     }
 
     public boolean isAI() {
@@ -167,7 +169,7 @@ public class Player{
                 return true;
             }
         }
-        System.out.println(color + " is not present");
+        //System.out.println(color + " is not present");
         return false;
 
     }
@@ -270,7 +272,7 @@ public class Player{
             if(playerScore[i] >= 18 && !colorIngenious[i]){
                 // Ingenious!
                 colorIngenious[i] = true;
-                System.out.println("PlayerAssets " + playerNo + " has reached Ingenious for color " + i + "!");
+                //System.out.println("PlayerAssets " + playerNo + " has reached Ingenious for color " + i + "!");
                 return true;
             }
         }

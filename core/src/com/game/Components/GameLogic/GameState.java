@@ -73,12 +73,12 @@ public class GameState {
     public Player changeGamingPlayer(){
         Player nextPlayer;
         if (!gamingPlayer.hasIngenious()){
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
         } else {
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
         }
         return nextPlayer;
@@ -108,17 +108,17 @@ public class GameState {
         //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
         //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
 
-        System.out.println("You have no tiles of your lowest color, click to change your hand");
-        for (Tile tile : gamingPlayer.getHand().getPieces()){
-            System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
-        }
+        //System.out.println("You have no tiles of your lowest color, click to change your hand");
+        //for (Tile tile : gamingPlayer.getHand().getPieces()){
+            //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
+        //}
         if (gamingPlayer.isAI()){
 
             gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
-            System.out.println("Changing tiles..");
-            for (Tile tile : gamingPlayer.getHand().getPieces()){
-                System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
-            }
+            //System.out.println("Changing tiles..");
+            //for (Tile tile : gamingPlayer.getHand().getPieces()){
+                //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
+            //}
             for (int i = 0; i < 6; i++) {
                 Tile tile = gamingPlayer.getHand().getPieces().get(i);
                 int index = 0;
@@ -185,5 +185,6 @@ public class GameState {
 
         return nextState;
     }
+
 
 }
