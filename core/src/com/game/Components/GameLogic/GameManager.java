@@ -28,7 +28,7 @@ public class GameManager{
     }
 
     public GameState getCurrentState(){
-        return gameTree.getRoot().getState();
+        return currentState;
     }
 
     public void setCurrentState(GameState newState){
@@ -76,7 +76,7 @@ public class GameManager{
     }
 
     public void changeState(Action action){
-        System.out.println(action.toString());
+        //System.out.println(action.toString());
         currentState = currentState.applyAction(action);
         if (getBoard().gameOver()){
             System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
@@ -84,7 +84,7 @@ public class GameManager{
         }
         if (getGamingPlayer().isAI()){
             Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
-            System.out.println(AiMove.toString());
+            //System.out.println(AiMove.toString());
             //AiMove.getTile().moveBy(0, 30);
             /*try {
                 Thread.sleep(5000);
@@ -204,17 +204,17 @@ public class GameManager{
                             if(getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())){
                                 move.setH2(clicked.getHexagon());
                             } else {
-                                System.out.println("Select a neighbor");
+                                //System.out.println("Select a neighbor");
                             }
                         } else {
-                            System.out.println("select an empty hexagon");
+                            //System.out.println("select an empty hexagon");
                         }
 
                     } else {
                         if(clicked.getHexColor().equals("EMPTY")){
                             move.setH1(clicked.getHexagon());
                         } else {
-                            System.out.println("select an empty hexagon");
+                            //System.out.println("select an empty hexagon");
                         }
 
                     }
@@ -246,12 +246,12 @@ public class GameManager{
             System.out.println("Game " + i);
             while (!getBoard().gameOver()){
                 Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
-                System.out.println(AiMove.toString());
+                //System.out.println(AiMove.toString());
                 currentState = currentState.applyAction(AiMove);
-                System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
+                //System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
             }
             if (getBoard().gameOver()){
-                System.out.println("GAME OVER");
+                //System.out.println("GAME OVER");
                 System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
                 currentState = new GameState();
             }
