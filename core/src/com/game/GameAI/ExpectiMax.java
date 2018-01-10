@@ -1,4 +1,4 @@
 package com.game.GameAI;
 
-public class ExpectiMax implements Strategy {
+public class ExpectiMax {
 }
