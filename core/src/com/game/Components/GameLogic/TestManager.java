@@ -33,7 +33,7 @@ public class TestManager {
         for (int i = 0; i < iterations; i++){
             while (!currentState.getCurrentBoard().gameOver()){
                 TestAction AiMove = currentState.getGamingPlayer().applyStrategy(currentState.getGamingPlayer().lowestColors(), currentState.getGamingPlayer().getHand(), currentState.getCurrentBoard().getGrid());
-                System.out.println(AiMove.toString());
+                //System.out.println(AiMove.toString());
                 TestManager.setCurrentState(getCurrentState().applyAction(AiMove));
                 System.out.println("Gaming Player: " + currentState.getGamingPlayer().getPlayerNo() + "  Score: " + currentState.getGamingPlayer().scoreToString());
             }

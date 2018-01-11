@@ -76,15 +76,12 @@ public class TestPlayer{
                 player.playerScore[i] = 18;
             }
         }
-
     }
 
     public static int[] scoreGain(TestHexagonActor hexActor, HexagonalGrid hexGrid, TestHexagonActor one) {
 
         int[] scoreGains = new int[6];
-
         int i = 0;
-
         int avoid = -1;
 
         if (hexActor.getHexColor().equals(Color.BLUE)) i = 0;
@@ -145,7 +142,7 @@ public class TestPlayer{
 
             }
         }
-        System.out.println(Arrays.toString(scoreGains));
+        System.out.println("Possible score gains: " + Arrays.toString(scoreGains));
 
         return scoreGains;
 
@@ -191,7 +188,6 @@ public class TestPlayer{
             if (playerScore[i] == lowest){
                 indexesOfLowest.add(i);
             }
-
         }
 
         if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreColors[lowIndex])) {
