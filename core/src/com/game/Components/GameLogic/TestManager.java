@@ -12,6 +12,8 @@ import com.game.Components.PlayerAssets.TestHand;
 import com.game.Components.PlayerAssets.TestPlayer;
 import com.game.GameIngenious;
 
+import static java.lang.Math.abs;
+
 public class TestManager {
 
     private static GameIngenious newGame;
@@ -36,6 +38,7 @@ public class TestManager {
                 //System.out.println(AiMove.toString());
                 TestManager.setCurrentState(getCurrentState().applyAction(AiMove));
                 System.out.println("Gaming Player: " + currentState.getGamingPlayer().getPlayerNo() + "  Score: " + currentState.getGamingPlayer().scoreToString());
+                System.out.println("Non-gaming player: " + currentState.getPlayer(Math.abs(currentState.getGamingPlayer().getPlayerNo()-1)).getPlayerNo() + " Score: " + currentState.getPlayer(Math.abs(currentState.getGamingPlayer().getPlayerNo()-1)).scoreToString());
             }
             if (getBoard().gameOver()){
                 System.out.println("GAME OVER");

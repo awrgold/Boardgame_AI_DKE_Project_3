@@ -8,7 +8,6 @@ import com.game.GameIngenious;
 
 
 public class DesktopLauncher {
-
 	public static void main (String[] arg) {
 		/*
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -21,7 +20,6 @@ public class DesktopLauncher {
 		GameIngenious game = new GameIngenious();
 		game.create();
 	}
-
 }
 
 

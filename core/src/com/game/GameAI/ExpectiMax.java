@@ -24,8 +24,8 @@ public class ExpectiMax implements Strategy {
 
 
     double tileAtBegining = 6/Pieces.createBagPieces().size();
-    double doubleAtBegining;
-    double simpleTile;
+    double doubleAtBegining =;
+    double simpleTile = ;
 
     private int doublePlaced;
     private int tilePlaced;

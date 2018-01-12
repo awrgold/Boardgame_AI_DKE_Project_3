@@ -214,7 +214,6 @@ public class GreedyStrategy implements Strategy{
                     bestAction = a;
                 }
             }
-
         }
 
         return bestAction;
@@ -406,9 +405,6 @@ public class GreedyStrategy implements Strategy{
             }
 
         }
-
         return bestAction;
-
     }
-
 }
