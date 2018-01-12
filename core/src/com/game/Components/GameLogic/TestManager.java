@@ -23,15 +23,14 @@ public class TestManager {
     private static TestTree gameTree;
     private static TestAction move;
 
-    public TestManager(){
-        simulate(1);
-    }
+    public TestManager(){    }
 
-    public static void simulate(int iterations){
+    public static void greedySimulate(int iterations){
         gameTree = new TestTree();
         currentState = new TestGameState();
         move = new TestAction();
         gameTree.buildTree(currentState);
+
         for (int i = 0; i < iterations; i++){
             while (!currentState.getCurrentBoard().gameOver()){
                 TestAction AiMove = currentState.getGamingPlayer().applyStrategy(currentState.getGamingPlayer().lowestColors(), currentState.getGamingPlayer().getHand(), currentState.getCurrentBoard().getGrid());
@@ -44,6 +43,20 @@ public class TestManager {
                 System.out.println("GAME OVER");
                 System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo());
             }
+        }
+    }
+
+    public static void testSimulate(int iterations){
+        gameTree = new TestTree();
+        currentState = new TestGameState();
+        move = new TestAction();
+        gameTree.buildTree(currentState);
+
+        int cntr = 0;
+        for (int i = 0; i < 10; i++){
+            cntr++;
+            currentState.
+
         }
     }
 

@@ -26,8 +26,8 @@ public class TestGameState {
         currentBag = new TestBag(TestPieces.createBagPieces());
 
         currentBoard.create();
-        players[0] = new TestPlayer(0, currentBag.pickSix(), true);
-        players[1] = new TestPlayer(1, currentBag.pickSix(), true);
+        players[0] = new TestPlayer(1, currentBag.pickSix(), true);
+        players[1] = new TestPlayer(2, currentBag.pickSix(), true);
         gamingPlayer = players[0];
         System.out.println("Starting player = " + players[0].getPlayerNo());
     }

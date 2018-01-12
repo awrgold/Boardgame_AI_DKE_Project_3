@@ -32,6 +32,8 @@ public class GameIngenious extends Game {
             showGameScreen();
         }else{
             testManager = new TestManager();
+            //testManager.greedySimulate(1);
+
         }
         gameTree.buildTree(testState);
     }
