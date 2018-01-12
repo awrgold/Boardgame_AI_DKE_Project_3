@@ -3,7 +3,7 @@ package com.game.Components.GameLogic;
 public class TestManager {
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         GameManager manager = new GameManager();
 
         while (!manager.getBoard().gameOver()){
@@ -16,5 +16,5 @@ public class TestManager {
             System.out.println("GAME OVER");
             System.out.println("The winner is: Player " + manager.getCurrentState().getWinner().getPlayerNo());
         }
-    }
+    }*/
 }

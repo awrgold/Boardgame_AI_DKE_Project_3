@@ -68,8 +68,8 @@ public class HexagonActor extends Actor{
             this.setSprite(Constants.emptySprite);
 
         } else{
-            System.out.println("Invalid color choice, use the CAPITAL first letter of the color");
-            System.out.println("Choices: R, O, Y, B, P, V");
+            //System.out.println("Invalid color choice, use the CAPITAL first letter of the color");
+            //System.out.println("Choices: R, O, Y, B, P, V");
         }
     }
 
