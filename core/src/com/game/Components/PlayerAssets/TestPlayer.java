@@ -269,7 +269,7 @@ public class TestPlayer{
             if(playerScore[i] >= 18 && !colorIngenious[i]){
                 // Ingenious!
                 colorIngenious[i] = true;
-                System.out.println("PlayerAssets " + playerNo + " has reached Ingenious for color " + i + "!");
+                System.out.println("Player " + playerNo + " has reached Ingenious for color " + i + "!");
                 return true;
             }
         }

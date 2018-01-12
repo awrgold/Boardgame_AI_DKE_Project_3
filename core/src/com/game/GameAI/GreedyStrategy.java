@@ -332,7 +332,7 @@ public class GreedyStrategy implements Strategy{
                     break;
                 } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
                     pieces.put(t, color);
-
+                    System.out.println("Placed tile: " + t.getActor(0).getHexColor().toString() + t.getActor(1).getHexColor().toString());
                 }
             }
         }

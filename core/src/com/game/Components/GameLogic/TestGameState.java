@@ -26,9 +26,10 @@ public class TestGameState {
         currentBag = new TestBag(TestPieces.createBagPieces());
 
         currentBoard.create();
-        players[0] = new TestPlayer(1, currentBag.pickSix(), true);
-        players[1] = new TestPlayer(2, currentBag.pickSix(), true);
+        players[0] = new TestPlayer(0, currentBag.pickSix(), true);
+        players[1] = new TestPlayer(1, currentBag.pickSix(), true);
         gamingPlayer = players[0];
+        System.out.println("Starting player = " + players[0].getPlayerNo());
     }
 
     private TestGameState(TestPlayer[] players, TestBoard currentBoard, TestBag currentBag, TestPlayer gamingPlayer) {
@@ -61,24 +62,38 @@ public class TestGameState {
         return players[i];
     }
 
+//    public TestPlayer changeGamingPlayer(){
+//        int cntr = 0;
+//        TestPlayer nextPlayer;
+//
+//        if (!gamingPlayer.hasIngenious()){
+//            if (gamingPlayer.getPlayerNo() == 0){
+//                nextPlayer = players[1];
+//            }else{
+//                nextPlayer = players[0];
+//            }
+//            System.out.println("Gaming Player: " + this.getGamingPlayer().getPlayerNo());
+//        } else {
+//            nextPlayer = this.getGamingPlayer();
+//        }
+//
+//        System.out.println("Player " + nextPlayer.getPlayerNo() + " - Turn number: " + cntr);
+//        return nextPlayer;
+//    }
+
     public TestPlayer changeGamingPlayer(){
-        int cntr = 0;
         TestPlayer nextPlayer;
         if (!gamingPlayer.hasIngenious()){
-            if (gamingPlayer.getPlayerNo() == 0){
-                nextPlayer = players[1];
-            }else{
-                nextPlayer = players[0];
-            }
-        } else {
-            if (gamingPlayer.getPlayerNo() == 0){
-                nextPlayer = players[1];
-            }else{
-                nextPlayer = players[0];
-            }
-        }
 
-        System.out.println("Player " + nextPlayer.getPlayerNo() + " - Turn number: " + cntr);
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+            System.out.println("New Gaming player: " + nextPlayer.getPlayerNo());
+
+
+        } else {
+
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+            System.out.println("New Gaming player: " + nextPlayer.getPlayerNo());
+        }
         return nextPlayer;
     }
 
@@ -136,6 +151,7 @@ public class TestGameState {
 
         nextState = new TestGameState(players, currentBoard, currentBag, changeGamingPlayer());
 
+        System.out.println(" *** Moving on to the next Game State ***");
         return nextState;
     }
 
