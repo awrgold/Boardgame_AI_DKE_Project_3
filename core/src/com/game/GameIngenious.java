@@ -1,6 +1,7 @@
 package com.game;
 
 import Enum.ScreenEnum;
+import com.game.Components.GameLogic.GameManager;
 import com.game.Screens.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -12,15 +13,18 @@ public class GameIngenious extends Game {
 
   //  public SpriteBatch batch;
     private Viewport screenPort;
+    private GameManager manager;
 
     @Override
     public void create() {
        //batch = new SpriteBatch();
+        manager = new GameManager();
        showGameScreen();
     }
     /*
     show specific screen directly
      */
+
     public void showGameScreen(){
     ScreenManager.getInstance().initialize(this);
     ScreenManager.getInstance().showScreen( ScreenEnum.GAME);

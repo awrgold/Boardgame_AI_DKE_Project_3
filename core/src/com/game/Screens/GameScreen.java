@@ -31,17 +31,14 @@ public class GameScreen extends AbstractScreen {
     private SpriteBatch batch;
     public static final String TAG = GameScreen.class.getName();
 
-    private CustomLabel p1;
-    private CustomLabel p2;
-
-    public GameScreen(GameIngenious game) {
+    public GameScreen(GameIngenious game, GameManager manager) {
     // Build screen, add skins, add players
         this.game = game;
         //this.manager = new GameManager();
         //handler = new GameHandler(game, comStrategy);
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
-        this.manager = new GameManager();
+        this.manager = manager;
         buildStage();
     }
 
@@ -60,17 +57,15 @@ public class GameScreen extends AbstractScreen {
 
         // Create the score column add a score bar group for each player
         Table scoreColumn = new Table();
-        p1 = new CustomLabel("PlayerAssets 1 Score : "+ manager.getPlayerByIndex(0).scoreToString(), skin);
-        p2 = new CustomLabel("PlayerAssets 2 Score : "+ manager.getPlayerByIndex(1).scoreToString(), skin);
-        ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore());
+
+
+        ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore(),manager.getPlayerByIndex(0).getPlayerNo());
         scoreColumn.add(scorebars1);
         scoreColumn.row();
-        scoreColumn.add(p1).bottom().padTop(20).padBottom(30);
         scoreColumn.row().expandX();
-        ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore());
+        ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore(),manager.getPlayerByIndex(1).getPlayerNo());
         scoreColumn.add(scorebars2);
         scoreColumn.row();
-        scoreColumn.add(p2).bottom();
         root.add(scoreColumn).colspan(2).expand().fill();
 
 
@@ -144,8 +139,6 @@ public class GameScreen extends AbstractScreen {
         viewport.apply();
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
-        p1.updateText("PlayerAssets 1 Score : "+ manager.getPlayerByIndex(0).scoreToString());
-        p2.updateText("PlayerAssets 2 Score : "+ manager.getPlayerByIndex(1).scoreToString());
 
         this.act(delta);
         this.draw();

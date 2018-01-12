@@ -2,6 +2,7 @@ package com.game.Screens;
 
 import Enum.ScreenEnum;
 import com.badlogic.gdx.Screen;
+import com.game.Components.GameLogic.GameManager;
 import com.game.GameIngenious;
 
 
@@ -11,7 +12,6 @@ public class ScreenManager{
 
     // Reference to game
     protected GameIngenious game;
-
     // Singleton: private constructor
     private ScreenManager() {
         super();
