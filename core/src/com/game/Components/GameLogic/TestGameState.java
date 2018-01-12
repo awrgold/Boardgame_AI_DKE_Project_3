@@ -85,13 +85,13 @@ public class TestGameState {
         TestPlayer nextPlayer;
         if (!gamingPlayer.hasIngenious()){
 
-            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
             System.out.println("New Gaming player: " + nextPlayer.getPlayerNo());
 
 
         } else {
 
-            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
+            nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
             System.out.println("New Gaming player: " + nextPlayer.getPlayerNo());
         }
         return nextPlayer;
@@ -124,6 +124,7 @@ public class TestGameState {
             System.out.println("Empty action, ending game");
         }
 
+
         if (action.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) action.getH1().getSatelliteData().get();
@@ -149,6 +150,7 @@ public class TestGameState {
         gamingPlayer.getHand().removeFromHand(action.getTile());
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
 
+        System.out.println("Current Gaming PLayer : " + gamingPlayer.getPlayerNo());
         nextState = new TestGameState(players, currentBoard, currentBag, changeGamingPlayer());
 
         System.out.println(" *** Moving on to the next Game State ***");

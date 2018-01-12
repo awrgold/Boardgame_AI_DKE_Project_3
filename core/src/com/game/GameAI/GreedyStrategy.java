@@ -336,6 +336,10 @@ public class GreedyStrategy implements Strategy{
             }
         }
 
+        if (pieces.keySet().size() == 0){
+            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor());
+        }
+
         for(TestTile piece : pieces.keySet()){
             System.out.print(piece.getActors()[0].getHexColor() + "-" + piece.getActors()[1].getHexColor() + "  ");
         }
