@@ -105,6 +105,10 @@ public class TestGameState {
         TestHexagonActor first = null;
         TestGameState nextState;
 
+        if (action == null) {
+            System.out.println("Empty action, ending game");
+        }
+
         if (action.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) action.getH1().getSatelliteData().get();
@@ -123,6 +127,10 @@ public class TestGameState {
                 TestPlayer.updateScore(TestPlayer.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
             }
         }
+
+
+
+
         gamingPlayer.getHand().removeFromHand(action.getTile());
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
 
