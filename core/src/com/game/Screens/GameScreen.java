@@ -23,8 +23,7 @@ public class GameScreen extends AbstractScreen {
    // private Stage stage;
     private Table root;
 	public static TextButton[] changeTiles;
-    //private CustomLabel p1;
-    //private CustomLabel p2;
+
     private ExtendViewport viewport;
 
     //ShapeRenderer renderer;
@@ -34,8 +33,6 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(GameIngenious game, GameManager manager) {
     // Build screen, add skins, add players
         this.game = game;
-        //this.manager = new GameManager();
-        //handler = new GameHandler(game, comStrategy);
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
         this.manager = manager;
@@ -46,9 +43,8 @@ public class GameScreen extends AbstractScreen {
 
         viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
         batch = new SpriteBatch();
-        //stage = new Stage(viewport);
         setViewport(viewport);
-        //Gdx.input.setInputProcessor(this);
+
 
         this.root = new Table();
         this.root.setFillParent(true);
