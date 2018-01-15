@@ -198,7 +198,12 @@ public class GreedyStrategy implements Strategy{
 
     }
 
-    public Action decideMove(ArrayList<String> colors, Hand hand, HexagonalGrid grid){
+    public Action decideMove(GameState currentState){
+
+        ArrayList<String> colors = currentState.getGamingPlayer().lowestColors();
+        Hand hand = currentState.getGamingPlayer().getHand();
+        HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
+
         HashMap<Tile, String> tiles = bestTilesToPlace(colors, hand);
         ArrayList<Action> bestMoves = new ArrayList<>();
 

@@ -45,8 +45,8 @@ public class GameManager{
             System.out.println("Game " + i);
             while (!getBoard().gameOver()){
 
-                Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(),getGamingPlayer().getHand(), getBoard().getGrid());
-                //System.out.println(AiMove.toString());
+                Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+                System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
                 //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
 
@@ -164,7 +164,7 @@ public class GameManager{
 
         }
         if (getGamingPlayer().isAI()){
-            Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(), getGamingPlayer().getHand(), getBoard().getGrid());
+            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
             //System.out.println(AiMove.toString());
             //AiMove.getTile().moveBy(0, 30);
             /*try {

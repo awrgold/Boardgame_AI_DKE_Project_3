@@ -1,5 +1,6 @@
 package TreeStructure;
 
+import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Node {
 
     public Node(GameState state){
         this.state = state;
+        this.childrenEdges = new ArrayList<>();
     }
 
     public GameState getState(){
@@ -30,12 +32,20 @@ public class Node {
         this.parentEdge = parent;
     }
 
-    public void setChildrenEdges(ArrayList<Edge> children){
-        this.childrenEdges = children;
-    }
-
     public void setState(GameState state){
         this.state = state;
+    }
+
+    public void setChild(Action action) {
+
+        GameState nextState = state.applyAction(action);
+        Node child = new Node(nextState);
+        Edge edge = new Edge(this, child, action);
+        child.setParentEdge(edge);
+        childrenEdges.add(edge);
+
+
+
     }
 
 

@@ -6,7 +6,9 @@ public class Tree {
 
     private Node root;
 
-    public Tree(){}
+    public Tree(GameState state){
+        this.root = new Node(state);
+    }
 
     public void buildTree(GameState state){
         root = new Node(state);
