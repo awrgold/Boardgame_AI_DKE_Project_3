@@ -32,14 +32,14 @@ runSimulation();
 
     }
     public void runSimulation(){
-        int n = 10;
+        int n = 100;
         ArrayList<Long>gameTimes = new ArrayList<Long>();
         long startTime = System.currentTimeMillis();
 
         int player1Win = 0;
         int player2Win = 0;
 
-        for (int i = 1; i <= 10; i++){
+        for (int i = 1; i <= n; i++){
             long sTime = System.currentTimeMillis();
             this.currentState = new GameState();
             System.out.println("Game " + i);
