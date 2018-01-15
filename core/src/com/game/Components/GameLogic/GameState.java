@@ -13,6 +13,7 @@ import com.game.Screens.GameScreen;
 import com.game.Components.Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static java.util.Arrays.sort;
@@ -32,7 +33,13 @@ public class GameState {
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
         players[0] = new Player(1, currentBag.pickSix(), true);
+        for (Tile t: players[0].getHand().getPieces()){
+            players[0].addToVisibleTiles(t);
+        }
         players[1] = new Player(2, currentBag.pickSix(), true);
+        for (Tile t: players[1].getHand().getPieces()){
+            players[1].addToVisibleTiles(t);
+        }
         gamingPlayer = players[0];
     }
 
@@ -179,7 +186,9 @@ public class GameState {
             }
         }
         gamingPlayer.getHand().removeFromHand(a.getTile());
-        gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
+        Tile newTile = currentBag.pickTile();
+        gamingPlayer.getHand().pickFromBag(newTile);
+        gamingPlayer.addToVisibleTiles(newTile);
 
         nextState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
 

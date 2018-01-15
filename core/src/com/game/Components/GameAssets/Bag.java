@@ -22,12 +22,16 @@ public class Bag {
         this.bag2 = new ArrayList<Tile>();
     }
 
-    public void addTileToOpponentBag(Tile tile){
+    public void addTileToBag(Tile tile){
         bag2.add(tile);
     }
 
     public ArrayList<Tile> getEmptyTestBag(){
         return bag2;
+    }
+
+    public ArrayList<Tile> getBag(){
+        return bag;
     }
 
 

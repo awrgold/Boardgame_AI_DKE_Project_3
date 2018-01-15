@@ -32,6 +32,8 @@ public class Player{
     private String[] playerScoreString = new String[6];
     private static boolean[] colorIngenious = new boolean[6];
     private Strategy strategy;
+    private ArrayList<Tile> visibleTiles = new ArrayList<>();
+
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI) {
         this.playerNo = playerNo;
@@ -325,6 +327,14 @@ public class Player{
         return false;
     }
 
+    public void addToVisibleTiles(Tile tile){
+        visibleTiles.add(tile);
+    }
+
+    public ArrayList<Tile> getVisibleTiles(){
+        return visibleTiles;
+    }
+
     //TRYING TO IMPLEMENT THE STRATEGY
 
 //  FIND THE LOWEST COLORS
@@ -351,11 +361,12 @@ public class Player{
     }
 
     public Action applyStrategy(ArrayList<String> lowestColors, Hand currentHand, HexagonalGrid currentGrid){
+
+
         return strategy.decideMove(lowestColors, currentHand, currentGrid);
 
-
     }
-/*
+
 //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
     public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors){
         HashMap<Tile, String> pieces = new HashMap<>();
@@ -381,7 +392,7 @@ public class Player{
 
         return pieces;
 
-    }*/
+    }
 /*
 //  FOR A TILE RETURN THE GAME STATE THAT RETURN THE HIGHEST SCORE ON THE INTERESTED COLOR
     public GameState bestMoveForTile(Tile t, Board currentBoard, String color){
