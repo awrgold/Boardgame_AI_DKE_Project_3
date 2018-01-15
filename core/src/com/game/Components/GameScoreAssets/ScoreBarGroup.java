@@ -55,7 +55,7 @@ public class ScoreBarGroup extends VerticalGroup{
             int v = scores[i];
             int j = (v*140)/18;
             String s = Integer.toString(v);
-            scoreLabel = new CustomLabel("Player Assets "+pNum+" Score : "+ sc , skin);
+            scoreLabel = new CustomLabel("Player "+pNum+" Score : "+ sc , skin);
             scoreLabel.setColor(colors[pNum]);
             scoreLabel.setFontScale(2);
             cl[i]=new CustomLabel(s, skin);

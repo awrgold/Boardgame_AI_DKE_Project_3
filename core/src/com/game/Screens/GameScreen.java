@@ -46,8 +46,8 @@ public class GameScreen extends AbstractScreen {
         setViewport(viewport);
 
 
-        this.root = new Table();
-        this.root.setFillParent(true);
+        root = new Table();
+        root.setFillParent(true);
 
         //root.debug(Table.Debug.all);
 
@@ -124,26 +124,31 @@ public class GameScreen extends AbstractScreen {
 
 
 
-    public void render(float delta) {
+    public void render() {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+//        Gdx.graphics.setContinuousRendering(true);
+//        Gdx.graphics.requestRendering();
         batch.begin();
         batch.end();
         // setup drawing for world
         viewport.apply();
+
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        this.act(delta);
-        this.draw();
+       act(Gdx.graphics.getDeltaTime());
+        //root.act(delta);
+
+
+        draw();
         //renderer.end();
 
     }
 
     public void dispose(){
-       // stage.dispose();
+
         super.dispose();
 
 
@@ -155,7 +160,6 @@ public class GameScreen extends AbstractScreen {
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
         //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
         manager.handleTouch(worldTouch);
-
         return true;
     }
 

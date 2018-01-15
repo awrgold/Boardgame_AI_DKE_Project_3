@@ -158,6 +158,8 @@ public class Board extends GroupView {
             return null;
         }
     }
-
+    public void act(float delta) {
+        super.act(delta);
+    }
 
 }
