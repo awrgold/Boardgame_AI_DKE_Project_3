@@ -189,5 +189,8 @@ public class HexagonActor extends Actor{
             return null;
         }
     }
+    public void act(float delta) {
+        super.act(delta);
 
+    }
 }

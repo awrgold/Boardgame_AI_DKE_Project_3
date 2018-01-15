@@ -1,5 +1,6 @@
 package Enum;
 
+import com.game.Components.GameLogic.GameManager;
 import com.game.Screens.AbstractScreen;
 import com.game.Screens.GameScreen;
 import com.game.Screens.MenuScreen;
@@ -13,8 +14,9 @@ public enum ScreenEnum {
         }
     },
     GAME {
-        public AbstractScreen getScreen(Object... params) {
-            return new GameScreen(new GameIngenious());
+        public AbstractScreen getScreen(Object... params)
+        {
+            return new GameScreen(new GameIngenious(),new GameManager());
         }
     };//,
 //    EXTRA {

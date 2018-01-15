@@ -17,10 +17,12 @@ public class ScoreBarGroup extends VerticalGroup{
     private Color[] colors;
     private CustomLabel[] cl;
     private int[] scores;
-
-    public ScoreBarGroup(int width, int height, int[] vals){
+    private CustomLabel scoreLabel;
+    private String sc;
+    private int pNum;
+    public ScoreBarGroup(int width, int height, int[] vals, int player){
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-      //  this.player = player;
+         this.pNum = player;
         this.num = vals.length;
         this.colors = new Color[num];
         this.scores = vals;
@@ -28,6 +30,7 @@ public class ScoreBarGroup extends VerticalGroup{
         this.bars = new Bar[num];
         this.w = width;
         this.h = height;
+
         create();
     }
 
@@ -41,23 +44,25 @@ public class ScoreBarGroup extends VerticalGroup{
         colors[4] = Color.VIOLET;
         colors[5] = Color.RED;
         //colors[6] = Color.DARK_GRAY;
-
-
+        sc = " | ";
         for (int i = 0; i < num; i++){
             int barH = (h / num) / 2;
-
+            String c = scores[i] + " | ";
+            sc = sc.concat(c);
             //overall score value on 140
 
             //score on 18
             int v = scores[i];
             int j = (v*140)/18;
             String s = Integer.toString(v);
-
+            scoreLabel = new CustomLabel("Player "+pNum+" Score : "+ sc , skin);
+            scoreLabel.setColor(colors[pNum]);
+            scoreLabel.setFontScale(2);
             cl[i]=new CustomLabel(s, skin);
             cl[i].setColor(colors[i]);
+            cl[i].setFontScale(2);
             bars[i] = new Bar(w,barH,colors[i],j);
             //bars[i].setBounds(w/2,barH/2,w,barH);
-
             //wrap bars
             Container wrapperl = new Container(cl[i]);
             Container wrapper = new Container(bars[i]);
@@ -72,19 +77,28 @@ public class ScoreBarGroup extends VerticalGroup{
             addActor(wrapperl);
             addActor(wrapper);
 
+
         }
+
+
+       addActor(scoreLabel);
+
 
     }
     public void act( float delta) {
         super.act(delta);
+       sc = " | ";
         for (int i = 0; i<num;i++){
             int v = scores[i];
             int j = (v*140)/18;
-
+            String c = scores[i] + " | ";
+            sc = sc.concat(c);
             String s = Integer.toString(v);
             cl[i].updateText(s);
            bars[i].updateVal(j);
+
        }
+       scoreLabel.updateText("Player "+pNum+" Score : "+ sc );
 
 
     }
@@ -93,5 +107,12 @@ public class ScoreBarGroup extends VerticalGroup{
         int n = (int) (Math.random()* 18);
         return n;
     }
-
+    public String scoreToString() {
+        String p = "| ";
+        for (int j = 0; j <= num; j++) {
+            String s = scores[j] + " | ";
+            p = p.concat(s);
+        }
+        return p;
+    }
 }
