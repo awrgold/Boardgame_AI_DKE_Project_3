@@ -1,6 +1,7 @@
 package com.game.GameAI;
 
 import com.game.Components.GameLogic.Action;
+import com.game.Components.GameLogic.GameState;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
@@ -148,7 +149,11 @@ public class RandomStrategy implements Strategy {
 
     }
 
-    public Action decideMove(ArrayList<String> colors, Hand hand, HexagonalGrid grid){
+    public Action decideMove(GameState currentState){
+
+        Hand hand = currentState.getGamingPlayer().getHand();
+        HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
+
 
         ArrayList<Tile> tiles = hand.getPieces();
         ArrayList<Action> bestMoves = new ArrayList<>();

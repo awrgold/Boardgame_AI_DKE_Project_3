@@ -5,6 +5,7 @@ import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
+import com.game.GameAI.ExpectimaxStrategy;
 import com.game.GameAI.GreedyStrategy;
 import com.game.GameAI.RandomStrategy;
 import com.game.GameAI.Strategy;
@@ -48,8 +49,9 @@ public class Player{
         playerScoreString[5] = "R";
 
         if (isAI && playerNo == 1) strategy = new GreedyStrategy();
-        else if (isAI && playerNo == 2) strategy = new RandomStrategy();
+        else if (isAI && playerNo == 2) strategy = new ExpectimaxStrategy();
     }
+
 
     public boolean isAI() {
         return isAI;
@@ -350,8 +352,8 @@ public class Player{
 
     }
 
-    public Action applyStrategy(ArrayList<String> lowestColors, Hand currentHand, HexagonalGrid currentGrid){
-        return strategy.decideMove(lowestColors, currentHand, currentGrid);
+    public Action applyStrategy(GameState currentState){
+        return strategy.decideMove(currentState);
 
 
     }

@@ -22,7 +22,7 @@ public class GameState {
     private Player[] players;
     private Board currentBoard;
     private Bag currentBag;
-    public Player gamingPlayer;
+    private Player gamingPlayer;
 
     public GameState() {
         players = new Player[2];
@@ -36,19 +36,20 @@ public class GameState {
         gamingPlayer = players[0];
     }
 
-    private GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
+    public GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
 
         this.players = players;
         this.currentBoard = currentBoard;
         this.currentBag = currentBag;
         this.gamingPlayer = gamingPlayer;
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        while (!gamingPlayer.isLowestScoreTilePresent()){
+        /*while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
-        }
+        }*/
 
 
     }
+
 
     public Player[] getPlayers(){
         return players;
