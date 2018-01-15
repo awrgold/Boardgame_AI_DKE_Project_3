@@ -28,7 +28,7 @@ public class GameManager{
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-
+runSimulation();
 
     }
     public void runSimulation(){
@@ -323,7 +323,7 @@ public class GameManager{
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }*/
-        runSimulation();
+    //    runSimulation();
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
 //            while (!getBoard().gameOver()){
