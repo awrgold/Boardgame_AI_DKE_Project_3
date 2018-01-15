@@ -13,8 +13,12 @@ public class Color {
 
     private static Color[] colors = {BLUE, YELLOW, RED, PURPLE, VIOLET, ORANGE, EMPTY, DISABLED};
 
-    public static Color getColor(int id) {
+    public static Color getColorID(int id) {
         return colors[id];
+    }
+
+    public Color getColor(){
+        return this;
     }
 
     public String toString() {
@@ -29,4 +33,5 @@ public class Color {
         else if(this==DISABLED) output = "DISABLED";
         return output;
     }
+
 }

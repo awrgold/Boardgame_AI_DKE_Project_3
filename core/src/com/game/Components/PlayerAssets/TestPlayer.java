@@ -360,10 +360,10 @@ public class TestPlayer{
     }
 
     public ArrayList<TestTile> tileQ(){
-        ArrayList<TestTile> tileQ = new ArrayList<>();
+        ArrayList<TestTile> tileQ = this.getHand().getPieces();
 
-        for (Color c: lowestColors()){
-            if
+        for (int i = 0; i < 6; i++){
+            if (tileQ.get(i).getColors() == this.getHand().getPieces().get(i))
         }
     }
 

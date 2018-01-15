@@ -66,13 +66,6 @@ public class TestTile {
         actors[index] = actor;
     }
 
-    /*
-    public void act(float delta) {
-
-        super.act(delta);
-    }
-    */
-
     public void setSelected(boolean s) {
         selected = s;
     }
