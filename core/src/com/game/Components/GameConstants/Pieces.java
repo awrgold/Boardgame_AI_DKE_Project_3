@@ -9,6 +9,7 @@ import static com.game.Components.GameConstants.Constants.*;
 
 public class Pieces {
 
+
     static Sprite[] BB = {blueSprite, blueSprite};
     static Sprite[] BO = {blueSprite, orangeSprite};
     static Sprite[] BP = {blueSprite, purpleSprite};

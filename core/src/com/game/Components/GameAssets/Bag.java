@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Bag {
     private ArrayList<Tile> bag;
+    private ArrayList<Tile> bag2;
 
     public Bag(ArrayList<Sprite[]> pieces){
         this.bag = new ArrayList<>();
@@ -15,6 +16,18 @@ public class Bag {
             Tile one = new Tile(piece);
             bag.add(one);
         }
+    }
+
+    public Bag(){
+        this.bag2 = new ArrayList<Tile>();
+    }
+
+    public void addTileToOpponentBag(Tile tile){
+        bag2.add(tile);
+    }
+
+    public ArrayList<Tile> getEmptyTestBag(){
+        return bag2;
     }
 
 
