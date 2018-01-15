@@ -104,13 +104,10 @@ public class GameManager{
 
     /*
     public void handleButtonTouch(Vector2 worldTouch){
-
         boolean inX = false;
         boolean inY = false;
-
         TextButton activeButton = GameScreen.changeTiles[getGamingPlayer().getPlayerNo()];
         Vector2 activeButtonLoc = activeButton.localToStageCoordinates(new Vector2());
-
         if (worldTouch.x > activeButtonLoc.x &&
                 worldTouch.x < activeButtonLoc.x + 100) {
             inX = true;
@@ -135,7 +132,6 @@ public class GameManager{
             GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setTouchable(Touchable.disabled);
             GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
         }
-
     }
     */
 
@@ -229,12 +225,9 @@ public class GameManager{
 
     public boolean handleTouch(Vector2 worldTouch){
         /*if (getGamingPlayer().getPlayerNo() == 2){
-
             handleTileTouch(worldTouch);
         } if(getGamingPlayer().getPlayerNo() == 1) {
-
             handleTileTouch(worldTouch);
-
         } if (move.getH1() != null && move.getH2() == null){
             handleBoardTouch(true, worldTouch);
             if (move.getH2() != null){

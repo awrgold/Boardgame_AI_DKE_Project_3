@@ -32,7 +32,12 @@ public class GameIngenious extends Game {
             showGameScreen();
         }else{
             testManager = new TestManager();
-            testManager.greedySimulate(1);
+
+            // Greedy Simulation
+            //testManager.greedySimulate(1);
+
+            // MCTS Simulation
+
 
         }
         gameTree.buildTree(testState);
@@ -41,12 +46,12 @@ public class GameIngenious extends Game {
 
     // show specific screen directly
     public void showGameScreen(){
-    ScreenManager.getInstance().initialize(this);
-    ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+        ScreenManager.getInstance().initialize(this);
+        ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
     }
     public void ShowMenuScreen(){
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
     }
- 
+
 }

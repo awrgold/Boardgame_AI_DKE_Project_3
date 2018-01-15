@@ -26,6 +26,10 @@ public class TestBag {
         return piece;
     }
 
+    public int getBagSize(){
+        return bag.size();
+    }
+
     public ArrayList<TestTile> pickSix() {
         ArrayList<TestTile> six = new ArrayList<>();
 

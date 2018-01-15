@@ -2,7 +2,6 @@ package com.game.GameAI;
 
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameConstants.Pieces;
-
 /*
 public class ExpectiMax implements Strategy {
 
@@ -24,8 +23,8 @@ public class ExpectiMax implements Strategy {
 
 
     double tileAtBegining = 6/Pieces.createBagPieces().size();
-    double doubleAtBegining =;
-    double simpleTile = ;
+    double doubleAtBegining;
+    double simpleTile;
 
     private int doublePlaced;
     private int tilePlaced;
@@ -34,3 +33,4 @@ public class ExpectiMax implements Strategy {
     double currentTile = 90 - tilePlaced;
 }
 */
+

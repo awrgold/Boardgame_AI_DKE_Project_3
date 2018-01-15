@@ -1,5 +1,6 @@
 package com.game.Components.PlayerAssets;
 
+import TreeStructure.Tree;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
@@ -46,7 +47,8 @@ public class Player{
         playerScoreString[4] = "V";
         playerScoreString[5] = "R";
 
-        if (isAI) strategy = new GreedyStrategy();
+        if (isAI && playerNo == 1) strategy = new GreedyStrategy();
+        else if (isAI && playerNo == 2) strategy = new GreedyStrategy();
     }
 
     public boolean isAI() {
@@ -167,7 +169,7 @@ public class Player{
                 return true;
             }
         }
-        System.out.println(color + " is not present");
+        //System.out.println(color + " is not present");
         return false;
 
     }
@@ -270,7 +272,7 @@ public class Player{
             if(playerScore[i] >= 18 && !colorIngenious[i]){
                 // Ingenious!
                 colorIngenious[i] = true;
-                System.out.println("PlayerAssets " + playerNo + " has reached Ingenious for color " + i + "!");
+                //System.out.println("PlayerAssets " + playerNo + " has reached Ingenious for color " + i + "!");
                 return true;
             }
         }
@@ -348,11 +350,13 @@ public class Player{
 
     }
 
+
+
     public Action applyStrategy(ArrayList<String> lowestColors, Hand currentHand, HexagonalGrid currentGrid){
         return strategy.decideMove(lowestColors, currentHand, currentGrid);
-
-
     }
+
+
 /*
 //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
     public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors){

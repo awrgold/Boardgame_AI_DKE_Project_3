@@ -39,7 +39,7 @@ public class TestManager {
                 TestManager.setCurrentState(getCurrentState().applyAction(AiMove));
                 System.out.println("Number of tiles in hand: " + TestManager.getGamingPlayer().getHand().getPieces().size());
                 System.out.println("Gaming Player: " + currentState.getGamingPlayer().getPlayerNo() + "  Score: " + currentState.getGamingPlayer().scoreToString());
-                System.out.println("Non-gaming player: " + currentState.getPlayer((Math.abs(currentState.getGamingPlayer().getPlayerNo()-2))) +
+                System.out.println("Non-gaming player: " + Math.abs(currentState.getGamingPlayer().getPlayerNo()-1) +
                         " Score: " + currentState.getPlayer(Math.abs(currentState.getGamingPlayer().getPlayerNo()-1)).scoreToString());
 
             }

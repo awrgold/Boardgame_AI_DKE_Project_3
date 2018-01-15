@@ -28,10 +28,7 @@ public class GameState {
         players = new Player[2];
         currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
-        //for (int x = 1; x <= players.length; x++){
-          //  players[x - 1] = new Player(x, currentBag.pickSix());
-        //}
-        // currentBoard.create();
+
         players[0] = new Player(1, currentBag.pickSix(), true);
         players[1] = new Player(2, currentBag.pickSix(), true);
         gamingPlayer = players[0];
@@ -43,9 +40,10 @@ public class GameState {
         this.currentBoard = currentBoard;
         this.currentBag = currentBag;
         this.gamingPlayer = gamingPlayer;
-        // System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        // activateButtonIfNeeded();
-
+        //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
+        while (!gamingPlayer.isLowestScoreTilePresent()){
+            activateButtonIfNeeded();
+        }
     }
 
     public Player[] getPlayers(){
@@ -68,16 +66,15 @@ public class GameState {
         return players[i];
     }
 
-    // TODO: Fix this so that there is no dependency on GameScreen
     public Player changeGamingPlayer(){
         Player nextPlayer;
         if (!gamingPlayer.hasIngenious()){
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 2)];
         } else {
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
-            GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
+            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
             nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
         }
         return nextPlayer;
@@ -104,23 +101,41 @@ public class GameState {
 
     public void activateButtonIfNeeded(){
         // Check if hand has any tiles of lowest color:
-        if (!gamingPlayer.isLowestScoreTilePresent()){
-            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
-            //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
+        //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.enabled);
+        //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(true);
 
-            System.out.println("You have no tiles of your lowest color, click to change your hand");
-            for (Tile tile : gamingPlayer.getHand().getPieces()){
-                System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
+        //System.out.println("You have no tiles of your lowest color, click to change your hand");
+        //for (Tile tile : gamingPlayer.getHand().getPieces()){
+            //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
+        //}
+        if (gamingPlayer.isAI()){
+
+            gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
+            //System.out.println("Changing tiles..");
+            //for (Tile tile : gamingPlayer.getHand().getPieces()){
+                //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
+            //}
+            for (int i = 0; i < 6; i++) {
+                Tile tile = gamingPlayer.getHand().getPieces().get(i);
+                int index = 0;
+                for (Actor hex : tile.getChildren()) {
+                    if (hex instanceof HexagonActor) {
+                        HexagonActor first = (HexagonActor) hex;
+                        first.setSprite(gamingPlayer.getHand().getPieces().get(i).getColors()[index]);
+                        index++;
+                    }
+                }
             }
-            if (gamingPlayer.isAI()){
+        }
+
+        //CLICK TO CHANGE PIECES FROM THE BAG
+        /*GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
 
                 gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
-                System.out.println("Changing tiles..");
-                for (Tile tile : gamingPlayer.getHand().getPieces()){
-                    System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
-                }
                 for (int i = 0; i < 6; i++) {
-                    Tile tile = gamingPlayer.getHand().getPieces().get(i);
+                    Group tile = gamingPlayer.getHand().getPieces().get(i);
                     int index = 0;
                     for (Actor hex : tile.getChildren()) {
                         if (hex instanceof HexagonActor) {
@@ -130,30 +145,11 @@ public class GameState {
                         }
                     }
                 }
+                GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setTouchable(Touchable.disabled);
+                GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
             }
+        });*/
 
-            //CLICK TO CHANGE PIECES FROM THE BAG
-            /*GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-
-                    gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
-                    for (int i = 0; i < 6; i++) {
-                        Group tile = gamingPlayer.getHand().getPieces().get(i);
-                        int index = 0;
-                        for (Actor hex : tile.getChildren()) {
-                            if (hex instanceof HexagonActor) {
-                                HexagonActor first = (HexagonActor) hex;
-                                first.setSprite(gamingPlayer.getHand().getPieces().get(i).getColors()[index]);
-                                index++;
-                            }
-                        }
-                    }
-                    GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setTouchable(Touchable.disabled);
-                    GameScreen.changeTiles[getGamingPlayer().getPlayerNo() - 1].setVisible(false);
-                }
-            });*/
-        }
     }
 
     public GameState applyAction(Action a){
@@ -185,5 +181,6 @@ public class GameState {
 
         return nextState;
     }
+
 
 }

@@ -33,7 +33,10 @@ public class TestPlayer{
     private TestHand hand;
     private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
-    private GreedyStrategy strategy;
+    private boolean isGreedy = false;
+    private boolean isMCTS = true;
+    private boolean isExpectiMax = false;
+    private GreedyStrategy greedyStrategy;
 
     public TestPlayer(int playerNo, ArrayList<TestTile> playerPieces, boolean isAI) {
         this.playerNo = playerNo;
@@ -49,7 +52,18 @@ public class TestPlayer{
         playerScoreColors[4] = Color.VIOLET;
         playerScoreColors[5] = Color.RED;
 
-        if (isAI) strategy = new GreedyStrategy();
+        if (isAI){
+            if (isGreedy){
+                GreedyStrategy greedyStrategy = new GreedyStrategy();
+            }
+            if (isMCTS){
+                //MCTS strategy = new MCTS();
+            }
+            if (isExpectiMax){
+                //ExpectiMax strategy = new ExpectiMax();
+            }
+        }
+
     }
 
     public boolean isAI() {
@@ -345,8 +359,16 @@ public class TestPlayer{
 
     }
 
+    public ArrayList<TestTile> tileQ(){
+        ArrayList<TestTile> tileQ = new ArrayList<>();
+
+        for (Color c: lowestColors()){
+            if
+        }
+    }
+
     public TestAction applyStrategy(ArrayList<Color> lowestColors, TestHand currentHand, HexagonalGrid currentGrid){
-        return strategy.decideTestMove(lowestColors, currentHand, currentGrid);
+        return greedyStrategy.decideTestMove(lowestColors, currentHand, currentGrid);
     }
 
 }
