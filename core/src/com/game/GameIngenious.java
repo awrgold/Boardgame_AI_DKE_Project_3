@@ -3,6 +3,7 @@ package com.game;
 import Enum.ScreenEnum;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameManager;
+import com.game.Screens.GameScreen;
 import com.game.Screens.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -15,11 +16,15 @@ public class GameIngenious extends Game {
   //  public SpriteBatch batch;
     private Viewport screenPort;
     private GameManager manager;
-
+    private GameScreen screen;
     @Override
     public void create() {
        //batch = new SpriteBatch();
-       showGameScreen();
+      // showGameScreen();
+        manager = new GameManager();
+        screen = new GameScreen(this, manager);
+        setScreen(screen);
+
 
 //        long startTime = System.currentTimeMillis();
 //
@@ -53,13 +58,13 @@ public class GameIngenious extends Game {
     show specific screen directly
      */
 
-    public void showGameScreen(){
-    ScreenManager.getInstance().initialize(this);
-    ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
-    }
-    public void ShowMenuScreen(){
-        ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
-    }
+//    public void showGameScreen(){
+//    ScreenManager.getInstance().initialize(this);
+//    ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+//    }
+//    public void ShowMenuScreen(){
+//        ScreenManager.getInstance().initialize(this);
+//        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
+//    }
  
 }

@@ -47,8 +47,9 @@ public class Player{
         playerScoreString[4] = "V";
         playerScoreString[5] = "R";
 
-        if (isAI && playerNo == 1) strategy = new GreedyStrategy();
+         if (isAI && playerNo == 1) strategy = new RandomStrategy();
         else if (isAI && playerNo == 2) strategy = new RandomStrategy();
+
     }
 
     public boolean isAI() {

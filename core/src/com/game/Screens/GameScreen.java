@@ -30,13 +30,14 @@ public class GameScreen extends AbstractScreen {
     private SpriteBatch batch;
     public static final String TAG = GameScreen.class.getName();
 
-    public GameScreen(GameIngenious game, GameManager manager) {
+    public GameScreen(GameIngenious game,GameManager manager) {
     // Build screen, add skins, add players
         this.game = game;
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
         this.manager = manager;
         buildStage();
+
     }
 
 	public void buildStage() {
@@ -53,7 +54,7 @@ public class GameScreen extends AbstractScreen {
 
         // Create the score column add a score bar group for each player
         Table scoreColumn = new Table();
-
+//scoreColumn.validate();
 
         ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore(),manager.getPlayerByIndex(0).getPlayerNo());
         scoreColumn.add(scorebars1);
@@ -68,7 +69,7 @@ public class GameScreen extends AbstractScreen {
         // Create the board
         Table boardColumn = new Table();
         //boardColumn.debug();
-
+//boardColumn.validate();
         //2 buttons for change hand
         changeTiles = new TextButton[2];
         for (int i = 1; i <= 2; i++){
@@ -107,7 +108,7 @@ public class GameScreen extends AbstractScreen {
 
         root.add(boardColumn).colspan(4).expand().left().fillY();
         root.pack();
-
+//        root.validate();
         addActor(root);
 
     }
@@ -124,7 +125,7 @@ public class GameScreen extends AbstractScreen {
 
 
 
-    public void render() {
+    public void render(float delta) {
 
         Gdx.gl.glClearColor(96/255f, 96/255f, 96/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -137,9 +138,9 @@ public class GameScreen extends AbstractScreen {
 
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
-
+//        root.validate();
        act(Gdx.graphics.getDeltaTime());
-        //root.act(delta);
+
 
 
         draw();

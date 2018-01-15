@@ -13,18 +13,18 @@ public enum ScreenEnum {
             return new MenuScreen();
         }
     },
-    GAME {
-        public AbstractScreen getScreen(Object... params)
-        {
-            return new GameScreen(new GameIngenious(),new GameManager());
-        }
-    };//,
+//    GAME {
+//        public AbstractScreen getScreen(Object... params)
+//        {
+//            return new GameScreen(new GameIngenious());
+//        }
+//    };//,
 //    EXTRA {
 //        public AbstractScreen getScreen(Object... params) {
 //            return new GameScreen((Integer) params[0]);
 //        }
     //   };
 
-    public abstract AbstractScreen getScreen(Object... params);
+  //  public abstract AbstractScreen getScreen(Object... params);
 }
 //}

@@ -28,11 +28,11 @@ public class GameManager{
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-runSimulation();
+//runSimulation();
 
     }
     public void runSimulation(){
-        int n = 100;
+        int n = 10;
         ArrayList<Long>gameTimes = new ArrayList<Long>();
         long startTime = System.currentTimeMillis();
 
@@ -323,7 +323,7 @@ runSimulation();
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }*/
-    //    runSimulation();
+        runSimulation();
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
 //            while (!getBoard().gameOver()){
@@ -342,5 +342,6 @@ runSimulation();
         return true;
 
     }
+
 
 }
