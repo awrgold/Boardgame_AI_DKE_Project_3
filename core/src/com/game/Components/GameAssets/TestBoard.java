@@ -1,6 +1,7 @@
 package com.game.Components.GameAssets;
 
 import com.game.Components.GameConstants.Color;
+import com.game.Components.PlayerAssets.TestTile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
@@ -10,6 +11,8 @@ import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
+
+import java.util.ArrayList;
 
 public class TestBoard {
 
@@ -58,6 +61,11 @@ public class TestBoard {
 
     public HexagonalGrid<Link> getGrid() {
         return grid;
+    }
+
+    public ArrayList<TestTile> getTilesOnGrid(TestBoard currentBoard){
+        for ()
+
     }
 
     public boolean gameOver() {

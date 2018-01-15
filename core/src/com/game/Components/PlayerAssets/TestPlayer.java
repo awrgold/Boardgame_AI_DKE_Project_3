@@ -359,12 +359,34 @@ public class TestPlayer{
 
     }
 
-    public ArrayList<TestTile> tileQ(){
-        ArrayList<TestTile> tileQ = this.getHand().getPieces();
+    //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
+    private HashMap<TestTile, Color> tileQ(ArrayList<Color> colors, TestHand hand){
+        HashMap<TestTile, Color> pieces = new HashMap<>();
 
-        for (int i = 0; i < 6; i++){
-            if (tileQ.get(i).getColors() == this.getHand().getPieces().get(i))
+        for(Color color : colors){
+            for(TestTile t : hand.getPieces()){
+                if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
+                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
+                    pieces.put(t, color);
+                    System.out.println("Found a double to place: " + color + " - " + color);
+                    break;
+                } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
+                    pieces.put(t, color);
+                }
+            }
         }
+
+        if (pieces.keySet().size() == 0){
+            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor());
+        }
+
+        for(TestTile piece : pieces.keySet()){
+            System.out.print(piece.getActors()[0].getHexColor() + "-" + piece.getActors()[1].getHexColor() + "  ");
+        }
+        System.out.print(" <--- pieces to play \n");
+
+        return pieces;
+
     }
 
     public TestAction applyStrategy(ArrayList<Color> lowestColors, TestHand currentHand, HexagonalGrid currentGrid){

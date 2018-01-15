@@ -11,6 +11,7 @@ import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.TestHand;
 import com.game.Components.PlayerAssets.TestPlayer;
 import com.game.Components.Tools.TestHexagonActor;
+import com.game.GameAI.OpponentProbabilities;
 import com.game.GameIngenious;
 
 import static java.lang.Math.abs;
@@ -23,6 +24,7 @@ public class TestManager {
     private static int player2TurnNumber = 0;
     private static TestTree gameTree;
     private static TestAction move;
+    private static OpponentProbabilities probs;
 
     public TestManager(){    }
 

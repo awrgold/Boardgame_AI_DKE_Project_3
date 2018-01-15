@@ -8,7 +8,6 @@ public class TestLink extends DefaultSatelliteData {
     public HexagonActor actor;
     public TestHexagonActor testActor;
     public Color c;
-
     public String color;
 
     public TestLink(HexagonActor actor) {

@@ -86,4 +86,12 @@ public class TestTile {
         return selected;
     }
 
+    public Color getC1(){
+        return c1;
+    }
+
+    public Color getC2(){
+        return c2;
+    }
+
 }

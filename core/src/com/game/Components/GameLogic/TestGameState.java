@@ -8,6 +8,7 @@ import com.game.Components.GameConstants.TestPieces;
 import com.game.Components.PlayerAssets.TestPlayer;
 import com.game.Components.Tools.TestHexagonActor;
 import com.game.Components.Tools.Link;
+import com.game.GameAI.OpponentProbabilities;
 
 import java.util.Arrays;
 
@@ -19,12 +20,14 @@ public class TestGameState {
     private TestBoard currentBoard;
     private TestBag currentBag;
     public TestPlayer gamingPlayer;
+    private static OpponentProbabilities prob;
+
 
     public TestGameState() {
         players = new TestPlayer[2];
         currentBoard = new TestBoard();
         currentBag = new TestBag(TestPieces.createBagPieces());
-
+        prob = new OpponentProbabilities(this);
         currentBoard.create();
         players[0] = new TestPlayer(1, currentBag.pickSix(), true);
         players[1] = new TestPlayer(2, currentBag.pickSix(), true);
@@ -38,6 +41,7 @@ public class TestGameState {
         this.currentBoard = currentBoard;
         this.currentBag = currentBag;
         this.gamingPlayer = gamingPlayer;
+        this.prob = new OpponentProbabilities(this);
         // System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
         // activateButtonIfNeeded();
     }
