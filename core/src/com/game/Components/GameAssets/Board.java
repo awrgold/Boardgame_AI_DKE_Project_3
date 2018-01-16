@@ -4,14 +4,18 @@ import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
 import com.game.Components.Tools.Link;
+import com.game.Components.GameConstants.Color;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
+import java.awt.*;
+
 public class Board extends GroupView {
 
     private HexagonalGrid<Link> grid;
+    private HexagonalGrid<Color> newGrid;
     private boolean over;
 
     public Board(){

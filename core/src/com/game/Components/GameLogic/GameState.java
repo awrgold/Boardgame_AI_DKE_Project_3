@@ -12,10 +12,14 @@ import com.game.Components.GameConstants.Pieces;
 import com.game.Screens.GameScreen;
 import com.game.Components.Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import org.codetome.hexameter.core.api.Hexagon;
+import rx.functions.Action1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.game.Components.GameConstants.Constants.tile;
 import static java.util.Arrays.sort;
 
 public class GameState {
@@ -23,15 +27,13 @@ public class GameState {
     private Player[] players;
     private Board currentBoard;
     private Bag currentBag;
-    public Player gamingPlayer;
+    private Player gamingPlayer;
 
     public GameState() {
         players = new Player[2];
         currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
-        //for (int x = 1; x <= players.length; x++){
-          //  players[x - 1] = new Player(x, currentBag.pickSix());
-        //}
+
         players[0] = new Player(1, currentBag.pickSix(), true);
         for (Tile t: players[0].getHand().getPieces()){
             players[0].addToVisibleTiles(t);
@@ -43,7 +45,8 @@ public class GameState {
         gamingPlayer = players[0];
     }
 
-    private GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
+    private GameState(GameState previousState, Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
+        if (previousState == null) throw new IllegalArgumentException("Previous state cannot be null");
 
         this.players = players;
         this.currentBoard = currentBoard;
@@ -53,12 +56,14 @@ public class GameState {
         while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
         }
-
-
     }
 
     public Player[] getPlayers(){
         return players;
+    }
+
+    public void setPlayers(GameState state, Player[] players){
+
     }
 
     public Player getGamingPlayer(){
@@ -164,6 +169,7 @@ public class GameState {
     }
 
     public GameState applyAction(Action a){
+
         HexagonActor first = null;
         GameState nextState;
 
@@ -193,6 +199,49 @@ public class GameState {
         nextState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
 
         return nextState;
+
+    }
+
+    public GameState copyState(GameState toCopy){
+
+        GameState nextState = new GameState();
+
+        toCopy.getCurrentBoard().getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                //FOR EACH HEXAGON
+                if (hexagon.getSatelliteData().isPresent()) {
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+
+                    if (currentHexActor.getHexColor().equals("EMPTY")) {
+                        for (Object hex : grid.getNeighborsOf(hexagon)) {
+                            if (hex instanceof Hexagon) {
+                                Hexagon currentNeighbor = (Hexagon) hex;
+
+                                if (currentNeighbor.getSatelliteData().isPresent()) {
+                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
+                                    HexagonActor neighHexActor = neighLink.getActor();
+
+                                    //THE FIRST ONE IS THE FIRST PLACEMENT
+                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+
+                                        randomAction.setH1(hexagon);
+                                        randomAction.setH2(currentNeighbor);
+                                        randomAction.setTile(tile);
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+
+        });
     }
 
 

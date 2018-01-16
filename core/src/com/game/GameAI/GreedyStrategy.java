@@ -204,7 +204,6 @@ public class GreedyStrategy implements Strategy{
 
         for (Tile tile : tiles.keySet()){
             bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
-
         }
 
         //System.out.println(bestMoves.size());
@@ -218,7 +217,6 @@ public class GreedyStrategy implements Strategy{
                     bestAction = a;
                 }
             }
-
         }
 
         if (bestAction == null){
@@ -226,7 +224,6 @@ public class GreedyStrategy implements Strategy{
         }
 
         return bestAction;
-
     }
 
 }

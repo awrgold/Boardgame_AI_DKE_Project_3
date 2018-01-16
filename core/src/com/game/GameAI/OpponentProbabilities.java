@@ -59,10 +59,7 @@ public class OpponentProbabilities {
 
     public double getProbOfColors(String c1, String c2){
         Bag currentBag = state.getCurrentBag();
-
-
         boolean isDouble = false;
-
 
         if (c1.equals(c2)){
             isDouble = true;
@@ -78,7 +75,7 @@ public class OpponentProbabilities {
             else{
                 // Probability is (6/numTilesLeft) * (numDoubles/numTilesLeft)
                 int numTilesLeft = getInvisibleTiles().size();
-
+                return ((1/numTilesLeft) * (numDoublesLeft/numTilesLeft));
             }
         }
 
@@ -87,7 +84,11 @@ public class OpponentProbabilities {
             // Players will always have a tile of their lowest color in their hands.
             if (lowestColor.equals(c1) || lowestColor.equals(c2)){
                 return 1.0;
-            }else{
+            }
+            // If the tile we're passing is not the lowest color:
+            else{
+                // Probability is (6/numTilesLeft) * (numDoubles/numTilesLeft)
+
             }
         }
 
