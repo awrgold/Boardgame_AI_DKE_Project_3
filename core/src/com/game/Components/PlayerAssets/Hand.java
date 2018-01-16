@@ -45,6 +45,7 @@ public class Hand extends GroupView{
     }
 
     public void act(float delta) {
-        super.act(delta);
+       // super.act(delta);
+
     }
 }

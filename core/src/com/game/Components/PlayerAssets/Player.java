@@ -49,7 +49,7 @@ public class Player{
         playerScoreString[5] = "R";
 
         if (isAI && playerNo == 1) strategy = new GreedyStrategy();
-        else if (isAI && playerNo == 2) strategy = new ExpectimaxStrategy();
+        else if (isAI && playerNo == 2) strategy = new GreedyStrategy();
     }
 
 

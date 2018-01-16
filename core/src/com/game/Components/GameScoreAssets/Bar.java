@@ -28,7 +28,7 @@ public class Bar extends ProgressBar {
     public void act( float delta) {
         this.updateVal(val);
         getStyle().knob = Utils.getColoredDrawable(val, height, barColor);
-        super.act(delta);
+      //  super.act(delta);
     }
 
     public void updateVal(int v){
@@ -48,8 +48,8 @@ public class Bar extends ProgressBar {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+    public void draw(Batch batch, float delta) {
+        super.draw(batch, delta);
 
     }
 }

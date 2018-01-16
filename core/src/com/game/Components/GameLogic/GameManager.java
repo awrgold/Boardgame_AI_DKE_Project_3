@@ -1,5 +1,6 @@
 package com.game.Components.GameLogic;
 
+import com.badlogic.gdx.Gdx;
 import com.game.Components.GameAssets.*;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
@@ -43,17 +44,20 @@ public class GameManager{
             long sTime = System.currentTimeMillis();
             this.currentState = new GameState();
             System.out.println("Game " + i);
+            int turns = 0;
             while (!getBoard().gameOver()){
-
+                turns ++;
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
                 //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
+getBoard().act(Gdx.graphics.getDeltaTime());
 
             }
 
             if (getBoard().gameOver()){
                 //System.out.println("GAME OVER");
+                System.out.println(" Number of turns : " + turns);
                 long eTime   = System.currentTimeMillis();
                 long tTime = eTime - sTime;
                 gameTimes.add(tTime);
@@ -342,6 +346,7 @@ public class GameManager{
         return true;
 
     }
+
 
 
 }

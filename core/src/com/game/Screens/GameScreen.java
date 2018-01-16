@@ -19,8 +19,9 @@ public class GameScreen extends AbstractScreen {
     private GameIngenious game;
     private GameManager manager;
     private Skin skin;
-
-   // private Stage stage;
+private ScoreBarGroup scorebars1;
+private ScoreBarGroup scorebars2;
+    // private Stage stage;
     private Table root;
 	public static TextButton[] changeTiles;
 
@@ -36,7 +37,7 @@ public class GameScreen extends AbstractScreen {
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         //Gdx.graphics.setWindowedMode(Constants.getWindowWidth(),Constants.getWindowHeight());
         this.manager = manager;
-        buildStage();
+       // buildStage();
 
     }
 
@@ -56,11 +57,11 @@ public class GameScreen extends AbstractScreen {
         Table scoreColumn = new Table();
 //scoreColumn.validate();
 
-        ScoreBarGroup scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore(),manager.getPlayerByIndex(0).getPlayerNo());
+        scorebars1 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(0).getPlayerScore(),manager.getPlayerByIndex(0).getPlayerNo());
         scoreColumn.add(scorebars1);
         scoreColumn.row();
         scoreColumn.row().expandX();
-        ScoreBarGroup scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore(),manager.getPlayerByIndex(1).getPlayerNo());
+        scorebars2 = new ScoreBarGroup(250,350, manager.getPlayerByIndex(1).getPlayerScore(),manager.getPlayerByIndex(1).getPlayerNo());
         scoreColumn.add(scorebars2);
         scoreColumn.row();
         root.add(scoreColumn).colspan(2).expand().fill();
@@ -131,20 +132,24 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //        Gdx.graphics.setContinuousRendering(true);
 //        Gdx.graphics.requestRendering();
+
         batch.begin();
+
         batch.end();
         // setup drawing for world
         viewport.apply();
-
+       // buildStage();
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);
 //        root.validate();
        act(Gdx.graphics.getDeltaTime());
-
-
-
         draw();
         //renderer.end();
+
+
+    }
+
+    private void updateStage(float delta) {
 
     }
 

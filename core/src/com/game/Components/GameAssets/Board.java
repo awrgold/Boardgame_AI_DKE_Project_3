@@ -1,5 +1,6 @@
 package com.game.Components.GameAssets;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
@@ -10,7 +11,7 @@ import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
 public class Board extends GroupView {
-
+private SpriteBatch batch;
     private HexagonalGrid<Link> grid;
     private boolean over;
 
@@ -20,6 +21,7 @@ public class Board extends GroupView {
     }
 
     public void create(){
+
         this.grid = Constants.grid.build();
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
@@ -159,7 +161,10 @@ public class Board extends GroupView {
         }
     }
     public void act(float delta) {
-        super.act(delta);
+      //  super.act(delta);
+       // updateHexActors(delta);
     }
 
+    private void updateHexActors(float delta) {
+    }
 }
