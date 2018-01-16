@@ -348,5 +348,6 @@ getBoard().act(Gdx.graphics.getDeltaTime());
     }
 
 
-
+    public void updateAssets(float delta) {
+    }
 }

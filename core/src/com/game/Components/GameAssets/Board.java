@@ -161,10 +161,9 @@ private SpriteBatch batch;
         }
     }
     public void act(float delta) {
-      //  super.act(delta);
-       // updateHexActors(delta);
+      super.act(delta);
+
     }
 
-    private void updateHexActors(float delta) {
-    }
+
 }

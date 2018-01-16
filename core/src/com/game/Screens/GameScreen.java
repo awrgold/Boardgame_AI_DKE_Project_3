@@ -144,21 +144,21 @@ private ScoreBarGroup scorebars2;
 //        root.validate();
        act(Gdx.graphics.getDeltaTime());
         draw();
+      manager.updateAssets(delta);
         //renderer.end();
 
-
     }
 
-    private void updateStage(float delta) {
 
-    }
 
     public void dispose(){
 
         super.dispose();
 
+}
 
-    }
+
+
 
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
