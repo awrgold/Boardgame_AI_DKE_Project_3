@@ -60,7 +60,8 @@ public class GameState extends Stage {
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         text = "tester Label ";
         this.label = new CustomLabel(text,skin);
-        //this.viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
+        this.viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
+        buildStage(viewport);
 
     }
 

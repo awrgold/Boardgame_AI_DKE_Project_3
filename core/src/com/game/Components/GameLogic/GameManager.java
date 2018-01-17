@@ -1,6 +1,7 @@
 package com.game.Components.GameLogic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.GameAssets.*;
 import com.game.Components.GameScoreAssets.CustomLabel;
@@ -37,7 +38,7 @@ private String text;
 
 
     }
-    public void runSimulation(){
+    public GameState runSimulation(){
         int n = 10;
         ArrayList<Long>gameTimes = new ArrayList<Long>();
         long startTime = System.currentTimeMillis();
@@ -45,46 +46,86 @@ private String text;
         int player1Win = 0;
         int player2Win = 0;
 
-        for (int i = 1; i <= n; i++){
+
+        for (int i = 1; i <= n; i++) {
+
             long sTime = System.currentTimeMillis();
-            this.currentState = new GameState();
-            System.out.println("Game " + i);
+            setCurrentState(new GameState());
+
             int turns = 0;
-          //  num = turns;
-            while (!getBoard().gameOver()){
-                turns ++;
+            System.out.println("Game " + i);
+            while (!getBoard().gameOver()) {
+                turns++;
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
-                //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
-//getBoard().act(Gdx.graphics.getDeltaTime());
+                System.out.println("  Score: " + getPlayerByIndex(0).scoreToString());
+                System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
 
             }
-
-            if (getBoard().gameOver()){
+            if (getBoard().gameOver()) {
                 //System.out.println("GAME OVER");
                 System.out.println(" Number of turns : " + turns);
-                long eTime   = System.currentTimeMillis();
+                long eTime = System.currentTimeMillis();
                 long tTime = eTime - sTime;
                 gameTimes.add(tTime);
                 System.out.println(tTime + " ms");
-                System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-                if (currentState.getWinner().getPlayerNo() == 1) player1Win++;
+                System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo());
+                if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
             }
+            //  }
+//        long endTime   = System.currentTimeMillis();
+//        long totalTime = endTime - startTime;
+//        System.out.println(totalTime + " ms");
+//        System.out.println("Player 1 won: " + player1Win + " times");
+//        System.out.println("Player 2 won: " + player2Win + " times");
+//
+//    }
+//        for (int i = 1; i <= n; i++){
+//            long sTime = System.currentTimeMillis();
+//            this.currentState = new GameState();
+//            System.out.println("Game " + i);
+//            int turns = 0;
+//          //  num = turns;
+//            while (!getBoard().gameOver()){
+//                turns ++;
+//                Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+//                System.out.println(AiMove.toString());
+//                setCurrentState(getCurrentState().applyAction(AiMove));
+//                //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
+////getBoard().act(Gdx.graphics.getDeltaTime());
+//
+//            }
+//
+//            if (getBoard().gameOver()){
+//                //System.out.println("GAME OVER");
+//                System.out.println(" Number of turns : " + turns);
+//                long eTime   = System.currentTimeMillis();
+//                long tTime = eTime - sTime;
+//                gameTimes.add(tTime);
+//                System.out.println(tTime + " ms");
+//                System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+//                if (currentState.getWinner().getPlayerNo() == 1) player1Win++;
+//                else player2Win++;
+//            }
+//        }
+            long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            long averageTime = getAverage(gameTimes);
+            long minTime = getMin(gameTimes);
+            long maxTime = getMax(gameTimes);
+            System.out.println("Average : " + averageTime + " ms");
+            System.out.println("Smallest : " + minTime + " ms");
+            System.out.println("Largest : " + maxTime + " ms");
+            System.out.println(" Total : " + totalTime + " ms");
+            System.out.println("Player 1 won: " + player1Win + " times");
+            System.out.println("Player 2 won: " + player2Win + " times");
+            return currentState;
         }
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        long averageTime = getAverage(gameTimes);
-        long minTime =getMin(gameTimes);
-        long maxTime = getMax(gameTimes);
-        System.out.println("Average : " + averageTime + " ms");
-        System.out.println("Smallest : " + minTime + " ms");
-        System.out.println("Largest : " + maxTime + " ms");
-        System.out.println(" Total : " + totalTime + " ms");
-        System.out.println("Player 1 won: " + player1Win + " times");
-        System.out.println("Player 2 won: " + player2Win + " times");
-    }
+        return new GameState();
+       }
+
 
     private long getMin(ArrayList<Long> gameTimes) {
         long min=gameTimes.get(0);

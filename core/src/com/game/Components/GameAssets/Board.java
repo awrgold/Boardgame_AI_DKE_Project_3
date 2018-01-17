@@ -28,7 +28,7 @@ private SpriteBatch batch;
 
     public void create(){
 
-        this.grid = Constants.grid.build();
+      //  this.grid = Constants.grid.build();
         HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(11)
                 .setGridWidth(11)

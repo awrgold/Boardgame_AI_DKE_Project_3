@@ -30,7 +30,7 @@ public class GameScreen extends InputAdapter implements Screen {
 //    private Table root;
 //	public static TextButton[] changeTiles;
     private Stage stage;
-    private ExtendViewport viewport;
+   // private ExtendViewport viewport;
 ////private CustomLabel label;
 //private String text;
     //ShapeRenderer renderer;
@@ -157,8 +157,8 @@ public class GameScreen extends InputAdapter implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this);
-        viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
-        manager.getCurrentState().buildStage(viewport);
+        //viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
+       // manager.getCurrentState().buildStage(viewport);
 
 
         //label.draw(batch,delta);
@@ -262,9 +262,11 @@ public class GameScreen extends InputAdapter implements Screen {
 
       //  batch.end();
         // setup drawing for world
-        manager.getCurrentState().getViewport().apply();
-manager.getCurrentState().draw();
-manager.getCurrentState().act(delta);
+        //manager.getCurrentState().getViewport().apply();
+//        manager.runSimulation();
+        //this.stage = manager.getCurrentState();
+        manager.getCurrentState().draw();
+        manager.getCurrentState().act(delta);
        // buildStage();
         //renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeRenderer.ShapeType.Filled);

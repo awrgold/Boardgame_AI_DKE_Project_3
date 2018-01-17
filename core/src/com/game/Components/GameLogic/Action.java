@@ -84,7 +84,7 @@ public class Action {
             }
 
             currentHexActor.setHexColor("EMPTY");
-        }
+                }
 
         if (h2.getSatelliteData().isPresent()){
             Link hexLink = (Link) h2.getSatelliteData().get();
@@ -95,7 +95,7 @@ public class Action {
                 for (int i = 0; i < 6; i++){
                     totalGain += gain2[i];
                 }
-                currentHexActor.setHexColor("EMPTY");
+              //  currentHexActor.setHexColor("EMPTY");
             }
         }
 
