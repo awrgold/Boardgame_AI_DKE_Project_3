@@ -41,9 +41,9 @@ public class GreedyStrategy implements Strategy{
                     HexagonActor currentHexActor = hexLink.getActor();
 
                     //IF THE RELATED HEXACTOR'S COLOR IS EQUAL TO ONE IN THE TILE
-                    if (currentHexActor.getHexColor().equals(color)) {
+                    if (currentHexActor.getHexColor().getColor().equals(color)) {
 
-                        if (color.equals(tile.getActors()[0].getHexColor())) {
+                        if (color.equals(tile.getActors()[0].getHexColor().getColor())) {
                             tile.setFirst(tile.getActors()[0]);
                         } else {
                             tile.setFirst(tile.getActors()[1]);
@@ -62,7 +62,7 @@ public class GreedyStrategy implements Strategy{
                                     HexagonActor neighHexActor = neighLink.getActor();
 
                                     //THE FIRST ONE IS THE FIRST PLACEMENT
-                                    if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
+                                    if (neighHexActor.getHexColor().getColor().equals(Color.EMPTY)) {
                                         possiblePlacements[0][c] = currentNeighbor;
                                         int g = 1;
 
@@ -75,7 +75,7 @@ public class GreedyStrategy implements Strategy{
                                                     Link neighLink2 = (Link) currentNeighbor2.getSatelliteData().get();
                                                     HexagonActor neighHexActor2 = neighLink2.getActor();
 
-                                                    if (neighHexActor2.getHexColor().equals(Color.EMPTY)) {
+                                                    if (neighHexActor2.getHexColor().getColor().equals(Color.EMPTY)) {
                                                         possiblePlacements[g][c] = currentNeighbor2;
                                                         g++;
                                                     }
@@ -129,23 +129,23 @@ public class GreedyStrategy implements Strategy{
 
         for(Color color : colors){
             for(Tile t : hand.getPieces()){
-                if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
+                if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
                     pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
                     pieces.put(t, color);
                     System.out.println("Found a double to place: " + color + " - " + color);
                     break;
-                } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
+                } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
                     pieces.put(t, color);
                 }
             }
         }
 
         if (pieces.keySet().size() == 0){
-            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor());
+            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
         }
 
         for(Tile piece : pieces.keySet()){
-            System.out.print(piece.getActors()[0].getHexColor() + "-" + piece.getActors()[1].getHexColor() + "  ");
+            System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
         }
         System.out.print(" <--- pieces to play \n");
 
@@ -165,7 +165,7 @@ public class GreedyStrategy implements Strategy{
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
 
-                    if (currentHexActor.getHexColor().equals(Color.EMPTY)) {
+                    if (currentHexActor.getHexColor().getColor().equals(Color.EMPTY)) {
                         for (Object hex : grid.getNeighborsOf(hexagon)) {
                             if (hex instanceof Hexagon) {
                                 Hexagon currentNeighbor = (Hexagon) hex;
@@ -175,7 +175,7 @@ public class GreedyStrategy implements Strategy{
                                     HexagonActor neighHexActor = neighLink.getActor();
 
                                     //THE FIRST ONE IS THE FIRST PLACEMENT
-                                    if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
+                                    if (neighHexActor.getHexColor().getColor().equals(Color.EMPTY)) {
                                         randomAction.setH1(hexagon);
                                         randomAction.setH2(currentNeighbor);
                                         randomAction.setTile(tile);

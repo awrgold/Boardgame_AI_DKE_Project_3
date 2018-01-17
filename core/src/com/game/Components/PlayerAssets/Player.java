@@ -102,12 +102,12 @@ public class Player{
 
         int avoid = -1;
 
-        if (hexActor.getHexColor().equals("B")) i = 0;
-        if (hexActor.getHexColor().equals("Y")) i = 1;
-        if (hexActor.getHexColor().equals("O")) i = 2;
-        if (hexActor.getHexColor().equals("P")) i = 3;
-        if (hexActor.getHexColor().equals("V")) i = 4;
-        if (hexActor.getHexColor().equals("R")) i = 5;
+        if (hexActor.getHexColor().equals(Color.BLUE)) i = 0;
+        if (hexActor.getHexColor().equals(Color.YELLOW)) i = 1;
+        if (hexActor.getHexColor().equals(Color.ORANGE)) i = 2;
+        if (hexActor.getHexColor().equals(Color.PURPLE)) i = 3;
+        if (hexActor.getHexColor().equals(Color.VIOLET)) i = 4;
+        if (hexActor.getHexColor().equals(Color.RED)) i = 5;
 
         //update score
         if (hexActor == one){
