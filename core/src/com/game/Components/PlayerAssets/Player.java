@@ -33,12 +33,12 @@ public class Player{
     private Hand hand;
     private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
-    private boolean isGreedy = true;
-    private boolean isMCTS = false;
-    private boolean isExpectiMax = false;
+    private boolean isGreedy;
+    private boolean isMCTS;
+    private boolean isExpectiMax;
     private Strategy strategy;
 
-    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI) {
+public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
         this.isAI = isAI;
@@ -70,6 +70,27 @@ public class Player{
     public boolean isAI() {
         return isAI;
     }
+
+    /*
+    public void setGreedy(){
+        isGreedy = true;
+        isMCTS = false;
+        isExpectiMax = false;
+    }
+
+    public void setMCTS(){
+        isMCTS = true;
+        isGreedy = false;
+        isExpectiMax = false;
+    }
+
+    public void setExpectiMax(){
+        isExpectiMax = true;
+        isMCTS = false;
+        isGreedy = false;
+    }
+    */
+
 
     public Hand getHand(){
         return this.hand;

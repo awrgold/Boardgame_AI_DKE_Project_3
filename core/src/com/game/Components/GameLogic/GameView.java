@@ -1,6 +1,7 @@
 package com.game.Components.GameLogic;
 
 import com.game.Components.GameAssets.Board;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -33,7 +34,7 @@ public class GameView {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
                     //IF AN HEXAGON IN PREVIOUS BOARD IS NOT EMPTY
-                    if (!currentHexActor.getHexColor().equals("EMPTY")) {
+                    if (!currentHexActor.getHexColor().equals(Color.EMPTY)) {
                         //TAKE THE CORRESPONDING HEXAGON IN THE NEW BOARD
                         Optional toCopy = newBoard.getGrid().getByCubeCoordinate(hexagon.getCubeCoordinate());
                         if (toCopy.isPresent()){
@@ -82,8 +83,8 @@ public class GameView {
 
         nextView = new GameView(board);
         if(one != null && two != null){
-            one.setHexColor("EMPTY");
-            two.setHexColor("EMPTY");
+            one.setHexColor(Color.EMPTY);
+            two.setHexColor(Color.EMPTY);
         }
 
         return nextView;

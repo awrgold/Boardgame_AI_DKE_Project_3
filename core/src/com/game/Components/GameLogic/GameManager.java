@@ -59,6 +59,8 @@ public class GameManager{
                 gameTimes.add(tTime);
                 System.out.println(tTime + " ms");
                 System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+                System.out.println("Player 1 final score: " + currentState.getPlayer(0).scoreToString());
+                System.out.println("Player 2 final score: " + currentState.getPlayer(1).scoreToString());
                 if (currentState.getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
             }
