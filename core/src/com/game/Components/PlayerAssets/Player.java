@@ -53,6 +53,10 @@ public class Player{
         else if (isAI && playerNo == 2) strategy = new RandomStrategy();
     }
 
+    public Player copy(){
+        Player p = new Player(this.playerNo, new Hand())
+    }
+
     public boolean isAI() {
         return isAI;
     }

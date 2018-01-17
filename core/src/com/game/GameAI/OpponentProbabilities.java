@@ -26,8 +26,8 @@ public class OpponentProbabilities {
     private Hand hand;
     private GameState state;
     private Tree currentTree = new Tree();
-    int numDoublesLeft = 30;
-    int numSinglesLeft = 90;
+    private int numDoublesLeft = 30;
+    private int numSinglesLeft = 90;
 
 
     public OpponentProbabilities(GameState state){
@@ -73,9 +73,19 @@ public class OpponentProbabilities {
             }
             // If the tile we're passing is not the lowest color:
             else{
-                // Probability is (6/numTilesLeft) * (numDoubles/numTilesLeft)
-                int numTilesLeft = getInvisibleTiles().size();
-                return ((1/numTilesLeft) * (numDoublesLeft/numTilesLeft));
+                /*
+                S = sample size
+                s = number of observed successful samples
+                N = population size
+                n = number of draws from the population
+
+                P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
+                */
+                int S = numDoublesLeft;
+                int s = 1;
+                int N = getInvisibleTiles().size();
+                int n = 1;
+
             }
         }
 
@@ -87,11 +97,21 @@ public class OpponentProbabilities {
             }
             // If the tile we're passing is not the lowest color:
             else{
-                // Probability is (6/numTilesLeft) * (numDoubles/numTilesLeft)
+                /*
+                S = sample size
+                s = number of observed successful samples
+                N = population size
+                n = number of draws from the population
+
+                P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
+                */
+                int S = numSinglesLeft;
+                int s = 1;
+                int N = getInvisibleTiles().size();
+                int n = 1;
 
             }
         }
-
 
     }
 

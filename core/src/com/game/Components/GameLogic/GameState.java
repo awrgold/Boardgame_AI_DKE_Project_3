@@ -22,7 +22,7 @@ import java.util.Arrays;
 import static com.game.Components.GameConstants.Constants.tile;
 import static java.util.Arrays.sort;
 
-public class GameState {
+public class GameState implements Cloneable{
 
     private Player[] players;
     private Board currentBoard;
@@ -43,27 +43,30 @@ public class GameState {
             players[1].addToVisibleTiles(t);
         }
         gamingPlayer = players[0];
+
     }
 
-    private GameState(GameState previousState, Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
-        if (previousState == null) throw new IllegalArgumentException("Previous state cannot be null");
+    private GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
 
-        this.players = players;
-        this.currentBoard = currentBoard;
-        this.currentBag = currentBag;
-        this.gamingPlayer = gamingPlayer;
+        this.newPlayers = players;
+        this.newBoard = currentBoard;
+        this.newBag = currentBag;
+        this.newGamingPlayer = gamingPlayer;
+
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
         while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
         }
     }
 
-    public Player[] getPlayers(){
-        return players;
+    public GameState()
+
+    public GameState copy(){
+
     }
 
-    public void setPlayers(GameState state, Player[] players){
-
+    public Player[] getPlayers(){
+        return players;
     }
 
     public Player getGamingPlayer(){

@@ -24,9 +24,11 @@ public class Board extends GroupView {
     }
 
     public void create(){
+        
         this.grid = Constants.grid.build();
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+
             @Override
             public void call(Hexagon hexagon) {
                 // Create the Actor and link it to the hexagon (and vice-versa)
