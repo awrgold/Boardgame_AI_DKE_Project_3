@@ -165,7 +165,7 @@ public class GameManager{
         }
         if (getGamingPlayer().isAI()){
             Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-            //System.out.println(AiMove.toString());
+            System.out.println(AiMove.toString());
             //AiMove.getTile().moveBy(0, 30);
 
             currentState = currentState.applyAction(AiMove);
@@ -301,7 +301,7 @@ public class GameManager{
     }
 
     public boolean handleTouch(Vector2 worldTouch){
-        /*if (getGamingPlayer().getPlayerNo() == 2){
+        if (getGamingPlayer().getPlayerNo() == 2){
 
             handleTileTouch(worldTouch);
         } if(getGamingPlayer().getPlayerNo() == 1) {
@@ -317,7 +317,7 @@ public class GameManager{
             handleBoardTouch(false, worldTouch);
         } if (move.getH1() != null && move.getH2() != null){
             return true;
-        }*/
+        }
     //    runSimulation();
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);

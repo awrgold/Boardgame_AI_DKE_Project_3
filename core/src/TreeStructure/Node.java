@@ -22,6 +22,10 @@ public class Node {
         weigth = x;
     }
 
+    public double getWeigth() {
+        return weigth;
+    }
+
     public GameView getState(){
         return state;
     }
@@ -50,7 +54,7 @@ public class Node {
         Edge edge = new Edge(this, child, action);
         child.setParentEdge(edge);
         childrenEdges.add(edge);
-        System.out.println("creating node: " + weigth);
+
 
 
 
