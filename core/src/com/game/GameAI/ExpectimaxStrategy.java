@@ -1,5 +1,6 @@
 package com.game.GameAI;
 
+import TreeStructure.Edge;
 import TreeStructure.Node;
 import TreeStructure.Tree;
 import com.game.Components.GameLogic.Action;
@@ -12,6 +13,7 @@ import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
@@ -182,7 +184,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         for (Tile t : hand.getPieces()){
             Action move = bestTilePlacement(t, currentState, player);
-            System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(currentState.getBoard().getGrid()));
+            //System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(currentState.getBoard().getGrid()));
             tree.getRoot().setChild(move);
 
         }
@@ -197,6 +199,29 @@ public class ExpectimaxStrategy implements Strategy {
         tree = new Tree(root);
         buildFirstLevel(currentState.getGamingPlayer().getHand(), tree.getRoot().getState(), currentState.getGamingPlayer());
 
-        return null;
+        double maxGain = 0;
+        Action bestAction = null;
+        for (Edge edge : tree.getRoot().getChildrenEdges()){
+            if (edge.getChildNode().getWeigth() >= maxGain){
+                maxGain = edge.getChildNode().getWeigth();
+                bestAction = edge.getAction();
+            }
+        }
+
+        Hexagon h1 = null;
+        Hexagon h2 = null;
+
+
+        Optional one = currentState.getCurrentBoard().getGrid().getByCubeCoordinate(bestAction.getH1().getCubeCoordinate());
+        Optional two = currentState.getCurrentBoard().getGrid().getByCubeCoordinate(bestAction.getH2().getCubeCoordinate());
+        if (one.isPresent() && two.isPresent()){
+            h1 = (Hexagon) one.get();
+            h2 = (Hexagon) two.get();
+
+        }
+
+        Action realAction = new Action(h1, h2, bestAction.getTile());
+
+        return realAction;
     }
 }

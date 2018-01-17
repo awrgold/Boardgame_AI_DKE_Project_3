@@ -59,7 +59,6 @@ private String text;
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
-                System.out.println("  Score: " + getPlayerByIndex(0).scoreToString());
                 System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
 
             }
@@ -216,7 +215,7 @@ private String text;
         }
         if (getGamingPlayer().isAI()){
             Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-            //System.out.println(AiMove.toString());
+            System.out.println(AiMove.toString());
             //AiMove.getTile().moveBy(0, 30);
 
             currentState = currentState.applyAction(AiMove);
@@ -352,7 +351,7 @@ private String text;
     }
 
     public boolean handleTouch(Vector2 worldTouch){
-        /*if (getGamingPlayer().getPlayerNo() == 2){
+        if (getGamingPlayer().getPlayerNo() == 2){
 
             handleTileTouch(worldTouch);
         } if(getGamingPlayer().getPlayerNo() == 1) {

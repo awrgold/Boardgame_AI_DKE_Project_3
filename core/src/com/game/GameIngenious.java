@@ -19,6 +19,7 @@ public class GameIngenious extends Game {
     private GameScreen screen;
     @Override
     public void create() {
+      this.manager = new GameManager();
        //batch = new SpriteBatch();
       // showGameScreen();
         manager = new GameManager();
