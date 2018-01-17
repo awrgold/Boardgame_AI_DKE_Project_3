@@ -66,6 +66,7 @@ public class GreedyStrategy implements Strategy{
                 if (hexagon.getSatelliteData().isPresent()) {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
+                    //System.out.println(currentHexActor.getHexColor());
                     //IF THE RELATED HEXACTOR'S COLOR IS EQAUL TO ONE IN THE TILE
                     if (currentHexActor.getHexColor().equals(color)) {
                         if (color.equals(tile.getActors()[0].getHexColor())) {
@@ -142,10 +143,10 @@ public class GreedyStrategy implements Strategy{
     }
 
     private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
-        int bestGain = 0;
+        double bestGain = 0;
         Action bestPlacement = null;
         for (Action a : all){
-            int gain = a.actionGain(grid);
+            double gain = a.actionGain(grid);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = a;
@@ -213,11 +214,11 @@ public class GreedyStrategy implements Strategy{
         }
 
         //System.out.println(bestMoves.size());
-        int bestGain = 0;
+        double bestGain = 0;
         Action bestAction = null;
         for (Action a : bestMoves){
             if (a != null){
-                int gain = a.actionGain(grid);
+                double gain = a.actionGain(grid);
                 if (gain >= bestGain) {
                     bestGain = gain;
                     bestAction = a;

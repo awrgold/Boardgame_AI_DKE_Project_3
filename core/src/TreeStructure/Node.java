@@ -2,21 +2,27 @@ package TreeStructure;
 
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
+import com.game.Components.GameLogic.GameView;
 
 import java.util.ArrayList;
 
 public class Node {
 
-    private GameState state;
+    private GameView state;
     private Edge parentEdge;
     private ArrayList<Edge> childrenEdges;
+    private double weigth;
 
-    public Node(GameState state){
+    public Node(GameView state){
         this.state = state;
         this.childrenEdges = new ArrayList<>();
     }
 
-    public GameState getState(){
+    public void setWeigth(double x){
+        weigth = x;
+    }
+
+    public GameView getState(){
         return state;
     }
 
@@ -32,17 +38,19 @@ public class Node {
         this.parentEdge = parent;
     }
 
-    public void setState(GameState state){
+    public void setState(GameView state){
         this.state = state;
     }
 
     public void setChild(Action action) {
 
-        GameState nextState = state.applyAction(action);
-        Node child = new Node(nextState);
+        weigth = action.actionGain(getState().getBoard().getGrid());
+        GameView nextView = state.simulateAction(action);
+        Node child = new Node(nextView);
         Edge edge = new Edge(this, child, action);
         child.setParentEdge(edge);
         childrenEdges.add(edge);
+        System.out.println("creating node: " + weigth);
 
 
 

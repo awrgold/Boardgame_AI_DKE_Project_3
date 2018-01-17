@@ -10,7 +10,11 @@ import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import rx.functions.Action1;
+
+import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 
 public class Board extends GroupView {
 private SpriteBatch batch;
@@ -18,13 +22,21 @@ private SpriteBatch batch;
     private boolean over;
 
     public Board(){
-        super();
+        //super();
         create();
     }
 
     public void create(){
 
         this.grid = Constants.grid.build();
+        HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
+                .setGridHeight(11)
+                .setGridWidth(11)
+                .setGridLayout(HEXAGONAL)
+                .setOrientation(POINTY_TOP)
+                .setRadius(40);
+
+        this.grid = gridBuilder.build();
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override

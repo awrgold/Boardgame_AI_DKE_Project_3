@@ -177,11 +177,6 @@ private String text;
             Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
             //System.out.println(AiMove.toString());
             //AiMove.getTile().moveBy(0, 30);
-            /*try {
-                Thread.sleep(5000);
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }*/
 
             currentState = currentState.applyAction(AiMove);
         }
