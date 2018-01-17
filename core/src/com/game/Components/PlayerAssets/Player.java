@@ -33,9 +33,9 @@ public class Player{
     private Hand hand;
     private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
-    private boolean isGreedy = true;
+    private boolean isGreedy = false;
     private boolean isMCTS = false;
-    private boolean isExpectiMax = false;
+    private boolean isExpectiMax = true;
     private Strategy strategy;
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI) {

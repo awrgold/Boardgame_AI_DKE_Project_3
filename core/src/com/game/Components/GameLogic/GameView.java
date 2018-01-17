@@ -43,7 +43,7 @@ public class GameView {
                                 HexagonActor copyHexActor = copyLink.getActor();
                                 //AND GIVE IT THE SAME COLOR
                                 copyHexActor.setHexColor(currentHexActor.getHexColor());
-                                System.out.println("Hexagon copied: " + copyHexActor.getHexColor());
+                                //System.out.println("Hexagon copied: " + copyHexActor.getHexColor());
                             }
                         }
 

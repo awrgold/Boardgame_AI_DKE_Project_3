@@ -26,6 +26,10 @@ public class Node {
         return state;
     }
 
+    public double getWeigth() {
+        return weigth;
+    }
+
     public Edge getParentEdge(){
         return parentEdge;
     }
