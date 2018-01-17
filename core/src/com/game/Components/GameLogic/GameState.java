@@ -12,6 +12,9 @@ import com.game.Components.GameConstants.Pieces;
 import com.game.Screens.GameScreen;
 import com.game.Components.Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.backport.Optional;
+import rx.functions.Action1;
 
 import java.util.Arrays;
 
@@ -38,16 +41,26 @@ public class GameState {
 
     public GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
 
-        this.players = players;
-        this.currentBoard = currentBoard;
-        this.currentBag = currentBag;
-        this.gamingPlayer = gamingPlayer;
+        setPlayers(players);
+        setCurrentBoard(currentBoard);
+        setCurrentBag(currentBag);
+        setGamingPlayer(gamingPlayer);
+
+
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
         /*while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
         }*/
+    }
 
+    public GameState copy(GameState state){
+        GameState newState = new GameState();
+        newState.setCurrentBoard(state.getCurrentBoard());
+        newState.setPlayers(state.getPlayers());
+        newState.setGamingPlayer(state.getGamingPlayer());
+        newState.setCurrentBag(state.getCurrentBag());
 
+        return newState;
     }
 
 
@@ -55,16 +68,32 @@ public class GameState {
         return players;
     }
 
+    public void setPlayers(Player[] toSet){
+        players = toSet;
+    }
+
     public Player getGamingPlayer(){
         return gamingPlayer;
+    }
+
+    public void setGamingPlayer(Player toSet){
+        gamingPlayer = toSet;
     }
 
     public Board getCurrentBoard() {
         return currentBoard;
     }
 
+    public void setCurrentBoard(Board toSet){
+        currentBoard = toSet;
+    }
+
     public Bag getCurrentBag() {
         return currentBag;
+    }
+
+    public void setCurrentBag(Bag toSet){
+        currentBag = toSet;
     }
 
     public Player getPlayer(int i){
@@ -126,7 +155,7 @@ public class GameState {
                 for (Actor hex : tile.getChildren()) {
                     if (hex instanceof HexagonActor) {
                         HexagonActor first = (HexagonActor) hex;
-                        first.setSprite(gamingPlayer.getHand().getPieces().get(i).getColors()[index]);
+                        first.setHexColor(gamingPlayer.getHand().getPieces().get(i).getColors()[index]);
                         index++;
                     }
                 }

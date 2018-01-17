@@ -33,7 +33,7 @@ public class GameManager{
     }
     public void runSimulation(){
         int n = 100;
-        ArrayList<Long>gameTimes = new ArrayList<Long>();
+        ArrayList<Long>gameTimes = new ArrayList<>();
         long startTime = System.currentTimeMillis();
 
         int player1Win = 0;

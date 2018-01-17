@@ -1,5 +1,6 @@
 package com.game.Components.GameLogic;
 
+import com.game.Components.GameConstants.Color;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
@@ -49,11 +50,10 @@ public class Action {
         this.h2 = h2;
     }
 
-    public String[] getTileColors(){
-        String[] colors = new String[2];
+    public Color[] getTileColors(){
+        Color[] colors = new Color[2];
 
         colors[0] = tile.getFirst().getHexColor();
-
         colors[1] = tile.getSecond().getHexColor();
 
         return colors;
@@ -61,7 +61,7 @@ public class Action {
 
     public String toString(){
         if(tile != null && h1 != null && h2 != null){
-            return "Placing Tile: " + tile.getFirst().getHexColor() + " - " + tile.getSecond().getHexColor() +
+            return "Placing Tile: " + tile.getFirst().getHexColor().toString() + " - " + tile.getSecond().getHexColor().toString() +
                     " || in hexagons: " + h1.getCubeCoordinate().toAxialKey() + " - " + h2.getCubeCoordinate().toAxialKey();
         } else {
             return "something is missing";
@@ -83,7 +83,7 @@ public class Action {
                 totalGain += gain1[i];
             }
 
-            currentHexActor.setHexColor("EMPTY");
+            currentHexActor.setHexColor(Color.EMPTY);
         }
 
         if (h2.getSatelliteData().isPresent()){
@@ -95,7 +95,7 @@ public class Action {
                 for (int i = 0; i < 6; i++){
                     totalGain += gain2[i];
                 }
-                currentHexActor.setHexColor("EMPTY");
+                currentHexActor.setHexColor(Color.EMPTY);
             }
         }
 

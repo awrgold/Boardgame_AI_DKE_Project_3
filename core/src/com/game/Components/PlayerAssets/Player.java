@@ -1,6 +1,7 @@
 package com.game.Components.PlayerAssets;
 
 import com.game.Components.GameAssets.Board;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.Tools.HexagonActor;
@@ -30,8 +31,11 @@ public class Player{
     private int[] playerScore = new int[6];
     private int playerNo;
     private Hand hand;
-    private String[] playerScoreString = new String[6];
+    private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
+    private boolean isGreedy = true;
+    private boolean isMCTS = false;
+    private boolean isExpectiMax = false;
     private Strategy strategy;
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI) {
@@ -41,15 +45,25 @@ public class Player{
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
-        playerScoreString[0] = "B";
-        playerScoreString[1] = "Y";
-        playerScoreString[2] = "O";
-        playerScoreString[3] = "P";
-        playerScoreString[4] = "V";
-        playerScoreString[5] = "R";
+        playerScoreColors[0] = Color.BLUE;
+        playerScoreColors[1] = Color.YELLOW;
+        playerScoreColors[2] = Color.ORANGE;
+        playerScoreColors[3] = Color.PURPLE;
+        playerScoreColors[4] = Color.VIOLET;
+        playerScoreColors[5] = Color.RED;
 
-        if (isAI && playerNo == 1) strategy = new GreedyStrategy();
-        else if (isAI && playerNo == 2) strategy = new ExpectimaxStrategy();
+        if (isAI){
+            if (isGreedy){
+                strategy = new GreedyStrategy();
+            }
+            if (isMCTS){
+                //strategy = new MCTS();
+            }
+            if (isExpectiMax){
+                strategy = new ExpectimaxStrategy();
+            }
+        }
+
     }
 
 
@@ -165,7 +179,7 @@ public class Player{
         return playerScore;
     }
 
-    private boolean isAColorPresent(String color){
+    private boolean isAColorPresent(Color color){
         for (Tile tile : hand.getPieces()){
             if(tile.getActors()[0].getHexColor().equals(color) || tile.getActors()[1].getHexColor().equals(color)){
                 return true;
@@ -192,22 +206,22 @@ public class Player{
             if (playerScore[i] == lowest){
                 indexesOfLowest.add(i);
             }
-
         }
 
-        if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreString[lowIndex])) {
+        if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreColors[lowIndex])) {
             return false;
         }
 
         if (indexesOfLowest.size() > 1 && lowest > 0){
             for (int i : indexesOfLowest){
-                if (!isAColorPresent(playerScoreString[i])){
+                if (!isAColorPresent(playerScoreColors[i])){
                     return false;
                 }
             }
         }
         return true;
     }
+
 
     public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor, int avoidNext) {
 
@@ -330,32 +344,28 @@ public class Player{
     //TRYING TO IMPLEMENT THE STRATEGY
 
 //  FIND THE LOWEST COLORS
-    public ArrayList<String> lowestColors(){
-        ArrayList<String> lowestColors = new ArrayList<>();
+    public ArrayList<Color> lowestColors(){
+        ArrayList<Color> lowestColors = new ArrayList<>();
         int lowest = 18;
 
         for (int i = 0; i < 6; i++){
             if(playerScore[i] < lowest){
                 lowest = playerScore[i];
-
             }
         }
 
         for (int i = 0; i < 6; i++){
             if (playerScore[i] == lowest){
-                lowestColors.add(playerScoreString[i]);
+                lowestColors.add(playerScoreColors[i]);
             }
-
         }
+
         //System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
         return lowestColors;
-
     }
 
     public Action applyStrategy(GameState currentState){
         return strategy.decideMove(currentState);
-
-
     }
 /*
 //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)

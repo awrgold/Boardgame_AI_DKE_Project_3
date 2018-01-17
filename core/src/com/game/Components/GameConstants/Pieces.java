@@ -5,35 +5,36 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.ArrayList;
 
+import static com.game.Components.GameConstants.Color.*;
 import static com.game.Components.GameConstants.Constants.*;
 
 public class Pieces {
 
-    static Sprite[] BB = {blueSprite, blueSprite};
-    static Sprite[] BO = {blueSprite, orangeSprite};
-    static Sprite[] BP = {blueSprite, purpleSprite};
-    static Sprite[] BR = {blueSprite, redSprite};
-    static Sprite[] BV = {blueSprite, violetSprite};
-    static Sprite[] BY = {blueSprite, yellowSprite};
-    static Sprite[] OO = {orangeSprite, orangeSprite};
-    static Sprite[] OV = {orangeSprite, violetSprite};
-    static Sprite[] PO = {purpleSprite, orangeSprite};
-    static Sprite[] PP = {purpleSprite, purpleSprite};
-    static Sprite[] PV = {purpleSprite, violetSprite};
-    static Sprite[] RR = {redSprite, redSprite};
-    static Sprite[] RO = {redSprite, orangeSprite};
-    static Sprite[] RP = {redSprite, purpleSprite};
-    static Sprite[] RV = {redSprite, violetSprite};
-    static Sprite[] RY = {redSprite, yellowSprite};
-    static Sprite[] VV = {violetSprite, violetSprite};
-    static Sprite[] YP = {yellowSprite, purpleSprite};
-    static Sprite[] YO = {yellowSprite, orangeSprite};
-    static Sprite[] YV = {yellowSprite, violetSprite};
-    static Sprite[] YY = {yellowSprite, yellowSprite};
+    static Color[] BB = {BLUE, BLUE};
+    static Color[] BO = {BLUE, ORANGE};
+    static Color[] BP = {BLUE, PURPLE};
+    static Color[] BR = {BLUE, RED};
+    static Color[] BV = {BLUE, VIOLET};
+    static Color[] BY = {BLUE, YELLOW};
+    static Color[] OO = {ORANGE, ORANGE};
+    static Color[] OV = {ORANGE, VIOLET};
+    static Color[] PO = {PURPLE, ORANGE};
+    static Color[] PP = {PURPLE, PURPLE};
+    static Color[] PV = {PURPLE, VIOLET};
+    static Color[] RR = {RED, RED};
+    static Color[] RO = {RED, ORANGE};
+    static Color[] RP = {RED, PURPLE};
+    static Color[] RV = {RED, VIOLET};
+    static Color[] RY = {RED, YELLOW};
+    static Color[] VV = {VIOLET, VIOLET};
+    static Color[] YP = {YELLOW, PURPLE};
+    static Color[] YO = {YELLOW, ORANGE};
+    static Color[] YV = {YELLOW, VIOLET};
+    static Color[] YY = {YELLOW, YELLOW};
 
     //Creates the "bag" containing all the different pieces
-    public static ArrayList<Sprite[]> createBagPieces() {
-        ArrayList<Sprite[]> allPieces = new ArrayList<>();
+    public static ArrayList<Color[]> createBagPieces() {
+        ArrayList<Color[]> allPieces = new ArrayList<>();
         for(int i = 0; i < 5; i++){
             allPieces.add(BB);
             allPieces.add(YY);

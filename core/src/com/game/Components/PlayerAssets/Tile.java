@@ -1,5 +1,6 @@
 package com.game.Components.PlayerAssets;
 
+import com.game.Components.GameConstants.Color;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
@@ -18,12 +19,12 @@ public class Tile extends GroupView {
 
     private HexagonalGrid<Link> grid;
 
-    private Sprite[] colors;
+    private Color[] colors;
     private boolean selected;
     private HexagonActor[] actors;
     private HexagonActor first;
 
-    public Tile(Sprite[] colors){
+    public Tile(Color[] colors){
         super();
         this.colors = colors;
         this.selected = false;
@@ -42,10 +43,10 @@ public class Tile extends GroupView {
 
                 //give both the sprites
                 if(hexagon.getGridX() == 0) {
-                    hexTile.setSprite(colors[0]);
+                    hexTile.setHexColor(colors[0]);
                     actors[0] = hexTile;
                 } else {
-                    hexTile.setSprite(colors[1]);
+                    hexTile.setHexColor(colors[1]);
                     actors[1] = hexTile;
                 }
 
@@ -53,10 +54,7 @@ public class Tile extends GroupView {
                 //and pass everything in tileGroup
                 addActor(hexTile);
                 hexagon.setSatelliteData(new Link(hexTile));
-
-
             }
-
         });
 
     }
@@ -64,6 +62,11 @@ public class Tile extends GroupView {
     public void act(float delta) {
 
         super.act(delta);
+    }
+
+    public Tile copy(Tile toCopy){
+        Tile newTile = new Tile(toCopy.getColors());
+        return newTile;
     }
 
     public void setSelected(boolean s) {
@@ -93,7 +96,7 @@ public class Tile extends GroupView {
         return second;
     }
 
-    public Sprite[] getColors(){
+    public Color[] getColors(){
         return this.colors;
     }
 

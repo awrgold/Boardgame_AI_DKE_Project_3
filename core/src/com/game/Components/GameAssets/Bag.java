@@ -1,20 +1,37 @@
 package com.game.Components.GameAssets;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.PlayerAssets.Tile;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Bag {
-    private ArrayList<Tile> bag;
 
-    public Bag(ArrayList<Sprite[]> pieces){
+    private ArrayList<Tile> bag;
+    private ArrayList<Color[]> pieces;
+
+    public Bag(ArrayList<Color[]> pieces){
+        this.pieces = pieces;
         this.bag = new ArrayList<>();
-        for (Sprite[] piece : pieces){
+        for (Color[] piece : pieces){
             Tile one = new Tile(piece);
             bag.add(one);
         }
+    }
+
+    public Bag copy(Bag toCopy){
+        Bag newBag = new Bag(toCopy.getPieces());
+        return newBag;
+    }
+
+    public ArrayList<Tile> getBag(){
+        return this.bag;
+    }
+
+    public ArrayList<Color[]> getPieces(){
+        return pieces;
     }
 
 
@@ -38,6 +55,10 @@ public class Bag {
     public Tile replaceTile(Tile t){
         bag.add(t);
         return pickTile();
+    }
+
+    public int getBagSize(){
+        return bag.size();
     }
 
     public ArrayList<Tile> replaceHand(ArrayList<Tile> hand) {

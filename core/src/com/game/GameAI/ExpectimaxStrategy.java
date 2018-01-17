@@ -2,6 +2,7 @@ package com.game.GameAI;
 
 import TreeStructure.Node;
 import TreeStructure.Tree;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.GameLogic.GameView;
@@ -32,7 +33,7 @@ public class ExpectimaxStrategy implements Strategy {
     private Action bestTilePlacement(Tile tile, GameView currentState, Player player) {
         ArrayList<Action> possibleActions = new ArrayList<>();
         HexagonalGrid grid = currentState.getBoard().getGrid();
-        String color;
+        Color color;
         if (player.lowestColors().contains(tile.getActors()[0].getHexColor())){
             color = tile.getActors()[0].getHexColor();
         } else if (player.lowestColors().contains(tile.getActors()[1].getHexColor())) {
@@ -68,7 +69,7 @@ public class ExpectimaxStrategy implements Strategy {
                                     HexagonActor neighHexActor = neighLink.getActor();
 
                                     //THE FIRST ONE IS THE FIRST PLACEMENT
-                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+                                    if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
                                         possiblePlacements[0][c] = currentNeighbor;
                                         int g = 1;
                                         //LOOKING FOR FREE NEIGHBORS
@@ -80,10 +81,9 @@ public class ExpectimaxStrategy implements Strategy {
                                                     Link neighLink2 = (Link) currentNeighbor2.getSatelliteData().get();
                                                     HexagonActor neighHexActor2 = neighLink2.getActor();
 
-                                                    if (neighHexActor2.getHexColor().equals("EMPTY")) {
+                                                    if (neighHexActor2.getHexColor().equals(Color.EMPTY)) {
                                                         possiblePlacements[g][c] = currentNeighbor2;
                                                         g++;
-
                                                     }
                                                 }
                                             }
@@ -91,7 +91,6 @@ public class ExpectimaxStrategy implements Strategy {
                                         c++;
                                     }
                                 }
-
                             }
 
                         }
@@ -104,16 +103,9 @@ public class ExpectimaxStrategy implements Strategy {
                                 }
                             }
                         }
-
-
                     }
-
-
                 }
-
             }
-
-
         });
 
         if (possibleActions.size() == 0){
@@ -144,7 +136,7 @@ public class ExpectimaxStrategy implements Strategy {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
 
-                    if (currentHexActor.getHexColor().equals("EMPTY")) {
+                    if (currentHexActor.getHexColor().equals(Color.EMPTY)) {
                         for (Object hex : grid.getNeighborsOf(hexagon)) {
                             if (hex instanceof Hexagon) {
                                 Hexagon currentNeighbor = (Hexagon) hex;
@@ -154,47 +146,37 @@ public class ExpectimaxStrategy implements Strategy {
                                     HexagonActor neighHexActor = neighLink.getActor();
 
                                     //THE FIRST ONE IS THE FIRST PLACEMENT
-                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+                                    if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
 
                                         randomAction.setH1(hexagon);
                                         randomAction.setH2(currentNeighbor);
                                         randomAction.setTile(tile);
                                     }
                                 }
-
                             }
-
                         }
-
                     }
                 }
-
             }
-
         });
 
         return randomAction;
-
     }
 
     public void buildFirstLevel(Hand hand, GameView currentState, Player player){
-
 
         for (Tile t : hand.getPieces()){
             Action move = bestTilePlacement(t, currentState, player);
             System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(currentState.getBoard().getGrid()));
             tree.getRoot().setChild(move);
-
         }
-
-
     }
 
     public Action decideMove(GameState currentState) {
 
         GameView root = new GameView(currentState.getCurrentBoard());
-
         tree = new Tree(root);
+
         buildFirstLevel(currentState.getGamingPlayer().getHand(), tree.getRoot().getState(), currentState.getGamingPlayer());
 
         return null;
