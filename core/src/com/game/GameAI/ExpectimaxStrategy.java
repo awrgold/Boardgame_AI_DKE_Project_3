@@ -4,6 +4,7 @@ import TreeStructure.Node;
 import TreeStructure.Tree;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
+import com.game.Components.GameLogic.GameView;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
@@ -194,7 +195,7 @@ public class ExpectimaxStrategy implements Strategy {
     }
 
     public Action decideMove(GameState currentState) {
-        tree = new Tree(currentState);
+        tree = new Tree(new GameView(currentState.getCurrentBoard()));
         buildFirstLevel(currentState.getGamingPlayer().getHand(), currentState);
 
         return null;
