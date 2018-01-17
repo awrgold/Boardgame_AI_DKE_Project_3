@@ -13,6 +13,8 @@ import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.PlayerAssets.Tile;
+import org.apache.commons.math3.util.Combinations;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.util.ArrayList;
 
@@ -86,6 +88,7 @@ public class OpponentProbabilities {
                 int N = getInvisibleTiles().size();
                 int n = 1;
 
+                
             }
         }
 
