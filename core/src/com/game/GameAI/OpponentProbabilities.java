@@ -59,17 +59,14 @@ public class OpponentProbabilities {
                 if (tile.getFirst().getHexColor().equals("Y") && !listOfDoubles[0].isEmpty()){
                     listOfDoubles[2].remove(0);
                 }
-                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                if (tile.getFirst().getHexColor().equals("B") && !listOfDoubles[0].isEmpty()){
                     listOfDoubles[3].remove(0);
                 }
-                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                if (tile.getFirst().getHexColor().equals("P") && !listOfDoubles[0].isEmpty()){
                     listOfDoubles[4].remove(0);
                 }
-                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                if (tile.getFirst().getHexColor().equals("V") && !listOfDoubles[0].isEmpty()){
                     listOfDoubles[5].remove(0);
-                }
-                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
-                    listOfDoubles[6].remove(0);
                 }
             }
         }
