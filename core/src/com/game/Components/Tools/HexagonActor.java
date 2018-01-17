@@ -87,7 +87,7 @@ public class HexagonActor extends Actor{
     ---------------------------------------------------OLD SHIT HERE----------------------------------------------------
      */
 
-
+/*
     private Sprite sprite;
     private ShapeRenderer renderer = new ShapeRenderer();
     private String hexColor = null;
@@ -248,4 +248,6 @@ public class HexagonActor extends Actor{
         super.act(delta);
 
     }
+
+    */
 }
