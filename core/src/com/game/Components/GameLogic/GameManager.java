@@ -10,6 +10,7 @@ import TreeStructure.Tree;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.game.GameAI.OpponentProbabilities;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class GameManager{
             while (!getBoard().gameOver()){
 
                 Action AiMove = getGamingPlayer().applyStrategy(getGamingPlayer().lowestColors(),getGamingPlayer().getHand(), getBoard().getGrid());
-                //System.out.println(AiMove.toString());
+                System.out.println();
                 setCurrentState(getCurrentState().applyAction(AiMove));
                 //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
 

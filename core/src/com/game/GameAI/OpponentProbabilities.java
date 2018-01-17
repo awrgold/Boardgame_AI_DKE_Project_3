@@ -13,8 +13,9 @@ import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.PlayerAssets.Tile;
-import org.apache.commons.math3.util.Combinations;
-import org.apache.commons.math3.util.CombinatoricsUtils;
+
+import org.apache.commons.math3.util.*;
+
 
 import java.util.ArrayList;
 
@@ -87,10 +88,55 @@ public class OpponentProbabilities {
                 int s = 1;
                 int N = getInvisibleTiles().size();
                 int n = 1;
+                int factorialS = S;
+                int factorialN = N;
+                int factorialNS = N - S;
+                int factorialSs = S - s;
+                int factorialNn = N - n;
+                int factorialns = n-s;
+                int factorialNSns = N - S - n + s;
 
-                
+                for(int i =(factorialS - 1); i > 1; i--) {
+                    factorialS = factorialS * i;
+                }
+                System.out.println("Factorial of S is " + factorialS);
+
+                for(int i =(factorialN - 1); i > 1; i--) {
+                    factorialN = factorialN * i;
+                }
+                System.out.println("Factorial of N is " + factorialN);
+
+                for(int i =(factorialNS - 1); i > 1; i--) {
+                    factorialNS = factorialNS * i;
+                }
+                System.out.println("Factorial of NS is " + factorialNS);
+
+                for(int i =(factorialns - 1); i > 1; i--) {
+                    factorialns = factorialns * i;
+                }
+                System.out.println("Factorial of ns is " + factorialSs);
+
+                for(int i =(factorialSs - 1); i > 1; i--) {
+                    factorialSs = factorialSs * i;
+                }
+                System.out.println("Factorial of Ss is " + factorialSs);
+
+                for(int i =(factorialNn - 1); i > 1; i--) {
+                    factorialNn = factorialNn * i;
+                }
+                System.out.println("Factorial of Nn is " + factorialNn);
+
+                for(int i =(factorialNSns - 1); i > 1; i--) {
+                    factorialNSns = factorialNSns * i;
+                }
+                System.out.println("Factorial of NSns is " + factorialNSns);
+
+
+
+                double probabilityDouble = ((factorialS/(s*(factorialSs))) * ((factorialNS)/(factorialns * (factorialNSns)))) / ((factorialN)/(n*(factorialNn)));
             }
-        }
+            }
+
 
         if(!isDouble){
             String lowestColor = gamingPlayer.getScoreQ().get(0).toString();
@@ -112,7 +158,52 @@ public class OpponentProbabilities {
                 int s = 1;
                 int N = getInvisibleTiles().size();
                 int n = 1;
+                int factorialS = S;
+                int factorialN = N;
+                int factorialNS = N - S;
+                int factorialSs = S - s;
+                int factorialNn = N - n;
+                int factorialns = n-s;
+                int factorialNSns = N - S - n + s;
 
+                for(int i =(factorialS - 1); i > 1; i--) {
+                    factorialS = factorialS * i;
+                }
+                System.out.println("Factorial of S is " + factorialS);
+
+                for(int i =(factorialN - 1); i > 1; i--) {
+                    factorialN = factorialN * i;
+                }
+                System.out.println("Factorial of N is " + factorialN);
+
+                for(int i =(factorialNS - 1); i > 1; i--) {
+                    factorialNS = factorialNS * i;
+                }
+                System.out.println("Factorial of NS is " + factorialNS);
+
+                for(int i =(factorialns - 1); i > 1; i--) {
+                    factorialns = factorialns * i;
+                }
+                System.out.println("Factorial of ns is " + factorialSs);
+
+                for(int i =(factorialSs - 1); i > 1; i--) {
+                    factorialSs = factorialSs * i;
+                }
+                System.out.println("Factorial of Ss is " + factorialSs);
+
+                for(int i =(factorialNn - 1); i > 1; i--) {
+                    factorialNn = factorialNn * i;
+                }
+                System.out.println("Factorial of Nn is " + factorialNn);
+
+                for(int i =(factorialNSns - 1); i > 1; i--) {
+                    factorialNSns = factorialNSns * i;
+                }
+                System.out.println("Factorial of NSns is " + factorialNSns);
+
+
+
+                double probabilitySingle = ((factorialS/(s*(factorialSs))) * ((factorialNS)/(factorialns * (factorialNSns)))) / ((factorialN)/(n*(factorialNn)));
             }
         }
 
