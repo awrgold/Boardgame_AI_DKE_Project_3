@@ -31,7 +31,8 @@ public class OpponentProbabilities {
     private Tree currentTree = new Tree();
     private int numDoublesLeft = 30;
     private int numSinglesLeft = 90;
-
+    private ArrayList<Tile> invisiblePieces = new Bag(Pieces.createBagPieces()).getBag();
+    private ArrayList<Tile>[] listOfDoubles = new ArrayList[6];
 
     public OpponentProbabilities(GameState state){
         this.state = state;
@@ -46,10 +47,36 @@ public class OpponentProbabilities {
     }
 
     public ArrayList<Tile> getInvisibleTiles(){
-        ArrayList<Tile> invisiblePieces = new Bag(Pieces.createBagPieces()).getBag();
+
+        for (Tile tile : state.getCurrentBag().getBag()){
+            if (tile.getFirst().getHexColor().equals(tile.getSecond().getHexColor())){
+                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                    listOfDoubles[0].remove(0);
+                }
+                if (tile.getFirst().getHexColor().equals("O") && !listOfDoubles[0].isEmpty()){
+                    listOfDoubles[1].remove(0);
+                }
+                if (tile.getFirst().getHexColor().equals("Y") && !listOfDoubles[0].isEmpty()){
+                    listOfDoubles[2].remove(0);
+                }
+                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                    listOfDoubles[3].remove(0);
+                }
+                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                    listOfDoubles[4].remove(0);
+                }
+                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                    listOfDoubles[5].remove(0);
+                }
+                if (tile.getFirst().getHexColor().equals("R") && !listOfDoubles[0].isEmpty()){
+                    listOfDoubles[6].remove(0);
+                }
+            }
+        }
 
         for (Tile t : state.getGamingPlayer().getVisibleTiles()){
             if (t.getFirst().getHexColor().equals(t.getSecond().getHexColor())){
+
                 numDoublesLeft--;
             }else{
                 numSinglesLeft--;
@@ -63,10 +90,20 @@ public class OpponentProbabilities {
     public double getProbOfColors(String c1, String c2){
         Bag currentBag = state.getCurrentBag();
         boolean isDouble = false;
+        double probability = 0.0;
 
         if (c1.equals(c2)){
             isDouble = true;
         }
+
+        /*
+        S = sample size
+        s = number of observed successful samples
+        N = population size
+        n = number of draws from the population
+
+        P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
+        */
 
         if(isDouble){
             String lowestColor = gamingPlayer.getScoreQ().get(0).toString();
@@ -76,14 +113,7 @@ public class OpponentProbabilities {
             }
             // If the tile we're passing is not the lowest color:
             else{
-                /*
-                S = sample size
-                s = number of observed successful samples
-                N = population size
-                n = number of draws from the population
 
-                P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
-                */
                 int S = numDoublesLeft;
                 int s = 1;
                 int N = getInvisibleTiles().size();
@@ -133,7 +163,8 @@ public class OpponentProbabilities {
 
 
 
-                double probabilityDouble = ((factorialS/(s*(factorialSs))) * ((factorialNS)/(factorialns * (factorialNSns)))) / ((factorialN)/(n*(factorialNn)));
+                probability = ((factorialS/(s*(factorialSs))) * ((factorialNS)/(factorialns * (factorialNSns)))) / ((factorialN)/(n*(factorialNn)));
+                return probability;
             }
             }
 
@@ -203,7 +234,9 @@ public class OpponentProbabilities {
 
 
 
-                double probabilitySingle = ((factorialS/(s*(factorialSs))) * ((factorialNS)/(factorialns * (factorialNSns)))) / ((factorialN)/(n*(factorialNn)));
+                probability = ((factorialS/(s*(factorialSs))) * ((factorialNS)/(factorialns * (factorialNSns)))) / ((factorialN)/(n*(factorialNn)));
+
+                return probability;
             }
         }
 
