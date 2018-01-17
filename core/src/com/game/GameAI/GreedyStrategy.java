@@ -66,7 +66,8 @@ public class GreedyStrategy implements Strategy{
                 if (hexagon.getSatelliteData().isPresent()) {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
-                    //IF THE RELATED HEXACTOR'S COLOR IS EQAUL TO ONE IN THE TILE
+
+                    //IF THE RELATED HEXACTOR'S COLOR IS EQUAL TO ONE IN THE TILE
                     if (currentHexActor.getHexColor().equals(color)) {
                         if (color.equals(tile.getActors()[0].getHexColor())) {
                             tile.setFirst(tile.getActors()[0]);
@@ -88,6 +89,7 @@ public class GreedyStrategy implements Strategy{
                                     if (neighHexActor.getHexColor().equals("EMPTY")) {
                                         possiblePlacements[0][c] = currentNeighbor;
                                         int g = 1;
+
                                         //LOOKING FOR FREE NEIGHBORS
                                         for (Object hex2 : grid.getNeighborsOf(currentNeighbor)) {
                                             if (hex2 instanceof Hexagon) {
