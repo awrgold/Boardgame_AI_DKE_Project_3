@@ -1,6 +1,7 @@
 package com.game.GameAI;
 
 
+import TreeStructure.Edge;
 import TreeStructure.Node;
 import TreeStructure.Tree;
 import com.game.Components.GameLogic.Action;
@@ -13,6 +14,7 @@ import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
@@ -351,8 +353,15 @@ public class MctsStrategy implements Strategy {
 
 
     */
+  /*
+    1) create a new tree with the current state as root
+    2) build the first tree level with possible moves for the gaming player...
+        -for each tile find the placement with highest gain and create a new node (gain is node weigth) with that placement
 
-    private Tree tree;
+
+    */
+
+    Tree tree;
 
     private Action bestTilePlacement(Tile tile, GameView currentState, Player player) {
         ArrayList<Action> possibleActions = new ArrayList<>();
@@ -507,7 +516,7 @@ public class MctsStrategy implements Strategy {
 
         for (Tile t : hand.getPieces()){
             Action move = bestTilePlacement(t, currentState, player);
-            System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(currentState.getBoard().getGrid()));
+            //System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(currentState.getBoard().getGrid()));
             tree.getRoot().setChild(move);
 
         }
@@ -522,6 +531,29 @@ public class MctsStrategy implements Strategy {
         tree = new Tree(root);
         buildFirstLevel(currentState.getGamingPlayer().getHand(), tree.getRoot().getState(), currentState.getGamingPlayer());
 
-        return null;
+        double maxGain = 0;
+        Action bestAction = null;
+        for (Edge edge : tree.getRoot().getChildrenEdges()){
+            if (edge.getChildNode().getWeigth() >= maxGain){
+                maxGain = edge.getChildNode().getWeigth();
+                bestAction = edge.getAction();
+            }
+        }
+
+        Hexagon h1 = null;
+        Hexagon h2 = null;
+
+
+        Optional one = currentState.getCurrentBoard().getGrid().getByCubeCoordinate(bestAction.getH1().getCubeCoordinate());
+        Optional two = currentState.getCurrentBoard().getGrid().getByCubeCoordinate(bestAction.getH2().getCubeCoordinate());
+        if (one.isPresent() && two.isPresent()){
+            h1 = (Hexagon) one.get();
+            h2 = (Hexagon) two.get();
+
+        }
+
+        Action realAction = new Action(h1, h2, bestAction.getTile());
+
+        return realAction;
     }
 }

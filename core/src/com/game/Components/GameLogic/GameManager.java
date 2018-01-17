@@ -39,7 +39,8 @@ public class GameManager{
         int player1Win = 0;
         int player2Win = 0;
 
-        for (int i = 1; i <= n; i++){
+
+        for (int i = 1; i <= 1; i++){
             long sTime = System.currentTimeMillis();
             this.currentState = new GameState();
             System.out.println("Game " + i);
@@ -48,7 +49,7 @@ public class GameManager{
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
-                //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
+                System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
 
             }
 
