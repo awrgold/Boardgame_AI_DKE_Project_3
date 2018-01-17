@@ -44,8 +44,14 @@ public class Hand extends GroupView{
         this.hand = tiles;
     }
 
-    public void act(float delta) {
-       // super.act(delta);
+    public void act(ArrayList<Tile> tiles) {
 
+       this.setHand(tiles);
+
+
+    }
+
+    public void setHand(ArrayList<Tile> hand) {
+        this.hand = hand;
     }
 }

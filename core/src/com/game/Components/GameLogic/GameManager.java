@@ -1,7 +1,9 @@
 package com.game.Components.GameLogic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.GameAssets.*;
+import com.game.Components.GameScoreAssets.CustomLabel;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
@@ -17,19 +19,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager{
-
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
     private Tree gameTree;
     private Action move;
-
+//private int num;
+private String text;
 
     public GameManager(){
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
 //runSimulation();
+
+
+
 
     }
     public void runSimulation(){
@@ -45,13 +50,14 @@ public class GameManager{
             this.currentState = new GameState();
             System.out.println("Game " + i);
             int turns = 0;
+          //  num = turns;
             while (!getBoard().gameOver()){
                 turns ++;
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
                 //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
-getBoard().act(Gdx.graphics.getDeltaTime());
+//getBoard().act(Gdx.graphics.getDeltaTime());
 
             }
 
@@ -347,7 +353,23 @@ getBoard().act(Gdx.graphics.getDeltaTime());
 
     }
 
+//    int num=0;
+//    public void updateAssets() {
+//        num++;
+//        text = "tester Label " + num;
+//        getLabel().act(text);
+//        //getHandByIndex(0).act();
+//        //getHandByIndex(1).act();
+//        getBoard().act();
+//    }
 
-    public void updateAssets(float delta) {
+
+
+    public CustomLabel getLabel() {
+        return currentState.getCurrentLabel();
     }
+
+//    public int getNum() {
+//        return num;
+//    }
 }

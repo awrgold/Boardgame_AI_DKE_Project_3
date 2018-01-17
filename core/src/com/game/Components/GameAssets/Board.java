@@ -1,6 +1,8 @@
 package com.game.Components.GameAssets;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.game.Components.PlayerAssets.Player;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
@@ -33,7 +35,7 @@ private SpriteBatch batch;
                 hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
-
+                //hexActor.getHexagon().
                 if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
                     hexActor.setHexColor("B");
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
@@ -160,10 +162,25 @@ private SpriteBatch batch;
             return null;
         }
     }
-    public void act(float delta) {
-      super.act(delta);
 
+    public void act() {
+     // super.act(delta);
+this.setGrid(grid);
+        grid.getHexagons().forEach(new Action1<Hexagon>() {
+            @Override
+            public void call(Hexagon hexagon) {
+
+                if (hexagon.getSatelliteData().isPresent()){
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+                   currentHexActor.act(currentHexActor.getSprite());
+                }
+
+            }
+        });
+}
+
+    public void setGrid(HexagonalGrid<Link> grid) {
+        this.grid = grid;
     }
-
-
 }

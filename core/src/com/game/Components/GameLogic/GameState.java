@@ -1,9 +1,18 @@
 package com.game.Components.GameLogic;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
+import com.game.Components.GameScoreAssets.CustomLabel;
+import com.game.Components.GameScoreAssets.ScoreBarGroup;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
@@ -17,12 +26,26 @@ import java.util.Arrays;
 
 import static java.util.Arrays.sort;
 
-public class GameState {
+public class GameState extends Stage {
+    private CustomLabel label;
+
+    private ScoreBarGroup scorebars1;
+    private ScoreBarGroup scorebars2;
+    // private Stage stage;
+    private Table root;
+    public static TextButton[] changeTiles;
+
+      //private CustomLabel label;
+
+
 
     private Player[] players;
     private Board currentBoard;
     private Bag currentBag;
     private Player gamingPlayer;
+    private String text;
+    private Skin skin;
+    private ExtendViewport viewport;
 
     public GameState() {
         players = new Player[2];
@@ -34,6 +57,11 @@ public class GameState {
         players[0] = new Player(1, currentBag.pickSix(), true);
         players[1] = new Player(2, currentBag.pickSix(), true);
         gamingPlayer = players[0];
+        this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        text = "tester Label ";
+        this.label = new CustomLabel(text,skin);
+        //this.viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
+
     }
 
     public GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
@@ -49,7 +77,77 @@ public class GameState {
 
 
     }
+    public void buildStage(ExtendViewport viewport) {
 
+       setViewport(viewport);
+       this.label = new CustomLabel(text,skin);
+
+        root = new Table();
+        root.setFillParent(true);
+
+        root.debug(Table.Debug.all);
+
+        // Create the score column add a score bar group for each player
+        Table scoreColumn = new Table();
+//scoreColumn.validate();
+
+        scorebars1 = new ScoreBarGroup(250,350, players[0].getPlayerScore(),players[0].getPlayerNo());
+        scoreColumn.add(scorebars1);
+        scoreColumn.row();
+        scoreColumn.row().expandX();
+        scorebars2 = new ScoreBarGroup(250,350, players[1].getPlayerScore(),players[1].getPlayerNo());
+        scoreColumn.add(scorebars2);
+        scoreColumn.row();
+        root.add(scoreColumn).colspan(2).expand().fill();
+
+
+        // Create the board
+        Table boardColumn = new Table();
+        //boardColumn.debug();
+//boardColumn.validate();
+        //2 buttons for change hand
+        changeTiles = new TextButton[2];
+        for (int i = 1; i <= 2; i++){
+            changeTiles[i - 1] = new TextButton("Change Tiles", skin);
+        }
+
+        //p1 tiles
+        //boardColumn.row().height(100).top().expandX();
+        //boardColumn.add(new Label("PlayerAssets 1 Hand", skin));
+        boardColumn.row().height(130).top().fillX();
+        boardColumn.add(changeTiles[0]).height(100).width(100).bottom().left();
+        changeTiles[0].setTouchable(Touchable.disabled);
+        changeTiles[0].setVisible(false);
+
+        boardColumn.add(players[0].getHand()).expandX().center();
+        boardColumn.row().fillX();
+
+       //board
+        // boardColumn.debug(Debug.all);
+        boardColumn.row().height(400).width(-450);
+        // GBV  and PHV Change
+        boardColumn.row().height(750).width(-200);
+        boardColumn.add(currentBoard).expandY().center();
+        // boardColumn.add(gbv).expand().left();
+        boardColumn.row();
+
+        //p2 tiles
+        //boardColumn.row().height(100).bottom().expandX();
+        //boardColumn.add(new Label("PlayerAssets 2 Hand", skin));
+        boardColumn.row().height(130).bottom().fillX();
+        boardColumn.add(changeTiles[1]).height(100).width(100).top().left();
+        changeTiles[1].setTouchable(Touchable.disabled);
+        changeTiles[1].setVisible(false);
+
+        boardColumn.add(players[1].getHand()).expandX().center();
+
+        root.add(boardColumn).colspan(4).expand().left().fillY();
+//        root.add(label);
+//      //  root.pack();
+////        root.validate();
+        addActor(root);
+//
+   }
 
     public Player[] getPlayers(){
         return players;
@@ -188,4 +286,11 @@ public class GameState {
     }
 
 
+    public CustomLabel getCurrentLabel() {
+        return label;
+    }
+
+    public void update() {
+
+    }
 }

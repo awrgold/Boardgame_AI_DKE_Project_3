@@ -12,7 +12,4 @@ public abstract class GroupView extends Group  {
     {
         super.act(delta);
     }
-    public void handleTouch(){
-
-    }
 }

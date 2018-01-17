@@ -23,7 +23,8 @@ public class GameIngenious extends Game {
       // showGameScreen();
         manager = new GameManager();
         screen = new GameScreen(this, manager);
-        screen.buildStage();
+       // screen.buildStage();
+
         setScreen(screen);
 
 //        long startTime = System.currentTimeMillis();

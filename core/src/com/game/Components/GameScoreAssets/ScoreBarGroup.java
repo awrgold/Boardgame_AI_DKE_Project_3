@@ -86,7 +86,7 @@ public class ScoreBarGroup extends VerticalGroup{
 
     }
     public void act( float delta) {
-        super.act(delta);
+       // super.act(delta);
        sc = " | ";
         for (int i = 0; i<num;i++){
             int v = scores[i];

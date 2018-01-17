@@ -12,7 +12,7 @@ import com.game.Components.GameConstants.Constants;
 
 import java.util.List;
 
-public class HexagonActor extends Actor{
+public class HexagonActor extends Actor {
 
     protected Hexagon<Link> hexagon;
     private Sprite sprite;
@@ -136,61 +136,64 @@ public class HexagonActor extends Actor{
     }
 
     // Gets the color of a sprite
-    public static String getSpriteColor(HexagonActor hexActor){
-        Texture texture = hexActor.getSprite().getTexture();
-        String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
-
-        String violet = "colours/violet.png";
-        String red =    "colours/red.png";
-        String blue =   "colours/blue.png";
-        String yellow = "colours/yellow.png";
-        String orange = "colours/orange.png";
-        String purple = "colours/purple.png";
-        String empty = "4players.png";
-
-
-
-        if(path.equals(purple)){
-            path = "P";
-            return path;
-        }
-
-        else if(path.equals(red)){
-            path = "R";
-            return path;
-        }
-
-        else if(path.equals(blue)){
-            path = "B";
-            return path;
-        }
-
-        else if(path.equals(yellow)){
-            path = "Y";
-            return path;
-        }
-
-        else if(path.equals(orange)){
-            path = "O";
-            return path;
-        }
-
-        else if(path.equals(violet)){
-            path = "V";
-            return path;
-        }
-
-        else if(path.equals(empty)){
-            path = "EMPTY";
-            return path;
-        }
-
-        else {
-            return null;
-        }
+//    public static String getSpriteColor(HexagonActor hexActor){
+//        Texture texture = hexActor.getSprite().getTexture();
+//        String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
+//
+//        String violet = "colours/violet.png";
+//        String red =    "colours/red.png";
+//        String blue =   "colours/blue.png";
+//        String yellow = "colours/yellow.png";
+//        String orange = "colours/orange.png";
+//        String purple = "colours/purple.png";
+//        String empty = "4players.png";
+//
+//
+//
+//        if(path.equals(purple)){
+//            path = "P";
+//            return path;
+//        }
+//
+//        else if(path.equals(red)){
+//            path = "R";
+//            return path;
+//        }
+//
+//        else if(path.equals(blue)){
+//            path = "B";
+//            return path;
+//        }
+//
+//        else if(path.equals(yellow)){
+//            path = "Y";
+//            return path;
+//        }
+//
+//        else if(path.equals(orange)){
+//            path = "O";
+//            return path;
+//        }
+//
+//        else if(path.equals(violet)){
+//            path = "V";
+//            return path;
+//        }
+//
+//        else if(path.equals(empty)){
+//            path = "EMPTY";
+//            return path;
+//        }
+//
+//        else {
+//            return null;
+//        }
+//    }
+    public void act(Sprite sprite) {
+setSprite(sprite);
     }
-    public void act(float delta) {
-    //    super.act(delta);
 
-    }
+
+
 }
+
