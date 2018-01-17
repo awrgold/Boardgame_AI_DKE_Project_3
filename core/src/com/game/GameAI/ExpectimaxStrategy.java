@@ -6,6 +6,7 @@ import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.GameLogic.GameView;
 import com.game.Components.PlayerAssets.Hand;
+import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
@@ -28,13 +29,13 @@ public class ExpectimaxStrategy implements Strategy {
 
     Tree tree;
 
-    private Action bestTilePlacement(Tile tile, GameState currentState) {
+    private Action bestTilePlacement(Tile tile, GameView currentState, Player player) {
         ArrayList<Action> possibleActions = new ArrayList<>();
-        HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
+        HexagonalGrid grid = currentState.getBoard().getGrid();
         String color;
-        if (currentState.getGamingPlayer().lowestColors().contains(tile.getActors()[0].getHexColor())){
+        if (player.lowestColors().contains(tile.getActors()[0].getHexColor())){
             color = tile.getActors()[0].getHexColor();
-        } else if (currentState.getGamingPlayer().lowestColors().contains(tile.getActors()[1].getHexColor())) {
+        } else if (player.lowestColors().contains(tile.getActors()[1].getHexColor())) {
             color = tile.getActors()[1].getHexColor();
         } else {
             color = tile.getActors()[0].getHexColor();
@@ -120,10 +121,10 @@ public class ExpectimaxStrategy implements Strategy {
 
         }
 
-        int bestGain = 0;
+        double bestGain = 0;
         Action bestPlacement = null;
         for (Action a : possibleActions){
-            int gain = a.actionGain(grid);
+            double gain = a.actionGain(grid);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = a;
@@ -176,27 +177,25 @@ public class ExpectimaxStrategy implements Strategy {
 
     }
 
-    public void buildFirstLevel(Hand hand, GameState currentState){
+    public void buildFirstLevel(Hand hand, GameView currentState, Player player){
 
-        ArrayList<Tile> tiles = new ArrayList<>();
-        for (Tile pick : hand.getPieces()){
-            tiles.add(pick);
-        }
 
-        for (Tile t : tiles){
-            GameState playOnThis = new GameState(currentState.getPlayers(), currentState.getCurrentBoard(), currentState.getCurrentBag(), currentState.getGamingPlayer());
-            Action move = bestTilePlacement(t, playOnThis);
-            System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(playOnThis.getCurrentBoard().getGrid()));
+        for (Tile t : hand.getPieces()){
+            Action move = bestTilePlacement(t, currentState, player);
+            System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(currentState.getBoard().getGrid()));
             tree.getRoot().setChild(move);
-            System.out.println(Arrays.toString(currentState.getGamingPlayer().getPlayerScore()));
+
         }
 
 
     }
 
     public Action decideMove(GameState currentState) {
-        tree = new Tree(new GameView(currentState.getCurrentBoard()));
-        buildFirstLevel(currentState.getGamingPlayer().getHand(), currentState);
+
+        GameView root = new GameView(currentState.getCurrentBoard());
+
+        tree = new Tree(root);
+        buildFirstLevel(currentState.getGamingPlayer().getHand(), tree.getRoot().getState(), currentState.getGamingPlayer());
 
         return null;
     }

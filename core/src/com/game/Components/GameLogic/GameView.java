@@ -1,7 +1,6 @@
 package com.game.Components.GameLogic;
 
 import com.game.Components.GameAssets.Board;
-import com.game.Components.PlayerAssets.Player;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -11,18 +10,22 @@ import rx.functions.Action1;
 
 public class GameView {
 
-    private Board boardView;
+    private Board board;
     private int[][] scores;
 
     public GameView(Board board){
-        this.boardView = cloneBoard(board);
+        this.board = cloneBoard(board);
 
     }
 
-    public Board cloneBoard(Board board){
+    public Board getBoard() {
+        return board;
+    }
+
+    public Board cloneBoard(Board boardToCopy){
         Board newBoard = new Board();
 
-        board.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>(){
+        boardToCopy.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>(){
             @Override
             public void call(Hexagon hexagon) {
                 //FOR EACH HEXAGON
@@ -77,7 +80,7 @@ public class GameView {
 
         }
 
-        nextView = new GameView(boardView);
+        nextView = new GameView(board);
         if(one != null && two != null){
             one.setHexColor("EMPTY");
             two.setHexColor("EMPTY");

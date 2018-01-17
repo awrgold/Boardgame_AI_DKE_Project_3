@@ -28,7 +28,7 @@ public class GameManager{
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-        runSimulation();
+        //runSimulation();
 
     }
     public void runSimulation(){
@@ -167,11 +167,6 @@ public class GameManager{
             Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
             //System.out.println(AiMove.toString());
             //AiMove.getTile().moveBy(0, 30);
-            /*try {
-                Thread.sleep(5000);
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }*/
 
             currentState = currentState.applyAction(AiMove);
         }

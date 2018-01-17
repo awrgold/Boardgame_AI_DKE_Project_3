@@ -69,9 +69,9 @@ public class Action {
 
     }
 
-    public int actionGain(HexagonalGrid grid){
+    public double actionGain(HexagonalGrid grid){
         HexagonActor first = null;
-        int totalGain = 0;
+        double totalGain = 0;
 
         if (h1.getSatelliteData().isPresent()){
             Link hexLink = (Link) h1.getSatelliteData().get();
@@ -82,6 +82,7 @@ public class Action {
             for (int i = 0; i < 6; i++){
                 totalGain += gain1[i];
             }
+
             currentHexActor.setHexColor("EMPTY");
         }
 
