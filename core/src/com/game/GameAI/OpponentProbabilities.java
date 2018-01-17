@@ -2,7 +2,6 @@ package com.game.GameAI;
 
 
 import TreeStructure.Tree;
-import org.apache.commons.math3.util.Combinations;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameConstants.Pieces;
@@ -14,6 +13,8 @@ import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.PlayerAssets.Tile;
+import org.apache.commons.math3.util.Combinations;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.util.ArrayList;
 
@@ -80,7 +81,6 @@ public class OpponentProbabilities {
                 N = population size
                 n = number of draws from the population
 
-                HyperGeometric Distribution:
                 P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
                 */
                 int S = numDoublesLeft;
@@ -88,8 +88,7 @@ public class OpponentProbabilities {
                 int N = getInvisibleTiles().size();
                 int n = 1;
 
-                double prob = (Combinations())
-
+                
             }
         }
 
@@ -107,7 +106,6 @@ public class OpponentProbabilities {
                 N = population size
                 n = number of draws from the population
 
-                HyperGeometric Distribution:
                 P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
                 */
                 int S = numSinglesLeft;
