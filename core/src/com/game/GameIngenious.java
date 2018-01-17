@@ -59,7 +59,7 @@ public class GameIngenious extends Game {
     public void showGameScreen(){
     ScreenManager.getInstance().initialize(this);
     ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
-manager.runSimulation();
+//manager.runSimulation();
     }
     public void ShowMenuScreen(){
         ScreenManager.getInstance().initialize(this);

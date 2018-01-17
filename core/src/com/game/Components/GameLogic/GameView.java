@@ -91,37 +91,37 @@ public class GameView {
 
         return nextView;
     }
-    public boolean gameOver() {
-        this.over = true;
-        board.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon hexagon) {
-                if (hexagon.getSatelliteData().isPresent()) {
-                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
-
-                    if (currentHexActor.getHexColor().equals("EMPTY")) {
-                        for (Object hex : board.getGrid().getNeighborsOf(hexagon)) {
-
-                            if (hex instanceof Hexagon) {
-                                Hexagon currentNeighbor = (Hexagon) hex;
-
-                                if (currentNeighbor.getSatelliteData().isPresent()) {
-                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
-                                    HexagonActor neighHexActor = neighLink.getActor();
-
-                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
-                                        over = false;
-                                        break;
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        return over;
-    }
+//    public boolean gameOver() {
+//        this.over = true;
+//        board.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>() {
+//            @Override
+//            public void call(Hexagon hexagon) {
+//                if (hexagon.getSatelliteData().isPresent()) {
+//                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+//                    HexagonActor currentHexActor = hexLink.getActor();
+//
+//                    if (currentHexActor.getHexColor().equals("EMPTY")) {
+//                        for (Object hex : board.getGrid().getNeighborsOf(hexagon)) {
+//
+//                            if (hex instanceof Hexagon) {
+//                                Hexagon currentNeighbor = (Hexagon) hex;
+//
+//                                if (currentNeighbor.getSatelliteData().isPresent()) {
+//                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
+//                                    HexagonActor neighHexActor = neighLink.getActor();
+//
+//                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+//                                        over = false;
+//                                        break;
+//                                    }
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//        return over;
+//    }
 }
