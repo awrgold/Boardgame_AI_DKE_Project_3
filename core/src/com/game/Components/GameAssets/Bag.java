@@ -35,6 +35,10 @@ public class Bag {
         return six;
     }
 
+    public ArrayList<Tile> getBag(){
+        return bag;
+    }
+
     public Tile replaceTile(Tile t){
         bag.add(t);
         return pickTile();

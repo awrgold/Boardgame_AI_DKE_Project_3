@@ -1,5 +1,6 @@
 package com.game.Components.GameLogic;
 
+import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
@@ -15,7 +16,6 @@ public class GameView {
 
     public GameView(Board board){
         this.board = cloneBoard(board);
-
     }
 
     public Board getBoard() {
@@ -68,7 +68,6 @@ public class GameView {
             HexagonActor currentHexActor = hexLink.getActor();
             currentHexActor.setHexColor(a.getTileColors()[0]);
             one = currentHexActor;
-
         }
 
         if (a.getH2().getSatelliteData().isPresent()){
@@ -77,7 +76,6 @@ public class GameView {
             HexagonActor currentHexActor = hexLink.getActor();
             currentHexActor.setHexColor(a.getTileColors()[1]);
             two = currentHexActor;
-
         }
 
         nextView = new GameView(board);
