@@ -223,6 +223,7 @@ public class GreedyStrategy implements Strategy{
             System.out.println("best action not found");
         }
 
+        System.out.println("Best action found");
         return bestAction;
 
     }

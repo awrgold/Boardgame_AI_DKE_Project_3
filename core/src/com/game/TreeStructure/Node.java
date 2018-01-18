@@ -12,6 +12,7 @@ public class Node {
     private Edge parentEdge;
     private ArrayList<Edge> childrenEdges;
     private double weight;
+    private Action actionUsed;
 
     public Node(GameState state){
         this.state = state;
@@ -20,6 +21,14 @@ public class Node {
 
     public void setWeight(double x){
         weight = x;
+    }
+
+    public void setActionUsed(Action actionUsed) {
+        this.actionUsed = actionUsed;
+    }
+
+    public Action getActionUsed() {
+        return actionUsed;
     }
 
     public GameState getState(){
@@ -46,15 +55,26 @@ public class Node {
         this.state = state;
     }
 
-    public void setChild(Action action) {
+    public Node setChild(Action action, double gain) {
+        //System.out.println(action.toString());
 
-        weight = action.actionGain(getState().getCurrentBoard().getGrid());
-        GameState nextView = state.applyAction(action);
-        Node child = new Node(nextView);
-        Edge edge = new Edge(this, child, action);
-        child.setParentEdge(edge);
-        childrenEdges.add(edge);
+        //double gain = action.actionGain(state.getCurrentBoard().getGrid());
+
+        GameState nextSate = state.cloneGameState();
+        System.out.println("Gaming Player " + nextSate.getGamingPlayer().getPlayerNo());
+        Action modifiedAction = action.translateAction(nextSate);
+
+        nextSate = nextSate.applyAction(modifiedAction);
+        //System.out.println(modifiedAction.toString());
+        Node child = new Node(nextSate);
+        child.setActionUsed(modifiedAction);
+        child.setWeight(gain);
+        //Edge edge = new Edge(this, child, action);
+        //child.setParentEdge(edge);
+        //childrenEdges.add(edge);
         System.out.println("creating node: " + weight);
+
+        return child;
 
 
 

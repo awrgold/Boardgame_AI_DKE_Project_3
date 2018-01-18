@@ -7,6 +7,7 @@ import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.backport.Optional;
 
 public class Action {
     private Hexagon h1;
@@ -51,22 +52,42 @@ public class Action {
     }
 
     public Color[] getTileColors(){
-        Color[] colors = new Color[2];
 
-        colors[0] = tile.getFirst().getHexColor();
-        colors[1] = tile.getSecond().getHexColor();
-
-        return colors;
+        return tile.getColors();
     }
 
     public String toString(){
         if(tile != null && h1 != null && h2 != null){
-            return "Placing Tile: " + tile.getFirst().getHexColor().toString() + " - " + tile.getSecond().getHexColor().toString() +
+            return "Placing Tile: " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString() +
                     " || in hexagons: " + h1.getCubeCoordinate().toAxialKey() + " - " + h2.getCubeCoordinate().toAxialKey();
         } else {
             return "something is missing";
         }
 
+    }
+
+    public Action translateAction(GameState stateToPlay){
+
+        Action rightAction = new Action();
+
+        for (Tile t : stateToPlay.getGamingPlayer().getHand().getPieces()){
+
+            if (t.isEqual(tile)){
+                rightAction.setTile(t);
+            }
+        }
+
+        Optional one = stateToPlay.getCurrentBoard().getGrid().getByCubeCoordinate(h1.getCubeCoordinate());
+        Optional two = stateToPlay.getCurrentBoard().getGrid().getByCubeCoordinate(h2.getCubeCoordinate());
+        if (one.isPresent() && two.isPresent()){
+            rightAction.setH1((Hexagon) one.get());
+            rightAction.setH2((Hexagon) two.get());
+
+        }
+
+        //System.out.println(rightAction.toString());
+
+        return rightAction;
     }
 
     public double actionGain(HexagonalGrid grid){

@@ -1,12 +1,12 @@
 package com.game.GameAI;
 
+import com.badlogic.gdx.Game;
 import com.game.TreeStructure.Edge;
+import com.game.TreeStructure.Node;
 import com.game.TreeStructure.Tree;
 import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
-import com.game.Components.GameLogic.GameView;
-import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
@@ -17,8 +17,11 @@ import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExpectimaxStrategy implements Strategy {
+
+    public static final int INF = 1000;
 
     /*
     1) create a new tree with the current state as root
@@ -162,47 +165,81 @@ public class ExpectimaxStrategy implements Strategy {
 
         return randomAction;
     }
-    public void buildFirstLevel(Hand hand, GameState currentState, Player player){
+    public ArrayList<Action> possibleNextActions(GameState currentState, Player player){
 
-
-        for (Tile t : hand.getPieces()){
+        ArrayList<Action> possibleActions = new ArrayList<>();
+        for (Tile t : player.getHand().getPieces()){
             Action move = bestTilePlacement(t, currentState, player);
+            possibleActions.add(move);
+
             //System.out.println("New node: " + move.toString() + " || Gain: " + move.actionGain(currentState.getBoard().getGrid()));
-            tree.getRoot().setChild(move);
+
+            /*bisogna ritoranre una lista di possibili azioni per un determinato giocatore in un determinato stato (nodo) dell'albero della partita
+            * lo stato di partenza va duplicato per generare una deep copy su cui applicare l'Action e passare nello stato successivo che si salverà all'interno di un nuovo nodo
+            * */
 
         }
+        return possibleActions;
 
 
     }
 
-    public Action decideMove(GameState currentState) {
+    public Node expectiminimax(Node node, int depth) {
+        System.out.println("Deeper: " + depth);
+        double a;
+        if(depth == 0) {
+            return node;
+        }
 
-        tree = new Tree(currentState.cloneGameState());
-        buildFirstLevel(tree.getRoot().getState().getGamingPlayer().getHand(), tree.getRoot().getState(), tree.getRoot().getState().getGamingPlayer());
+        Node next;
+        Action nextMove = null;
 
-        double maxGain = 0;
-        Action bestAction = null;
-        for (Edge edge : tree.getRoot().getChildrenEdges()){
-            if (edge.getChildNode().getWeight() >= maxGain){
-                maxGain = edge.getChildNode().getWeight();
-                bestAction = edge.getAction();
+        if(depth % 3 == 1 ) {
+            a = INF;
+            ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
+            for(int i = 0; i < possibleActions.size(); i++) {
+                next = expectiminimax(node.setChild(possibleActions.get(i), possibleActions.get(i).actionGain(node.getState().getCurrentBoard().getGrid())), depth - 1);
+                if(a > next.getWeight()) {
+                    a = next.getWeight();
+                    nextMove = possibleActions.get(i);
+                }
             }
         }
+        else if(depth % 3 == 0) {
+            a = -INF;
+            ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
+            System.out.println("Found " + possibleActions.size() + " possible actions to play");
+            for(int i = 0; i < possibleActions.size(); i++) {
+                next = expectiminimax(node.setChild(possibleActions.get(i), possibleActions.get(i).actionGain(node.getState().getCurrentBoard().getGrid())), depth - 1);
+                if(a < next.getWeight()) {
+                    a = next.getWeight();
+                    nextMove = possibleActions.get(i);
+                }
+            }
+        }
+        else {
+            a = 0;
+            ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
+            for(int i = 0; i < possibleActions.size(); i++) {
+                next = expectiminimax(node.setChild(possibleActions.get(i)), depth - 1);
+                double b = (double)1/6;
+                a = a + b * next.getWeight();
+            }
 
-        Hexagon h1 = null;
-        Hexagon h2 = null;
 
-
-        Optional one = currentState.getCurrentBoard().getGrid().getByCubeCoordinate(bestAction.getH1().getCubeCoordinate());
-        Optional two = currentState.getCurrentBoard().getGrid().getByCubeCoordinate(bestAction.getH2().getCubeCoordinate());
-        if (one.isPresent() && two.isPresent()){
-            h1 = (Hexagon) one.get();
-            h2 = (Hexagon) two.get();
 
         }
 
-        Action realAction = new Action(h1, h2, bestAction.getTile());
+        System.out.println("Weight: " + a);
+        return node.setChild(nextMove, a);
+    }
 
-        return realAction;
+    public Action decideMove(GameState currentState) {
+
+        Node root = new Node(currentState);
+
+        Node bestNode = expectiminimax(root, 2);
+
+        return bestNode.getActionUsed();
     }
 }

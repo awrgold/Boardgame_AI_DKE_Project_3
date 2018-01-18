@@ -37,7 +37,15 @@ public class Tile extends GroupView {
     }
 
     public Tile cloneTile(){
+
         return new Tile(getColors());
+
+    }
+
+    public boolean isEqual(Tile one){
+        //System.out.println(getColors()[0].toString() + one.getColors()[0].toString() + getColors()[1].toString() + one.getColors()[1].toString());
+        //System.out.println(getColors() == one.getColors());
+        return getColors() == one.getColors();
 
     }
 
