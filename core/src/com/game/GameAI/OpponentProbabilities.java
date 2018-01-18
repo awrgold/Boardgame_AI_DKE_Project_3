@@ -26,7 +26,7 @@ public class OpponentProbabilities {
     private Bag bag;
     private Hand hand;
     private GameState state;
-    private Tree currentTree = new Tree();
+    private Tree currentTree = new Tree(state);
     private int numDoublesLeft = 0;
     private int numSinglesLeft = 0;
     private ArrayList<Tile> invisibleTiles = new Bag(Pieces.createBagPieces()).getBag();
