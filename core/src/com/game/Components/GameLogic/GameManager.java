@@ -48,7 +48,7 @@ public class GameManager{
         scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
 
     }
-    public GameState runSimulation(){
+    public void runSimulation(){
         int n = 10;
         ArrayList<Long>gameTimes = new ArrayList<Long>();
         long startTime = System.currentTimeMillis();
@@ -96,9 +96,7 @@ public class GameManager{
             System.out.println(" Total : " + totalTime + " ms");
             System.out.println("Player 1 won: " + player1Win + " times");
             System.out.println("Player 2 won: " + player2Win + " times");
-            return currentState;
-        //}
-       // return new GameState();
+
        }
 
 
