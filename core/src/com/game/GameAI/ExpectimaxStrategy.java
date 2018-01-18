@@ -1,8 +1,7 @@
 package com.game.GameAI;
 
-import TreeStructure.Edge;
-import TreeStructure.Node;
-import TreeStructure.Tree;
+import com.game.TreeStructure.Edge;
+import com.game.TreeStructure.Tree;
 import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
@@ -18,7 +17,6 @@ import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ExpectimaxStrategy implements Strategy {
 

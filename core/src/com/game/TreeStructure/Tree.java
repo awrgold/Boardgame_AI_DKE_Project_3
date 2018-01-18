@@ -1,4 +1,4 @@
-package TreeStructure;
+package com.game.TreeStructure;
 
 import com.game.Components.GameLogic.GameView;
 

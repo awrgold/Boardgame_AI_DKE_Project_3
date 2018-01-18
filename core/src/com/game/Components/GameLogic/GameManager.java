@@ -6,14 +6,13 @@ import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
-import TreeStructure.Tree;
+import com.game.TreeStructure.Tree;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GameManager{
 
