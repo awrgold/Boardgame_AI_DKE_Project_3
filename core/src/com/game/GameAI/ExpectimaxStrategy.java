@@ -18,7 +18,7 @@ import rx.functions.Action1;
 
 import java.util.ArrayList;
 
-Dpublic class ExpectimaxStrategy implements Strategy {
+public class ExpectimaxStrategy implements Strategy {
 
     /*
     1) create a new tree with the current state as root
