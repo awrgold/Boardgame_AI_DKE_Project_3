@@ -48,8 +48,8 @@ public class Node {
 
     public void setChild(Action action) {
 
-        weight = action.actionGain(getState().getBoard().getGrid());
-        GameView nextView = state.simulateAction(action);
+        weight = action.actionGain(getState().getCurrentBoard().getGrid());
+        GameState nextView = state.applyAction(action);
         Node child = new Node(nextView);
         Edge edge = new Edge(this, child, action);
         child.setParentEdge(edge);

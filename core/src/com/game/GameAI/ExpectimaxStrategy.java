@@ -18,7 +18,7 @@ import rx.functions.Action1;
 
 import java.util.ArrayList;
 
-public class ExpectimaxStrategy implements Strategy {
+Dpublic class ExpectimaxStrategy implements Strategy {
 
     /*
     1) create a new tree with the current state as root
@@ -183,8 +183,8 @@ public class ExpectimaxStrategy implements Strategy {
         double maxGain = 0;
         Action bestAction = null;
         for (Edge edge : tree.getRoot().getChildrenEdges()){
-            if (edge.getChildNode().getWeigth() >= maxGain){
-                maxGain = edge.getChildNode().getWeigth();
+            if (edge.getChildNode().getWeight() >= maxGain){
+                maxGain = edge.getChildNode().getWeight();
                 bestAction = edge.getAction();
             }
         }
@@ -202,7 +202,6 @@ public class ExpectimaxStrategy implements Strategy {
         }
 
         Action realAction = new Action(h1, h2, bestAction.getTile());
-
 
         return realAction;
     }
