@@ -38,7 +38,7 @@ public class Player{
     private boolean isExpectiMax;
     private Strategy strategy;
 
-public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
         this.isAI = isAI;
@@ -63,6 +63,13 @@ public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean 
                 strategy = new ExpectimaxStrategy();
             }
         }
+
+    }
+
+    public Player clonePlayer(){
+        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS);
+        newPlayer.setPlayerScore(playerScore.clone());
+        return newPlayer;
 
     }
 
@@ -102,6 +109,10 @@ public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean 
 
     public int getPlayerNo() {
         return playerNo;
+    }
+
+    public void setPlayerScore(int[] playerScore) {
+        this.playerScore = playerScore;
     }
 
     public static void updateScore(int[] scoreGains, Player player){

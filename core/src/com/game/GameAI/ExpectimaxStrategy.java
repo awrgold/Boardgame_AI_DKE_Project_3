@@ -32,9 +32,9 @@ public class ExpectimaxStrategy implements Strategy {
 
     Tree tree;
 
-    private Action bestTilePlacement(Tile tile, GameView currentState, Player player) {
+    private Action bestTilePlacement(Tile tile, GameState currentState, Player player) {
         ArrayList<Action> possibleActions = new ArrayList<>();
-        HexagonalGrid grid = currentState.getBoard().getGrid();
+        HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
         Color color;
         if (player.lowestColors().contains(tile.getActors()[0].getHexColor())){
             color = tile.getActors()[0].getHexColor();
@@ -164,7 +164,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         return randomAction;
     }
-    public void buildFirstLevel(Hand hand, GameView currentState, Player player){
+    public void buildFirstLevel(Hand hand, GameState currentState, Player player){
 
 
         for (Tile t : hand.getPieces()){
@@ -179,10 +179,8 @@ public class ExpectimaxStrategy implements Strategy {
 
     public Action decideMove(GameState currentState) {
 
-        GameView root = new GameView(currentState.getCurrentBoard());
-
-        tree = new Tree(root);
-        buildFirstLevel(currentState.getGamingPlayer().getHand(), tree.getRoot().getState(), currentState.getGamingPlayer());
+        tree = new Tree(currentState.cloneGameState());
+        buildFirstLevel(tree.getRoot().getState().getGamingPlayer().getHand(), tree.getRoot().getState(), tree.getRoot().getState().getGamingPlayer());
 
         double maxGain = 0;
         Action bestAction = null;
@@ -206,6 +204,7 @@ public class ExpectimaxStrategy implements Strategy {
         }
 
         Action realAction = new Action(h1, h2, bestAction.getTile());
+
 
         return realAction;
     }

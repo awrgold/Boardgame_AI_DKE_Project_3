@@ -9,7 +9,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import rx.functions.Action1;
+
+import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 //import java.util.Arrays;
 
@@ -25,16 +29,28 @@ public class Tile extends GroupView {
     private HexagonActor first;
 
     public Tile(Color[] colors){
-        super();
+        //super();
         this.colors = colors;
         this.selected = false;
         this.actors = new HexagonActor[2];
         create();
     }
 
+    public Tile cloneTile(){
+        return new Tile(getColors());
+
+    }
+
     public void create() {
 
-        this.grid = Constants.tile.build();
+        HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
+                .setGridHeight(1)
+                .setGridWidth(2)
+                .setGridLayout(RECTANGULAR)
+                .setOrientation(POINTY_TOP)
+                .setRadius(40);
+
+        this.grid = tileBuilder.build();
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -64,10 +80,6 @@ public class Tile extends GroupView {
         super.act(delta);
     }
 
-    public Tile copy(Tile toCopy){
-        Tile newTile = new Tile(toCopy.getColors());
-        return newTile;
-    }
 
     public void setSelected(boolean s) {
         selected = s;

@@ -24,6 +24,42 @@ public class Board extends GroupView {
         create();
     }
 
+
+    public Board cloneBoard(){
+        Board newBoard = new Board();
+
+        this.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>(){
+            @Override
+            public void call(Hexagon hexagon) {
+                //FOR EACH HEXAGON
+                if (hexagon.getSatelliteData().isPresent()) {
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+                    //IF AN HEXAGON IN PREVIOUS BOARD IS NOT EMPTY
+                    if (!currentHexActor.getHexColor().equals(Color.EMPTY)) {
+                        //TAKE THE CORRESPONDING HEXAGON IN THE NEW BOARD
+                        Optional toCopy = newBoard.getGrid().getByCubeCoordinate(hexagon.getCubeCoordinate());
+                        if (toCopy.isPresent()){
+                            Hexagon copy = (Hexagon) toCopy.get();
+                            if (copy.getSatelliteData().isPresent()){
+                                Link copyLink = (Link) copy.getSatelliteData().get();
+                                HexagonActor copyHexActor = copyLink.getActor();
+                                //AND GIVE IT THE SAME COLOR
+                                copyHexActor.setHexColor(currentHexActor.getHexColor());
+                                //System.out.println("Hexagon copied: " + copyHexActor.getHexColor());
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+        });
+
+        return newBoard;
+    }
+
     public void create(){
         HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(11)
@@ -67,38 +103,6 @@ public class Board extends GroupView {
         });
     }
 
-    public Board copy(Board board){
-        Board newBoard = new Board();
-
-        board.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>(){
-            @Override
-            public void call(Hexagon hexagon) {
-                //FOR EACH HEXAGON
-                if (hexagon.getSatelliteData().isPresent()) {
-                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
-
-                    //IF AN HEXAGON IN PREVIOUS BOARD IS NOT EMPTY
-                    if (!currentHexActor.getHexColor().getColor().equals(Color.EMPTY)) {
-                        //TAKE THE CORRESPONDING HEXAGON IN THE NEW BOARD
-                        Optional toCopy = newBoard.getGrid().getByCubeCoordinate(hexagon.getCubeCoordinate());
-                        if (toCopy.isPresent()){
-                            Hexagon copy = (Hexagon) toCopy.get();
-                            if (copy.getSatelliteData().isPresent()){
-                                Link copyLink = (Link) copy.getSatelliteData().get();
-                                HexagonActor copyHexActor = copyLink.getActor();
-                                //AND GIVE IT THE SAME COLOR
-                                copyHexActor.setHexColor(currentHexActor.getHexColor());
-                                System.out.println("Hexagon copied: " + copyHexActor.getHexColor().toString());
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        return newBoard;
-    }
 
     public HexagonalGrid<Link> getGrid() {
         return grid;

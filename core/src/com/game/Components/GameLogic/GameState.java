@@ -34,8 +34,8 @@ public class GameState {
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-        players[0] = new Player(1, currentBag.pickSix(), true, true, false, false);
-        players[1] = new Player(2, currentBag.pickSix(), true, true, false, false);
+        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false);
+        players[1] = new Player(2, currentBag.pickSix(), true, false, true, false);
         gamingPlayer = players[0];
     }
 
@@ -53,12 +53,16 @@ public class GameState {
         }*/
     }
 
-    public GameState copy(GameState state){
-        GameState newState = new GameState();
-        newState.setCurrentBoard(state.getCurrentBoard());
-        newState.setPlayers(state.getPlayers());
-        newState.setGamingPlayer(state.getGamingPlayer());
-        newState.setCurrentBag(state.getCurrentBag());
+    public GameState cloneGameState(){
+        Player[] newPlayers = new Player[2];
+        Player newGamingPlayer = null;
+        for(int i = 0; i < 2; i++){
+            newPlayers[i] = getPlayers()[i].clonePlayer();
+            if (gamingPlayer == getPlayers()[i]){
+                newGamingPlayer = newPlayers[i];
+            }
+        }
+        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
 
         return newState;
     }
@@ -188,7 +192,7 @@ public class GameState {
 
     public GameState applyAction(Action a){
         HexagonActor first = null;
-        GameState nextState;
+        GameState nextState = cloneGameState();
 
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
@@ -211,7 +215,7 @@ public class GameState {
         gamingPlayer.getHand().removeFromHand(a.getTile());
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
 
-        nextState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
+
 
         return nextState;
     }
