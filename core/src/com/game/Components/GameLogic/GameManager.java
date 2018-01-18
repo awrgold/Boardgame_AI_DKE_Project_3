@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.GameAssets.*;
 import com.game.Components.GameScoreAssets.CustomLabel;
+import com.game.Components.GameScoreAssets.ScoreBarGroup;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
@@ -25,17 +26,26 @@ public class GameManager{
     private GameState currentState;
     private Tree gameTree;
     private Action move;
-//private int num;
-private String text;
 
+    private CustomLabel label;
+    private Skin skin;
+    private String text;
+    private ScoreBarGroup scorebars1;
+    private ScoreBarGroup scorebars2;
+    private int num=0;
     public GameManager(){
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
 //runSimulation();
+        this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        text = "tester Label ";
+        this.label = new CustomLabel(text,skin);
+        label.setFontScale(5);
+        label.setPosition(100,100);
 
-
-
+        scorebars1 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(0),getPlayerByIndex(0).getPlayerNo());
+        scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
 
     }
     public GameState runSimulation(){
@@ -46,8 +56,7 @@ private String text;
         int player1Win = 0;
         int player2Win = 0;
 
-
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= 3; i++) {
 
             long sTime = System.currentTimeMillis();
             setCurrentState(new GameState());
@@ -56,6 +65,7 @@ private String text;
             System.out.println("Game " + i);
             while (!getBoard().gameOver()) {
                 turns++;
+
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
@@ -73,42 +83,8 @@ private String text;
                 if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
             }
-            //  }
-//        long endTime   = System.currentTimeMillis();
-//        long totalTime = endTime - startTime;
-//        System.out.println(totalTime + " ms");
-//        System.out.println("Player 1 won: " + player1Win + " times");
-//        System.out.println("Player 2 won: " + player2Win + " times");
-//
-//    }
-//        for (int i = 1; i <= n; i++){
-//            long sTime = System.currentTimeMillis();
-//            this.currentState = new GameState();
-//            System.out.println("Game " + i);
-//            int turns = 0;
-//          //  num = turns;
-//            while (!getBoard().gameOver()){
-//                turns ++;
-//                Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-//                System.out.println(AiMove.toString());
-//                setCurrentState(getCurrentState().applyAction(AiMove));
-//                //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
-////getBoard().act(Gdx.graphics.getDeltaTime());
-//
-//            }
-//
-//            if (getBoard().gameOver()){
-//                //System.out.println("GAME OVER");
-//                System.out.println(" Number of turns : " + turns);
-//                long eTime   = System.currentTimeMillis();
-//                long tTime = eTime - sTime;
-//                gameTimes.add(tTime);
-//                System.out.println(tTime + " ms");
-//                System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-//                if (currentState.getWinner().getPlayerNo() == 1) player1Win++;
-//                else player2Win++;
-//            }
-//        }
+        }
+
             long endTime = System.currentTimeMillis();
             long totalTime = endTime - startTime;
             long averageTime = getAverage(gameTimes);
@@ -121,8 +97,8 @@ private String text;
             System.out.println("Player 1 won: " + player1Win + " times");
             System.out.println("Player 2 won: " + player2Win + " times");
             return currentState;
-        }
-        return new GameState();
+        //}
+       // return new GameState();
        }
 
 
@@ -206,27 +182,28 @@ private String text;
         return player2TurnNumber;
     }
 
-    public void changeState(Action action){
-        //System.out.println(action.toString());
-        currentState = currentState.applyAction(action);
-        if (getBoard().gameOver()){
-            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-
-        }
-        if (getGamingPlayer().isAI()){
-            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-            System.out.println(AiMove.toString());
-            //AiMove.getTile().moveBy(0, 30);
-
-            currentState = currentState.applyAction(AiMove);
-        }
-
-        move = new Action();
-        //if the new state is the last of the game, print the winner
-        if (getBoard().gameOver()){
-            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-        }
-    }
+//    public void changeState(Action action){
+//
+//        //System.out.println(action.toString());
+//        currentState = currentState.applyAction(action);
+//        if (getBoard().gameOver()){
+//            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+//
+//        }
+//        if (getGamingPlayer().isAI()){
+//            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+//            System.out.println(AiMove.toString());
+//            //AiMove.getTile().moveBy(0, 30);
+//
+//            currentState = currentState.applyAction(AiMove);
+//        }
+//
+//        move = new Action();
+//        //if the new state is the last of the game, print the winner
+//        if (getBoard().gameOver()){
+//            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+//        }
+//    }
 
     /*public void handleButtonTouch(Vector2 worldTouch){
 
@@ -351,7 +328,7 @@ private String text;
     }
 
     public boolean handleTouch(Vector2 worldTouch){
-        if (getGamingPlayer().getPlayerNo() == 2){
+        /*if (getGamingPlayer().getPlayerNo() == 2){
 
             handleTileTouch(worldTouch);
         } if(getGamingPlayer().getPlayerNo() == 1) {
@@ -368,6 +345,7 @@ private String text;
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }*/
+
         runSimulation();
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
@@ -388,21 +366,35 @@ private String text;
 
     }
 
-//    int num=0;
-//    public void updateAssets() {
-//        num++;
-//        text = "tester Label " + num;
-//        getLabel().act(text);
-//        //getHandByIndex(0).act();
-//        //getHandByIndex(1).act();
-//        getBoard().act();
-//    }
+    public int[] getPlayerScoreByIndex(int i) {
+        return currentState.getPlayer(i).getPlayerScore();
+    }
 
+    public void updateAssets() {
+        num++;
 
+        text = "tester Label " + num;
+        getLabel().act(text);
+
+        scorebars1.act(getPlayerScoreByIndex(0));
+        scorebars2.act(getPlayerScoreByIndex(1));
+
+//        getHandByIndex(0).act(delta);
+//        getHandByIndex(1).act(delta);
+//        getBoard().act(delta);
+    }
 
     public CustomLabel getLabel() {
-        return currentState.getCurrentLabel();
+        return label;
     }
+
+    public ScoreBarGroup getScoreBarByIndex(int i) {
+        if(i==0)
+            return scorebars1;
+        else
+            return scorebars2;
+    }
+
 
 //    public int getNum() {
 //        return num;

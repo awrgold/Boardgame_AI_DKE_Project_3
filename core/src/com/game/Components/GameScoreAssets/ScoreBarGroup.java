@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 
 public class ScoreBarGroup extends VerticalGroup{
     private Skin skin;
+    private String text;
   //  private PlayerAssets player;
     private int w;
     private int h;
@@ -44,20 +45,19 @@ public class ScoreBarGroup extends VerticalGroup{
         colors[4] = Color.VIOLET;
         colors[5] = Color.RED;
         //colors[6] = Color.DARK_GRAY;
-        sc = " | ";
-        for (int i = 0; i < num; i++){
+
+        this.sc = " | ";
+
+        for (int i = 0; i < num; i++) {
             int barH = (h / num) / 2;
             String c = scores[i] + " | ";
             sc = sc.concat(c);
             //overall score value on 140
-
             //score on 18
             int v = scores[i];
             int j = (v*140)/18;
             String s = Integer.toString(v);
-            scoreLabel = new CustomLabel("Player "+pNum+" Score : "+ sc , skin);
-            scoreLabel.setColor(colors[pNum]);
-            scoreLabel.setFontScale(2);
+
             cl[i]=new CustomLabel(s, skin);
             cl[i].setColor(colors[i]);
             cl[i].setFontScale(2);
@@ -79,28 +79,32 @@ public class ScoreBarGroup extends VerticalGroup{
 
 
         }
+        this.text = "Player "+pNum+" Score : "+ sc;
+        scoreLabel = new CustomLabel(text, skin);
+        scoreLabel.setColor(colors[pNum]);
+        scoreLabel.setFontScale(2);
 
 
        addActor(scoreLabel);
 
 
     }
-    public void act( float delta) {
+    public void act( int[] values) {
        // super.act(delta);
-       sc = " | ";
+      this.sc = " | ";
         for (int i = 0; i<num;i++){
-            int v = scores[i];
+            int v = values[i];
             int j = (v*140)/18;
-            String c = scores[i] + " | ";
-            sc = sc.concat(c);
+            String c = values[i] + " | ";
+           this.sc = sc.concat(c);
             String s = Integer.toString(v);
-            cl[i].updateText(s);
-           bars[i].updateVal(j);
+            cl[i].act(s);
+           bars[i].act(j);
 
        }
-       scoreLabel.updateText("Player "+pNum+" Score : "+ sc );
-
-
+       this.text = "Player "+pNum+" Score : "+ sc ;
+       scoreLabel.act(text);
+       // scoreLabel.act(text);
     }
 
     public int getRandom(){

@@ -25,9 +25,10 @@ public class Bar extends ProgressBar {
 
     }
 
-    public void act( float delta) {
+    public void act( int value) {
        // super.act(delta);
-        this.updateVal(val);
+        this.val = value;
+       // this.updateVal(val);
         getStyle().knob = Utils.getColoredDrawable(val, height, barColor);
 
     }

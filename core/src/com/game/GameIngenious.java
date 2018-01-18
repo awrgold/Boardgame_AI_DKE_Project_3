@@ -1,6 +1,7 @@
 package com.game;
 
 import Enum.ScreenEnum;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameManager;
 import com.game.Screens.GameScreen;
@@ -12,21 +13,21 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * Root of the game which holds the screens and delegates the rendering/updating to the currently active screen.
  */
 public class GameIngenious extends Game {
-
-  //  public SpriteBatch batch;
-    private Viewport screenPort;
-    private GameManager manager;
-    private GameScreen screen;
+   public GameManager manager;
+   public SpriteBatch batch;
+    //private Viewport screenPort;
+   // private GameScreen screen;
     @Override
     public void create() {
-      this.manager = new GameManager();
-       //batch = new SpriteBatch();
+
+      this.batch = new SpriteBatch();
+       this.manager= new GameManager();
       // showGameScreen();
-        manager = new GameManager();
-        screen = new GameScreen(this, manager);
+
+        //screen = new GameScreen(this);
        // screen.buildStage();
 
-        setScreen(screen);
+        setScreen(new GameScreen(this));
 
 
 //        long startTime = System.currentTimeMillis();
@@ -70,5 +71,15 @@ public class GameIngenious extends Game {
 //        ScreenManager.getInstance().initialize(this);
 //        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
     }
- 
+  public void dispose() {
+    super.dispose();
+    batch.dispose();
+  }
+
+  @Override
+  public void render () {
+    super.render();
+  }
+
+
 }
