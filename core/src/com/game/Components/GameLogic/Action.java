@@ -99,7 +99,6 @@ public class Action {
             }
         }
 
-
         //System.out.println(totalGain);
         return totalGain;
     }

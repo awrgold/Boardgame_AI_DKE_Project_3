@@ -34,8 +34,8 @@ public class GameState {
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false);
-        players[1] = new Player(2, currentBag.pickSix(), true, false, true, false);
+        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false, false);
+        players[1] = new Player(2, currentBag.pickSix(), true, false, true, false, false);
         gamingPlayer = players[0];
     }
 
@@ -191,6 +191,7 @@ public class GameState {
     }
 
     public GameState applyAction(Action a){
+
         HexagonActor first = null;
         GameState nextState = cloneGameState();
 
@@ -214,8 +215,6 @@ public class GameState {
         }
         gamingPlayer.getHand().removeFromHand(a.getTile());
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
-
-
 
         return nextState;
     }

@@ -5,6 +5,7 @@ import com.game.Components.GameLogic.GameState;
 import com.game.Components.GameLogic.GameView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Node {
 
@@ -12,14 +13,27 @@ public class Node {
     private Edge parentEdge;
     private ArrayList<Edge> childrenEdges;
     private double weight;
+    private int numVisits = 0;
+    private int maxChildren = 6;
+    private Random random = new Random();
 
     public Node(GameState state){
         this.state = state;
         this.childrenEdges = new ArrayList<>();
+
     }
 
-    public void setWeight(double x){
-        weight = x;
+    public int getNumVisits(){
+        return numVisits;
+    }
+
+    public void updateStats(double value){
+        numVisits++;
+        this.weight = value;
+    }
+
+    public boolean isLeaf(){
+        return (childrenEdges.size() == 0);
     }
 
     public GameState getState(){
@@ -55,8 +69,6 @@ public class Node {
         child.setParentEdge(edge);
         childrenEdges.add(edge);
         System.out.println("creating node: " + weight);
-
-
 
     }
 

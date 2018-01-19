@@ -34,11 +34,12 @@ public class Player{
     private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
     private boolean isGreedy;
+    private boolean isRandom;
     private boolean isMCTS;
     private boolean isExpectiMax;
     private Strategy strategy;
 
-    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isRandom, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
         this.isAI = isAI;
@@ -53,6 +54,9 @@ public class Player{
         playerScoreColors[5] = Color.RED;
 
         if (isAI){
+            if (isRandom){
+                strategy = new RandomStrategy();
+            }
             if (isGreedy){
                 strategy = new GreedyStrategy();
             }
@@ -67,7 +71,7 @@ public class Player{
     }
 
     public Player clonePlayer(){
-        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS);
+        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isRandom, isGreedy, isExpectiMax, isMCTS);
         newPlayer.setPlayerScore(playerScore.clone());
         return newPlayer;
 
@@ -399,54 +403,7 @@ public class Player{
     public Action applyStrategy(GameState currentState){
         return strategy.decideMove(currentState);
     }
-/*
-//  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
-    public HashMap<Tile, String> bestTilesToPlace(ArrayList<String> colors){
-        HashMap<Tile, String> pieces = new HashMap<>();
 
-        for(String color : colors){
-            for(Tile t : hand.getPieces()){
-                if (t.getActors()[0].getHexColor().equals(color) && t.getActors()[1].getHexColor().equals(color)){
-                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
-                    pieces.put(t, color);
-                    System.out.println("Found a double to place: " + color + " - " + color);
-                    break;
-                } if (t.getActors()[0].getHexColor().equals(color) || t.getActors()[1].getHexColor().equals(color)){
-                    pieces.put(t, color);
-
-                }
-            }
-        }
-
-        for(Tile piece : pieces.keySet()){
-            System.out.println(piece.getActors()[0].getHexColor() + " - " + piece.getActors()[1].getHexColor() + " : is a good tile to place"
-            + " because there is " + pieces.get(piece));
-        }
-
-        return pieces;
-
-    }*/
-/*
-//  FOR A TILE RETURN THE GAME STATE THAT RETURN THE HIGHEST SCORE ON THE INTERESTED COLOR
-    public GameState bestMoveForTile(Tile t, Board currentBoard, String color){
-
-    }
-
-//  APPLY THE STRATEGY AND RETURN ALL POSSIBLE STATES
-    public ArrayList<GameState> applyStrategy(Board currentBoard){
-        ArrayList<GameState> aiMoves = new ArrayList<>();
-        ArrayList<String> colorsToPlay = lowestColors();
-        HashMap<Tile, String> tilesToPlay = bestTilesToPlace(colorsToPlay);
-
-        for (HashMap.Entry<Tile, String> entry : tilesToPlay.entrySet()) {
-            aiMoves.add(bestMoveForTile(entry.getKey(), currentBoard, entry.getValue()));
-        }
-
-        return aiMoves;
-
-
-    }
-*/
 
 }
 

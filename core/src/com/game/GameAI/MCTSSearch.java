@@ -1,6 +1,5 @@
 package com.game.GameAI;
 
-import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
@@ -8,24 +7,143 @@ import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
+import com.game.TreeStructure.Edge;
+import com.game.TreeStructure.Node;
+import com.game.TreeStructure.Tree;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
-public class GreedyStrategy implements Strategy{
+/*
+This MCTS is adapted by Andrew Gold/Raimondo Grova from Simon Lucas' "random" MCTS example code found at:
+http://mcts.ai/code/java.html
 
-    //A candidate set, from which a solution is created (the hand)
-    //A selection function, which chooses the best candidate to be added to the solution (bestTilesToPlace())
-    //A feasibility function, that is used to determine if a candidate can be used to contribute to a solution (possibleTilePlacements())
-    //An objective function, which assigns a value to a solution, or a partial solution, (bestPlacementForTile())
-    //A solution function, which will indicate when we have discovered a complete solution (decideMove())
+- This version of MCTS utilizes UCT to balance exploitation vs exploration
+- Instead of playing randomly until gameOver(), we assume the opponent will play greedily
+- To reduce branching factor, we only consider the opponents most immediately promising moves
+- TODO: Integrate OpponentProbabilities class to inform MCTS further
+- TODO: Integrate ExpectiMax to help prune MCTS
 
-    //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)
+ */
 
+public class MCTSSearch implements Strategy {
+
+    static Random r = new Random();
+    static int nActions = 6;
+    static double epsilon = 1e-6;
+    private Tree tree;
+    private List<Edge> children;
+    private double nVisits;
+    private double totValue;
+
+    public MCTSSearch(){}
+
+    public MCTSSearch(Tree treeToSearch){
+        this.tree = treeToSearch;
+    }
+
+    public Action selectAction() {
+        List<Node> visited = new LinkedList<>();
+        Node cur = this.tree.getRoot();
+        visited.add(cur);
+
+        while (!cur.isLeaf()) {
+            cur = select();
+            visited.add(cur);
+        }
+
+        expand(cur);
+        Node newNode = select();
+        Action newAction = decideMove(cur.getState());
+        visited.add(newNode);
+
+        double value = rollOut(newNode);
+        for (Node node : visited) {
+            // would need extra logic for n-player game
+            node.updateStats(value);
+        }
+
+        return
+    }
+
+    public void expand(Node toExpandFrom) {
+        children = new LinkedList<>();
+        for (int i = 0; i < nActions; i++) {
+            // This just adds all children, need to prioritize best children to reduce branching factor, but how??
+            children.add(i, toExpandFrom.getChildrenEdges().get(i));
+        }
+    }
+
+    private Node select() {
+        Node selected = null;
+        double bestValue = Double.MIN_VALUE;
+        double nodeWeight;
+
+        for (Edge c : children) {
+
+            nodeWeight = c.getAction().actionGain(c.getParentNode().getState().getCurrentBoard().getGrid());
+
+            double uctValue = c.getParentNode().getWeight() / (c.getParentNode().getNumVisits() + epsilon) +
+                    (nodeWeight)*(Math.sqrt(Math.log(nVisits+1) / (c.getParentNode().getNumVisits() + epsilon))) +
+                    r.nextDouble() * epsilon;  // small random number to break ties randomly in unexpanded nodes
+
+            if (uctValue > bestValue) {
+                selected = c.getChildNode();
+                bestValue = uctValue;
+            }
+        }
+
+        return selected;
+    }
+
+    public double rollOut(Node tn) {
+
+        RandomStrategy rs = new RandomStrategy();
+        GreedyStrategy gs;
+        ExpectimaxStrategy es;
+
+
+
+        return r.nextInt(2);
+    }
+
+    public int arity() {
+        return children == null ? 0 : children.size();
+    }
+
+    // Get a list of the best tiles to place.
+    private HashMap<Tile, Color> bestTilesToPlace(ArrayList<Color> colors, Hand hand){
+        HashMap<Tile, Color> pieces = new HashMap<>();
+
+        for(Color color : colors){
+            for(Tile t : hand.getPieces()){
+                if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
+                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
+                    pieces.put(t, color);
+                    System.out.println("Found a double to place: " + color + " - " + color);
+                    break;
+                } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
+                    pieces.put(t, color);
+                }
+            }
+        }
+
+        if (pieces.keySet().size() == 0){
+            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
+        }
+
+        for(Tile piece : pieces.keySet()){
+            System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
+        }
+        System.out.print(" <--- pieces to play \n");
+
+        return pieces;
+
+    }
+
+    // Search the board for all possible places to place a given tile
     private ArrayList<Action> possibleTilePlacements(Tile tile, HexagonalGrid grid, Color color) {
         ArrayList<Action> possibleActions = new ArrayList<>();
         System.out.println("Searching for best placements");
@@ -110,6 +228,7 @@ public class GreedyStrategy implements Strategy{
         return possibleActions;
     }
 
+    // Find the most promising placement for a list of actions
     private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
         double bestGain = 0;
         Action bestPlacement = null;
@@ -123,37 +242,7 @@ public class GreedyStrategy implements Strategy{
         return bestPlacement;
     }
 
-
-    private HashMap<Tile, Color> bestTilesToPlace(ArrayList<Color> colors, Hand hand){
-        HashMap<Tile, Color> pieces = new HashMap<>();
-
-        for(Color color : colors){
-            for(Tile t : hand.getPieces()){
-                if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
-                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
-                    pieces.put(t, color);
-                    System.out.println("Found a double to place: " + color + " - " + color);
-                    break;
-                } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
-                    pieces.put(t, color);
-                }
-            }
-        }
-
-        if (pieces.keySet().size() == 0){
-            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
-        }
-
-        for(Tile piece : pieces.keySet()){
-            System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
-        }
-        System.out.print(" <--- pieces to play \n");
-
-        return pieces;
-
-    }
-
-
+    // Do something random (worst-case scenario)
     private Action randomAction(Tile tile, HexagonalGrid grid) {
         System.out.println("No good moves, doing random action");
         Action randomAction = new Action();
@@ -191,6 +280,7 @@ public class GreedyStrategy implements Strategy{
         return randomAction;
     }
 
+    // Decide which action to go with when creating the next GameState
     public Action decideMove(GameState currentState){
 
         ArrayList<Color> colors = currentState.getGamingPlayer().lowestColors();
@@ -216,7 +306,6 @@ public class GreedyStrategy implements Strategy{
                     bestAction = a;
                 }
             }
-
         }
 
         if (bestAction == null){
@@ -224,7 +313,8 @@ public class GreedyStrategy implements Strategy{
         }
 
         return bestAction;
-
     }
+
+
 
 }
