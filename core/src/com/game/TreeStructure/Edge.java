@@ -5,10 +5,10 @@ import com.game.Components.GameLogic.Action;
 public class Edge {
 
     private Action action;
-    private Node parentNode;
-    private Node childNode;
+    private MCTSNode parentNode;
+    private MCTSNode childNode;
 
-    public Edge(Node parent, Node child, Action action){
+    public Edge(MCTSNode parent, MCTSNode child, Action action){
         this.parentNode = parent;
         this.childNode = child;
         this.action = action;
@@ -18,19 +18,19 @@ public class Edge {
         return action;
     }
 
-    public Node getParentNode(){
+    public MCTSNode getParentNode(){
         return parentNode;
     }
 
-    public Node getChildNode(){
+    public MCTSNode getChildNode(){
         return childNode;
     }
 
-    public void setParentNode(Node parent){
+    public void setParentNode(MCTSNode parent){
         this.parentNode = parent;
     }
 
-    public void setChildNode(Node child){
+    public void setChildNode(MCTSNode child){
         this.childNode = child;
     }
 
