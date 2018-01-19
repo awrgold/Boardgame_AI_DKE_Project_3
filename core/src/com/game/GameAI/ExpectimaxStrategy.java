@@ -195,10 +195,11 @@ public class ExpectimaxStrategy implements Strategy {
         Action nextMove = null;
 
         if(depth % 3 == 1 ) {
+            System.out.println("        Opponent's move");
             a = INF;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
             for(int i = 0; i < possibleActions.size(); i++) {
-                next = expectiminimax(node.setChild(possibleActions.get(i), possibleActions.get(i).actionGain(node.getState().getCurrentBoard().getGrid())), depth - 1);
+                next = expectiminimax(node.setChild(possibleActions.get(i)), depth - 1);
                 if(a > next.getWeight()) {
                     a = next.getWeight();
                     nextMove = possibleActions.get(i);
@@ -206,11 +207,12 @@ public class ExpectimaxStrategy implements Strategy {
             }
         }
         else if(depth % 3 == 0) {
+            System.out.println("My move");
             a = -INF;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
             System.out.println("Found " + possibleActions.size() + " possible actions to play");
             for(int i = 0; i < possibleActions.size(); i++) {
-                next = expectiminimax(node.setChild(possibleActions.get(i), possibleActions.get(i).actionGain(node.getState().getCurrentBoard().getGrid())), depth - 1);
+                next = expectiminimax(node.setChild(possibleActions.get(i)), depth - 1);
                 if(a < next.getWeight()) {
                     a = next.getWeight();
                     nextMove = possibleActions.get(i);
@@ -218,6 +220,7 @@ public class ExpectimaxStrategy implements Strategy {
             }
         }
         else {
+            System.out.println("    Chance node");
             a = 0;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
             for(int i = 0; i < possibleActions.size(); i++) {
@@ -231,14 +234,14 @@ public class ExpectimaxStrategy implements Strategy {
         }
 
         System.out.println("Weight: " + a);
-        return node.setChild(nextMove, a);
+        return node.setChild(nextMove);
     }
 
     public Action decideMove(GameState currentState) {
 
         Node root = new Node(currentState);
 
-        Node bestNode = expectiminimax(root, 2);
+        Node bestNode = expectiminimax(root, 3);
 
         return bestNode.getActionUsed();
     }
