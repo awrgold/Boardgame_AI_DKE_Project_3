@@ -7,9 +7,7 @@ import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
-import com.game.TreeStructure.Edge;
-import com.game.TreeStructure.Node;
-import com.game.TreeStructure.Tree;
+import com.game.TreeStructure.*;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
@@ -33,20 +31,20 @@ public class MCTSSearch implements Strategy {
     static Random r = new Random();
     static int nActions = 6;
     static double epsilon = 1e-6;
-    private Tree tree;
+    private MCTSTree tree;
     private List<Edge> children;
     private double nVisits;
     private double totValue;
 
     public MCTSSearch(){}
 
-    public MCTSSearch(Tree treeToSearch){
+    public MCTSSearch(MCTSTree treeToSearch){
         this.tree = treeToSearch;
     }
 
     public Action selectAction() {
-        List<Node> visited = new LinkedList<>();
-        Node cur = this.tree.getRoot();
+        List<MCTSNode> visited = new LinkedList<>();
+        MCTSNode cur = this.tree.getRoot();
         visited.add(cur);
 
         while (!cur.isLeaf()) {
@@ -55,12 +53,12 @@ public class MCTSSearch implements Strategy {
         }
 
         expand(cur);
-        Node newNode = select();
+        MCTSNode newNode = select();
         Action newAction = decideMove(cur.getState());
         visited.add(newNode);
 
         double value = rollOut(newNode);
-        for (Node node : visited) {
+        for (MCTSNode node : visited) {
             // would need extra logic for n-player game
             node.updateStats(value);
         }
@@ -68,7 +66,7 @@ public class MCTSSearch implements Strategy {
         return
     }
 
-    public void expand(Node toExpandFrom) {
+    public void expand(MCTSNode toExpandFrom) {
         children = new LinkedList<>();
         for (int i = 0; i < nActions; i++) {
             // This just adds all children, need to prioritize best children to reduce branching factor, but how??
@@ -76,8 +74,8 @@ public class MCTSSearch implements Strategy {
         }
     }
 
-    private Node select() {
-        Node selected = null;
+    private MCTSNode select() {
+        MCTSNode selected = null;
         double bestValue = Double.MIN_VALUE;
         double nodeWeight;
 
@@ -98,7 +96,7 @@ public class MCTSSearch implements Strategy {
         return selected;
     }
 
-    public double rollOut(Node tn) {
+    public double rollOut(MCTSNode tn) {
 
         RandomStrategy rs = new RandomStrategy();
         GreedyStrategy gs;
@@ -106,7 +104,7 @@ public class MCTSSearch implements Strategy {
 
 
 
-        return r.nextInt(2);
+        // return r.nextInt(2);
     }
 
     public int arity() {
