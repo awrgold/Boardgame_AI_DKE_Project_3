@@ -3,6 +3,7 @@ package com.game.Components.GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.Components.ExcelSheetData.ExcelSheet;
 import com.game.Components.GameAssets.*;
 import com.game.Components.GameScoreAssets.CustomLabel;
 import com.game.Components.GameScoreAssets.ScoreBarGroup;
@@ -15,6 +16,7 @@ import TreeStructure.Tree;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.game.Components.Tools.SimulationResults;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class GameManager{
     private GameState currentState;
     private Tree gameTree;
     private Action move;
-
+    //private  ExcelSheet exSheet;
     private CustomLabel label;
     private Skin skin;
     private String text;
@@ -48,6 +50,7 @@ public class GameManager{
         scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
 
     }
+
     public void runSimulation(){
         int n = 10;
         ArrayList<Long>gameTimes = new ArrayList<Long>();
@@ -55,9 +58,9 @@ public class GameManager{
 
         int player1Win = 0;
         int player2Win = 0;
-
+       // SimulationResults results = new SimulationResults();
         for (int i = 1; i <= 3; i++) {
-
+          //  SimulationResults gameResults = new SimulationResults();
             long sTime = System.currentTimeMillis();
             setCurrentState(new GameState());
 
@@ -74,6 +77,8 @@ public class GameManager{
             }
             if (getBoard().gameOver()) {
                 //System.out.println("GAME OVER");
+                //exSheet = ExcelSheet.createSheet(2, 100, 46, 54, 123465875, 234 , 245, 130, 132);
+                //ExcelSheet.printSheet(exSheet);
                 System.out.println(" Number of turns : " + turns);
                 long eTime = System.currentTimeMillis();
                 long tTime = eTime - sTime;

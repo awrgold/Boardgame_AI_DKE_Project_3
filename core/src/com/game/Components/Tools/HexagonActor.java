@@ -189,7 +189,7 @@ public class HexagonActor extends Actor {
 //            return null;
 //        }
 //    }
-    public void act(Sprite sprite) {
+    public void act() {
 setSprite(sprite);
     }
 

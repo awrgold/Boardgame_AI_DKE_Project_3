@@ -8,6 +8,11 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.Random;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ExcelSheet {
 /* to call:
@@ -93,27 +98,27 @@ public class ExcelSheet {
     int[][] scoreGain;
 
     // Used for testing the second sheet for writing the score gain.
-    public static int[][] randomScoreGain()
-    {
+//    public static int[][] randomScoreGain()
+//    {
+//
+//        Random rand = new Random();
+//        int[][] scoreGain = new int[10][10];
+//
+//        int temp = 0;
+//
+//        for(int i = 0; i < 10; i++)
+//        {
+//            for (int j = 0; j < 10; j++)
+//            {
+//                temp = rand.nextInt(50) + 1;
+//                scoreGain[i][j] = temp;
+//            }
+//        }
+//        return scoreGain;
+//    }
 
-        Random rand = new Random();
-        int[][] scoreGain = new int[10][10];
 
-        int temp = 0;
-
-        for(int i = 0; i < 10; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                temp = rand.nextInt(50) + 1;
-                scoreGain[i][j] = temp;
-            }
-        }
-        return scoreGain;
-    }
-
-
-    public static ExcelSheet createSheet(int treeDepth, int gamesPlayed, int gamesWon1, int gamesWon2, int gameTime, int totalTurnsPlayed1, int totalTurnsPlayed2, int ingenious1, int ingenious2)
+    public ExcelSheet createSheet(int treeDepth, int gamesPlayed, int gamesWon1, int gamesWon2, int gameTime, int totalTurnsPlayed1, int totalTurnsPlayed2, int ingenious1, int ingenious2)
     {
         ExcelSheet sheet = new ExcelSheet();
         sheet.treeDepth = treeDepth;
@@ -132,14 +137,14 @@ public class ExcelSheet {
         sheet.gameTimePerGame = gameTime / gamesPlayed;
         sheet.totalTurnsPlayed = totalTurnsPlayed1 + totalTurnsPlayed2;
         sheet.totalTurnsPlayedPerGame = totalTurnsPlayed / gamesPlayed;
-        sheet.scoreGain = randomScoreGain();
+        //sheet.scoreGain = randomScoreGain();
 
         return sheet;
     }
 
-    private static final String EXCEL_FILE_LOCATION = "D:\\Github\\ExcelTesting\\GameData.xls";
+    private final String EXCEL_FILE_LOCATION = "D:\\GDXProjects\\Project-2.1-v2\\core\\assets\\DataSheets\\GameData.xls";
 
-    public static void printSheet(ExcelSheet exSheet) {
+    public void printSheet(ExcelSheet exSheet) {
 
         //1. Create an Excel file
         WritableWorkbook wWbook = null;
@@ -227,7 +232,7 @@ public class ExcelSheet {
     }
 
     // Use this to count the amount of ingeniouses in each game
-    private static int getIngeniousCount(boolean[] ingenious)
+    private int getIngeniousCount(boolean[] ingenious)
     {
         int count = 0;
         for (int i = 0; i < ingenious.length; i++) {

@@ -229,7 +229,7 @@ public void update(float delta) {
         //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
         System.out.println("select an empty hexagon");
         game.manager.handleTouch(worldTouch);
-       // game.manager.runSimulation();
+
         return true;
     }
 

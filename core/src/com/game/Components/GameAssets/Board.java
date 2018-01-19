@@ -177,19 +177,19 @@ public class Board extends GroupView {
 
     public void act() {
      // super.act(delta);
-//this.setGrid(grid);
-//        grid.getHexagons().forEach(new Action1<Hexagon>() {
-//            @Override
-//            public void call(Hexagon hexagon) {
-//
-//                if (hexagon.getSatelliteData().isPresent()){
-//                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-//                    HexagonActor currentHexActor = hexLink.getActor();
-//                   currentHexActor.act(currentHexActor.getSprite());
-//                }
-//
-//            }
-//        });
+this.setGrid(grid);
+        grid.getHexagons().forEach(new Action1<Hexagon>() {
+            @Override
+            public void call(Hexagon hexagon) {
+
+                if (hexagon.getSatelliteData().isPresent()){
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+                   currentHexActor.act();
+                }
+
+            }
+        });
 }
 
     public void setGrid(HexagonalGrid<Link> grid) {
