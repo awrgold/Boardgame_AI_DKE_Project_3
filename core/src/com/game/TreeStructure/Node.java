@@ -5,6 +5,7 @@ import com.game.Components.GameLogic.GameState;
 import com.game.Components.GameLogic.GameView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Node {
 
@@ -17,10 +18,11 @@ public class Node {
     public Node(GameState state){
         this.state = state;
         this.childrenEdges = new ArrayList<>();
+
     }
 
-    public void setWeight(double x){
-        weight = x;
+    public int getNumVisits(){
+        return numVisits;
     }
 
     public void setActionUsed(Action actionUsed) {
