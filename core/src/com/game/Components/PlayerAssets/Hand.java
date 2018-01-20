@@ -1,6 +1,7 @@
 package com.game.Components.PlayerAssets;
 
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.game.Components.Tools.GroupView;
 
 import java.util.ArrayList;
@@ -44,14 +45,26 @@ public class Hand extends GroupView{
         this.hand = tiles;
     }
 
-    public void act(ArrayList<Tile> tiles) {
+    public void act() {
 
-       this.setHand(tiles);
+//        this.setHand(hand);
+    for(Tile tile : hand){
+      tile.act();
+    }
+
 
 
     }
 
-    public void setHand(ArrayList<Tile> hand) {
+    public void setHand(ArrayList<Tile> hand)
+    {
         this.hand = hand;
     }
+    public void dispose() {
+
+
+        for(Tile tile : hand){
+        tile.dispose();
+    }
+}
 }

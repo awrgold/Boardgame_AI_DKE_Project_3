@@ -192,7 +192,10 @@ public class HexagonActor extends Actor {
     public void act() {
 setSprite(sprite);
     }
+   public void dispose(){
+        hexagon.clearSatelliteData();
 
+   }
 
 
 }

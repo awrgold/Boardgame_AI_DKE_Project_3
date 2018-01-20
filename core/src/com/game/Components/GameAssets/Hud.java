@@ -19,8 +19,8 @@ import com.game.Components.GameScoreAssets.ScoreBarGroup;
 public class Hud implements Disposable {
 
    private GameManager manager;
-//    private CustomLabel label;
-
+   private CustomLabel label;
+private SpriteBatch batch;
     public Stage stage;
     private Table root;
     public static TextButton[] changeTiles;
@@ -36,12 +36,14 @@ public class Hud implements Disposable {
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 //        text = "tester Label ";
 //        this.label = new CustomLabel(text,skin);
+//        this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+//        label.setFontScale(5);
+//        label.setPosition(100,100);
         this.manager = manager;
         this.viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
         stage = new Stage(viewport, sb);
         buildStage();
-
-
+        this.batch = sb;
     }
    public void buildStage() {
 
@@ -113,21 +115,34 @@ public class Hud implements Disposable {
 //        root.add(label);
 //      //  root.pack();
 ////        root.validate();
+       root.invalidateHierarchy();
         stage.addActor(root);
 //
    }
 
-    public void act(float dt){
-        manager.updateAssets();
-//        scorebars1.act(dt);
-//        scorebars2.act(dt);
+    public void act(float delta){
+       // manager.updateAssets();
+        //if (manager.sim.isRunning()){
+            
+        //}
+//        num++;
+//
+//        text = "tester Label " + num;
+//        getLabel().act(text);
+
     }
 
+    //public CustomLabel getLabel() {
+     //   return label;
+   // }
 
 
 
     @Override
-    public void dispose() { stage.dispose(); }
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+    }
 
 
 }

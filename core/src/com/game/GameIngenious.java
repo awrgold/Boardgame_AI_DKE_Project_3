@@ -1,9 +1,11 @@
 package com.game;
 
 import Enum.ScreenEnum;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameManager;
+import com.game.Components.GameLogic.Simulation;
 import com.game.Screens.GameScreen;
 import com.game.Screens.ScreenManager;
 import com.badlogic.gdx.Game;
@@ -15,20 +17,23 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class GameIngenious extends Game {
    public GameManager manager;
    public SpriteBatch batch;
+
     //private Viewport screenPort;
    // private GameScreen screen;
     @Override
     public void create() {
 
       this.batch = new SpriteBatch();
-       this.manager= new GameManager();
+      this.manager= new GameManager();
       // showGameScreen();
+
 
         //screen = new GameScreen(this);
        // screen.buildStage();
 
         setScreen(new GameScreen(this));
-
+        //Gdx.graphics.setContinuousRendering(true);
+       // sim.run();
 
 //        long startTime = System.currentTimeMillis();
 //
@@ -74,11 +79,20 @@ public class GameIngenious extends Game {
   public void dispose() {
     super.dispose();
     batch.dispose();
+
   }
 
   @Override
   public void render () {
     super.render();
+//while (manager.sim.isRunning()){
+//    manager.updateAssets();
+//}
+//     while (!sim.isEnd()){
+//
+//          screen.render(Gdx.graphics.getDeltaTime());
+//      }
+
   }
 
 

@@ -71,6 +71,19 @@ public class Board extends GroupView {
         });
     }
 
+    @Override
+    public void dispose() {
+        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                // Create the Actor and link it to the hexagon (and vice-versa)
+                final HexagonActor hexActor = new HexagonActor(hexagon);
+
+                hexActor.dispose();
+
+            }
+    });
+    }
     public HexagonalGrid<Link> getGrid() {
         return grid;
     }

@@ -32,6 +32,7 @@ public class GameManager{
     private CustomLabel label;
     private Skin skin;
     private String text;
+    public Simulation sim;
     private ScoreBarGroup scorebars1;
     private ScoreBarGroup scorebars2;
     private int num=0;
@@ -39,19 +40,22 @@ public class GameManager{
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-//runSimulation();
+        //runSimulation();
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        text = "tester Label ";
+       this.text = "tester Label ";
         this.label = new CustomLabel(text,skin);
         label.setFontScale(5);
         label.setPosition(100,100);
+        this.sim = new Simulation(this);
 
         scorebars1 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(0),getPlayerByIndex(0).getPlayerNo());
         scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
 
     }
 
-
+public void setNum(int num){
+        this.num = num;
+}
 
     public GameState getCurrentState(){
         return currentState;
@@ -264,8 +268,11 @@ public class GameManager{
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }*/
-        Simulation sim = new Simulation(this);
-        sim.run();
+     //   Simulation sim = new Simulation(this);
+       if(!sim.isRunning()) {
+           sim.run();
+
+       }
        // runSimulation();
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
@@ -290,18 +297,19 @@ public class GameManager{
         return currentState.getPlayer(i).getPlayerScore();
     }
 
-    public void updateAssets() {
-        num++;
+    public boolean updateAssets() {
+
 
         text = "tester Label " + num;
-        getLabel().act(text);
+        label.act(text);
 
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
 
-//        getHandByIndex(0).act(delta);
-//        getHandByIndex(1).act(delta);
-//        getBoard().act(delta);
+        getHandByIndex(0).act();
+        getHandByIndex(1).act();
+        getBoard().act();
+        return true;
     }
 
     public CustomLabel getLabel() {
@@ -313,6 +321,11 @@ public class GameManager{
             return scorebars1;
         else
             return scorebars2;
+    }
+
+    public void upateNum() {
+        num++;
+
     }
 
 

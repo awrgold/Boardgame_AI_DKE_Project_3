@@ -12,4 +12,7 @@ public abstract class GroupView extends Group  {
     {
         super.act(delta);
     }
+
+    public abstract void dispose();
+
 }
