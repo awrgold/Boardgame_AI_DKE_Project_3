@@ -6,10 +6,7 @@ import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
-import com.game.GameAI.ExpectimaxStrategy;
-import com.game.GameAI.GreedyStrategy;
-import com.game.GameAI.RandomStrategy;
-import com.game.GameAI.Strategy;
+import com.game.GameAI.*;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -55,15 +52,19 @@ public class Player{
 
         if (isAI){
             if (isRandom){
+                this.isRandom = true;
                 strategy = new RandomStrategy();
             }
             if (isGreedy){
+                this.isGreedy = true;
                 strategy = new GreedyStrategy();
             }
             if (isMCTS){
-                //strategy = new MCTS();
+                this.isMCTS = true;
+                strategy = new MCTSSearch();
             }
             if (isExpectiMax){
+                this.isExpectiMax = true;
                 strategy = new ExpectimaxStrategy();
             }
         }
@@ -80,6 +81,15 @@ public class Player{
 
     public boolean isAI() {
         return isAI;
+    }
+
+    public String getStrategy(){
+        String strategy = new String();
+        if (isMCTS) strategy = "MCTS";
+        if (isRandom) strategy = "Random";
+        if (isGreedy) strategy = "Greedy";
+        if (isExpectiMax) strategy = "ExpectiMax";
+        return strategy;
     }
 
     /*

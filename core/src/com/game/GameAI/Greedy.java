@@ -1,7 +1,7 @@
 package com.game.GameAI;
 
 
-public class Greedy implements GreedySearch {
+public class Greedy {
 /*
     public Action getNextMove(GameState state){
         /*

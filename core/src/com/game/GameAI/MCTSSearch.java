@@ -4,6 +4,7 @@ import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.PlayerAssets.Hand;
+import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
@@ -32,7 +33,7 @@ public class MCTSSearch implements Strategy {
     static int nActions = 6;
     static double epsilon = 1e-6;
     private MCTSTree tree;
-    private List<Edge> children;
+    private List<MCTSEdge> children;
     private double nVisits;
     private double totValue;
 
@@ -43,24 +44,30 @@ public class MCTSSearch implements Strategy {
     }
 
     public Action selectAction() {
+
+        // Construct a list of children to explore
+
         List<MCTSNode> visited = new LinkedList<>();
         MCTSNode cur = this.tree.getRoot();
+
         visited.add(cur);
+        expand(cur);
+
 
         while (!cur.isLeaf()) {
             cur = select();
             visited.add(cur);
         }
 
-        expand(cur);
+
         MCTSNode newNode = select();
         Action newAction = decideMove(cur.getState());
         visited.add(newNode);
 
-        double value = rollOut(newNode);
+        double score = rollOut(newNode);
         for (MCTSNode node : visited) {
-            // would need extra logic for n-player game
-            node.updateStats(value);
+            // Updating stats increments the visit counter, updates the score, and the weight.
+            node.updateStats(score);
         }
 
         return
@@ -68,22 +75,70 @@ public class MCTSSearch implements Strategy {
 
     public void expand(MCTSNode toExpandFrom) {
         children = new LinkedList<>();
+
         for (int i = 0; i < nActions; i++) {
-            // This just adds all children, need to prioritize best children to reduce branching factor, but how??
-            children.add(i, toExpandFrom.getChildrenEdges().get(i));
+
+            /*
+            - Find the lowest color of the hand of the gaming player
+            - Find all possible placements of that color on the current board
+            - From that, choose the top 3-6-10?? and create a list of children from these placements.
+             */
+
+            Player currentPlayer = toExpandFrom.getState().getGamingPlayer();
+
+            // Add new edges, we need parent, child, action
+            // From these actions we create the child
+
+            // Depending on strategy, construct children according to strategy
+            if (toExpandFrom.getState().getGamingPlayer().getStrategy().equals("MCTS")){
+                // Construct children of possible actions from current hand
+                ArrayList<Color> colors = toExpandFrom.getState().getGamingPlayer().lowestColors();
+                Hand hand = toExpandFrom.getState().getGamingPlayer().getHand();
+                HexagonalGrid grid = toExpandFrom.getState().getCurrentBoard().getGrid();
+
+                HashMap<Tile, Color> tiles = bestTilesToPlace(colors, hand);
+                ArrayList<Action> bestMoves = new ArrayList<>();
+
+                for (Tile tile : tiles.keySet()){
+                    bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+                }
+
+                for (Action a : bestMoves){
+                    GameState newState = toExpandFrom.getState().cloneGameState();
+                    toExpandFrom.getChildrenEdges().add(new MCTSEdge(toExpandFrom, new MCTSNode(new GameState)));
+                }
+
+
+            }else{
+                if (toExpandFrom.getState().getGamingPlayer().getStrategy().equals("Greedy")){
+                    GreedyStrategy greedy = new GreedyStrategy();
+                }
+                if (toExpandFrom.getState().getGamingPlayer().getStrategy().equals("ExpectiMax")){
+                    ExpectimaxStrategy expecti = new ExpectimaxStrategy();
+                }
+                if (toExpandFrom.getState().getGamingPlayer().getStrategy().equals("Random")){
+                    RandomStrategy random = new RandomStrategy();
+                }
+
+                // Construct children greedily/expectimax/randomly, etc
+
+            }
+
+
         }
     }
+
 
     private MCTSNode select() {
         MCTSNode selected = null;
         double bestValue = Double.MIN_VALUE;
         double nodeWeight;
 
-        for (Edge c : children) {
+        for (MCTSEdge c : children) {
 
             nodeWeight = c.getAction().actionGain(c.getParentNode().getState().getCurrentBoard().getGrid());
 
-            double uctValue = c.getParentNode().getWeight() / (c.getParentNode().getNumVisits() + epsilon) +
+            double uctValue = c.getWeight() / (c.getParentNode().getNumVisits() + epsilon) +
                     (nodeWeight)*(Math.sqrt(Math.log(nVisits+1) / (c.getParentNode().getNumVisits() + epsilon))) +
                     r.nextDouble() * epsilon;  // small random number to break ties randomly in unexpanded nodes
 
@@ -96,15 +151,18 @@ public class MCTSSearch implements Strategy {
         return selected;
     }
 
-    public double rollOut(MCTSNode tn) {
+    public int rollOut(MCTSNode tn) {
 
         RandomStrategy rs = new RandomStrategy();
         GreedyStrategy gs;
-        ExpectimaxStrategy es;
+        // ExpectimaxStrategy es;
 
+        // ... do a playout with some strategy
 
-
-        // return r.nextInt(2);
+        if (getWinner() == currentPlayer){
+            return 1;
+        }
+        return 0;
     }
 
     public int arity() {
@@ -138,7 +196,6 @@ public class MCTSSearch implements Strategy {
         System.out.print(" <--- pieces to play \n");
 
         return pieces;
-
     }
 
     // Search the board for all possible places to place a given tile
@@ -226,15 +283,15 @@ public class MCTSSearch implements Strategy {
         return possibleActions;
     }
 
-    // Find the most promising placement for a list of actions
+    // Find the most promising placement for a list of actions and ORDERS THEM
     private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
         double bestGain = 0;
         Action bestPlacement = null;
-        for (Action a : all){
-            double gain = a.actionGain(grid);
+        for (int i = 0; i < nActions; i++){
+            double gain = all.get(i).actionGain(grid);
             if (gain >= bestGain) {
                 bestGain = gain;
-                bestPlacement = a;
+                bestPlacement = all.get(i);
             }
         }
         return bestPlacement;
@@ -279,6 +336,7 @@ public class MCTSSearch implements Strategy {
     }
 
     // Decide which action to go with when creating the next GameState
+
     public Action decideMove(GameState currentState){
 
         ArrayList<Color> colors = currentState.getGamingPlayer().lowestColors();
