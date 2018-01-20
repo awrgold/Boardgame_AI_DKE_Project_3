@@ -67,16 +67,15 @@ public class Tile extends GroupView {
                 }
 
                 hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
                 //and pass everything in tileGroup
                 addActor(hexTile);
                 hexagon.setSatelliteData(new Link(hexTile));
             }
         });
-
     }
 
     public void act(float delta) {
-
         super.act(delta);
     }
 
