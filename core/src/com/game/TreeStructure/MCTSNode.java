@@ -30,7 +30,7 @@ public class MCTSNode {
 
     public void updateStats (double score){
         numVisits++;
-        this.score = score;
+        this.score += score;
     }
 
 
@@ -41,11 +41,6 @@ public class MCTSNode {
 
     public GameState getState(){
         return state;
-    }
-
-    public void setScore(double score){
-        this.score += score;
-        // what about draw?
     }
 
     public double getScore(){
