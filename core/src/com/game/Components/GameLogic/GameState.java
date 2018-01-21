@@ -38,6 +38,7 @@ public class GameState {
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
         players[0] = new Player(1, currentBag.pickSix(), true, false, false, false, true);
+        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false, false );
         players[1] = new Player(2, currentBag.pickSix(), true, false, true, false, false);
         gamingPlayer = players[0];
     }
