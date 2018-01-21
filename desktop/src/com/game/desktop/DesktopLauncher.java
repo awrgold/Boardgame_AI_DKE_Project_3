@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		/*
+
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		//System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
 		//GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -19,10 +19,10 @@ public class DesktopLauncher {
 		config.width = 1000;
 		config.height = 800;
 		new LwjglApplication(new GameIngenious(), config);
-		*/
 
-		GameIngenious newGame = new GameIngenious();
-		newGame.create();
+
+		//GameIngenious newGame = new GameIngenious();
+		//newGame.create();
 
 	}
 }

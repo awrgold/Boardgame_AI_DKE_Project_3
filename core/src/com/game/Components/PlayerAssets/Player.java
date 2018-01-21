@@ -52,17 +52,17 @@ public class Player{
         playerScoreColors[4] = Color.VIOLET;
         playerScoreColors[5] = Color.RED;
 
-        if (isAI){
-            if (isGreedy){
-                strategy = new GreedyStrategy();
-            }
-            if (isMCTS){
-                //strategy = new MCTS();
-            }
-            if (isExpectiMax){
-                strategy = new ExpectimaxStrategy();
-            }
-        }
+//        if (isAI){
+//            if (isGreedy){
+//                strategy = new GreedyStrategy();
+//            }
+//            if (isMCTS){
+//                //strategy = new MCTS();
+//            }
+//            if (isExpectiMax){
+//                strategy = new ExpectimaxStrategy();
+//            }
+//        }
 
         if (isAI && playerNo == 1) strategy = new RandomStrategy();
         else if (isAI && playerNo == 2) strategy = new RandomStrategy();

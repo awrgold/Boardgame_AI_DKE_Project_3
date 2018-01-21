@@ -125,9 +125,9 @@ public class Tile extends GroupView {
 //            actors[1].dispose();
 
 
-        for(HexagonActor actor : actors){
-    actor.dispose();
-        }
+//        for(HexagonActor actor : actors){
+//    actor.dispose();
+//        }
     }
 
 

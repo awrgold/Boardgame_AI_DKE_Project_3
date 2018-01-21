@@ -35,7 +35,7 @@ public class GameState{
 
         players = new Player[2];
         currentBoard = new Board();
-        currentBoard.create();
+        //currentBoard.create();
 
         //currentBoard.create();
         currentBag = new Bag(Pieces.createBagPieces());
@@ -43,8 +43,8 @@ public class GameState{
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-        players[0] = new Player(1, currentBag.pickSix(), true, true, false, false);
-        players[1] = new Player(2, currentBag.pickSix(), true, false, true, false);
+        players[0] = new Player(1, currentBag.pickSix(), true, false, false, false);
+        players[1] = new Player(2, currentBag.pickSix(), true, false, false, false);
         gamingPlayer = players[0];
 
 
@@ -65,19 +65,19 @@ public class GameState{
         }*/
     }
 
-    public GameState cloneGameState(){
-        Player[] newPlayers = new Player[2];
-        Player newGamingPlayer = null;
-        for(int i = 0; i < 2; i++){
-            newPlayers[i] = getPlayers()[i].clonePlayer();
-            if (gamingPlayer == getPlayers()[i]){
-                newGamingPlayer = newPlayers[i];
-            }
-        }
-        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
-
-        return newState;
-    }
+//    public GameState cloneGameState(){
+//        Player[] newPlayers = new Player[2];
+//        Player newGamingPlayer = null;
+//        for(int i = 0; i < 2; i++){
+//            newPlayers[i] = getPlayers()[i].clonePlayer();
+//            if (gamingPlayer == getPlayers()[i]){
+//                newGamingPlayer = newPlayers[i];
+//            }
+//        }
+//        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
+//
+//        return newState;
+//    }
 
     public Player[] getPlayers(){
         return players;
@@ -253,9 +253,7 @@ int num = 0;
                     //check if it is already in the HashMap
                     for (Tile seen : possibilities.keySet()){
                         if (pool.get(i).isEqual(seen)){
-    public GameState undoAction(Action a){
-        HexagonActor first = null;
-        GameState previousState;
+
 
                             isSeen = true;
                         }
@@ -277,7 +275,9 @@ int num = 0;
         }
         return possibilities;
     }
-
+    public GameState undoAction(Action a){
+        HexagonActor first = null;
+        GameState previousState;
 
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
