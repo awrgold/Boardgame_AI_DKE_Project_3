@@ -37,17 +37,17 @@ public class GameManager{
     private ScoreBarGroup scorebars2;
     private int num=0;
     public GameManager(){
+
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-        //runSimulation();
+
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
        this.text = "tester Label ";
         this.label = new CustomLabel(text,skin);
         label.setFontScale(5);
         label.setPosition(100,100);
-        this.sim = new Simulation(this);
-
+        //this.sim = new Simulation(this);
         scorebars1 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(0),getPlayerByIndex(0).getPlayerNo());
         scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
 
@@ -249,7 +249,9 @@ public void setNum(int num){
             }
         }
     }
-
+    private int player1Win = 0;
+    private int player2Win = 0;
+    int i = 1;
     public boolean handleTouch(Vector2 worldTouch){
         /*if (getGamingPlayer().getPlayerNo() == 2){
 
@@ -269,11 +271,43 @@ public void setNum(int num){
             return true;
         }*/
      //   Simulation sim = new Simulation(this);
-       if(!sim.isRunning()) {
-           sim.run();
+//       if(!sim.isRunning()) {
+//           sim.run();
+//
+//       }
+        long sTime = System.currentTimeMillis();
 
-       }
-       // runSimulation();
+        int turns = 0;
+
+
+        num++;
+
+        System.out.println("Game " + i);
+         if (!getBoard().gameOver()) {
+            turns++;
+            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+            System.out.println(AiMove.toString());
+            setCurrentState(getCurrentState().applyAction(AiMove));
+            System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
+        }
+        if (getBoard().gameOver()) {
+i++;
+
+
+            //System.out.println("GAME OVER");
+            //exSheet = ExcelSheet.createSheet(2, 100, 46, 54, 123465875, 234 , 245, 130, 132);
+            //ExcelSheet.printSheet(exSheet);
+            System.out.println(" Number of turns : " + turns);
+
+            System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo());
+            if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
+            else player2Win++;
+
+             currentState = new GameState();
+
+        }
+
+        // runSimulation();
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
 //            while (!getBoard().gameOver()){
@@ -285,7 +319,7 @@ public void setNum(int num){
 //            if (getBoard().gameOver()){
 //                //System.out.println("GAME OVER");
 //                System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-//                currentState = new GameState();
+//               currentState = new GameState();
 //            }
 //        }
 
@@ -297,19 +331,16 @@ public void setNum(int num){
         return currentState.getPlayer(i).getPlayerScore();
     }
 
-    public boolean updateAssets() {
-
-
+    public void updateAssets(float delta) {
         text = "tester Label " + num;
         label.act(text);
 
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
+if(getBoard().gameOver()){
+    //this.currentState = new GameState();
+}
 
-        getHandByIndex(0).act();
-        getHandByIndex(1).act();
-        getBoard().act();
-        return true;
     }
 
     public CustomLabel getLabel() {
@@ -323,13 +354,6 @@ public void setNum(int num){
             return scorebars2;
     }
 
-    public void upateNum() {
-        num++;
-
-    }
 
 
-//    public int getNum() {
-//        return num;
-//    }
 }

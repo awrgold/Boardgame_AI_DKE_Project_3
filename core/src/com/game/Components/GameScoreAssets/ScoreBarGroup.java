@@ -104,7 +104,7 @@ public class ScoreBarGroup extends VerticalGroup{
        }
        this.text = "Player "+pNum+" Score : "+ sc ;
        scoreLabel.act(text);
-       // scoreLabel.act(text);
+
     }
 
     public int getRandom(){

@@ -112,24 +112,13 @@ private SpriteBatch batch;
         boardColumn.add(manager.getHandByIndex(1)).expandX().center();
 
         root.add(boardColumn).colspan(4).expand().left().fillY();
-//        root.add(label);
-//      //  root.pack();
-////        root.validate();
-       root.invalidateHierarchy();
+root.invalidateHierarchy();
         stage.addActor(root);
-//
+
    }
 
     public void act(float delta){
-       // manager.updateAssets();
-        //if (manager.sim.isRunning()){
-            
-        //}
-//        num++;
-//
-//        text = "tester Label " + num;
-//        getLabel().act(text);
-
+        manager.updateAssets(delta);
     }
 
     //public CustomLabel getLabel() {

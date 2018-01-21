@@ -43,10 +43,9 @@ public class Simulation implements Runnable {
                 System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
 
             }
-            if (manager.getBoard().gameOver()) {
+                if (manager.getBoard().gameOver()) {
 
-//                manager.upateNum();
-//                manager.updateAssets();
+
 
                 //System.out.println("GAME OVER");
                 //exSheet = ExcelSheet.createSheet(2, 100, 46, 54, 123465875, 234 , 245, 130, 132);

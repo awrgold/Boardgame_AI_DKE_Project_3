@@ -22,13 +22,17 @@ public class Board extends GroupView {
     private boolean over;
 
     public Board(){
-        //super();
         create();
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
     }
 
     public void create(){
 
-      //  this.grid = Constants.grid.build();
+       this.grid = Constants.grid.build();
         HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(11)
                 .setGridWidth(11)
@@ -119,6 +123,7 @@ public class Board extends GroupView {
                 }
             }
         });
+
         return over;
     }
 
@@ -188,8 +193,8 @@ public class Board extends GroupView {
         }
     }
 
-    public void act() {
-     // super.act(delta);
+    public void act(HexagonalGrid grid) {
+      //super.act(delta);
 this.setGrid(grid);
         grid.getHexagons().forEach(new Action1<Hexagon>() {
             @Override

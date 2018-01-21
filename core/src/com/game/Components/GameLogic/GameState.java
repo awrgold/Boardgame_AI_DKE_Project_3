@@ -28,6 +28,7 @@ public class GameState{
 
         players = new Player[2];
         currentBoard = new Board();
+
         currentBag = new Bag(Pieces.createBagPieces());
 
         //for (int x = 1; x <= players.length; x++){

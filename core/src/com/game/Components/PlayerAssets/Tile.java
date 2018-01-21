@@ -63,9 +63,9 @@ public class Tile extends GroupView {
 
     public void act() {
 
-        for (HexagonActor hexact : actors){
-            hexact.act();
-        }
+//        for (HexagonActor hexact : actors){
+//            hexact.act();
+//        }
 //        this.setGrid(grid);
 //        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
 //            @Override

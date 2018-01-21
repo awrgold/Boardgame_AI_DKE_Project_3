@@ -99,7 +99,6 @@ public void update(float delta) {
         //}
 
 
-
 /*update assets here, call update method followed by the act method(unless super.act() is called in the actor class)
 1- set rules for rendering
 2-assign it to Manager
