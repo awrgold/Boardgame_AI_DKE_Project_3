@@ -14,7 +14,7 @@ import com.game.Components.GameConstants.Constants;
 import java.util.List;
 
 public class HexagonActor extends Actor {
-
+    private Sprite sprite;
     protected Hexagon<Link> hexagon;
     private float[] vertices;
     private Color color = null;
@@ -36,6 +36,7 @@ private ShapeRenderer renderer;
         }
         setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
     }
+
     public void draw (Batch batch, float parentAlpha) {
 
         batch.end();
@@ -160,13 +161,17 @@ private ShapeRenderer renderer;
     public Hexagon<Link> getHexagon(){
         return hexagon;
     }
+//
+//    public HexagonActor copy(HexagonActor actor){
+//        HexagonActor newActor = new HexagonActor(actor.getHexagon());
+//        return newActor;
+//    }
 
-    public HexagonActor copy(HexagonActor actor){
-        HexagonActor newActor = new HexagonActor(actor.getHexagon());
-        return newActor;
+    public void setSprite(Sprite sprite){
+        this.sprite = sprite;
+
+
     }
-
-
 
 
 
