@@ -60,21 +60,36 @@ public class Action {
         if(tile != null && h1 != null && h2 != null){
             return "Placing Tile: " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString() +
                     " || in hexagons: " + h1.getCubeCoordinate().toAxialKey() + " - " + h2.getCubeCoordinate().toAxialKey();
-        } else {
-            return "something is missing";
-        }
+        } else if(tile == null){
+            return "tile is missing";
+        }else if(h1 == null){
+            return "h1 is missing";
+        } else if (h2 == null){
+            return "h2 is missing";
+        } else return null;
 
     }
 
     public Action translateAction(GameState stateToPlay){
 
         Action rightAction = new Action();
+        System.out.println(tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
+
+        boolean inHand = false;
 
         for (Tile t : stateToPlay.getGamingPlayer().getHand().getPieces()){
+            System.out.println("copying tile");
+            System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
 
             if (t.isEqual(tile)){
+                System.out.println("tile found");
                 rightAction.setTile(t);
+                inHand = true;
             }
+        }
+
+        if (!inHand){
+            rightAction.setTile(tile);
         }
 
         Optional one = stateToPlay.getCurrentBoard().getGrid().getByCubeCoordinate(h1.getCubeCoordinate());

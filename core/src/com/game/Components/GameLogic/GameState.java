@@ -194,6 +194,7 @@ public class GameState {
     }
 
     public GameState applyAction(Action a){
+
         HexagonActor first = null;
         GameState nextState;
 
@@ -201,6 +202,7 @@ public class GameState {
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
+            System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
             currentHexActor.setHexColor(a.getTileColors()[0]);
             first = currentHexActor;
             Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
@@ -229,19 +231,39 @@ public class GameState {
 
     public HashMap<Tile, Double> tilesExpectations(ArrayList<Color> colors){
         HashMap<Tile, Double> possibilities = new HashMap<>();
+        //create a pool tht contains all the tiles not already seen
         ArrayList<Tile> pool = currentBag.getBag();
         pool.addAll(gamingPlayer.getHand().getPieces());
+        //for each color we are expecting
         for (Color color : colors){
+            //find tiles with that color in the pool
             for (int i = 0; i < pool.size(); i++){
+                //if the tile contains that color
                 if (pool.get(i).getColors()[0] == color || pool.get(i).getColors()[1] == color){
                     boolean isSeen = false;
+                    //check if it is already in the HashMap
                     for (Tile seen : possibilities.keySet()){
-                        if ()
+                        if (pool.get(i).isEqual(seen)){
+
+                            isSeen = true;
+                        }
+                    }
+
+                    if (!isSeen){
+                        int occ = 0;
+                        for (Tile tile : pool){
+                            if (pool.get(i).equals(tile)) occ++;
+                        }
+                        System.out.println(pool.get(i).getColors()[0].toString() + " - " +
+                                pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
+                        possibilities.put(pool.get(i), (double) occ / (double) pool.size());
+
                     }
                 }
             }
 
         }
+        return possibilities;
     }
 
 

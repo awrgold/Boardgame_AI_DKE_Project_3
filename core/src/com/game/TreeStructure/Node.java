@@ -63,12 +63,14 @@ public class Node {
 
         GameState nextSate = state.cloneGameState();
         System.out.println("Gaming Player " + nextSate.getGamingPlayer().getPlayerNo());
+        System.out.println("Action: " + action.toString());
         Action modifiedAction = action.translateAction(nextSate);
-
+        System.out.println("Modified Action: " + modifiedAction.toString());
         nextSate = nextSate.applyAction(modifiedAction);
         //System.out.println(modifiedAction.toString());
         Node child = new Node(nextSate);
         child.setActionUsed(modifiedAction);
+
         child.setWeight(gain);
         //Edge edge = new Edge(this, child, action);
         //child.setParentEdge(edge);

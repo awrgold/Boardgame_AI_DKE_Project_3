@@ -186,9 +186,10 @@ public class ExpectimaxStrategy implements Strategy {
     }
 
     public Node expectiminimax(Node node, int depth) {
-        System.out.println("Deeper: " + depth);
+
         double a;
         if(depth == 0) {
+            System.out.println("Depth 0, returning node of weight: " + node.getWeight());
             return node;
         }
 
@@ -216,6 +217,7 @@ public class ExpectimaxStrategy implements Strategy {
                 next = expectiminimax(node.setChild(possibleActions.get(i)), depth - 1);
                 if(a < next.getWeight()) {
                     a = next.getWeight();
+                    System.out.println("New Best Action: " + possibleActions.get(i).toString());
                     nextMove = possibleActions.get(i);
                 }
             }
@@ -235,17 +237,20 @@ public class ExpectimaxStrategy implements Strategy {
                 a = a + b * next.getWeight();
             }
         }
-
+        System.out.println(nextMove.toString());
         System.out.println("Weight: " + a);
+
         return node.setChild(nextMove);
     }
 
     public Action decideMove(GameState currentState) {
 
-        Node root = new Node(currentState);
+        Node root = new Node(currentState.cloneGameState());
 
-        Node bestNode = expectiminimax(root, 3);
+        Node bestNode = expectiminimax(root, 2);
 
-        return bestNode.getActionUsed();
+        System.out.println(bestNode.getActionUsed().toString());
+
+        return bestNode.getActionUsed().translateAction(currentState);
     }
 }
