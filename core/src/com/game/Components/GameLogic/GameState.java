@@ -196,7 +196,7 @@ public class GameState {
     public GameState applyAction(Action a){
 
         HexagonActor first = null;
-        GameState nextState;
+        GameState nextState = cloneGameState();
 
         if (a.getH1().getSatelliteData().isPresent()){
             // create a link for the actor and hex of the next hex from current
@@ -221,9 +221,6 @@ public class GameState {
         gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
 
         //System.out.println(a.toString());
-
-        nextState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
-
 
 
         return nextState;

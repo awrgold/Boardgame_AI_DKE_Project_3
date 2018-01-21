@@ -103,6 +103,29 @@ public class Action {
         return rightAction;
     }
 
+    public Action translateAction(GameState stateToPlay){
+
+        Action rightAction = new Action();
+
+        for (Tile t : stateToPlay.getGamingPlayer().getHand().getPieces()){
+            if (t.equals(tile)){
+                rightAction.setTile(t);
+            }
+        }
+
+        Optional one = stateToPlay.getCurrentBoard().getGrid().getByCubeCoordinate(h1.getCubeCoordinate());
+        Optional two = stateToPlay.getCurrentBoard().getGrid().getByCubeCoordinate(h2.getCubeCoordinate());
+        if (one.isPresent() && two.isPresent()){
+            rightAction.setH1((Hexagon) one.get());
+            rightAction.setH2((Hexagon) two.get());
+
+        }
+
+        //System.out.println(rightAction.toString());
+
+        return rightAction;
+    }
+
     public double actionGain(HexagonalGrid grid){
         HexagonActor first = null;
         double totalGain = 0;
