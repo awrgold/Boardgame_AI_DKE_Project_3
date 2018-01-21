@@ -59,13 +59,13 @@ public class Node {
         //System.out.println(action.toString());
 
         double gain = action.actionGain(state.getCurrentBoard().getGrid());
-        System.out.println("GAIN: " + gain);
+        //System.out.println("GAIN: " + gain);
 
         GameState nextSate = state.cloneGameState();
-        System.out.println("Gaming Player " + nextSate.getGamingPlayer().getPlayerNo());
-        System.out.println("Action: " + action.toString());
+        //System.out.println("Gaming Player " + nextSate.getGamingPlayer().getPlayerNo());
+        //System.out.println("Action: " + action.toString());
         Action modifiedAction = action.translateAction(nextSate);
-        System.out.println("Modified Action: " + modifiedAction.toString());
+        //System.out.println("Modified Action: " + modifiedAction.toString());
         nextSate = nextSate.applyAction(modifiedAction);
         //System.out.println(modifiedAction.toString());
         Node child = new Node(nextSate);
@@ -75,7 +75,7 @@ public class Node {
         //Edge edge = new Edge(this, child, action);
         //child.setParentEdge(edge);
         //childrenEdges.add(edge);
-        System.out.println("creating node: " + child.getWeight());
+        //System.out.println("creating node: " + child.getWeight());
 
         return child;
 

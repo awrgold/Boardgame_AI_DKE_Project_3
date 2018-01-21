@@ -202,7 +202,7 @@ public class GameState {
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
-            System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
+            //System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
             currentHexActor.setHexColor(a.getTileColors()[0]);
             first = currentHexActor;
             Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
@@ -254,8 +254,8 @@ public class GameState {
                         for (Tile tile : pool){
                             if (pool.get(i).equals(tile)) occ++;
                         }
-                        System.out.println(pool.get(i).getColors()[0].toString() + " - " +
-                                pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
+                        //System.out.println(pool.get(i).getColors()[0].toString() + " - " +
+                                //pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
                         possibilities.put(pool.get(i), (double) occ / (double) pool.size());
 
                     }

@@ -38,7 +38,9 @@ public class Tile extends GroupView {
 
     public Tile cloneTile(){
 
-        return new Tile(getColors());
+        Tile clonedTile = new Tile(getColors());
+        clonedTile.setFirst(first);
+        return clonedTile;
 
     }
 
@@ -106,14 +108,20 @@ public class Tile extends GroupView {
     }
 
     public HexagonActor getSecond(){
-        Actor two = first.getParent().getChildren().get(Math.abs(first.getHexagon().getGridX() - 1));
-
-        HexagonActor second = null;
-        if (two instanceof HexagonActor){
-            HexagonActor other = (HexagonActor) two;
-            second = other;
+        if (first == null){
+            return null;
         }
-        return second;
+        else {
+            Actor two = first.getParent().getChildren().get(Math.abs(first.getHexagon().getGridX() - 1));
+
+            HexagonActor second = null;
+            if (two instanceof HexagonActor){
+                HexagonActor other = (HexagonActor) two;
+                second = other;
+            }
+            return second;
+        }
+
     }
 
     public Color[] getColors(){

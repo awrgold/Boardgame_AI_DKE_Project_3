@@ -32,8 +32,6 @@ public class ExpectimaxStrategy implements Strategy {
 
     */
 
-    Tree tree;
-
     private Action bestTilePlacement(Tile tile, GameState currentState, Player player) {
         ArrayList<Action> possibleActions = new ArrayList<>();
         HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
@@ -189,7 +187,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         double a;
         if(depth == 0) {
-            System.out.println("Depth 0, returning node of weight: " + node.getWeight());
+            //System.out.println("Depth 0, returning node of weight: " + node.getWeight());
             return node;
         }
 
@@ -209,21 +207,25 @@ public class ExpectimaxStrategy implements Strategy {
             }
         }*/
         if(depth % 2 == 0) {
-            System.out.println("My move");
+            //System.out.println("My move");
             a = -INF;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
-            System.out.println("Found " + possibleActions.size() + " possible actions to play");
+            //System.out.println("Found " + possibleActions.size() + " possible actions to play");
             for(int i = 0; i < possibleActions.size(); i++) {
                 next = expectiminimax(node.setChild(possibleActions.get(i)), depth - 1);
                 if(a < next.getWeight()) {
                     a = next.getWeight();
-                    System.out.println("New Best Action: " + possibleActions.get(i).toString());
+                    //System.out.println("New Best Action: " + possibleActions.get(i).toString());
                     nextMove = possibleActions.get(i);
                 }
             }
         }
         else {
-            System.out.println("Chance node");
+
+            if (node.getState().getCurrentBoard().gameOver()){
+                return node;
+            }
+            //System.out.println("Chance node");
             a = 0;
             //create an HashMap that contains Tiles with its probabilities of being in the opponent's hand
             //for each tile create an action (bestTilePlacement)
@@ -235,10 +237,11 @@ public class ExpectimaxStrategy implements Strategy {
                 double b = possibilities.get(t);
                 next = expectiminimax(node.setChild(bestAction), depth - 1);
                 a = a + b * next.getWeight();
+                nextMove = next.getActionUsed();
             }
         }
-        System.out.println(nextMove.toString());
-        System.out.println("Weight: " + a);
+        //System.out.println(nextMove.toString());
+        //System.out.println("Weight: " + a);
 
         return node.setChild(nextMove);
     }
@@ -249,7 +252,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         Node bestNode = expectiminimax(root, 2);
 
-        System.out.println(bestNode.getActionUsed().toString());
+        //System.out.println(bestNode.getActionUsed().toString());
 
         return bestNode.getActionUsed().translateAction(currentState);
     }
