@@ -10,8 +10,8 @@ import java.util.Random;
 public class MCTSNode {
 
     private GameState state;
-    private MCTSEdge parentEdge;
-    private ArrayList<MCTSEdge> childrenEdges;
+    private MCTSNode parent;
+    private ArrayList<MCTSNode> children;
     private double score;
     private double weight;
     private int numVisits = 0;
@@ -20,7 +20,7 @@ public class MCTSNode {
 
     public MCTSNode(GameState state){
         this.state = state;
-        this.childrenEdges = new ArrayList<>();
+        this.children = new ArrayList<>();
 
     }
 
@@ -36,7 +36,7 @@ public class MCTSNode {
 
 
     public boolean isLeaf(){
-        return (childrenEdges.size() == 0);
+        return (children.size() == 0);
     }
 
     public GameState getState(){
@@ -63,16 +63,16 @@ public class MCTSNode {
         return actionUsed;
     }
 
-    public MCTSEdge getParent(){
-        return parentEdge;
+    public MCTSNode getParent(){
+        return parent;
     }
 
-    public ArrayList<MCTSEdge> getChildrenEdges() {
-        return childrenEdges;
+    public ArrayList<MCTSNode> getChildren() {
+        return children;
     }
 
-    public void setParentEdge(MCTSEdge parent){
-        this.parentEdge = parent;
+    public void setParent(MCTSNode parent){
+        this.parent = parent;
     }
 
     public void setState(GameState state){
@@ -96,9 +96,8 @@ public class MCTSNode {
         child.setActionUsed(modifiedAction);
         child.setWeight(gain);
 
-        MCTSEdge edge = new MCTSEdge(this, child, action);
-        child.setParentEdge(edge);
-        childrenEdges.add(edge);
+        child.setParent(this);
+        children.add(child);
         System.out.println("creating node: " + child.getWeight());
 
         return child;

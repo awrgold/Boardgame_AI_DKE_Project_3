@@ -38,7 +38,9 @@ public class MCTSSearch implements Strategy {
     private double nVisits;
     private double totValue;
 
-    public MCTSSearch(){}
+    public MCTSSearch(){
+        selectAction();
+    }
 
     public MCTSSearch(MCTSTree treeToSearch){
         this.tree = treeToSearch;
@@ -61,7 +63,6 @@ public class MCTSSearch implements Strategy {
         List<MCTSNode> visited = new LinkedList<>();
         MCTSNode cur = this.tree.getRoot();
         visited.add(cur);
-
 
         //TODO: THIS DOES NOT STOP, how do we find leaf?
         while (!isLeaf()) {
@@ -127,7 +128,7 @@ public class MCTSSearch implements Strategy {
                     */
 
                         toExpandFrom.setChild(a);
-                        knownChildren.add(toExpandFrom.getChildrenEdges());
+                        knownChildren.add(toExpandFrom.getChildren());
                     }
 
                 } else {
@@ -179,17 +180,17 @@ public class MCTSSearch implements Strategy {
         double nodeWeight;
 
         // Not the top 6, choosing all atm
-        for (MCTSEdge c : current.getChildrenEdges()) {
+        for (MCTSNode c : current.getChildren()) {
 
             // Here we need to determine if the weight is being chosen from the child or the parent, and which we want.
-            nodeWeight = c.getChildNode().getActionUsed().actionGain(c.getParentNode().getState().getCurrentBoard().getGrid());
+            nodeWeight = c.getActionUsed().actionGain(c.getParent().getState().getCurrentBoard().getGrid());
 
-            double uctValue = c.getParentWeight() / (c.getParentNode().getNumVisits() + epsilon) +
-                    (nodeWeight)*(Math.sqrt(Math.log(nVisits+1) / (c.getParentNode().getNumVisits() + epsilon))) +
+            double uctValue = c.getParent().getWeight() / (c.getParent().getNumVisits() + epsilon) +
+                    (nodeWeight)*(Math.sqrt(Math.log(nVisits+1) / (c.getParent().getNumVisits() + epsilon))) +
                     r.nextDouble() * epsilon;  // small random number to break ties randomly in unexpanded nodes
 
             if (uctValue > bestValue) {
-                selected = c.getChildNode();
+                selected = c;
                 bestValue = uctValue;
             }
         }
