@@ -1,6 +1,7 @@
 package com.game.Components.PlayerAssets;
 
 import com.game.Components.GameAssets.Board;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.Tools.HexagonActor;
@@ -30,32 +31,75 @@ public class Player{
     private int[] playerScore = new int[6];
     private int playerNo;
     private Hand hand;
-    private String[] playerScoreString = new String[6];
+    private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
+    private boolean isGreedy;
+    private boolean isMCTS;
+    private boolean isExpectiMax;
     private Strategy strategy;
 
-    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
         this.isAI = isAI;
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
         }
-        playerScoreString[0] = "B";
-        playerScoreString[1] = "Y";
-        playerScoreString[2] = "O";
-        playerScoreString[3] = "P";
-        playerScoreString[4] = "V";
-        playerScoreString[5] = "R";
+        playerScoreColors[0] = Color.BLUE;
+        playerScoreColors[1] = Color.YELLOW;
+        playerScoreColors[2] = Color.ORANGE;
+        playerScoreColors[3] = Color.PURPLE;
+        playerScoreColors[4] = Color.VIOLET;
+        playerScoreColors[5] = Color.RED;
+
+        if (isAI){
+            if (isGreedy){
+                strategy = new GreedyStrategy();
+            }
+            if (isMCTS){
+                //strategy = new MCTS();
+            }
+            if (isExpectiMax){
+                strategy = new ExpectimaxStrategy();
+            }
+        }
 
         if (isAI && playerNo == 1) strategy = new RandomStrategy();
         else if (isAI && playerNo == 2) strategy = new RandomStrategy();
+    }
+
+    public Player clonePlayer(){
+        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS);
+        newPlayer.setPlayerScore(playerScore.clone());
+        return newPlayer;
+
     }
 
 
     public boolean isAI() {
         return isAI;
     }
+
+    /*
+    public void setGreedy(){
+        isGreedy = true;
+        isMCTS = false;
+        isExpectiMax = false;
+    }
+
+    public void setMCTS(){
+        isMCTS = true;
+        isGreedy = false;
+        isExpectiMax = false;
+    }
+
+    public void setExpectiMax(){
+        isExpectiMax = true;
+        isMCTS = false;
+        isGreedy = false;
+    }
+    */
+
 
     public Hand getHand(){
         return this.hand;
@@ -67,6 +111,10 @@ public class Player{
 
     public int getPlayerNo() {
         return playerNo;
+    }
+
+    public void setPlayerScore(int[] playerScore) {
+        this.playerScore = playerScore;
     }
 
     public static void updateScore(int[] scoreGains, Player player){
@@ -88,12 +136,12 @@ public class Player{
 
         int avoid = -1;
 
-        if (hexActor.getHexColor().equals("B")) i = 0;
-        if (hexActor.getHexColor().equals("Y")) i = 1;
-        if (hexActor.getHexColor().equals("O")) i = 2;
-        if (hexActor.getHexColor().equals("P")) i = 3;
-        if (hexActor.getHexColor().equals("V")) i = 4;
-        if (hexActor.getHexColor().equals("R")) i = 5;
+        if (hexActor.getHexColor().equals(Color.BLUE)) i = 0;
+        if (hexActor.getHexColor().equals(Color.YELLOW)) i = 1;
+        if (hexActor.getHexColor().equals(Color.ORANGE)) i = 2;
+        if (hexActor.getHexColor().equals(Color.PURPLE)) i = 3;
+        if (hexActor.getHexColor().equals(Color.VIOLET)) i = 4;
+        if (hexActor.getHexColor().equals(Color.RED)) i = 5;
 
         //update score
         if (hexActor == one){
@@ -165,7 +213,7 @@ public class Player{
         return playerScore;
     }
 
-    private boolean isAColorPresent(String color){
+    private boolean isAColorPresent(Color color){
         for (Tile tile : hand.getPieces()){
             if(tile.getActors()[0].getHexColor().equals(color) || tile.getActors()[1].getHexColor().equals(color)){
                 return true;
@@ -192,22 +240,22 @@ public class Player{
             if (playerScore[i] == lowest){
                 indexesOfLowest.add(i);
             }
-
         }
 
-        if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreString[lowIndex])) {
+        if (indexesOfLowest.size() == 1 && !isAColorPresent(playerScoreColors[lowIndex])) {
             return false;
         }
 
         if (indexesOfLowest.size() > 1 && lowest > 0){
             for (int i : indexesOfLowest){
-                if (!isAColorPresent(playerScoreString[i])){
+                if (!isAColorPresent(playerScoreColors[i])){
                     return false;
                 }
             }
         }
         return true;
     }
+
 
     public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor, int avoidNext) {
 
@@ -330,32 +378,28 @@ public class Player{
     //TRYING TO IMPLEMENT THE STRATEGY
 
 //  FIND THE LOWEST COLORS
-    public ArrayList<String> lowestColors(){
-        ArrayList<String> lowestColors = new ArrayList<>();
+    public ArrayList<Color> lowestColors(){
+        ArrayList<Color> lowestColors = new ArrayList<>();
         int lowest = 18;
 
         for (int i = 0; i < 6; i++){
             if(playerScore[i] < lowest){
                 lowest = playerScore[i];
-
             }
         }
 
         for (int i = 0; i < 6; i++){
             if (playerScore[i] == lowest){
-                lowestColors.add(playerScoreString[i]);
+                lowestColors.add(playerScoreColors[i]);
             }
-
         }
+
         //System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
         return lowestColors;
-
     }
 
     public Action applyStrategy(GameState currentState){
         return strategy.decideMove(currentState);
-
-
     }
 /*
 //  PICK FROM HAND TILES THAT CONTAIN THAT COLORS (IF THERE'S A DOUBLE IS THE BEST ONE)

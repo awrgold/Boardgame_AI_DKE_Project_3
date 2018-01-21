@@ -1,11 +1,13 @@
 package com.game.Components.GameLogic;
 
+import com.game.Components.GameConstants.Color;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.backport.Optional;
 
 public class Action {
     private Hexagon h1;
@@ -49,24 +51,58 @@ public class Action {
         this.h2 = h2;
     }
 
-    public String[] getTileColors(){
-        String[] colors = new String[2];
+    public Color[] getTileColors(){
 
-        colors[0] = tile.getFirst().getHexColor();
-
-        colors[1] = tile.getSecond().getHexColor();
-
-        return colors;
+        return tile.getColors();
     }
 
     public String toString(){
         if(tile != null && h1 != null && h2 != null){
-            return "Placing Tile: " + tile.getFirst().getHexColor() + " - " + tile.getSecond().getHexColor() +
+            return "Placing Tile: " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString() +
                     " || in hexagons: " + h1.getCubeCoordinate().toAxialKey() + " - " + h2.getCubeCoordinate().toAxialKey();
-        } else {
-            return "something is missing";
+        } else if(tile == null){
+            return "tile is missing";
+        }else if(h1 == null){
+            return "h1 is missing";
+        } else if (h2 == null){
+            return "h2 is missing";
+        } else return null;
+
+    }
+
+    public Action translateAction(GameState stateToPlay){
+
+        Action rightAction = new Action();
+        System.out.println(tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
+
+        boolean inHand = false;
+
+        for (Tile t : stateToPlay.getGamingPlayer().getHand().getPieces()){
+            System.out.println("copying tile");
+            System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
+
+            if (t.isEqual(tile)){
+                System.out.println("tile found");
+                rightAction.setTile(t);
+                inHand = true;
+            }
         }
 
+        if (!inHand){
+            rightAction.setTile(tile);
+        }
+
+        Optional one = stateToPlay.getCurrentBoard().getGrid().getByCubeCoordinate(h1.getCubeCoordinate());
+        Optional two = stateToPlay.getCurrentBoard().getGrid().getByCubeCoordinate(h2.getCubeCoordinate());
+        if (one.isPresent() && two.isPresent()){
+            rightAction.setH1((Hexagon) one.get());
+            rightAction.setH2((Hexagon) two.get());
+
+        }
+
+        //System.out.println(rightAction.toString());
+
+        return rightAction;
     }
 
     public double actionGain(HexagonalGrid grid){
@@ -83,8 +119,8 @@ public class Action {
                 totalGain += gain1[i];
             }
 
-            currentHexActor.setHexColor("EMPTY");
-                }
+            currentHexActor.setHexColor(Color.EMPTY);
+        }
 
         if (h2.getSatelliteData().isPresent()){
             Link hexLink = (Link) h2.getSatelliteData().get();
@@ -95,7 +131,7 @@ public class Action {
                 for (int i = 0; i < 6; i++){
                     totalGain += gain2[i];
                 }
-              //  currentHexActor.setHexColor("EMPTY");
+                currentHexActor.setHexColor(Color.EMPTY);
             }
         }
 

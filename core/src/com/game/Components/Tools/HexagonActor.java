@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.game.Components.GameConstants.Color;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.Point;
 import com.game.Components.GameConstants.Constants;
@@ -15,10 +16,8 @@ import java.util.List;
 public class HexagonActor extends Actor {
 
     protected Hexagon<Link> hexagon;
-    private Sprite sprite;
     private float[] vertices;
-    private ShapeRenderer renderer = new ShapeRenderer();
-    private String hexColor = null;
+    private Color color = null;
 
 
 
@@ -33,10 +32,67 @@ public class HexagonActor extends Actor {
             // Translate to local coordinates
             this.vertices[i * 2] = (float) points.get(i).getCoordinateX() - (float) hexagon.getCenterX();
             this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();
-            //setBounds(this.vertices[i * 2],this.vertices[i * 2 + 1], hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
+
         }
         setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
     }
+
+    public void setHexColor(Color color){
+        if (color.equals(Color.RED)){
+            this.color = color;
+            return;
+        } if (color.equals(Color.ORANGE)){
+            this.color = color;
+            return;
+        } if (color.equals(Color.YELLOW)){
+            this.color = color;
+            return;
+        } if (color.equals(Color.BLUE)){
+            this.color = color;
+            return;
+        } if (color.equals(Color.PURPLE)){
+            this.color = color;
+            return;
+        } if (color.equals(Color.VIOLET)){
+            this.color = color;
+            return;
+        } if (color.equals(Color.EMPTY)){
+            this.color = color;
+        } else{
+            System.out.println("Invalid color choice, use the CAPITAL name of the color");
+            System.out.println("Choices: RED, ORANGE, YELLOW, BLUE, PURPLE, VIOLEt");
+        }
+    }
+
+    public Color getHexColor(){
+        return color;
+    }
+
+    public Hexagon<Link> getHexagon(){
+        return hexagon;
+    }
+
+    public HexagonActor copy(HexagonActor actor){
+        HexagonActor newActor = new HexagonActor(actor.getHexagon());
+        return newActor;
+    }
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------OLD SHIT HERE----------------------------------------------------
+     */
+
+/*
+    private Sprite sprite;
+    private ShapeRenderer renderer = new ShapeRenderer();
+    private String hexColor = null;
+
+
 
     public void setHexColor(String color){
         if (color.equals("R")){
@@ -73,7 +129,9 @@ public class HexagonActor extends Actor {
         }
     }
 
-    public String getHexColor(){
+
+
+    public String getHexColorString(){
         return this.hexColor;
     }
 
@@ -130,9 +188,6 @@ public class HexagonActor extends Actor {
 
         //draw the sprite on the actor
         batch.draw(sprite, getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
-    }
-    public Hexagon<Link> getHexagon(){
-        return hexagon;
     }
 
     // Gets the color of a sprite
@@ -200,3 +255,45 @@ setSprite(sprite);
 
 }
 
+
+        else if(path.equals(red)){
+            path = "R";
+            return path;
+        }
+
+        else if(path.equals(blue)){
+            path = "B";
+            return path;
+        }
+
+        else if(path.equals(yellow)){
+            path = "Y";
+            return path;
+        }
+
+        else if(path.equals(orange)){
+            path = "O";
+            return path;
+        }
+
+        else if(path.equals(violet)){
+            path = "V";
+            return path;
+        }
+
+        else if(path.equals(empty)){
+            path = "EMPTY";
+            return path;
+        }
+
+        else {
+            return null;
+        }
+    }
+    public void act(float delta) {
+        super.act(delta);
+
+    }
+
+    */
+}

@@ -1,5 +1,6 @@
 package com.game.Components.PlayerAssets;
 
+import com.game.Components.GameConstants.Color;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
@@ -8,7 +9,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import rx.functions.Action1;
+
+import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
+import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 
 //import java.util.Arrays;
 
@@ -18,22 +23,42 @@ public class Tile extends GroupView {
 
     private HexagonalGrid<Link> grid;
 
-    private Sprite[] colors;
+    private Color[] colors;
     private boolean selected;
     private HexagonActor[] actors;
     private HexagonActor first;
 
-    public Tile(Sprite[] colors){
-        super();
+    public Tile(Color[] colors){
+        //super();
         this.colors = colors;
         this.selected = false;
         this.actors = new HexagonActor[2];
         create();
     }
 
+    public Tile cloneTile(){
+
+        return new Tile(getColors());
+
+    }
+
+    public boolean isEqual(Tile one){
+        //System.out.println(getColors()[0].toString() + one.getColors()[0].toString() + getColors()[1].toString() + one.getColors()[1].toString());
+        //System.out.println(getColors() == one.getColors());
+        return getColors() == one.getColors();
+
+    }
+
     public void create() {
 
-        this.grid = Constants.tile.build();
+        HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
+                .setGridHeight(1)
+                .setGridWidth(2)
+                .setGridLayout(RECTANGULAR)
+                .setOrientation(POINTY_TOP)
+                .setRadius(40);
+
+        this.grid = tileBuilder.build();
 
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -42,10 +67,10 @@ public class Tile extends GroupView {
 
                 //give both the sprites
                 if(hexagon.getGridX() == 0) {
-                    hexTile.setSprite(colors[0]);
+                    hexTile.setHexColor(colors[0]);
                     actors[0] = hexTile;
                 } else {
-                    hexTile.setSprite(colors[1]);
+                    hexTile.setHexColor(colors[1]);
                     actors[1] = hexTile;
                 }
 
@@ -53,10 +78,7 @@ public class Tile extends GroupView {
                 //and pass everything in tileGroup
                 addActor(hexTile);
                 hexagon.setSatelliteData(new Link(hexTile));
-
-
             }
-
         });
 
     }
@@ -108,6 +130,7 @@ public class Tile extends GroupView {
         }
     }
 
+
     public void setSelected(boolean s) {
         selected = s;
     }
@@ -135,7 +158,7 @@ public class Tile extends GroupView {
         return second;
     }
 
-    public Sprite[] getColors(){
+    public Color[] getColors(){
         return this.colors;
     }
 

@@ -3,11 +3,17 @@ package com.game.Components.GameAssets;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Components.PlayerAssets.Player;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.*;
+import org.codetome.hexameter.core.backport.Optional;
+import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.codetome.hexameter.core.api.HexagonalGridBuilder;
 import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
@@ -25,9 +31,43 @@ public class Board extends GroupView {
     private boolean over;
 
     public Board(){
-
-
         create();
+    }
+
+
+    public Board cloneBoard(){
+        Board newBoard = new Board();
+
+        this.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>(){
+            @Override
+            public void call(Hexagon hexagon) {
+                //FOR EACH HEXAGON
+                if (hexagon.getSatelliteData().isPresent()) {
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor currentHexActor = hexLink.getActor();
+                    //IF AN HEXAGON IN PREVIOUS BOARD IS NOT EMPTY
+                    if (!currentHexActor.getHexColor().equals(Color.EMPTY)) {
+                        //TAKE THE CORRESPONDING HEXAGON IN THE NEW BOARD
+                        Optional toCopy = newBoard.getGrid().getByCubeCoordinate(hexagon.getCubeCoordinate());
+                        if (toCopy.isPresent()){
+                            Hexagon copy = (Hexagon) toCopy.get();
+                            if (copy.getSatelliteData().isPresent()){
+                                Link copyLink = (Link) copy.getSatelliteData().get();
+                                HexagonActor copyHexActor = copyLink.getActor();
+                                //AND GIVE IT THE SAME COLOR
+                                copyHexActor.setHexColor(currentHexActor.getHexColor());
+                                //System.out.println("Hexagon copied: " + copyHexActor.getHexColor());
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+        });
+
+        return newBoard;
     }
 
     @Override
@@ -59,19 +99,19 @@ public class Board extends GroupView {
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
                 //hexActor.getHexagon().
                 if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setHexColor("B");
+                    hexActor.setHexColor(Color.BLUE);
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setHexColor("Y");
+                    hexActor.setHexColor(Color.YELLOW);
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setHexColor("O");
+                    hexActor.setHexColor(Color.ORANGE);
                 } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setHexColor("P");
+                    hexActor.setHexColor(Color.PURPLE);
                 } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setHexColor("V");
+                    hexActor.setHexColor(Color.VIOLET);
                 } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setHexColor("R");
+                    hexActor.setHexColor(Color.RED);
                 } else {
-                    hexActor.setHexColor("EMPTY");
+                    hexActor.setHexColor(Color.EMPTY);
                 }
 
                 hexagon.setSatelliteData(new Link(hexActor));
@@ -107,7 +147,7 @@ public class Board extends GroupView {
                     Link hexLink = (Link) hexagon.getSatelliteData().get();
                     HexagonActor currentHexActor = hexLink.getActor();
 
-                    if (currentHexActor.getHexColor().equals("EMPTY")) {
+                    if (currentHexActor.getHexColor().equals(Color.EMPTY)) {
                         for (Object hex : grid.getNeighborsOf(hexagon)) {
 
                             if (hex instanceof Hexagon) {
@@ -117,7 +157,7 @@ public class Board extends GroupView {
                                     Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
                                     HexagonActor neighHexActor = neighLink.getActor();
 
-                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+                                    if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
                                         over = false;
                                         break;
                                     }

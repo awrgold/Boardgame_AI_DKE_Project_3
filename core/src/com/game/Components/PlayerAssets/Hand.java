@@ -25,6 +25,17 @@ public class Hand extends GroupView{
         }
     }
 
+    public Hand cloneHand(){
+        //System.out.println("Cloning hand: ");
+        ArrayList<Tile> newTiles= new ArrayList<>();
+        for (Tile tile : getPieces()){
+            newTiles.add(tile.cloneTile());
+            //System.out.println("Cloning a Tile: passing as colors " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
+        }
+        return new Hand(newTiles);
+
+    }
+
     public ArrayList<Tile> getPieces() {
         return hand;
     }

@@ -1,12 +1,13 @@
 package com.game.Components.Tools;
 
+import com.game.Components.GameConstants.Color;
 import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
 public class Link extends DefaultSatelliteData {
 
     public HexagonActor actor;
 
-    public String color;
+    public Color color;
 
     public Link(HexagonActor actor) {
 
@@ -18,7 +19,9 @@ public class Link extends DefaultSatelliteData {
         return actor;
     }
 
-    public String getColor() {
-        return color;
+    public String getColorString() {
+        return color.toString();
     }
+
+
 }
