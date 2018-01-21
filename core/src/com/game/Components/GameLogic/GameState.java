@@ -60,9 +60,9 @@ public class GameState{
 
 
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        /*while (!gamingPlayer.isLowestScoreTilePresent()){
+        while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
-        }*/
+        }
     }
 
 //    public GameState cloneGameState(){
@@ -161,7 +161,7 @@ int num = 0;
         if (gamingPlayer.isAI()){
 
             gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
-            //System.out.println("Changing tiles..");
+            System.out.println("Changing tiles..");
             //for (Tile tile : gamingPlayer.getHand().getPieces()){
                 //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
             //}
@@ -211,7 +211,7 @@ int num = 0;
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
-            System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
+            //System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
             currentHexActor.setHexColor(a.getTileColors()[0]);
             first = currentHexActor;
             Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
@@ -264,8 +264,11 @@ int num = 0;
                         for (Tile tile : pool){
                             if (pool.get(i).equals(tile)) occ++;
                         }
-                        System.out.println(pool.get(i).getColors()[0].toString() + " - " +
-                                pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
+                        //System.out.println(pool.get(i).getColors()[0].toString() + " - " +
+                                //pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
+                        if (pool.get(i).getColors()[0] == color) pool.get(i).setFirst(pool.get(i).getActors()[0]);
+                        if (pool.get(i).getColors()[1] == color) pool.get(i).setFirst(pool.get(i).getActors()[1]);
+
                         possibilities.put(pool.get(i), (double) occ / (double) pool.size());
 
                     }

@@ -73,16 +73,14 @@ public class Action {
     public Action translateAction(GameState stateToPlay){
 
         Action rightAction = new Action();
-        System.out.println(tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
+        //System.out.println(tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
 
         boolean inHand = false;
 
         for (Tile t : stateToPlay.getGamingPlayer().getHand().getPieces()){
-            System.out.println("copying tile");
-            System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
+            //System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
 
             if (t.isEqual(tile)){
-                System.out.println("tile found");
                 rightAction.setTile(t);
                 inHand = true;
             }
@@ -113,7 +111,12 @@ public class Action {
             Link hexLink = (Link) h1.getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
             first = currentHexActor;
-            currentHexActor.setHexColor(tile.getFirst().getHexColor());
+            if (tile.getFirst() != null){
+                currentHexActor.setHexColor(tile.getFirst().getHexColor());
+            } else {
+                currentHexActor.setHexColor(tile.getActors()[0].getHexColor());
+            }
+
             int[] gain1 = Player.scoreGain(currentHexActor, grid, currentHexActor);
             for (int i = 0; i < 6; i++){
                 totalGain += gain1[i];
@@ -126,7 +129,12 @@ public class Action {
             Link hexLink = (Link) h2.getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
             if (first != null){
-                currentHexActor.setHexColor(tile.getSecond().getHexColor());
+                if (tile.getSecond() != null){
+                    currentHexActor.setHexColor(tile.getSecond().getHexColor());
+                } else {
+                    currentHexActor.setHexColor(tile.getActors()[1].getHexColor());
+                }
+
                 int[] gain2 = Player.scoreGain(currentHexActor, grid, first);
                 for (int i = 0; i < 6; i++){
                     totalGain += gain2[i];

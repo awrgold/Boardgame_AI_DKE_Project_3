@@ -28,7 +28,7 @@ public class GreedyStrategy implements Strategy{
 
     private ArrayList<Action> possibleTilePlacements(Tile tile, HexagonalGrid grid, Color color) {
         ArrayList<Action> possibleActions = new ArrayList<>();
-        System.out.println("Searching for best placements");
+        //System.out.println("Searching for best placements");
 
         //ITERATE ALL OVER THE CURRENT BOARD
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
@@ -106,6 +106,7 @@ public class GreedyStrategy implements Strategy{
         if (possibleActions.size() == 0){
             possibleActions.add(randomAction(tile, grid));
         }
+        //System.out.println(possibleActions.size());
 
         return possibleActions;
     }
@@ -132,7 +133,7 @@ public class GreedyStrategy implements Strategy{
                 if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
                     pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
                     pieces.put(t, color);
-                    System.out.println("Found a double to place: " + color + " - " + color);
+                    //System.out.println("Found a double to place: " + color + " - " + color);
                     break;
                 } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
                     pieces.put(t, color);
@@ -144,10 +145,10 @@ public class GreedyStrategy implements Strategy{
             pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
         }
 
-        for(Tile piece : pieces.keySet()){
-            System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
-        }
-        System.out.print(" <--- pieces to play \n");
+        //for(Tile piece : pieces.keySet()){
+            //System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
+        //}
+        //System.out.print(" <--- pieces to play \n");
 
         return pieces;
 
@@ -155,7 +156,7 @@ public class GreedyStrategy implements Strategy{
 
 
     private Action randomAction(Tile tile, HexagonalGrid grid) {
-        System.out.println("No good moves, doing random action");
+        //System.out.println("No good moves, doing random action");
         Action randomAction = new Action();
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -205,6 +206,8 @@ public class GreedyStrategy implements Strategy{
 
         }
 
+        System.out.println(bestMoves.size());
+
         //System.out.println(bestMoves.size());
         double bestGain = 0;
         Action bestAction = null;
@@ -223,7 +226,7 @@ public class GreedyStrategy implements Strategy{
             System.out.println("best action not found");
         }
 
-        System.out.println("Best action found");
+        //System.out.println("Best action found");
         return bestAction;
 
     }
