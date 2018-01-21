@@ -41,6 +41,18 @@ public class Node {
         return weight;
     }
 
+    public void setWeight(double weight){
+        this.weight = weight;
+    }
+
+    public void setActionUsed(Action actionUsed) {
+        this.actionUsed = actionUsed;
+    }
+
+    public Action getActionUsed(){
+        return actionUsed;
+    }
+
     public Edge getParentEdge(){
         return parentEdge;
     }
