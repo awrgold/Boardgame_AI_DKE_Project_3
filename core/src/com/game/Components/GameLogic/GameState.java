@@ -37,8 +37,8 @@ public class GameState {
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-        players[0] = new Player(1, currentBag.pickSix(), true, true, false, false);
-        players[1] = new Player(2, currentBag.pickSix(), true, false, true, false);
+        players[0] = new Player(1, currentBag.pickSix(), true, true, false, false, false);
+        players[1] = new Player(2, currentBag.pickSix(), true, false, true, false, false);
         gamingPlayer = players[0];
     }
 
@@ -51,9 +51,9 @@ public class GameState {
 
 
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        /*while (!gamingPlayer.isLowestScoreTilePresent()){
+        while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
-        }*/
+        }
     }
 
     public GameState cloneGameState(){
@@ -152,7 +152,7 @@ public class GameState {
         if (gamingPlayer.isAI()){
 
             gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
-            //System.out.println("Changing tiles..");
+            System.out.println("Changing tiles..");
             //for (Tile tile : gamingPlayer.getHand().getPieces()){
                 //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
             //}
@@ -256,6 +256,9 @@ public class GameState {
                         }
                         //System.out.println(pool.get(i).getColors()[0].toString() + " - " +
                                 //pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
+                        if (pool.get(i).getColors()[0] == color) pool.get(i).setFirst(pool.get(i).getActors()[0]);
+                        if (pool.get(i).getColors()[1] == color) pool.get(i).setFirst(pool.get(i).getActors()[1]);
+
                         possibilities.put(pool.get(i), (double) occ / (double) pool.size());
 
                     }
