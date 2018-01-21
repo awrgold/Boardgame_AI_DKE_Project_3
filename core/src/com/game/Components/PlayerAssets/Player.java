@@ -61,7 +61,7 @@ public class Player{
             }
             if (isMCTS){
                 this.isMCTS = true;
-                strategy = new MCTSSearch();
+                strategy = new MCTS();
             }
             if (isExpectiMax){
                 this.isExpectiMax = true;

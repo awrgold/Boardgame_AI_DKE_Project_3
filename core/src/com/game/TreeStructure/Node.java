@@ -21,10 +21,6 @@ public class Node {
 
     }
 
-    public int getNumVisits(){
-        return numVisits;
-    }
-
     public void setActionUsed(Action actionUsed) {
         this.actionUsed = actionUsed;
     }
@@ -43,14 +39,6 @@ public class Node {
 
     public void setWeight(double weight){
         this.weight = weight;
-    }
-
-    public void setActionUsed(Action actionUsed) {
-        this.actionUsed = actionUsed;
-    }
-
-    public Action getActionUsed(){
-        return actionUsed;
     }
 
     public Edge getParentEdge(){
