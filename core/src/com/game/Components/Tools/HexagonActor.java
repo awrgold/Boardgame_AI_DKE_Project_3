@@ -23,7 +23,7 @@ private ShapeRenderer renderer;
 
     public HexagonActor(Hexagon<Link> hexagon) {
         this.hexagon = hexagon;
-
+        this.renderer = new ShapeRenderer();
 
         List<Point> points =  (List<Point>) hexagon.getPoints();
         this.vertices = new float[points.size() * 2];
@@ -36,9 +36,11 @@ private ShapeRenderer renderer;
         }
         setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
     }
-
+//public void setSprite(Sprite sprite){
+//        this.sprite = sprite;
+//}
     public void draw (Batch batch, float parentAlpha) {
-
+    // Sprite sprite = Constants.emptySprite;
         batch.end();
 
 
@@ -72,65 +74,13 @@ private ShapeRenderer renderer;
         batch.begin();
 
         //draw the sprite on the actor
-        batch.draw(sprite, getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
+        batch.draw(sprite,getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
     }
- //   public static String getSpriteColor(HexagonActor hexActor){
-//        Texture texture = hexActor.getSprite().getTexture();
-//        String path = ((FileTextureData)texture.getTextureData()).getFileHandle().path();
-//
-//        String violet = "colours/violet.png";
-//        String red =    "colours/red.png";
-//        String blue =   "colours/blue.png";
-//        String yellow = "colours/yellow.png";
-//        String orange = "colours/orange.png";
-//        String purple = "colours/purple.png";
-//        String empty = "4players.png";
-//
-//
-//
-//        if(path.equals(purple)){
-//            path = "P";
-//            return path;
-//        }
-//
-//        else if(path.equals(red)){
-//            path = "R";
-//            return path;
-//        }
-//
-//        else if(path.equals(blue)){
-//            path = "B";
-//            return path;
-//        }
-//
-//        else if(path.equals(yellow)){
-//            path = "Y";
-//            return path;
-//        }
-//
-//        else if(path.equals(orange)){
-//            path = "O";
-//            return path;
-//        }
-//
-//        else if(path.equals(violet)){
-//            path = "V";
-//            return path;
-//        }
-//
-//        else if(path.equals(empty)){
-//            path = "EMPTY";
-//            return path;
-//        }
-//
-//        else {
-//            return null;
-//        }
-//    }
+
     public void setHexColor(Color color){
         if (color.equals(Color.RED)){
             this.color = color;
-            this.sprite = Constants.redSprite;
+           this.sprite = Constants.redSprite;
             return;
         } if (color.equals(Color.ORANGE)){
             this.color = color;
@@ -150,7 +100,7 @@ private ShapeRenderer renderer;
             return;
         } if (color.equals(Color.VIOLET)){
             this.color = color;
-            this.sprite = Constants.violetSprite;
+           this.sprite = Constants.violetSprite;
             return;
         } if (color.equals(Color.EMPTY)){
             this.color = color;
@@ -168,17 +118,19 @@ private ShapeRenderer renderer;
     public Hexagon<Link> getHexagon(){
         return hexagon;
     }
-//
+    public void act(Color color){
+        this.color = color;
+    }
 //    public HexagonActor copy(HexagonActor actor){
 //        HexagonActor newActor = new HexagonActor(actor.getHexagon());
 //        return newActor;
 //    }
 
-    public void setSprite(Sprite sprite){
-        this.sprite = sprite;
-
-
-    }
+//    public void setSprite(Sprite sprite){
+//        this.sprite = sprite;
+//
+//
+//    }
 
 
 

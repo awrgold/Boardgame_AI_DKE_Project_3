@@ -1,5 +1,6 @@
 package com.game.Components.GameAssets;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Components.PlayerAssets.Player;
@@ -239,9 +240,9 @@ public class Board extends GroupView {
         }
     }
 
-    public void act() {
-      //super.act(delta);
-//    this.setGrid(grid);
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
 //        grid.getHexagons().forEach(new Action1<Hexagon>() {
 //            @Override
 //            public void call(Hexagon hexagon) {
@@ -249,7 +250,26 @@ public class Board extends GroupView {
 //                if (hexagon.getSatelliteData().isPresent()){
 //                    Link hexLink = (Link) hexagon.getSatelliteData().get();
 //                    HexagonActor currentHexActor = hexLink.getActor();
-//                   currentHexActor.act();
+//
+//                  //  currentHexActor.draw(batch,parentAlpha);
+//                }
+//
+//            }
+//        });
+    }
+
+    public void act(float delta) {
+      super.act(delta);
+//    this.setGrid(grid);
+//        grid.getHexagons().forEach(new Action1<Hexagon>() {
+//            @Override
+//            public void call(Hexagon hexagon) {
+//
+//                if (hexagon.getSatelliteData().isPresent()){
+//                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+//                    HexagonActor HexActor = hexLink.getActor();
+//                    hexActor.act();
+//                  //  currentHexActor.draw(batch,parentAlpha);
 //                }
 //
 //            }

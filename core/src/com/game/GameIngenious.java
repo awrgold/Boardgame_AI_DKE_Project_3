@@ -25,6 +25,7 @@ public class GameIngenious extends Game {
 
       this.batch = new SpriteBatch();
       this.manager= new GameManager();
+
      //  showGameScreen();
 
         screen = new GameScreen(this);

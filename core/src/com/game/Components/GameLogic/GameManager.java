@@ -38,7 +38,9 @@ public class GameManager{
     private int num=0;
     public GameManager(){
 
+
         this.currentState = new GameState();
+
         //gameTree.buildTree(startingState);
         move = new Action();
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -314,11 +316,12 @@ runSimulation();
 
         }
         if (getBoard().gameOver()) {
+
             i++;
 
 
             //System.out.println("GAME OVER");
-            //exSheet = ExcelSheet.createSheet(2, 100, 46, 54, 123465875, 234 , 245, 130, 132);
+            //exSheet = ExcelSheet.createSheet(runtime,steps,treedepth,score diff, points,moves,victory expectation);
             //ExcelSheet.printSheet(exSheet);
             System.out.println(" Number of turns : " + turns);
 
@@ -326,7 +329,7 @@ runSimulation();
             if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
             else player2Win++;
            // run = false;
-
+            this.currentState = new GameState();
         }
         //return run;
     }
@@ -342,7 +345,7 @@ runSimulation();
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
         
-        //getBoard().act(delta);
+       // getBoard().act(delta);
 
 
     }
