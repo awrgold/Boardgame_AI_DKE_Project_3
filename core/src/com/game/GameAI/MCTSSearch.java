@@ -30,10 +30,11 @@ http://mcts.ai/code/java.html
 public class MCTSSearch implements Strategy {
 
     static Random r = new Random();
-    static int nActions = 6;
+    static int nChildren = 6;
+    static int ply = 3;
     static double epsilon = 1e-6;
+    static List knownChildren;
     private MCTSTree tree;
-    private List<MCTSEdge> children;
     private double nVisits;
     private double totValue;
 
@@ -43,11 +44,11 @@ public class MCTSSearch implements Strategy {
         this.tree = treeToSearch;
     }
 
-    public Action selectAction() {
+    public void selectAction() {
         /*
-        1) From the current node, expand the root into a set of children
-        2) Select the best child (from some metric - greedy?) and expand that child
-        3) Continue doing this until you reach a leaf node
+        1) * From the current node, expand the root into a set of children
+        2) * Select the best child (from some metric - greedy?) and expand that child
+        3) * Continue doing this until you reach a leaf node
         4) At the leaf, do a random vs random playout, and return the result to the leaf
         5) Update all generations of parents with the result
         6) Go to the parent, and choose another child and backpropagate the result upwards
@@ -61,46 +62,45 @@ public class MCTSSearch implements Strategy {
         MCTSNode cur = this.tree.getRoot();
         visited.add(cur);
 
-        expand(cur);
 
-        while (!cur.isLeaf()) {
-            cur = select();
+        while (!isLeaf()) {
+            cur = select(cur);
             visited.add(cur);
         }
 
-        MCTSNode newNode = select();
-        Action newAction = decideMove(cur.getState());
+        expand(cur);
+        MCTSNode newNode = select(cur);
+//        Action newAction = decideMove(cur.getState());
         visited.add(newNode);
 
-        double score = rollOut(newNode);
+        cur.setScore(rollOut(newNode));
+
         for (MCTSNode node : visited) {
             // Updating stats increments the visit counter, updates the score, and the weight.
             node.updateStats(score);
         }
 
-        return
+    }
+
+    public boolean isLeaf(){
+        return knownChildren.isEmpty();
     }
 
     public void expand(MCTSNode toExpandFrom) {
-        children = new LinkedList<>();
+        knownChildren = new LinkedList<MCTSEdge>();
 
-        for (int i = 0; i < 3; i++){
-
-            for (int j = 0; j < nActions; j++) {
-
+            for (int j = 0; j < nChildren; j++) {
             /*
             - Find the lowest color of the hand of the gaming player
             - Find all possible placements of that color on the current board
             - From that, choose the top 3-6-10?? and create a list of children from these placements.
              */
-
                 Player currentPlayer = toExpandFrom.getState().getGamingPlayer();
-
                 // Add new edges, we need parent, child, action
                 // From these actions we create the child
 
                 // Depending on strategy, construct children according to strategy
-                if (currentPlayer.getStrategy().equals("MCTS")){
+                if (currentPlayer.getStrategy().equals("MCTS")) {
 
                     // Get the available moves to gamingPlayer
                     ArrayList<Color> colors = currentPlayer.lowestColors();
@@ -110,12 +110,13 @@ public class MCTSSearch implements Strategy {
                     ArrayList<Action> bestMoves = new ArrayList<>();
 
                     // add all the best moves to a list
-                    for (Tile tile : tiles.keySet()){
+                    for (Tile tile : tiles.keySet()) {
                         bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
                     }
 
                     // create children nodes for each possible state resulting from the best actions
-                    for (Action a : bestMoves){
+                    for (Action a : bestMoves) {
+
                     /*
                     GameState newState = toExpandFrom.getState().cloneGameState();
                     newState = newState.applyAction(a);
@@ -123,39 +124,64 @@ public class MCTSSearch implements Strategy {
                     */
 
                         toExpandFrom.setChild(a);
+                        knownChildren.add(toExpandFrom.getChildrenEdges());
                     }
 
-                }else{
+                } else {
                     // Construct children greedily/expectimax/randomly, etc
-                    if (currentPlayer.getStrategy().equals("Greedy")){
+                    if (currentPlayer.getStrategy().equals("Greedy")) {
                         GreedyStrategy greedy = new GreedyStrategy();
+
+                        // Get the available moves to gamingPlayer
+                        ArrayList<Color> colors = currentPlayer.lowestColors();
+                        Hand hand = currentPlayer.getHand();
+                        HexagonalGrid grid = toExpandFrom.getState().getCurrentBoard().getGrid();
+                        HashMap<Tile, Color> tiles = bestTilesToPlace(colors, hand);
+                        ArrayList<Action> bestMoves = new ArrayList<>();
+
+                        // add all the best moves to a list
+                        for (Tile tile : tiles.keySet()) {
+                            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+                        }
+
+                        // create children nodes for each possible state resulting from the best actions
+                        for (Action a : bestMoves) {
+                    /*
+                    GameState newState = toExpandFrom.getState().cloneGameState();
+                    newState = newState.applyAction(a);
+                    toExpandFrom.getChildrenEdges().add(new MCTSEdge(toExpandFrom, new MCTSNode(newState), a));
+                    */
+
+                            toExpandFrom.setChild(a);
+                        }
+
                     }
-                    if (currentPlayer.getStrategy().equals("Random")){
+
+                    if (currentPlayer.getStrategy().equals("Random")) {
                         RandomStrategy random = new RandomStrategy();
+                        random.decideMove(toExpandFrom.getState());
                     }
-                    if (currentPlayer.getStrategy().equals("ExpectiMax")){
+                    if (currentPlayer.getStrategy().equals("ExpectiMax")) {
                         ExpectimaxStrategy expecti = new ExpectimaxStrategy();
                     }
-
                 }
             }
-
-        }
-
 
     }
 
 
-    private MCTSNode select() {
+    private MCTSNode select(MCTSNode current) {
         MCTSNode selected = null;
         double bestValue = Double.MIN_VALUE;
         double nodeWeight;
 
-        for (MCTSEdge c : children) {
+        // Not the top 6, choosing all atm
+        for (MCTSEdge c : current.getChildrenEdges()) {
 
+            // Here we need to determine if the weight is being chosen from the child or the parent, and which we want.
             nodeWeight = c.getChildNode().getActionUsed().actionGain(c.getParentNode().getState().getCurrentBoard().getGrid());
 
-            double uctValue = c.getWeight() / (c.getParentNode().getNumVisits() + epsilon) +
+            double uctValue = c.getParentWeight() / (c.getParentNode().getNumVisits() + epsilon) +
                     (nodeWeight)*(Math.sqrt(Math.log(nVisits+1) / (c.getParentNode().getNumVisits() + epsilon))) +
                     r.nextDouble() * epsilon;  // small random number to break ties randomly in unexpanded nodes
 
@@ -164,7 +190,7 @@ public class MCTSSearch implements Strategy {
                 bestValue = uctValue;
             }
         }
-
+        selected.updateStats(bestValue);
         return selected;
     }
 
@@ -176,14 +202,11 @@ public class MCTSSearch implements Strategy {
 
         // ... do a playout with some strategy
 
+
         if (getWinner() == currentPlayer){
             return 1;
         }
         return 0;
-    }
-
-    public int arity() {
-        return children == null ? 0 : children.size();
     }
 
     // Get a list of the best tiles to place.
@@ -304,7 +327,7 @@ public class MCTSSearch implements Strategy {
     private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
         double bestGain = 0;
         Action bestPlacement = null;
-        for (int i = 0; i < nActions; i++){
+        for (int i = 0; i < nChildren; i++){
             double gain = all.get(i).actionGain(grid);
             if (gain >= bestGain) {
                 bestGain = gain;
