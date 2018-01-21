@@ -15,7 +15,6 @@ public class MCTSNode {
     private double score;
     private double weight;
     private int numVisits = 0;
-    private int maxChildren = 6;
     private Random random = new Random();
     private Action actionUsed;
 
@@ -34,6 +33,8 @@ public class MCTSNode {
         this.score = score;
     }
 
+
+
     public boolean isLeaf(){
         return (childrenEdges.size() == 0);
     }
@@ -42,9 +43,8 @@ public class MCTSNode {
         return state;
     }
 
-    public void setScore(boolean didWin){
-        if (didWin) score++;
-        if (!didWin) score--;
+    public void setScore(double score){
+        this.score += score;
         // what about draw?
     }
 
