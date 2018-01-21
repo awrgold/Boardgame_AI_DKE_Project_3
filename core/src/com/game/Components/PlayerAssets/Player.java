@@ -71,8 +71,7 @@ public class Player{
             }
         }
 
-        if (isAI && playerNo == 1) strategy = new RandomStrategy();
-        else if (isAI && playerNo == 2) strategy = new RandomStrategy();
+        
     }
 
     public Player clonePlayer(){
