@@ -7,11 +7,12 @@ import com.game.Components.Tools.HexagonActor;
 import com.game.Components.GameConstants.Constants;
 import com.game.Components.Tools.GroupView;
 import com.game.Components.Tools.Link;
-import org.codetome.hexameter.core.api.CubeCoordinate;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonalGrid;
-import org.codetome.hexameter.core.api.HexagonalGridBuilder;
+import org.codetome.hexameter.core.api.*;
+import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
+
+import java.util.List;
+import java.util.Set;
 
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
@@ -19,21 +20,26 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 public class Board extends GroupView {
 //private SpriteBatch batch;
     private HexagonalGrid<Link> grid;
+    private HexagonalGridBuilder<Link> gridBuilder;
+    private HexagonalGridCalculator<Link> gridCalculator;
     private boolean over;
 
     public Board(){
+
+
         create();
     }
 
     @Override
     public void clear() {
         super.clear();
+
     }
 
     public void create(){
 
-       this.grid = Constants.grid.build();
-        HexagonalGridBuilder<Link> gridBuilder = new HexagonalGridBuilder<Link>()
+        this.grid = Constants.grid.build();
+        this.gridBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(11)
                 .setGridWidth(11)
                 .setGridLayout(HEXAGONAL)
@@ -193,21 +199,21 @@ public class Board extends GroupView {
         }
     }
 
-    public void act(HexagonalGrid grid) {
+    public void act() {
       //super.act(delta);
-this.setGrid(grid);
-        grid.getHexagons().forEach(new Action1<Hexagon>() {
-            @Override
-            public void call(Hexagon hexagon) {
-
-                if (hexagon.getSatelliteData().isPresent()){
-                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
-                   currentHexActor.act();
-                }
-
-            }
-        });
+//    this.setGrid(grid);
+//        grid.getHexagons().forEach(new Action1<Hexagon>() {
+//            @Override
+//            public void call(Hexagon hexagon) {
+//
+//                if (hexagon.getSatelliteData().isPresent()){
+//                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+//                    HexagonActor currentHexActor = hexLink.getActor();
+//                   currentHexActor.act();
+//                }
+//
+//            }
+//        });
 }
 
     public void setGrid(HexagonalGrid<Link> grid) {

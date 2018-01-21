@@ -48,9 +48,9 @@ public class Hand extends GroupView{
     public void act() {
 
 //        this.setHand(hand);
-    for(Tile tile : hand){
-      tile.act();
-    }
+//    for(Tile tile : hand){
+//      tile.act();
+//    }
 
 
 
@@ -63,8 +63,8 @@ public class Hand extends GroupView{
     public void dispose() {
 
 
-        for(Tile tile : hand){
-        tile.dispose();
-    }
+//        for(Tile tile : hand){
+//        tile.dispose();
+ //   }
 }
 }

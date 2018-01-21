@@ -19,19 +19,18 @@ public class GameIngenious extends Game {
    public SpriteBatch batch;
 
     //private Viewport screenPort;
-   // private GameScreen screen;
+    private GameScreen screen;
     @Override
     public void create() {
 
       this.batch = new SpriteBatch();
       this.manager= new GameManager();
-      // showGameScreen();
+     //  showGameScreen();
 
-
-        //screen = new GameScreen(this);
+        screen = new GameScreen(this);
        // screen.buildStage();
 
-        setScreen(new GameScreen(this));
+        setScreen(screen);
         //Gdx.graphics.setContinuousRendering(true);
        // sim.run();
 
@@ -63,7 +62,7 @@ public class GameIngenious extends Game {
 //        System.out.println("Player 1 won: " + player1Win + " times");
 //        System.out.println("Player 2 won: " + player2Win + " times");
 //
-//    }
+    }
     /*
     show specific screen directly
      */
@@ -75,7 +74,7 @@ public class GameIngenious extends Game {
 //    public void ShowMenuScreen(){
 //        ScreenManager.getInstance().initialize(this);
 //        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
-    }
+//    }
   public void dispose() {
     super.dispose();
     batch.dispose();

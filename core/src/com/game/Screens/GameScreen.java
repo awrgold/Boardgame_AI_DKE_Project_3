@@ -42,6 +42,7 @@ public class GameScreen extends InputAdapter implements Screen {
         hud = new Hud(game.batch,game.manager);
         inputMultiplexer = new InputMultiplexer(this);
 
+
     }
 
 
@@ -138,7 +139,7 @@ public void update(float delta) {
 
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
         //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
-        System.out.println("select an empty hexagon");
+        System.out.println("still running");
         game.manager.handleTouch(worldTouch);
 
         return true;

@@ -61,7 +61,7 @@ public class Tile extends GroupView {
 
     }
 
-    public void act() {
+  //  public void act() {
 
 //        for (HexagonActor hexact : actors){
 //            hexact.act();
@@ -94,7 +94,7 @@ public class Tile extends GroupView {
 //
 //        });
 
-    }
+ //   }
 
     @Override
     public void dispose() {

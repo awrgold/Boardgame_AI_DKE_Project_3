@@ -28,7 +28,9 @@ public class GameState{
 
         players = new Player[2];
         currentBoard = new Board();
+        currentBoard.create();
 
+        //currentBoard.create();
         currentBag = new Bag(Pieces.createBagPieces());
 
         //for (int x = 1; x <= players.length; x++){
@@ -48,6 +50,7 @@ public class GameState{
         this.currentBoard = currentBoard;
         this.currentBag = currentBag;
         this.gamingPlayer = gamingPlayer;
+
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
         /*while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
@@ -193,6 +196,34 @@ int num = 0;
         return nextState;
     }
 
+    public GameState undoAction(Action a){
+        HexagonActor first = null;
+        GameState previousState;
 
+        if (a.getH1().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH1().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getTileColors()[0]);
+            first = currentHexActor;
+            Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
+        }
+
+        if (a.getH2().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH2().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getTileColors()[1]);
+            if (first != null){
+                Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
+            }
+        }
+        gamingPlayer.getHand().removeFromHand(a.getTile());
+        gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
+
+        previousState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
+
+        return previousState;
+    }
 
 }

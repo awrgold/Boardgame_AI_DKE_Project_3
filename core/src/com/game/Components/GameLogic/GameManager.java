@@ -1,6 +1,7 @@
 package com.game.Components.GameLogic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.ExcelSheetData.ExcelSheet;
@@ -41,7 +42,6 @@ public class GameManager{
         this.currentState = new GameState();
         //gameTree.buildTree(startingState);
         move = new Action();
-
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
        this.text = "tester Label ";
         this.label = new CustomLabel(text,skin);
@@ -275,39 +275,9 @@ public void setNum(int num){
 //           sim.run();
 //
 //       }
-        long sTime = System.currentTimeMillis();
-
-        int turns = 0;
+runSimulation();
 
 
-        num++;
-
-        System.out.println("Game " + i);
-         if (!getBoard().gameOver()) {
-            turns++;
-            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-            System.out.println(AiMove.toString());
-            setCurrentState(getCurrentState().applyAction(AiMove));
-            System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
-        }
-        if (getBoard().gameOver()) {
-i++;
-
-
-            //System.out.println("GAME OVER");
-            //exSheet = ExcelSheet.createSheet(2, 100, 46, 54, 123465875, 234 , 245, 130, 132);
-            //ExcelSheet.printSheet(exSheet);
-            System.out.println(" Number of turns : " + turns);
-
-            System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo());
-            if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
-            else player2Win++;
-
-             currentState = new GameState();
-
-        }
-
-        // runSimulation();
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
 //            while (!getBoard().gameOver()){
@@ -327,6 +297,41 @@ i++;
 
     }
 
+    private void runSimulation() {
+        long sTime = System.currentTimeMillis();
+      //  boolean run= true;
+        int turns = 0;
+
+
+        num++;
+
+        System.out.println("Game " + i);
+        if (!getBoard().gameOver()) {
+            turns++;
+            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+            System.out.println(AiMove.toString());
+            setCurrentState(getCurrentState().applyAction(AiMove));
+            System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
+
+        }
+        if (getBoard().gameOver()) {
+            i++;
+
+
+            //System.out.println("GAME OVER");
+            //exSheet = ExcelSheet.createSheet(2, 100, 46, 54, 123465875, 234 , 245, 130, 132);
+            //ExcelSheet.printSheet(exSheet);
+            System.out.println(" Number of turns : " + turns);
+
+            System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo());
+            if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
+            else player2Win++;
+           // run = false;
+
+        }
+        //return run;
+    }
+
     public int[] getPlayerScoreByIndex(int i) {
         return currentState.getPlayer(i).getPlayerScore();
     }
@@ -337,9 +342,9 @@ i++;
 
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
-if(getBoard().gameOver()){
-    //this.currentState = new GameState();
-}
+        
+        //getBoard().act(delta);
+
 
     }
 

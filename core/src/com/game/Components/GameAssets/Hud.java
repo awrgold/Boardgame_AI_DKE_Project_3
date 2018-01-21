@@ -18,18 +18,18 @@ import com.game.Components.GameScoreAssets.ScoreBarGroup;
 
 public class Hud implements Disposable {
 
-   private GameManager manager;
-   private CustomLabel label;
-private SpriteBatch batch;
+    private GameManager manager;
+    private CustomLabel label;
+    private SpriteBatch batch;
     public Stage stage;
     private Table root;
     public static TextButton[] changeTiles;
     //private String text;
     private Skin skin;
     private ExtendViewport viewport;
-    private int num=0;
+    private int num = 0;
 
-    public Hud (SpriteBatch sb,GameManager manager){
+    public Hud(SpriteBatch sb, GameManager manager) {
 
         //setup the HUD viewport using a new camera seperate from gamecam
         //define stage using that viewport and games spritebatch
@@ -40,14 +40,15 @@ private SpriteBatch batch;
 //        label.setFontScale(5);
 //        label.setPosition(100,100);
         this.manager = manager;
-        this.viewport = new ExtendViewport(Constants.getWindowWidth(),Constants.getWindowHeight());
+        this.viewport = new ExtendViewport(Constants.getWindowWidth(), Constants.getWindowHeight());
         stage = new Stage(viewport, sb);
         buildStage();
         this.batch = sb;
     }
-   public void buildStage() {
 
-      // setViewport(viewport);
+    public void buildStage() {
+
+        // setViewport(viewport);
 //       this.label = new CustomLabel(text,skin);
 //       text = "tester Label ";
 //       label.setFontScale(5);
@@ -55,8 +56,8 @@ private SpriteBatch batch;
 
         root = new Table();
         root.setFillParent(true);
-       root.addActor(manager.getLabel());
-       // root.debug(Table.Debug.all);
+        root.addActor(manager.getLabel());
+        // root.debug(Table.Debug.all);
 
         // Create the score column add a score bar group for each player
         Table scoreColumn = new Table();
@@ -77,7 +78,7 @@ private SpriteBatch batch;
 //boardColumn.validate();
         //2 buttons for change hand
         changeTiles = new TextButton[2];
-        for (int i = 1; i <= 2; i++){
+        for (int i = 1; i <= 2; i++) {
             changeTiles[i - 1] = new TextButton("Change Tiles", skin);
         }
 
@@ -92,7 +93,7 @@ private SpriteBatch batch;
         boardColumn.add(manager.getHandByIndex(0)).expandX().center();
         boardColumn.row().fillX();
 
-       //board
+        //board
         // boardColumn.debug(Debug.all);
         boardColumn.row().height(400).width(-450);
         // GBV  and PHV Change
@@ -112,13 +113,17 @@ private SpriteBatch batch;
         boardColumn.add(manager.getHandByIndex(1)).expandX().center();
 
         root.add(boardColumn).colspan(4).expand().left().fillY();
-root.invalidateHierarchy();
+       // root.invalidateHierarchy();
         stage.addActor(root);
 
-   }
+    }
 
-    public void act(float delta){
-        manager.updateAssets(delta);
+    public void act(float delta) {
+       // if (manager.getBoard().gameOver()){
+            manager.updateAssets(delta);
+
+
+
     }
 
     //public CustomLabel getLabel() {
