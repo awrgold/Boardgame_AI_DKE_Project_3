@@ -63,9 +63,11 @@ public class MCTSSearch implements Strategy {
         visited.add(cur);
 
 
+        //TODO: THIS DOES NOT STOP, how do we find leaf?
         while (!isLeaf()) {
             cur = select(cur);
             visited.add(cur);
+            System.out.println("visiting node with score: " + cur.getScore());
         }
 
         expand(cur);
@@ -73,11 +75,12 @@ public class MCTSSearch implements Strategy {
 //        Action newAction = decideMove(cur.getState());
         visited.add(newNode);
 
-        cur.setScore(rollOut(newNode));
+        double value = rollOut(newNode);
 
         for (MCTSNode node : visited) {
             // Updating stats increments the visit counter, updates the score, and the weight.
-            node.updateStats(score);
+            node.updateStats(value);
+            System.out.println("Rollout result: " + value);
         }
 
     }
@@ -197,16 +200,17 @@ public class MCTSSearch implements Strategy {
     public int rollOut(MCTSNode tn) {
 
         RandomStrategy rs = new RandomStrategy();
-        GreedyStrategy gs;
+        GreedyStrategy gs = new GreedyStrategy();
         // ExpectimaxStrategy es;
 
         // ... do a playout with some strategy
 
+        return r.nextInt(2);
 
-        if (getWinner() == currentPlayer){
-            return 1;
-        }
-        return 0;
+//        if (getWinner() == currentPlayer){
+//            return 1;
+//        }
+//        return 0;
     }
 
     // Get a list of the best tiles to place.
@@ -241,7 +245,7 @@ public class MCTSSearch implements Strategy {
     // Search the board for all possible places to place a given tile
     private ArrayList<Action> possibleTilePlacements(Tile tile, HexagonalGrid grid, Color color) {
         ArrayList<Action> possibleActions = new ArrayList<>();
-        System.out.println("Searching for best placements");
+        //System.out.println("Searching for best placements");
 
         //ITERATE ALL OVER THE CURRENT BOARD
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
