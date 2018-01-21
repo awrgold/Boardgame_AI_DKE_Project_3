@@ -18,23 +18,23 @@ public class HexagonActor extends Actor {
     protected Hexagon<Link> hexagon;
     private float[] vertices;
     private Color color = null;
-
+private ShapeRenderer renderer;
 
 
     public HexagonActor(Hexagon<Link> hexagon) {
         this.hexagon = hexagon;
 
 
-//        List<Point> points =  (List<Point>) hexagon.getPoints();
-//        this.vertices = new float[points.size() * 2];
-//
-//        for (int i = 0; i < points.size(); i++) {
-//            // Translate to local coordinates
-//            this.vertices[i * 2] = (float) points.get(i).getCoordinateX() - (float) hexagon.getCenterX();
-//            this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();
-//
-//        }
-//        setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
+        List<Point> points =  (List<Point>) hexagon.getPoints();
+        this.vertices = new float[points.size() * 2];
+
+        for (int i = 0; i < points.size(); i++) {
+            // Translate to local coordinates
+            this.vertices[i * 2] = (float) points.get(i).getCoordinateX() - (float) hexagon.getCenterX();
+            this.vertices[i * 2 + 1] = (float) points.get(i).getCoordinateY() - (float) hexagon.getCenterY();
+
+        }
+        setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
     }
     public void draw (Batch batch, float parentAlpha) {
 
