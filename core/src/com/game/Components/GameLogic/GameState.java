@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
@@ -16,7 +17,9 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static java.util.Arrays.sort;
 
@@ -222,6 +225,23 @@ public class GameState {
 
 
         return nextState;
+    }
+
+    public HashMap<Tile, Double> tilesExpectations(ArrayList<Color> colors){
+        HashMap<Tile, Double> possibilities = new HashMap<>();
+        ArrayList<Tile> pool = currentBag.getBag();
+        pool.addAll(gamingPlayer.getHand().getPieces());
+        for (Color color : colors){
+            for (int i = 0; i < pool.size(); i++){
+                if (pool.get(i).getColors()[0] == color || pool.get(i).getColors()[1] == color){
+                    boolean isSeen = false;
+                    for (Tile seen : possibilities.keySet()){
+                        if ()
+                    }
+                }
+            }
+
+        }
     }
 
 

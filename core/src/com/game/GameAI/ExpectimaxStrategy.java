@@ -17,6 +17,7 @@ import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ExpectimaxStrategy implements Strategy {
@@ -194,7 +195,7 @@ public class ExpectimaxStrategy implements Strategy {
         Node next;
         Action nextMove = null;
 
-        if(depth % 3 == 1 ) {
+        /*if(depth % 3 == 1 ) {
             System.out.println("        Opponent's move");
             a = INF;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
@@ -205,8 +206,8 @@ public class ExpectimaxStrategy implements Strategy {
                     nextMove = possibleActions.get(i);
                 }
             }
-        }
-        else if(depth % 3 == 0) {
+        }*/
+        if(depth % 2 == 0) {
             System.out.println("My move");
             a = -INF;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
@@ -220,17 +221,19 @@ public class ExpectimaxStrategy implements Strategy {
             }
         }
         else {
-            System.out.println("    Chance node");
+            System.out.println("Chance node");
             a = 0;
-            ArrayList<Action> possibleActions = possibleNextActions(node.getState(), node.getState().getGamingPlayer());
-            for(int i = 0; i < possibleActions.size(); i++) {
-                next = expectiminimax(node.setChild(possibleActions.get(i)), depth - 1);
-                double b = (double)1/6;
+            //create an HashMap that contains Tiles with its probabilities of being in the opponent's hand
+            //for each tile create an action (bestTilePlacement)
+            //expectimax(setChild(newAction))
+
+            HashMap<Tile, Double> possibilities = node.getState().tilesExpectations(node.getState().getGamingPlayer().lowestColors());
+            for (Tile t : possibilities.keySet()){
+                Action bestAction = bestTilePlacement(t, node.getState(), node.getState().getGamingPlayer());
+                double b = possibilities.get(t);
+                next = expectiminimax(node.setChild(bestAction), depth - 1);
                 a = a + b * next.getWeight();
             }
-
-
-
         }
 
         System.out.println("Weight: " + a);
