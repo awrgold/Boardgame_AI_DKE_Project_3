@@ -344,8 +344,10 @@ runSimulation();
 
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
-        
-       // getBoard().act(delta);
+
+        getHandByIndex(0).act(delta);
+        getHandByIndex(1).act(delta);
+        //getBoard().act(delta);
 
 
     }

@@ -36,11 +36,12 @@ private ShapeRenderer renderer;
         }
         setSize(hexagon.getInternalBoundingBox().width, hexagon.getInternalBoundingBox().height);
     }
-//public void setSprite(Sprite sprite){
+
+    //public void setSprite(Sprite sprite){
 //        this.sprite = sprite;
 //}
-    public void draw (Batch batch, float parentAlpha) {
-    // Sprite sprite = Constants.emptySprite;
+    public void draw(Batch batch, float parentAlpha) {
+        // Sprite sprite = Constants.emptySprite;
         batch.end();
 
 
@@ -57,11 +58,10 @@ private ShapeRenderer renderer;
 
         // Go through all vertices, draw triangles for each, using the next vertex.
         // Go in bounds of two (x,y) pairs.
-        for (int i = 0; i < vertices.length; i+=2) {
+        for (int i = 0; i < vertices.length; i += 2) {
 
-            float x1 = vertices[i], y1 = vertices[i+1];
+            float x1 = vertices[i], y1 = vertices[i + 1];
             float x2 = vertices[(i + 2) % vertices.length], y2 = vertices[(i + 3) % vertices.length];
-
 
 
             renderer.triangle(x1 + getWidth() / 2,
@@ -74,7 +74,7 @@ private ShapeRenderer renderer;
         batch.begin();
 
         //draw the sprite on the actor
-        batch.draw(sprite,getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
+        batch.draw(sprite, getX() - 10, getY() - 16, getWidth() + 20, getHeight() + 32);
     }
 
     public void setHexColor(Color color){
@@ -120,6 +120,10 @@ private ShapeRenderer renderer;
     }
     public void act(Color color){
         this.color = color;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 //    public HexagonActor copy(HexagonActor actor){
 //        HexagonActor newActor = new HexagonActor(actor.getHexagon());

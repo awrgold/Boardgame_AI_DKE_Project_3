@@ -119,10 +119,11 @@ public class Hud implements Disposable {
     }
 
     public void act(float delta) {
-       // if (manager.getBoard().gameOver()){
+        if (!manager.getBoard().gameOver()) {
             manager.updateAssets(delta);
 
-
+        }
+       // manager = new GameManager();
 
     }
 

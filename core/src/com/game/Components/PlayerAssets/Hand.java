@@ -56,7 +56,7 @@ public class Hand extends GroupView{
         this.hand = tiles;
     }
 
-    public void act() {
+  //  public void act(ArrayList<Tile> tiles) {
 
 //        this.setHand(hand);
 //    for(Tile tile : hand){
@@ -65,7 +65,7 @@ public class Hand extends GroupView{
 
 
 
-    }
+  //  }
 
     public void setHand(ArrayList<Tile> hand)
     {

@@ -97,6 +97,9 @@ public class Board extends GroupView {
 
                 hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
+
+               // }
+
                 //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
                 //hexActor.getHexagon().
                 if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {

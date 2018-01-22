@@ -20,14 +20,14 @@ public class Simulation implements Runnable {
     @Override
     public void run() {
         running = true;
-        for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
 
             //  SimulationResults gameResults = new SimulationResults();
             long sTime = System.currentTimeMillis();
-            manager.setCurrentState(new GameState());
+           // manager.setCurrentState(new GameState(i));
 
             int turns = 0;
-            System.out.println("Game " + i);
+            //System.out.println("Game " + i);
             while (!manager.getBoard().gameOver()) {
 
                 try {

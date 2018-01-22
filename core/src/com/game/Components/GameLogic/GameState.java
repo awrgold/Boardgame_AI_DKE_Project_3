@@ -1,5 +1,6 @@
 package com.game.Components.GameLogic;
 
+import TreeStructure.Node;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 
 import static java.util.Arrays.sort;
 
-public class GameState{
+public class GameState extends Node{
 
     private Player[] players;
     private Board currentBoard;
@@ -32,12 +33,12 @@ public class GameState{
 
 
     public GameState() {
+        super();
 
         players = new Player[2];
-        currentBoard = new Board();
-        //currentBoard.create();
 
-        //currentBoard.create();
+
+        currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
 
         //for (int x = 1; x <= players.length; x++){
