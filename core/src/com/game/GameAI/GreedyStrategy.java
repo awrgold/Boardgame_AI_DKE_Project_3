@@ -106,6 +106,7 @@ public class GreedyStrategy implements Strategy{
         if (possibleActions.size() == 0){
             possibleActions.add(randomAction(tile, grid));
         }
+        //System.out.println(possibleActions.size());
 
         return possibleActions;
     }

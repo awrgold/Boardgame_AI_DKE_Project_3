@@ -3,6 +3,7 @@ package com.game;
 import Enum.ScreenEnum;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameManager;
+import com.game.Components.PlayerAssets.Tile;
 import com.game.Screens.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -35,6 +36,10 @@ public class GameIngenious extends Game {
             player2Strategy = manager.getPlayerByIndex(1).getStrategy();
             System.out.println("Game " + i);
             while (!manager.getBoard().gameOver()){
+                System.out.println("Player 1 score: " + manager.getPlayerByIndex(0).scoreToString());
+                System.out.println("Player 2 score: " + manager.getPlayerByIndex(1).scoreToString());
+                //System.out.println(manager.getGamingPlayer().isLowestScoreTilePresent());
+                System.out.println("Gaming Player Hand: " + manager.getGamingPlayer().getHand().toString());
                 Action AiMove = manager.getGamingPlayer().applyStrategy(manager.getCurrentState());
                 System.out.println("Player " + manager.getGamingPlayer().getPlayerNo() + " " + AiMove.toString() + " || Gain: " + AiMove.actionGain(manager.getCurrentState().getCurrentBoard().getGrid()));
                 manager.setCurrentState(manager.getCurrentState().applyAction(AiMove));

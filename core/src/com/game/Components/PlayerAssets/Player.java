@@ -34,6 +34,7 @@ public class Player{
     private boolean isRandom;
     private boolean isMCTS;
     private boolean isExpectiMax;
+    private boolean isRandom;
     private Strategy strategy;
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isRandom, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
@@ -58,6 +59,7 @@ public class Player{
             if (isGreedy){
                 this.isGreedy = true;
                 strategy = new GreedyStrategy();
+                isGreedy = true;
             }
             if (isMCTS){
                 this.isMCTS = true;
@@ -66,6 +68,11 @@ public class Player{
             if (isExpectiMax){
                 this.isExpectiMax = true;
                 strategy = new ExpectimaxStrategy();
+                isExpectiMax = true;
+            }
+            if (isRandom){
+                strategy = new RandomStrategy();
+                isRandom = true;
             }
         }
 
@@ -130,6 +137,7 @@ public class Player{
     }
 
     public static void updateScore(int[] scoreGains, Player player){
+        //System.out.println(Arrays.toString(scoreGains));
         for (int i = 0; i < 6; i++){
             player.playerScore[i] += scoreGains[i];
             if (player.playerScore[i] > 18)
@@ -354,42 +362,6 @@ public class Player{
         return scoreQ;
     }
 
-    public boolean hasManyLowestColors(){
-        int counter = 0;
-        for (int i : playerScore){
-            int temp = playerScore[i];
-            for (int j = i; j < playerScore.length; j++){
-                if (playerScore[j] == temp){
-                    counter++;
-                }
-            }
-
-        }
-        if (counter > 2){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hasTwoLowestColors(){
-        int counter = 0;
-        for (int i : playerScore){
-            int temp = playerScore[i];
-            for (int j = i; j < playerScore.length; j++){
-                if (playerScore[j] == temp){
-                    counter++;
-                }
-            }
-        }
-        if (counter == 2){
-            return true;
-        }
-        return false;
-    }
-
-    //TRYING TO IMPLEMENT THE STRATEGY
-
-//  FIND THE LOWEST COLORS
     public ArrayList<Color> lowestColors(){
         ArrayList<Color> lowestColors = new ArrayList<>();
         int lowest = 18;

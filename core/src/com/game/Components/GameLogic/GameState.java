@@ -38,7 +38,11 @@ public class GameState{
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
+<<<<<<< HEAD
         players[0] = new Player(1, currentBag.pickSix(), true, false, false, false, true);
+=======
+        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false, false);
+>>>>>>> GiulioAI
         players[1] = new Player(2, currentBag.pickSix(), true, true, false, false, false);
         gamingPlayer = players[0];
     }
@@ -52,9 +56,9 @@ public class GameState{
 
 
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        /*while (!gamingPlayer.isLowestScoreTilePresent()){
+        while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
-        }*/
+        }
     }
 
     public GameState cloneGameState(){
@@ -204,7 +208,7 @@ public class GameState{
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
             //System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
-            currentHexActor.setHexColor(a.getTileColors()[0]);
+            currentHexActor.setHexColor(a.getTile().getFirst().getHexColor());
             first = currentHexActor;
             Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
         }
@@ -213,7 +217,7 @@ public class GameState{
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH2().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getTileColors()[1]);
+            currentHexActor.setHexColor(a.getTile().getSecond().getHexColor());
             if (first != null){
                 Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
             }
@@ -257,6 +261,9 @@ public class GameState{
                         }
                         //System.out.println(pool.get(i).getColors()[0].toString() + " - " +
                                 //pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
+                        if (pool.get(i).getColors()[0] == color) pool.get(i).setFirst(pool.get(i).getActors()[0]);
+                        if (pool.get(i).getColors()[1] == color) pool.get(i).setFirst(pool.get(i).getActors()[1]);
+
                         possibilities.put(pool.get(i), (double) occ / (double) pool.size());
 
                     }
