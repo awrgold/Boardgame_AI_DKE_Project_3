@@ -13,6 +13,7 @@ import com.game.Components.GameConstants.Pieces;
 import com.game.Screens.GameScreen;
 import com.game.Components.Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.game.TreeStructure.NodeInterface;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 
 import static java.util.Arrays.sort;
 
-public class GameState {
+public class GameState{
 
     private Player[] players;
     private Board currentBoard;
@@ -37,7 +38,7 @@ public class GameState {
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-        players[0] = new Player(1, currentBag.pickSix(), true, false, false, false, true);
+        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false, false);
         players[1] = new Player(2, currentBag.pickSix(), true, false, true, false, false);
         gamingPlayer = players[0];
     }

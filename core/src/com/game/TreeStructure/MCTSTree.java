@@ -7,9 +7,7 @@ public class MCTSTree {
 
     private MCTSNode root;
 
-    public MCTSTree(GameState state){
-        this.root = new MCTSNode(state);
-    }
+    public MCTSTree(){}
 
     public void buildTree(GameState state){
         root = new MCTSNode(state);

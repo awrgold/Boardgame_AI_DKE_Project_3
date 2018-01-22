@@ -132,7 +132,7 @@ public class GreedyStrategy implements Strategy{
                 if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
                     pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
                     pieces.put(t, color);
-                    //System.out.println("Found a double to place: " + color + " - " + color);
+                    System.out.println("Found a double to place: " + color + " - " + color);
                     break;
                 } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
                     pieces.put(t, color);
@@ -155,7 +155,7 @@ public class GreedyStrategy implements Strategy{
 
 
     private Action randomAction(Tile tile, HexagonalGrid grid) {
-        //System.out.println("No good moves, doing random action");
+        System.out.println("No good moves, doing random action");
         Action randomAction = new Action();
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override
@@ -205,7 +205,7 @@ public class GreedyStrategy implements Strategy{
 
         }
 
-        //System.out.println(bestMoves.size());
+        System.out.println(bestMoves.size());
         double bestGain = 0;
         Action bestAction = null;
         for (Action a : bestMoves){

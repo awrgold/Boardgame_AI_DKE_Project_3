@@ -73,12 +73,12 @@ public class Action {
     public Action translateAction(GameState stateToPlay){
 
         Action rightAction = new Action();
-        //System.out.println(tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
+        System.out.println(tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
 
         boolean inHand = false;
 
         for (Tile t : stateToPlay.getGamingPlayer().getHand().getPieces()){
-            //System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
+            System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
 
             if (t.isEqual(tile)){
                 rightAction.setTile(t);
@@ -95,7 +95,6 @@ public class Action {
         if (one.isPresent() && two.isPresent()){
             rightAction.setH1((Hexagon) one.get());
             rightAction.setH2((Hexagon) two.get());
-
         }
 
         //System.out.println(rightAction.toString());

@@ -29,20 +29,20 @@ public class GameIngenious extends Game {
         int player2Win = 0;
         String player2Strategy = new String();
 
-        for (int i = 1; i <= 10; i++){
+        for (int i = 1; i <= 1; i++){
             GameManager manager = new GameManager();
             player1Strategy = manager.getPlayerByIndex(0).getStrategy();
             player2Strategy = manager.getPlayerByIndex(1).getStrategy();
             System.out.println("Game " + i);
             while (!manager.getBoard().gameOver()){
                 Action AiMove = manager.getGamingPlayer().applyStrategy(manager.getCurrentState());
-                //System.out.println(AiMove.toString());
+                System.out.println("Player " + manager.getGamingPlayer().getPlayerNo() + " " + AiMove.toString() + " || Gain: " + AiMove.actionGain(manager.getCurrentState().getCurrentBoard().getGrid()));
                 manager.setCurrentState(manager.getCurrentState().applyAction(AiMove));
-                //System.out.println("  Score: " + manager.getPlayerByIndex(0).scoreToString());
-                //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
+                System.out.println("Player 1 Score: " + manager.getPlayerByIndex(0).scoreToString());
+                System.out.println("Player 2 Score: " + manager.getPlayerByIndex(1).scoreToString());
             }
             if (manager.getBoard().gameOver()){
-                //System.out.println("GAME OVER");
+                System.out.println("GAME OVER");
                 System.out.println("The winner is: Player " + manager.getCurrentState().getWinner().getPlayerNo() + " - (" + manager.getCurrentState().getWinner().getStrategy() +")");
                 if (manager.getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;

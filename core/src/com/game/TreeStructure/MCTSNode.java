@@ -21,7 +21,6 @@ public class MCTSNode {
     public MCTSNode(GameState state){
         this.state = state;
         this.children = new ArrayList<>();
-
     }
 
     public int getNumVisits(){
@@ -80,6 +79,7 @@ public class MCTSNode {
     }
 
     public MCTSNode setChild(Action action) {
+
         //System.out.println(action.toString());
 
         double gain = action.actionGain(state.getCurrentBoard().getGrid());
@@ -98,7 +98,7 @@ public class MCTSNode {
 
         child.setParent(this);
         children.add(child);
-        System.out.println("creating node: " + child.getWeight());
+        // System.out.println("creating node: " + child.getWeight());
 
         return child;
 
