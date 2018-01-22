@@ -61,7 +61,7 @@ public class MCTSSearch implements Strategy {
     private long runTime;
     private MCTSTree tree;
     private MCTSNode best;
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
 
 
 
@@ -111,6 +111,7 @@ public class MCTSSearch implements Strategy {
         double value = rollOut(newNode);
 
         best = getBestNode(cur);
+        cur = tree.getRoot();
 
         for (MCTSNode node : visited) {
             // Updating stats increments the visit counter, updates the score:
@@ -273,13 +274,14 @@ public class MCTSSearch implements Strategy {
             System.out.println("Rolling out");
         }
 
-        if (!leaf.getState().getCurrentBoard().gameOver()){
-            return r.nextInt(2);
-        }
+        return r.nextInt(2);
+
+        /*
         if (leaf.getState().getCurrentBoard().gameOver() && leaf.getState().getWinner().getPlayerNo() == leaf.getState().getGamingPlayer().getPlayerNo()){
             return 1;
         }
         return 0;
+        */
     }
 
     public MCTSNode getBestNode(MCTSNode toFind){
@@ -287,9 +289,12 @@ public class MCTSSearch implements Strategy {
         MCTSNode bestNode = null;
         double bestGain = Double.MIN_VALUE;
         for (MCTSNode n : toFind.getChildren()){
-            if (n.getActionUsed().actionGain(toFind.getState().getCurrentBoard().getGrid()) > bestGain){
+            if (n.getActionUsed().actionGain(toFind.getState().getCurrentBoard().getGrid()) > bestGain && !toFind.getChildren().isEmpty()){
                 bestNode = n;
                 bestGain = n.getActionUsed().actionGain(toFind.getState().getCurrentBoard().getGrid());
+            }
+            if (toFind.getChildren().isEmpty()){
+                System.out.println("No children");
             }
         }
         if (DEBUG){
@@ -476,12 +481,13 @@ public class MCTSSearch implements Strategy {
 
         while (System.currentTimeMillis() - runTime < 100){
             selectAction(currentState);
-            return getBestNode(tree.getRoot()).getActionUsed();
         }
-        if (DEBUG){
-            System.out.println("No good moves, doing something random");
-        }
-        return randomAction(currentState.getGamingPlayer().getHand().getPieces().get(0), currentState.getCurrentBoard().getGrid());
+
+        return getBestNode(tree.getRoot()).getActionUsed();
+//        if (DEBUG){
+//            System.out.println("No good moves, doing something random");
+//        }
+//        return randomAction(currentState.getGamingPlayer().getHand().getPieces().get(0), currentState.getCurrentBoard().getGrid());
     }
 
 
