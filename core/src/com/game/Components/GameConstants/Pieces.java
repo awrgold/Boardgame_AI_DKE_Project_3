@@ -63,4 +63,14 @@ public class Pieces {
         return allPieces;
     }
 
+    public static ArrayList<Color[]> copyPieces(ArrayList<Color[]> toCopy){
+        ArrayList<Color[]> newPieces = new ArrayList<>();
+
+        newPieces.addAll(toCopy);
+
+        return newPieces;
+    }
+
+
+
 }

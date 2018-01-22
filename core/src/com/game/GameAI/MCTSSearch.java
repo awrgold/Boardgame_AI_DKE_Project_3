@@ -22,8 +22,21 @@ http://mcts.ai/code/java.html
 - This version of MCTS utilizes UCT to balance exploitation vs exploration
 - Instead of playing randomly until gameOver(), we assume the opponent will play greedily
 - To reduce branching factor, we only consider the opponents most immediately promising moves
+
+        1) * From the current node, expand the root into a set of children
+        2) * Select the best child (from some metric - greedy?) and expand that child
+        3) * Continue doing this until you reach a leaf node
+        4) At the leaf, do a random vs random playout, and return the result to the leaf
+        5) Update all generations of parents with the result
+        6) Go to the parent, and choose another child and backpropagate the result upwards
+        7) Once all children are explored, go up one level and choose another child as in step 6
+        8) Continue this pattern until all children of the root are fully expanded, and choose the best path
+        9) Update the root, and begin again
+
+
 - TODO: Integrate OpponentProbabilities class to inform MCTS further
-- TODO: Integrate ExpectiMax to help prune MCTS
+- TODO: Integrate ExpectiMax to help prune MCTS?
+- TODO: How to rollout? Clone players with new strategies?
 
  */
 
@@ -49,17 +62,7 @@ public class MCTSSearch implements Strategy {
     }
 
     public void selectAction() {
-        /*
-        1) * From the current node, expand the root into a set of children
-        2) * Select the best child (from some metric - greedy?) and expand that child
-        3) * Continue doing this until you reach a leaf node
-        4) At the leaf, do a random vs random playout, and return the result to the leaf
-        5) Update all generations of parents with the result
-        6) Go to the parent, and choose another child and backpropagate the result upwards
-        7) Once all children are explored, go up one level and choose another child as in step 6
-        8) Continue this pattern until all children of the root are fully expanded, and choose the best path
-        9) Update the root, and begin again
-         */
+
 
         // Construct a list of children to explore
         List<MCTSNode> visited = new LinkedList<>();
