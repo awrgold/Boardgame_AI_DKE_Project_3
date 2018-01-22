@@ -406,7 +406,7 @@ public class Player{
             }
         }
 
-        System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
+        // System.out.println("lowest colors: " + Arrays.toString(lowestColors.toArray()));
         return lowestColors;
     }
 

@@ -216,7 +216,6 @@ public class GreedyStrategy implements Strategy{
                     bestAction = a;
                 }
             }
-
         }
 
         if (bestAction == null){

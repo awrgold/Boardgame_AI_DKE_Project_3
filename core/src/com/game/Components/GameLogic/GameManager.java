@@ -1,6 +1,7 @@
 package com.game.Components.GameLogic;
 
 import com.game.Components.GameAssets.*;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
@@ -277,7 +278,7 @@ public class GameManager{
                 if (inX && inY) {
 
                     if (second){
-                        if(clicked.getHexColor().equals("EMPTY")){
+                        if(clicked.getHexColor().equals(Color.EMPTY)){
                             if(getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())){
                                 move.setH2(clicked.getHexagon());
                             } else {
