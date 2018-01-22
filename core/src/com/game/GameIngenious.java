@@ -35,6 +35,7 @@ public class GameIngenious extends Game {
                 System.out.println("Player 1 score: " + manager.getPlayerByIndex(0).scoreToString());
                 System.out.println("Player 2 score: " + manager.getPlayerByIndex(1).scoreToString());
                 //System.out.println(manager.getGamingPlayer().isLowestScoreTilePresent());
+                System.out.println("Gaming Player Hand: " + manager.getGamingPlayer().getHand().toString());
                 Action AiMove = manager.getGamingPlayer().applyStrategy(manager.getCurrentState());
                 System.out.println(AiMove.toString());
                 manager.setCurrentState(manager.getCurrentState().applyAction(AiMove));

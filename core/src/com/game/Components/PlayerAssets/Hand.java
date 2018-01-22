@@ -58,4 +58,13 @@ public class Hand extends GroupView{
     public void act(float delta) {
         super.act(delta);
     }
+
+    public String toString(){
+        String tiles = "";
+        for (Tile tile : hand){
+            tiles += tile.getColors()[0] + " - " + tile.getColors()[1] + " || ";
+        }
+        return tiles;
+    }
+
 }

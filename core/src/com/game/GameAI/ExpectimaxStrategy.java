@@ -373,15 +373,20 @@ public class ExpectimaxStrategy implements Strategy {
         Action nextMove = null;
 
         if(depth % 2 == 0) {
-            //System.out.println("My move");
+            if (node.getState().getCurrentBoard().gameOver()){
+                return node;
+            }
+            System.out.println("    My move");
             a = -INF;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState());
             //System.out.println("Found " + possibleActions.size() + " possible actions to play");
             for(int i = 0; i < possibleActions.size(); i++) {
                 next = expectiminimax(node.setChild(possibleActions.get(i)), depth - 1);
+                System.out.println("    Possible action: " + possibleActions.get(i) + " || Gain: " + next.getWeight());
                 if(a < next.getWeight()) {
                     a = next.getWeight();
-                    System.out.println("Real Action: " + possibleActions.get(i).toString());
+
+                    System.out.println("    Real Action: " + possibleActions.get(i) + " || Gain: " + next.getWeight());
                     nextMove = possibleActions.get(i);
                 }
             }
@@ -391,7 +396,7 @@ public class ExpectimaxStrategy implements Strategy {
             if (node.getState().getCurrentBoard().gameOver()){
                 return node;
             }
-            //System.out.println("Chance node");
+            System.out.println("        Chance node");
             a = 0;
             //create an HashMap that contains Tiles with its probabilities of being in the opponent's hand
             //for each tile create an action (bestTilePlacement)
@@ -405,13 +410,16 @@ public class ExpectimaxStrategy implements Strategy {
                 next = expectiminimax(node.setChild(bestAction), depth - 1);
                 a = a + b * next.getWeight();
                 nextMove = next.getActionUsed();
-                System.out.println("Predicted Action: " + nextMove.toString());
+                System.out.println("            Predicted Action: " + nextMove.toString() + " || Gain: " + next.getWeight());
             }
         }
         //System.out.println(nextMove.toString());
         //System.out.println("Weight: " + a);
+        Node nextNode = node.setChild(nextMove);
+        nextNode.setWeight(a);
+        //System.out.println(a);
 
-        return node.setChild(nextMove);
+        return nextNode;
     }
 
     public Action decideMove(GameState currentState) {
