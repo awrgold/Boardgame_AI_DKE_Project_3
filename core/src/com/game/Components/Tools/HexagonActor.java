@@ -18,7 +18,7 @@ public class HexagonActor extends Actor {
     protected Hexagon<Link> hexagon;
     private float[] vertices;
     private Color color = null;
-private ShapeRenderer renderer;
+    private ShapeRenderer renderer;
 
 
     public HexagonActor(Hexagon<Link> hexagon) {

@@ -35,6 +35,10 @@ public class GameManager{
     public Simulation sim;
     private ScoreBarGroup scorebars1;
     private ScoreBarGroup scorebars2;
+    private Board board;
+    private Hand hand1;
+    private Hand hand2;
+
     private int num=0;
     public GameManager(){
 
@@ -51,6 +55,9 @@ public class GameManager{
         //this.sim = new Simulation(this);
         scorebars1 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(0),getPlayerByIndex(0).getPlayerNo());
         scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
+       this.hand1 = currentState.getPlayer(0).getHand();
+       this.hand2 = currentState.getPlayer(1).getHand();
+        this.board = currentState.getCurrentBoard();
 
     }
 
@@ -332,21 +339,22 @@ runSimulation();
                 System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo() + " - (" + getCurrentState().getWinner().getStrategy() +")");
                 if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
-                getBoard().clear();
-            getBoard().create();
-            getHandByIndex(0).clear();
-            getHandByIndex(0).create();
-            getHandByIndex(1).clear();
-            getHandByIndex(1).create();
+      //          getBoard().clear();
+//            getBoard().create();
+//            getHandByIndex(0).clear();
+//            getHandByIndex(0).create();
+//            getHandByIndex(1).clear();
+//            getHandByIndex(1).create();
             this.currentState = new GameState();
+                long endTime   = System.currentTimeMillis();
+                long totalTime = endTime - startTime;
+                System.out.println(totalTime + " ms");
+                System.out.println("Player 1 (" + player1Strategy + ") won: " + player1Win + " times");
+                System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
             }
 
        // }
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        System.out.println(totalTime + " ms");
-        System.out.println("Player 1 (" + player1Strategy + ") won: " + player1Win + " times");
-        System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
+
         //System.out.println("GAME OVER");
 //            //exSheet = ExcelSheet.createSheet(runtime,steps,treedepth,score diff, points,moves,victory expectation);
 //            //ExcelSheet.printSheet(exSheet);
@@ -405,9 +413,9 @@ runSimulation();
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
 
-        getHandByIndex(0).act(delta);
-        getHandByIndex(1).act(delta);
-        //getBoard().act(delta);
+      //  this.hand1 = currentState.getPlayer(0).getHand();
+       // this.hand2 = currentState.getPlayer(1).getHand();
+       // board.act(currentState.getCurrentBoard().getGrid());
 
 
     }

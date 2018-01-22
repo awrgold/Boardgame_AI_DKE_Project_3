@@ -253,33 +253,34 @@ public class Board extends GroupView {
 //                if (hexagon.getSatelliteData().isPresent()){
 //                    Link hexLink = (Link) hexagon.getSatelliteData().get();
 //                    HexagonActor currentHexActor = hexLink.getActor();
-//
-//                  //  currentHexActor.draw(batch,parentAlpha);
+//                    currentHexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+//                    currentHexActor.draw(batch,parentAlpha);
 //                }
 //
 //            }
 //        });
     }
 
-    public void act(float delta) {
-      super.act(delta);
+    public void act(HexagonalGrid grid) {
+    //  super.act(delta);
 //    this.setGrid(grid);
-//        grid.getHexagons().forEach(new Action1<Hexagon>() {
-//            @Override
-//            public void call(Hexagon hexagon) {
-//
-//                if (hexagon.getSatelliteData().isPresent()){
-//                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-//                    HexagonActor HexActor = hexLink.getActor();
-//                    hexActor.act();
-//                  //  currentHexActor.draw(batch,parentAlpha);
-//                }
-//
-//            }
-//        });
+        grid.getHexagons().forEach(new Action1<Hexagon>() {
+            @Override
+            public void call(Hexagon hexagon) {
+
+                if (hexagon.getSatelliteData().isPresent()){
+                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+                    HexagonActor hexActor = hexLink.getActor();
+                    hexActor.act(hexActor.getHexColor());
+                  //  currentHexActor.draw(batch,parentAlpha);
+                }
+
+            }
+        });
 }
 
     public void setGrid(HexagonalGrid<Link> grid) {
         this.grid = grid;
     }
+
 }
