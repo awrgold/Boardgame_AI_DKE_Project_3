@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.HexagonalGridBuilder;
+import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
@@ -39,7 +40,20 @@ public class Tile extends GroupView {
     public Tile cloneTile(){
 
         Tile clonedTile = new Tile(getColors());
-        clonedTile.setFirst(first);
+        if (first != null){
+            Optional toCopy = clonedTile.grid.getByCubeCoordinate(first.getHexagon().getCubeCoordinate());
+            if (toCopy.isPresent()){
+                Hexagon copy = (Hexagon) toCopy.get();
+                if (copy.getSatelliteData().isPresent()){
+                    Link copyLink = (Link) copy.getSatelliteData().get();
+                    HexagonActor newFirst = copyLink.getActor();
+
+                    clonedTile.setFirst(newFirst);
+                }
+
+            }
+        }
+        //clonedTile.setFirst(first);
         return clonedTile;
 
     }
@@ -49,6 +63,10 @@ public class Tile extends GroupView {
         //System.out.println(getColors() == one.getColors());
         return getColors() == one.getColors();
 
+    }
+
+    public HexagonalGrid<Link> getGrid() {
+        return grid;
     }
 
     public void create() {

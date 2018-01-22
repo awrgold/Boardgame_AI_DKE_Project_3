@@ -123,6 +123,7 @@ public class Player{
     }
 
     public static void updateScore(int[] scoreGains, Player player){
+        //System.out.println(Arrays.toString(scoreGains));
         for (int i = 0; i < 6; i++){
             player.playerScore[i] += scoreGains[i];
             if (player.playerScore[i] > 18)

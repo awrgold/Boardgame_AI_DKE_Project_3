@@ -432,7 +432,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         Node root = new Node(currentState.cloneGameState());
 
-        Node bestNode = expectiminimax(root, 4);
+        Node bestNode = expectiminimax(root, 2);
 
         //System.out.println(bestNode.getActionUsed().toString());
 

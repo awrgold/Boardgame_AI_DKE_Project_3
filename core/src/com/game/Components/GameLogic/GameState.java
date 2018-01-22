@@ -203,7 +203,7 @@ public class GameState {
             Link hexLink = (Link) a.getH1().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
             //System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
-            currentHexActor.setHexColor(a.getTileColors()[0]);
+            currentHexActor.setHexColor(a.getTile().getFirst().getHexColor());
             first = currentHexActor;
             Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
         }
@@ -212,7 +212,7 @@ public class GameState {
             // create a link for the actor and hex of the next hex from current
             Link hexLink = (Link) a.getH2().getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getTileColors()[1]);
+            currentHexActor.setHexColor(a.getTile().getSecond().getHexColor());
             if (first != null){
                 Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
             }

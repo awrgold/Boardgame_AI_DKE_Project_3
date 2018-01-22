@@ -81,6 +81,20 @@ public class Action {
             //System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
 
             if (t.isEqual(tile)){
+
+                if (tile.getFirst() != null){
+                    Optional toCopy = t.getGrid().getByCubeCoordinate(tile.getFirst().getHexagon().getCubeCoordinate());
+                    if (toCopy.isPresent()){
+                        Hexagon copy = (Hexagon) toCopy.get();
+                        if (copy.getSatelliteData().isPresent()){
+                            Link copyLink = (Link) copy.getSatelliteData().get();
+                            HexagonActor newFirst = copyLink.getActor();
+
+                            t.setFirst(newFirst);
+                        }
+
+                    }
+                }
                 rightAction.setTile(t);
                 inHand = true;
             }
@@ -111,9 +125,12 @@ public class Action {
             Link hexLink = (Link) h1.getSatelliteData().get();
             HexagonActor currentHexActor = hexLink.getActor();
             first = currentHexActor;
+            //System.out.println(tile.getFirst() == null);
             if (tile.getFirst() != null){
+
                 currentHexActor.setHexColor(tile.getFirst().getHexColor());
             } else {
+                System.out.println("First is null!");
                 currentHexActor.setHexColor(tile.getActors()[0].getHexColor());
             }
 
