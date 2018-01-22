@@ -329,6 +329,12 @@ runSimulation();
             if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
             else player2Win++;
            // run = false;
+            getBoard().clear();
+            getBoard().create();
+            getHandByIndex(0).clear();
+            getHandByIndex(0).create();
+            getHandByIndex(1).clear();
+            getHandByIndex(1).create();
             this.currentState = new GameState();
         }
         //return run;
