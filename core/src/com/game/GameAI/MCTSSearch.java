@@ -37,6 +37,7 @@ public class MCTSSearch implements Strategy {
     private MCTSTree tree;
     private double nVisits;
     private double totValue;
+    private GameState startingState;
 
     public MCTSSearch(){
         selectAction();
@@ -44,6 +45,7 @@ public class MCTSSearch implements Strategy {
 
     public MCTSSearch(MCTSTree treeToSearch){
         this.tree = treeToSearch;
+        tree.setRoot(new MCTSNode(startingState));
     }
 
     public void selectAction() {
@@ -383,6 +385,8 @@ public class MCTSSearch implements Strategy {
     // Decide which action to go with when creating the next GameState
 
     public Action decideMove(GameState currentState){
+
+        this.startingState = currentState;
 
         ArrayList<Color> colors = currentState.getGamingPlayer().lowestColors();
         Hand hand = currentState.getGamingPlayer().getHand();
