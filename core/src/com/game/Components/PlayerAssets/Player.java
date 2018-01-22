@@ -35,6 +35,7 @@ public class Player{
     private boolean isExpectiMax;
     private boolean isRandom;
     private Strategy strategy;
+    private static int scoreIncr = 0;
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS, boolean isRandom) {
         this.playerNo = playerNo;
@@ -213,10 +214,21 @@ public class Player{
 
             }
         }
+        scoreIncr = getSum(scoreGains);
         //System.out.println(Arrays.toString(scoreGains));
 
         return scoreGains;
 
+    }
+public int getScoreIncrease(){
+        return scoreIncr;
+}
+    private static int getSum(int[] scoreGains) {
+        int sum = 0;
+        for(int i =0; i<scoreGains.length;i++){
+            sum+=scoreGains[i];
+        }
+        return sum;
     }
 
     public String scoreToString() {

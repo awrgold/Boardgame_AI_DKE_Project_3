@@ -28,7 +28,7 @@ public class GameManager{
     private GameState currentState;
     private Tree gameTree;
     private Action move;
-    //private  ExcelSheet exSheet;
+private ExcelSheet exSheet;
     private CustomLabel label;
     private Skin skin;
     private String text;
@@ -40,6 +40,9 @@ public class GameManager{
     private Hand hand2;
 
     private int num=0;
+    private ArrayList<Long> turnTimes;
+    private ArrayList<Integer> turnPoints;
+
     public GameManager(){
 
 
@@ -304,55 +307,67 @@ runSimulation();
         return true;
 
     }
-
+private int turnNum;
     private void runSimulation() {
+
+        this.turnTimes = new ArrayList<Long>();
+        this.turnPoints = new ArrayList<Integer>();
+
         int player1Win = 0;
         String player1Strategy = new String();
         int player2Win = 0;
         String player2Strategy = new String();
 
 
-
+        int n = 10;
         long startTime = System.currentTimeMillis();
-        //for (int i = 1; i <= 10; i++){
-
+        for (int i = 1; i <= n; i++) {
+           // int turns = 0;
             player1Strategy = getPlayerByIndex(0).getStrategy();
             player2Strategy = getPlayerByIndex(1).getStrategy();
-            long sTime = System.currentTimeMillis();
+
             //  boolean run= true;
             int turns = 0;
 
 
             num++;
             System.out.println("Game " + i);
-            if (!getBoard().gameOver()){
+            while (!getBoard().gameOver()) {
+                long sTime = System.currentTimeMillis();
+                int gpScore = getGamingPlayer().getScoreIncrease();
                 turns++;
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 //System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
                 //System.out.println("  Score: " + manager.getPlayerByIndex(0).scoreToString());
                 //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
+                long eTime = System.currentTimeMillis();
+                long tTime = eTime - sTime;
+                turnTimes.add(tTime);
+                //turnTimes.add(tTime);
+                turnPoints.add(gpScore);
             }
-            if (getBoard().gameOver()){
+            if (getBoard().gameOver()) {
+
+
                 i++;
                 //System.out.println("GAME OVER");
-                System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo() + " - (" + getCurrentState().getWinner().getStrategy() +")");
+                System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo() + " - (" + getCurrentState().getWinner().getStrategy() + ")");
                 if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
-      //          getBoard().clear();
-//            getBoard().create();
-//            getHandByIndex(0).clear();
-//            getHandByIndex(0).create();
-//            getHandByIndex(1).clear();
-//            getHandByIndex(1).create();
-            this.currentState = new GameState();
-                long endTime   = System.currentTimeMillis();
+
+                this.currentState = new GameState();
+                long endTime = System.currentTimeMillis();
                 long totalTime = endTime - startTime;
                 System.out.println(totalTime + " ms");
                 System.out.println("Player 1 (" + player1Strategy + ") won: " + player1Win + " times");
                 System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
+turnNum = turns;
             }
+        }
 
+       // exSheet.createSheet(n,getGamingPlayer().getStrategy(), player1Strategy, player2Strategy, turnTimes, turnPoints, turnNum);
+       //     exSheet.printSheet();
        // }
 
         //System.out.println("GAME OVER");
