@@ -64,6 +64,7 @@ public class GameManager{
                 else player2Win++;
             }
         }
+
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         long averageTime = getAverage(gameTimes);
@@ -113,6 +114,14 @@ public class GameManager{
         return currentState;
     }
 
+    public void changeState(Action action){
+        currentState = currentState.applyAction(action);
+        while (!currentState.getGamingPlayer().isLowestScoreTilePresent()) {
+            System.out.println("Lowest color not present, chenging tiles");
+            currentState.activateButtonIfNeeded();
+        }
+    }
+
     public void setCurrentState(GameState newState){
         currentState = newState;
     }
@@ -157,7 +166,7 @@ public class GameManager{
         return player2TurnNumber;
     }
 
-    public void changeState(Action action){
+    /*public void changeState(Action action){
         //System.out.println(action.toString());
         currentState = currentState.applyAction(action);
         if (getBoard().gameOver()){
@@ -177,7 +186,7 @@ public class GameManager{
         if (getBoard().gameOver()){
             System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
         }
-    }
+    }*/
 
     /*public void handleButtonTouch(Vector2 worldTouch){
 

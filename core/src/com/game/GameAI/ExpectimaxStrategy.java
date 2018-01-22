@@ -264,11 +264,11 @@ public class ExpectimaxStrategy implements Strategy {
         return possibleActions;
     }
 
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid, Player player){
         double bestGain = 0;
         Action bestPlacement = null;
         for (Action a : all){
-            double gain = a.actionGain(grid);
+            double gain = a.actionGain(grid, player);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = a;
@@ -354,7 +354,7 @@ public class ExpectimaxStrategy implements Strategy {
         ArrayList<Action> bestMoves = new ArrayList<>();
 
         for (Tile tile : tiles.keySet()){
-            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid, currentState.getGamingPlayer()));
 
         }
         return bestMoves;
@@ -386,7 +386,7 @@ public class ExpectimaxStrategy implements Strategy {
                 if(a < next.getWeight()) {
                     a = next.getWeight();
 
-                    //System.out.println("    Real Action: " + possibleActions.get(i) + " || Gain: " + next.getWeight());
+                    //System.out.println("    Better Action: " + possibleActions.get(i) + " || Gain: " + next.getWeight());
                     nextMove = possibleActions.get(i);
                 }
             }
@@ -406,12 +406,12 @@ public class ExpectimaxStrategy implements Strategy {
             HashMap<Tile, Double> possibilities = node.getState().tilesExpectations(node.getState().getGamingPlayer().lowestColors());
             for (Tile t : possibilities.keySet()){
                 Action bestAction = bestPlacementForTile(possibleTilePlacements(t, node.getState().getCurrentBoard().getGrid(), t.getFirst().getHexColor()),
-                        node.getState().getCurrentBoard().getGrid());
+                        node.getState().getCurrentBoard().getGrid(), node.getState().getGamingPlayer());
                 double b = possibilities.get(t);
                 next = expectiminimax(node.setChild(bestAction), depth - 1);
                 a = a + b * next.getWeight();
                 //nextMove = next.getActionUsed();
-                //System.out.println("            Predicted Action: " + nextMove.toString() + " || Gain: " + next.getWeight());
+                //System.out.println("            Predicted Action: " + bestAction.toString() + " || Gain: " + next.getWeight());
             }
             node.setWeight(a * node.getWeight());
             return node;

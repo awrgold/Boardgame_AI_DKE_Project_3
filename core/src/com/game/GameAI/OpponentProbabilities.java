@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class OpponentProbabilities {
 
-
+/*
     private Player player;
     private Player gamingPlayer;
     private Bag bag;
@@ -176,10 +176,10 @@ public class OpponentProbabilities {
         }
 
         return listOfSingles;
-    }
+    }*/
 
 
-    public double getProbOfColors(String c1, String c2){
+    /*public double getProbOfColors(String c1, String c2){
         Bag currentBag = state.getCurrentBag();
         boolean isDouble = false;
         double probability = 0.0;
@@ -187,7 +187,7 @@ public class OpponentProbabilities {
 
         if (c1.equals(c2)){
             isDouble = true;
-        }
+        }*/
 
         /*
         S = sample size
@@ -196,7 +196,7 @@ public class OpponentProbabilities {
         n = number of draws from the population
         P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
         */
-
+/*
         if(isDouble){
             // Players will always have a tile of their lowest color in their hands.
             if (lowestColor.equals(c1)){
@@ -323,5 +323,5 @@ public class OpponentProbabilities {
         return -1.0;
     }
 
-
+*/
 }

@@ -9,6 +9,8 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.backport.Optional;
 
+import java.util.HashMap;
+
 public class Action {
     private Hexagon h1;
     private Hexagon h2;
@@ -117,9 +119,10 @@ public class Action {
         return rightAction;
     }
 
-    public double actionGain(HexagonalGrid grid){
+    public double actionGain(HexagonalGrid grid, Player player){
         HexagonActor first = null;
         double totalGain = 0;
+        HashMap<Color, Double> colorRanking = player.getScoreQ();
 
         if (h1.getSatelliteData().isPresent()){
             Link hexLink = (Link) h1.getSatelliteData().get();
@@ -135,9 +138,11 @@ public class Action {
             }
 
             int[] gain1 = Player.scoreGain(currentHexActor, grid, currentHexActor);
+            int partialGain = 0;
             for (int i = 0; i < 6; i++){
-                totalGain += gain1[i];
+                partialGain += gain1[i];
             }
+            totalGain += partialGain * colorRanking.get(currentHexActor.getHexColor());
 
             currentHexActor.setHexColor(Color.EMPTY);
         }
@@ -152,10 +157,12 @@ public class Action {
                     currentHexActor.setHexColor(tile.getActors()[1].getHexColor());
                 }
 
+                int partialGain = 0;
                 int[] gain2 = Player.scoreGain(currentHexActor, grid, first);
                 for (int i = 0; i < 6; i++){
-                    totalGain += gain2[i];
+                    partialGain += gain2[i];
                 }
+                totalGain += partialGain * colorRanking.get(currentHexActor.getHexColor());
                 currentHexActor.setHexColor(Color.EMPTY);
             }
         }

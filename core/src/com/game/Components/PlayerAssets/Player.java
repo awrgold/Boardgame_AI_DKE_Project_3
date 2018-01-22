@@ -32,7 +32,7 @@ public class Player{
     private int playerNo;
     private Hand hand;
     private Color[] playerScoreColors = new Color[6];
-    private static boolean[] colorIngenious = new boolean[6];
+    private boolean[] colorIngenious = new boolean[6];
     private boolean isGreedy;
     private boolean isMCTS;
     private boolean isExpectiMax;
@@ -76,6 +76,7 @@ public class Player{
     public Player clonePlayer(){
         Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
         newPlayer.setPlayerScore(playerScore.clone());
+        newPlayer.colorIngenious = colorIngenious.clone();
         return newPlayer;
 
     }
@@ -324,7 +325,9 @@ public class Player{
     }
 
     public boolean hasIngenious(){
+
         for (int i = 0; i < 6; i++){
+
             if(playerScore[i] >= 18 && !colorIngenious[i]){
                 // Ingenious!
                 colorIngenious[i] = true;
@@ -339,12 +342,44 @@ public class Player{
         return colorIngenious;
     }
 
-    public ArrayList<Integer> getScoreQ(){
-        ArrayList<Integer> scoreQ = new ArrayList<>();
-        for (int i : playerScore){
-            scoreQ.add(playerScore[i]);
+    public HashMap<Color, Double> getScoreQ(){
+
+        HashMap<Color, Double> scoreQ = new HashMap<>();
+
+        ArrayList<Integer> scoreList = new ArrayList<>();
+        for (int p : getPlayerScore().clone()){
+            scoreList.add(p);
         }
-        Collections.sort(scoreQ, Collections.reverseOrder());
+
+        Color[] orderedColors = playerScoreColors.clone();
+
+        double multiplier = 7;
+        int lower = -1;
+
+        for (int i = 0; i < 6; i++){
+            int lowestScore = Collections.min(scoreList);
+            int index = scoreList.indexOf(lowestScore);
+
+            if (lowestScore > lower){
+                lower = lowestScore;
+                multiplier--;
+            }
+            scoreQ.put(orderedColors[index], multiplier);
+            scoreList.set(index, 100);
+
+
+        }
+/*
+        for (Color color: scoreQ.keySet()){
+
+            String key = color.toString();
+            System.out.println(key + " " + scoreQ.get(color));
+
+        }*/
+
+
+
+
         return scoreQ;
     }
 
