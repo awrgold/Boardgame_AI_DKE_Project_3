@@ -31,7 +31,6 @@ public class Player{
     private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
     private boolean isGreedy;
-    private boolean isRandom;
     private boolean isMCTS;
     private boolean isExpectiMax;
     private boolean isRandom;
@@ -79,12 +78,12 @@ public class Player{
 
     }
 
-//    public Player clonePlayer(){
-//        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
-//        newPlayer.setPlayerScore(playerScore.clone());
-//        return newPlayer;
-//
-//    }
+    public Player clonePlayer(){
+        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
+        newPlayer.setPlayerScore(playerScore.clone());
+        return newPlayer;
+
+    }
 
 
     public boolean isAI() {

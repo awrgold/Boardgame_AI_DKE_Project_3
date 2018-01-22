@@ -66,19 +66,19 @@ public class GameState{
         }
     }
 
-//    public GameState cloneGameState(){
-//        Player[] newPlayers = new Player[2];
-//        Player newGamingPlayer = null;
-//        for(int i = 0; i < 2; i++){
-//            newPlayers[i] = getPlayers()[i].clonePlayer();
-//            if (gamingPlayer == getPlayers()[i]){
-//                newGamingPlayer = newPlayers[i];
-//            }
-//        }
-//        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
-//
-//        return newState;
-//    }
+    public GameState cloneGameState(){
+        Player[] newPlayers = new Player[2];
+        Player newGamingPlayer = null;
+        for(int i = 0; i < 2; i++){
+            newPlayers[i] = getPlayers()[i].clonePlayer();
+            if (gamingPlayer == getPlayers()[i]){
+                newGamingPlayer = newPlayers[i];
+            }
+        }
+        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
+
+        return newState;
+    }
 
     public Player[] getPlayers(){
         return players;

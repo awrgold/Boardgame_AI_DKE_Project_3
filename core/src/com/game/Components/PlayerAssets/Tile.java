@@ -36,13 +36,13 @@ public class Tile extends GroupView {
         create();
     }
 
-//    public Tile cloneTile(){
-//
-//        Tile clonedTile = new Tile(getColors());
-//        clonedTile.setFirst(first);
-//        return clonedTile;
-//
-//    }
+    public Tile cloneTile(){
+
+        Tile clonedTile = new Tile(getColors());
+        clonedTile.setFirst(first);
+        return clonedTile;
+
+    }
 
     public boolean isEqual(Tile one){
         //System.out.println(getColors()[0].toString() + one.getColors()[0].toString() + getColors()[1].toString() + one.getColors()[1].toString());
