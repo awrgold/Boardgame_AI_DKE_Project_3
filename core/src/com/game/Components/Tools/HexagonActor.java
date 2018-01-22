@@ -41,7 +41,7 @@ private ShapeRenderer renderer;
 //        this.sprite = sprite;
 //}
     public void draw(Batch batch, float parentAlpha) {
-        // Sprite sprite = Constants.emptySprite;
+         Sprite sprite = Constants.emptySprite;
         batch.end();
 
 
@@ -80,23 +80,23 @@ private ShapeRenderer renderer;
     public void setHexColor(Color color){
         if (color.equals(Color.RED)){
             this.color = color;
-           this.sprite = Constants.redSprite;
+         //  this.sprite = Constants.redSprite;
             return;
         } if (color.equals(Color.ORANGE)){
             this.color = color;
-            this.sprite = Constants.orangeSprite;
+         //   this.sprite = Constants.orangeSprite;
             return;
         } if (color.equals(Color.YELLOW)){
             this.color = color;
-            this.sprite = Constants.yellowSprite;
+         //   this.sprite = Constants.yellowSprite;
             return;
         } if (color.equals(Color.BLUE)){
             this.color = color;
-            this.sprite = Constants.blueSprite;
+         //   this.sprite = Constants.blueSprite;
             return;
         } if (color.equals(Color.PURPLE)){
             this.color = color;
-            this.sprite = Constants.purpleSprite;
+          //  this.sprite = Constants.purpleSprite;
             return;
         } if (color.equals(Color.VIOLET)){
             this.color = color;
@@ -104,7 +104,7 @@ private ShapeRenderer renderer;
             return;
         } if (color.equals(Color.EMPTY)){
             this.color = color;
-            this.sprite = Constants.emptySprite;
+            //this.sprite = Constants.emptySprite;
         } else{
             System.out.println("Invalid color choice, use the CAPITAL name of the color");
             System.out.println("Choices: RED, ORANGE, YELLOW, BLUE, PURPLE, VIOLEt");
