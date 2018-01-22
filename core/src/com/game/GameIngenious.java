@@ -28,7 +28,7 @@ public class GameIngenious extends Game {
         int player1Win = 0;
         int player2Win = 0;
 
-        for (int i = 1; i <= 5; i++){
+        for (int i = 1; i <= 10; i++){
             GameManager manager = new GameManager();
             System.out.println("Game " + i);
             while (!manager.getBoard().gameOver()){
