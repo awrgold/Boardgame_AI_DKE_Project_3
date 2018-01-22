@@ -1,16 +1,17 @@
 package com.game.Components.GameLogic;
 
+import TreeStructure.Node;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Color;
+import com.game.Components.GameScoreAssets.CustomLabel;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
-import com.game.Components.GameConstants.Constants;
 import com.game.Components.GameConstants.Pieces;
-import com.game.Screens.GameScreen;
 import com.game.Components.Tools.Link;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -23,23 +24,32 @@ import java.util.HashMap;
 
 import static java.util.Arrays.sort;
 
-public class GameState {
+public class GameState{
 
     private Player[] players;
     private Board currentBoard;
     private Bag currentBag;
     private Player gamingPlayer;
 
-    public GameState() {
+
+   public GameState() {
+        super();
+
         players = new Player[2];
+
+
         currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
+
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-        players[0] = new Player(1, currentBag.pickSix(), true, false, false, false, true);
-        players[1] = new Player(2, currentBag.pickSix(), true, false, true, false, false);
+        players[0] = new Player(1, currentBag.pickSix(), true, false, false, false,true);
+        players[1] = new Player(2, currentBag.pickSix(), true, false, false, false,true);
         gamingPlayer = players[0];
+
+
+
     }
 
     public GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
@@ -51,25 +61,24 @@ public class GameState {
 
 
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        /*while (!gamingPlayer.isLowestScoreTilePresent()){
+        while (!gamingPlayer.isLowestScoreTilePresent()){
             activateButtonIfNeeded();
-        }*/
-    }
-
-    public GameState cloneGameState(){
-        Player[] newPlayers = new Player[2];
-        Player newGamingPlayer = null;
-        for(int i = 0; i < 2; i++){
-            newPlayers[i] = getPlayers()[i].clonePlayer();
-            if (gamingPlayer == getPlayers()[i]){
-                newGamingPlayer = newPlayers[i];
-            }
         }
-        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
-
-        return newState;
     }
 
+//    public GameState cloneGameState(){
+//        Player[] newPlayers = new Player[2];
+//        Player newGamingPlayer = null;
+//        for(int i = 0; i < 2; i++){
+//            newPlayers[i] = getPlayers()[i].clonePlayer();
+//            if (gamingPlayer == getPlayers()[i]){
+//                newGamingPlayer = newPlayers[i];
+//            }
+//        }
+//        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
+//
+//        return newState;
+//    }
 
     public Player[] getPlayers(){
         return players;
@@ -106,9 +115,10 @@ public class GameState {
     public Player getPlayer(int i){
         return players[i];
     }
-
+int num = 0;
     public Player changeGamingPlayer(){
         Player nextPlayer;
+
         if (!gamingPlayer.hasIngenious()){
             //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
             //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
@@ -152,7 +162,7 @@ public class GameState {
         if (gamingPlayer.isAI()){
 
             gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
-            //System.out.println("Changing tiles..");
+            System.out.println("Changing tiles..");
             //for (Tile tile : gamingPlayer.getHand().getPieces()){
                 //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
             //}
@@ -245,6 +255,7 @@ public class GameState {
                     for (Tile seen : possibilities.keySet()){
                         if (pool.get(i).isEqual(seen)){
 
+
                             isSeen = true;
                         }
                     }
@@ -256,6 +267,9 @@ public class GameState {
                         }
                         //System.out.println(pool.get(i).getColors()[0].toString() + " - " +
                                 //pool.get(i).getColors()[1].toString() + " Prob: " + (double) occ / (double) pool.size());
+                        if (pool.get(i).getColors()[0] == color) pool.get(i).setFirst(pool.get(i).getActors()[0]);
+                        if (pool.get(i).getColors()[1] == color) pool.get(i).setFirst(pool.get(i).getActors()[1]);
+
                         possibilities.put(pool.get(i), (double) occ / (double) pool.size());
 
                     }
@@ -265,6 +279,34 @@ public class GameState {
         }
         return possibilities;
     }
+    public GameState undoAction(Action a){
+        HexagonActor first = null;
+        GameState previousState;
 
+        if (a.getH1().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH1().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getTileColors()[0]);
+            first = currentHexActor;
+            Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
+        }
+
+        if (a.getH2().getSatelliteData().isPresent()){
+            // create a link for the actor and hex of the next hex from current
+            Link hexLink = (Link) a.getH2().getSatelliteData().get();
+            HexagonActor currentHexActor = hexLink.getActor();
+            currentHexActor.setHexColor(a.getTileColors()[1]);
+            if (first != null){
+                Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
+            }
+        }
+        gamingPlayer.getHand().removeFromHand(a.getTile());
+        gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
+
+        previousState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
+
+        return previousState;
+    }
 
 }

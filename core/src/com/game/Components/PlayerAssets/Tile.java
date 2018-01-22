@@ -36,13 +36,13 @@ public class Tile extends GroupView {
         create();
     }
 
-    public Tile cloneTile(){
-
-        Tile clonedTile = new Tile(getColors());
-        clonedTile.setFirst(first);
-        return clonedTile;
-
-    }
+//    public Tile cloneTile(){
+//
+//        Tile clonedTile = new Tile(getColors());
+//        clonedTile.setFirst(first);
+//        return clonedTile;
+//
+//    }
 
     public boolean isEqual(Tile one){
         //System.out.println(getColors()[0].toString() + one.getColors()[0].toString() + getColors()[1].toString() + one.getColors()[1].toString());
@@ -71,6 +71,7 @@ public class Tile extends GroupView {
                 if(hexagon.getGridX() == 0) {
                     hexTile.setHexColor(colors[0]);
                     actors[0] = hexTile;
+
                 } else {
                     hexTile.setHexColor(colors[1]);
                     actors[1] = hexTile;
@@ -79,14 +80,58 @@ public class Tile extends GroupView {
                 hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
 
                 //and pass everything in tileGroup
-                addActor(hexTile);
                 hexagon.setSatelliteData(new Link(hexTile));
+                addActor(hexTile);
+
             }
         });
     }
 
-    public void act(float delta) {
-        super.act(delta);
+  //  public void act() {
+
+//        for (HexagonActor hexact : actors){
+//            hexact.act();
+//        }
+//        this.setGrid(grid);
+//        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+//            @Override
+//            public void call(Hexagon hexagon) {
+//               // final HexagonActor hexTile = new HexagonActor(hexagon);
+//                Link hexLink = (Link) hexagon.getSatelliteData().get();
+//                HexagonActor hexTile = hexLink.getActor();
+//                //give both the sprites
+//                if(hexagon.getGridX() == 0) {
+//                    hexTile.setSprite(colors[0]);
+//                    actors[0] = hexTile;
+//                } else {
+//                    hexTile.setSprite(colors[1]);
+//                    actors[1] = hexTile;
+//                }
+//
+//               // HexagonActor HexTile = hexLink.getActor();
+//                hexTile.act();
+//               // hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+//                //and pass everything in tileGroup
+//               // addActor(hexTile);
+//                //hexagon.setSatelliteData(new Link(hexTile));
+//
+//
+//            }
+//
+//        });
+
+ //   }
+
+    @Override
+    public void dispose() {
+
+//            actors[0].dispose();
+//            actors[1].dispose();
+
+
+//        for(HexagonActor actor : actors){
+//    actor.dispose();
+//        }
     }
 
 
@@ -131,4 +176,7 @@ public class Tile extends GroupView {
         return selected;
     }
 
+    public void setGrid(HexagonalGrid<Link> grid) {
+        this.grid = grid;
+    }
 }

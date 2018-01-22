@@ -5,16 +5,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class CustomLabel extends Label {
     private String text;
-
+private Skin skin;
     public CustomLabel( CharSequence text,  Skin skin) {
         super(text, skin);
         this.text = text.toString();
+        this.skin= skin;
     }
 
-    @Override
-    public void act( float delta) {
+
+    public void act( String text) {
+//super.act(delta);
         this.setText(text);
-        super.act(delta);
+
+
     }
 
     public void updateText( String text) {

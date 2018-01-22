@@ -34,9 +34,10 @@ public class Player{
     private boolean isRandom;
     private boolean isMCTS;
     private boolean isExpectiMax;
+    private boolean isRandom;
     private Strategy strategy;
 
-    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isRandom, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {
+    public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS, boolean isRandom) {
         this.playerNo = playerNo;
         this.hand = new Hand(playerPieces);
         this.isAI = isAI;
@@ -58,6 +59,7 @@ public class Player{
             if (isGreedy){
                 this.isGreedy = true;
                 strategy = new GreedyStrategy();
+                isGreedy = true;
             }
             if (isMCTS){
                 this.isMCTS = true;
@@ -66,17 +68,23 @@ public class Player{
             if (isExpectiMax){
                 this.isExpectiMax = true;
                 strategy = new ExpectimaxStrategy();
+                isExpectiMax = true;
+            }
+            if (isRandom){
+                strategy = new RandomStrategy();
+                isRandom = true;
             }
         }
 
-    }
-
-    public Player clonePlayer(){
-        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isRandom, isGreedy, isExpectiMax, isMCTS);
-        newPlayer.setPlayerScore(playerScore.clone());
-        return newPlayer;
 
     }
+
+//    public Player clonePlayer(){
+//        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
+//        newPlayer.setPlayerScore(playerScore.clone());
+//        return newPlayer;
+//
+//    }
 
 
     public boolean isAI() {
@@ -354,42 +362,6 @@ public class Player{
         return scoreQ;
     }
 
-    public boolean hasManyLowestColors(){
-        int counter = 0;
-        for (int i : playerScore){
-            int temp = playerScore[i];
-            for (int j = i; j < playerScore.length; j++){
-                if (playerScore[j] == temp){
-                    counter++;
-                }
-            }
-
-        }
-        if (counter > 2){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hasTwoLowestColors(){
-        int counter = 0;
-        for (int i : playerScore){
-            int temp = playerScore[i];
-            for (int j = i; j < playerScore.length; j++){
-                if (playerScore[j] == temp){
-                    counter++;
-                }
-            }
-        }
-        if (counter == 2){
-            return true;
-        }
-        return false;
-    }
-
-    //TRYING TO IMPLEMENT THE STRATEGY
-
-//  FIND THE LOWEST COLORS
     public ArrayList<Color> lowestColors(){
         ArrayList<Color> lowestColors = new ArrayList<>();
         int lowest = 18;
@@ -413,7 +385,6 @@ public class Player{
     public Action applyStrategy(GameState currentState){
         return strategy.decideMove(currentState);
     }
-
 
 }
 

@@ -1,6 +1,7 @@
 package com.game.Components.PlayerAssets;
 
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.game.Components.Tools.GroupView;
 
 import java.util.ArrayList;
@@ -24,16 +25,16 @@ public class Hand extends GroupView{
         }
     }
 
-    public Hand cloneHand(){
-        //System.out.println("Cloning hand: ");
-        ArrayList<Tile> newTiles= new ArrayList<>();
-        for (Tile tile : getPieces()){
-            newTiles.add(tile.cloneTile());
-            //System.out.println("Cloning a Tile: passing as colors " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
-        }
-        return new Hand(newTiles);
-
-    }
+//    public Hand cloneHand(){
+//        //System.out.println("Cloning hand: ");
+//        ArrayList<Tile> newTiles= new ArrayList<>();
+//        for (Tile tile : getPieces()){
+//            newTiles.add(tile.cloneTile());
+//            //System.out.println("Cloning a Tile: passing as colors " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
+//        }
+//        return new Hand(newTiles);
+//
+//    }
 
     public ArrayList<Tile> getPieces() {
         return hand;
@@ -54,8 +55,26 @@ public class Hand extends GroupView{
     public void changeTiles(ArrayList<Tile> tiles){
         this.hand = tiles;
     }
+//    public void act(ArrayList<Tile> tiles) {
+//
+//        this.setHand(tiles);
+//    for(Tile tile : tiles){
+//      tile.act(tiles.get());
+//    }
+//
+//
+//
+//    }
 
-    public void act(float delta) {
-        super.act(delta);
+    public void setHand(ArrayList<Tile> hand)
+    {
+        this.hand = hand;
     }
+    public void dispose() {
+
+
+//        for(Tile tile : hand){
+//        tile.dispose();
+ //   }
+}
 }

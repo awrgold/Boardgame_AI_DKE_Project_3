@@ -1,6 +1,13 @@
 package com.game.Components.GameLogic;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.LifecycleListener;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.Components.ExcelSheetData.ExcelSheet;
 import com.game.Components.GameAssets.*;
+import com.game.Components.GameScoreAssets.CustomLabel;
+import com.game.Components.GameScoreAssets.ScoreBarGroup;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
@@ -10,104 +17,46 @@ import com.game.TreeStructure.Tree;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.game.Components.Tools.SimulationResults;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
 
 public class GameManager{
-
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
     private Tree gameTree;
     private Action move;
-
-
+    //private  ExcelSheet exSheet;
+    private CustomLabel label;
+    private Skin skin;
+    private String text;
+    public Simulation sim;
+    private ScoreBarGroup scorebars1;
+    private ScoreBarGroup scorebars2;
+    private int num=0;
     public GameManager(){
+
+
         this.currentState = new GameState();
+
         //gameTree.buildTree(startingState);
         move = new Action();
-        //runSimulation();
+        this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+       this.text = "tester Label ";
+        this.label = new CustomLabel(text,skin);
+        label.setFontScale(5);
+        label.setPosition(100,100);
+        //this.sim = new Simulation(this);
+        scorebars1 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(0),getPlayerByIndex(0).getPlayerNo());
+        scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
 
     }
-    public void runSimulation(){
-        int n = 100;
-        ArrayList<Long>gameTimes = new ArrayList<>();
-        long startTime = System.currentTimeMillis();
 
-        int player1Win = 0;
-        int player2Win = 0;
-
-        for (int i = 1; i <= n; i++){
-            long sTime = System.currentTimeMillis();
-            this.currentState = new GameState();
-            System.out.println("Game " + i);
-            while (!getBoard().gameOver()){
-
-                Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-                System.out.println(AiMove.toString());
-                setCurrentState(getCurrentState().applyAction(AiMove));
-                //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
-
-            }
-
-            if (getBoard().gameOver()){
-                //System.out.println("GAME OVER");
-                long eTime   = System.currentTimeMillis();
-                long tTime = eTime - sTime;
-                gameTimes.add(tTime);
-                System.out.println(tTime + " ms");
-                System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-                System.out.println("Player 1 final score: " + currentState.getPlayer(0).scoreToString());
-                System.out.println("Player 2 final score: " + currentState.getPlayer(1).scoreToString());
-                if (currentState.getWinner().getPlayerNo() == 1) player1Win++;
-                else player2Win++;
-            }
-        }
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        long averageTime = getAverage(gameTimes);
-        long minTime =getMin(gameTimes);
-        long maxTime = getMax(gameTimes);
-        System.out.println("Average : " + averageTime + " ms");
-        System.out.println("Smallest : " + minTime + " ms");
-        System.out.println("Largest : " + maxTime + " ms");
-        System.out.println(" Total : " + totalTime + " ms");
-        System.out.println("Player 1 won: " + player1Win + " times");
-        System.out.println("Player 2 won: " + player2Win + " times");
-    }
-
-    private long getMin(ArrayList<Long> gameTimes) {
-        long min=gameTimes.get(0);
-        for (int i=1;i<gameTimes.size();i++){
-            if(min>gameTimes.get(i)){
-                min = gameTimes.get(i);
-            }
-
-        }
-        return min;
-    }
-    private long getMax(ArrayList<Long> gameTimes) {
-        long max=gameTimes.get(0);
-        for (int i=1;i<gameTimes.size();i++){
-            if(max<gameTimes.get(i)){
-                max = gameTimes.get(i);
-            }
-
-        }
-        return max;
-    }
-
-    private long getAverage(ArrayList<Long> gameTimes){
-        long ave = 0;
-        long sum=0;
-        for (int i=0;i<gameTimes.size();i++){
-            sum +=gameTimes.get(i);
-
-        }
-        ave = sum/gameTimes.size();
-        return ave;
-    }
+public void setNum(int num){
+        this.num = num;
+}
 
     public GameState getCurrentState(){
         return currentState;
@@ -157,27 +106,28 @@ public class GameManager{
         return player2TurnNumber;
     }
 
-    public void changeState(Action action){
-        //System.out.println(action.toString());
-        currentState = currentState.applyAction(action);
-        if (getBoard().gameOver()){
-            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-
-        }
-        if (getGamingPlayer().isAI()){
-            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-            //System.out.println(AiMove.toString());
-            //AiMove.getTile().moveBy(0, 30);
-
-            currentState = currentState.applyAction(AiMove);
-        }
-
-        move = new Action();
-        //if the new state is the last of the game, print the winner
-        if (getBoard().gameOver()){
-            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-        }
-    }
+//    public void changeState(Action action){
+//
+//        //System.out.println(action.toString());
+//        currentState = currentState.applyAction(action);
+//        if (getBoard().gameOver()){
+//            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+//
+//        }
+//        if (getGamingPlayer().isAI()){
+//            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+//            System.out.println(AiMove.toString());
+//            //AiMove.getTile().moveBy(0, 30);
+//
+//            currentState = currentState.applyAction(AiMove);
+//        }
+//
+//        move = new Action();
+//        //if the new state is the last of the game, print the winner
+//        if (getBoard().gameOver()){
+//            System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
+//        }
+//    }
 
     /*public void handleButtonTouch(Vector2 worldTouch){
 
@@ -300,7 +250,9 @@ public class GameManager{
             }
         }
     }
-
+    private int player1Win = 0;
+    private int player2Win = 0;
+    int i = 1;
     public boolean handleTouch(Vector2 worldTouch){
         /*if (getGamingPlayer().getPlayerNo() == 2){
 
@@ -319,7 +271,14 @@ public class GameManager{
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }*/
-    //    runSimulation();
+     //   Simulation sim = new Simulation(this);
+//       if(!sim.isRunning()) {
+//           sim.run();
+//
+//       }
+runSimulation();
+
+
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
 //            while (!getBoard().gameOver()){
@@ -331,12 +290,85 @@ public class GameManager{
 //            if (getBoard().gameOver()){
 //                //System.out.println("GAME OVER");
 //                System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
-//                currentState = new GameState();
+//               currentState = new GameState();
 //            }
 //        }
 
         return true;
 
     }
+
+    private void runSimulation() {
+        long sTime = System.currentTimeMillis();
+      //  boolean run= true;
+        int turns = 0;
+
+
+        num++;
+
+        System.out.println("Game " + i);
+        if (!getBoard().gameOver()) {
+            turns++;
+            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+            System.out.println(AiMove.toString());
+            setCurrentState(getCurrentState().applyAction(AiMove));
+            System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
+
+        }
+        if (getBoard().gameOver()) {
+
+            i++;
+
+
+            //System.out.println("GAME OVER");
+            //exSheet = ExcelSheet.createSheet(runtime,steps,treedepth,score diff, points,moves,victory expectation);
+            //ExcelSheet.printSheet(exSheet);
+            System.out.println(" Number of turns : " + turns);
+
+            System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo());
+            if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
+            else player2Win++;
+           // run = false;
+            getBoard().clear();
+            getBoard().create();
+            getHandByIndex(0).clear();
+            getHandByIndex(0).create();
+            getHandByIndex(1).clear();
+            getHandByIndex(1).create();
+            this.currentState = new GameState();
+        }
+        //return run;
+    }
+
+    public int[] getPlayerScoreByIndex(int i) {
+        return currentState.getPlayer(i).getPlayerScore();
+    }
+
+    public void updateAssets(float delta) {
+        text = "tester Label " + num;
+        label.act(text);
+
+        scorebars1.act(getPlayerScoreByIndex(0));
+        scorebars2.act(getPlayerScoreByIndex(1));
+
+        getHandByIndex(0).act(delta);
+        getHandByIndex(1).act(delta);
+        //getBoard().act(delta);
+
+
+    }
+
+    public CustomLabel getLabel() {
+        return label;
+    }
+
+    public ScoreBarGroup getScoreBarByIndex(int i) {
+        if(i==0)
+            return scorebars1;
+        else
+            return scorebars2;
+    }
+
+
 
 }

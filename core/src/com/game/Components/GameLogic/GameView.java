@@ -5,12 +5,14 @@ import com.game.Components.GameConstants.Color;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 
 public class GameView {
-
+    private boolean over;
+    //private HexagonalGrid<Link> grid;
     private Board board;
     private int[][] scores;
 
@@ -89,4 +91,37 @@ public class GameView {
 
         return nextView;
     }
+//    public boolean gameOver() {
+//        this.over = true;
+//        board.getGrid().getHexagons().forEach(new Action1<Hexagon<Link>>() {
+//            @Override
+//            public void call(Hexagon hexagon) {
+//                if (hexagon.getSatelliteData().isPresent()) {
+//                    Link hexLink = (Link) hexagon.getSatelliteData().get();
+//                    HexagonActor currentHexActor = hexLink.getActor();
+//
+//                    if (currentHexActor.getHexColor().equals("EMPTY")) {
+//                        for (Object hex : board.getGrid().getNeighborsOf(hexagon)) {
+//
+//                            if (hex instanceof Hexagon) {
+//                                Hexagon currentNeighbor = (Hexagon) hex;
+//
+//                                if (currentNeighbor.getSatelliteData().isPresent()) {
+//                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
+//                                    HexagonActor neighHexActor = neighLink.getActor();
+//
+//                                    if (neighHexActor.getHexColor().equals("EMPTY")) {
+//                                        over = false;
+//                                        break;
+//                                    }
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//        return over;
+//    }
 }

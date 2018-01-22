@@ -106,6 +106,7 @@ public class GreedyStrategy implements Strategy{
         if (possibleActions.size() == 0){
             possibleActions.add(randomAction(tile, grid));
         }
+        //System.out.println(possibleActions.size());
 
         return possibleActions;
     }
@@ -204,6 +205,8 @@ public class GreedyStrategy implements Strategy{
             bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
 
         }
+
+        System.out.println(bestMoves.size());
 
         //System.out.println(bestMoves.size());
         double bestGain = 0;

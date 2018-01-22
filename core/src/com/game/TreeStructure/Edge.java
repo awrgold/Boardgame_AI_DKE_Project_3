@@ -14,6 +14,8 @@ public class Edge {
         this.action = action;
     }
 
+
+
     public Action getAction(){
         return action;
     }
