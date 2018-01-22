@@ -34,7 +34,6 @@ public class Player{
     private boolean isRandom;
     private boolean isMCTS;
     private boolean isExpectiMax;
-    private boolean isRandom;
     private Strategy strategy;
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isRandom, boolean isGreedy, boolean isExpectiMax, boolean isMCTS) {

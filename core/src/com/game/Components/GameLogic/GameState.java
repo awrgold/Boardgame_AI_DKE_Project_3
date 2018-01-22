@@ -38,11 +38,7 @@ public class GameState{
         //for (int x = 1; x <= players.length; x++){
           //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-<<<<<<< HEAD
         players[0] = new Player(1, currentBag.pickSix(), true, false, false, false, true);
-=======
-        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false, false);
->>>>>>> GiulioAI
         players[1] = new Player(2, currentBag.pickSix(), true, true, false, false, false);
         gamingPlayer = players[0];
     }
