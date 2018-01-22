@@ -24,16 +24,16 @@ public class Bag {
     public Bag(){
     }
 
-    public Bag cloneBag(){
-        ArrayList<Tile> newTiles= new ArrayList<>();
-        for (Tile tile : getBag()){
-            newTiles.add(tile.cloneTile());
-        }
-        Bag newBag = new Bag();
-        newBag.setBag(newTiles);
-        return newBag;
-
-    }
+//    public Bag cloneBag(){
+//        ArrayList<Tile> newTiles= new ArrayList<>();
+//        for (Tile tile : getBag()){
+//            newTiles.add(tile.cloneTile());
+//        }
+//        Bag newBag = new Bag();
+//        newBag.setBag(newTiles);
+//        return newBag;
+//
+//    }
 
     public void setBag(ArrayList<Tile> bag) {
         this.bag = bag;

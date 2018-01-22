@@ -36,13 +36,13 @@ public class Tile extends GroupView {
         create();
     }
 
-    public Tile cloneTile(){
-
-        Tile clonedTile = new Tile(getColors());
-        clonedTile.setFirst(first);
-        return clonedTile;
-
-    }
+//    public Tile cloneTile(){
+//
+//        Tile clonedTile = new Tile(getColors());
+//        clonedTile.setFirst(first);
+//        return clonedTile;
+//
+//    }
 
     public boolean isEqual(Tile one){
         //System.out.println(getColors()[0].toString() + one.getColors()[0].toString() + getColors()[1].toString() + one.getColors()[1].toString());
@@ -71,6 +71,7 @@ public class Tile extends GroupView {
                 if(hexagon.getGridX() == 0) {
                     hexTile.setHexColor(colors[0]);
                     actors[0] = hexTile;
+
                 } else {
                     hexTile.setHexColor(colors[1]);
                     actors[1] = hexTile;
@@ -78,8 +79,9 @@ public class Tile extends GroupView {
 
                 hexTile.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
                 //and pass everything in tileGroup
-                addActor(hexTile);
                 hexagon.setSatelliteData(new Link(hexTile));
+                addActor(hexTile);
+
             }
         });
 

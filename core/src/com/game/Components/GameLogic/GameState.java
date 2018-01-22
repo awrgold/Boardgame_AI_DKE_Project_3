@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 import static java.util.Arrays.sort;
 
-public class GameState extends Node{
+public class GameState{
 
     private Player[] players;
     private Board currentBoard;
@@ -32,7 +32,7 @@ public class GameState extends Node{
     private Player gamingPlayer;
 
 
-    public GameState() {
+   public GameState() {
         super();
 
         players = new Player[2];

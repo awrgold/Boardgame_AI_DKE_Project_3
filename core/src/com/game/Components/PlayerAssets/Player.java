@@ -74,12 +74,12 @@ public class Player{
 
     }
 
-    public Player clonePlayer(){
-        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
-        newPlayer.setPlayerScore(playerScore.clone());
-        return newPlayer;
-
-    }
+//    public Player clonePlayer(){
+//        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
+//        newPlayer.setPlayerScore(playerScore.clone());
+//        return newPlayer;
+//
+//    }
 
 
     public boolean isAI() {
