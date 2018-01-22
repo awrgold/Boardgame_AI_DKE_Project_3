@@ -18,8 +18,8 @@ public class GameIngenious extends Game {
     @Override
     public void create() {
        //batch = new SpriteBatch();
-       //showGameScreen();
-
+       showGameScreen();
+/*
         long startTime = System.currentTimeMillis();
 
         int player1Win = 0;
@@ -46,7 +46,7 @@ public class GameIngenious extends Game {
         System.out.println(totalTime + " ms");
         System.out.println("Player 1 won: " + player1Win + " times");
         System.out.println("Player 2 won: " + player2Win + " times");
-
+*/
     }
     /*
     show specific screen directly

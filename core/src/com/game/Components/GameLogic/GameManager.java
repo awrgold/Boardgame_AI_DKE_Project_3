@@ -225,7 +225,7 @@ public class GameManager{
     }
 
     public boolean handleTouch(Vector2 worldTouch){
-        /*if (getGamingPlayer().getPlayerNo() == 2){
+        if (getGamingPlayer().getPlayerNo() == 2){
 
             handleTileTouch(worldTouch);
         } if(getGamingPlayer().getPlayerNo() == 1) {
@@ -241,7 +241,8 @@ public class GameManager{
             handleBoardTouch(false, worldTouch);
         } if (move.getH1() != null && move.getH2() != null){
             return true;
-        }*/
+        }
+        /*
         for (int i = 1; i <= 10; i++){
             System.out.println("Game " + i);
             while (!getBoard().gameOver()){
@@ -255,7 +256,7 @@ public class GameManager{
                 System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo());
                 currentState = new GameState();
             }
-        }
+        }*/
 
         return true;
 
