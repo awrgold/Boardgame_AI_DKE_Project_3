@@ -61,7 +61,7 @@ public class MCTSSearch implements Strategy {
     private long runTime;
     private MCTSTree tree;
     private MCTSNode best;
-    private boolean DEBUG = false;
+    private boolean DEBUG = true;
 
 
 
@@ -126,6 +126,8 @@ public class MCTSSearch implements Strategy {
     public void expand(MCTSNode toExpandFrom) {
 
         if (DEBUG){
+            System.out.println("---- START EXPANSION ----");
+
             System.out.println("Expanding");
         }
         knownChildren = new LinkedList<MCTSNode>();
@@ -231,6 +233,8 @@ public class MCTSSearch implements Strategy {
     private MCTSNode select(MCTSNode current) {
 
         if (DEBUG){
+            System.out.println("---- START SELECTION ----");
+
             System.out.println("Selecting a child");
         }
         MCTSNode selected = null;
@@ -260,6 +264,8 @@ public class MCTSSearch implements Strategy {
         }
 
         selected.updateStats(bestValue);
+        System.out.println("---- END EXPANSION ----");
+
         return selected;
     }
 
@@ -271,8 +277,12 @@ public class MCTSSearch implements Strategy {
 
         // ... do a playout with some strategy
         if (DEBUG){
+            System.out.println("---- START ROLLOUT ----");
+
             System.out.println("Rolling out");
         }
+
+        System.out.println("---- END EXPANSION ----");
 
         return r.nextInt(2);
 
