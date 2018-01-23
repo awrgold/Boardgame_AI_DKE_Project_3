@@ -102,7 +102,7 @@ public class OpponentProbabilities {
         return listOfDoubles;
     }
 
-    public ArrayList<Tile>[] getListOfSingles(GameState state){
+    public ArrayList<Tile>[] getInvisibleSingles(GameState state){
 
 
         // Create a full list of all remaining hidden singles in the bag/enemy hand (This can be inferred from the visible tiles on the board)
@@ -194,7 +194,7 @@ public class OpponentProbabilities {
             // If the tile we're passing is not the lowest color:
             else{
 
-                int S = numDoublesLeft;
+                int S = getInvisibleDoubles(state).length;
                 int s = 1;
                 int N = getInvisibleTilesSize(state);
                 int n = 1;
@@ -255,7 +255,7 @@ public class OpponentProbabilities {
             // If the tile we're passing is not the lowest color:
             else{
 
-                int S = numSinglesLeft;
+                int S = getInvisibleSingles(state).length;
                 int s = 1;
                 int N = getInvisibleTilesSize(state);
                 int n = 1;
