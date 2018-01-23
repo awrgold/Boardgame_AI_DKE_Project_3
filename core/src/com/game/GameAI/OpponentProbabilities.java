@@ -3,6 +3,7 @@ package com.game.GameAI;
 
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Bag;
+import com.game.Components.GameConstants.Color;
 import com.game.Components.GameConstants.Pieces;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.GameLogic.GameState;
@@ -21,31 +22,17 @@ import java.util.ArrayList;
 public class OpponentProbabilities {
 
 
-    private Player player;
-    private Player gamingPlayer;
-    private Bag bag;
-    private Hand hand;
-    private GameState state;
-    private Tree currentTree = new Tree(state);
+
+
     private int numDoublesLeft = 0;
     private int numSinglesLeft = 0;
     private ArrayList<Tile> invisibleTiles = new Bag(Pieces.createBagPieces()).getBag();
     private ArrayList<Tile>[] listOfDoubles = new ArrayList[6];
     private ArrayList<Tile>[] listOfSingles = new ArrayList[6];
 
-    public OpponentProbabilities(GameState state){
-        this.state = state;
-        this.gamingPlayer = state.getGamingPlayer();
-        this.bag = state.getCurrentBag();
-        this.hand = state.getGamingPlayer().getHand();
-        currentTree.buildTree(state);
-    }
+    public OpponentProbabilities(){}
 
-    public void updateTree(GameState state){
-        currentTree.buildTree(state);
-    }
-
-    public int getInvisibleTilesSize(){
+    public int getInvisibleTilesSize(GameState state){
 
         invisibleTiles.addAll(state.getGamingPlayer().getHand().getPieces());
         invisibleTiles.addAll(state.getCurrentBag().getBag());
@@ -53,32 +40,32 @@ public class OpponentProbabilities {
         return invisibleTiles.size();
     }
 
-    public ArrayList<Tile>[] getInvisibleDoubles(){
+    public ArrayList<Tile>[] getInvisibleDoubles(GameState state){
 
         // Create a full list of all remaining hidden doubles in the bag/enemy hand (This can be inferred from the visible tiles on the board)
         for (Tile tile : state.getCurrentBag().getBag()) {
             if (tile.getFirst().getHexColor().equals(tile.getSecond().getHexColor())) {
-                if (tile.getFirst().getHexColor().equals("R")) {
+                if (tile.getFirst().getHexColor().equals(Color.RED)) {
                     listOfDoubles[0].add(tile);
                     numDoublesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("O")) {
+                if (tile.getFirst().getHexColor().equals(Color.ORANGE)) {
                     listOfDoubles[1].add(tile);
                     numDoublesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("Y")) {
+                if (tile.getFirst().getHexColor().equals(Color.YELLOW)) {
                     listOfDoubles[2].add(tile);
                     numDoublesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("B")) {
+                if (tile.getFirst().getHexColor().equals(Color.BLUE)) {
                     listOfDoubles[3].add(tile);
                     numDoublesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("P")) {
+                if (tile.getFirst().getHexColor().equals(Color.PURPLE)) {
                     listOfDoubles[4].add(tile);
                     numDoublesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("V")) {
+                if (tile.getFirst().getHexColor().equals(Color.VIOLET)) {
                     listOfDoubles[5].add(tile);
                     numDoublesLeft++;
                 }
@@ -86,27 +73,27 @@ public class OpponentProbabilities {
         }
 
         for (Tile tile2 : state.getPlayer(Math.abs(state.getGamingPlayer().getPlayerNo() - 1)).getHand().getPieces()) {
-            if (tile2.getFirst().getHexColor().equals("R")) {
+            if (tile2.getFirst().getHexColor().equals(Color.RED)) {
                 listOfDoubles[0].add(tile2);
                 numDoublesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("O")) {
+            if (tile2.getFirst().getHexColor().equals(Color.ORANGE)) {
                 listOfDoubles[1].add(tile2);
                 numDoublesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("Y")) {
+            if (tile2.getFirst().getHexColor().equals(Color.YELLOW)) {
                 listOfDoubles[2].add(tile2);
                 numDoublesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("B")) {
+            if (tile2.getFirst().getHexColor().equals(Color.BLUE)) {
                 listOfDoubles[3].add(tile2);
                 numDoublesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("P")) {
+            if (tile2.getFirst().getHexColor().equals(Color.PURPLE)) {
                 listOfDoubles[4].add(tile2);
                 numDoublesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("V")) {
+            if (tile2.getFirst().getHexColor().equals(Color.VIOLET)) {
                 listOfDoubles[5].add(tile2);
                 numDoublesLeft++;
             }
@@ -115,33 +102,33 @@ public class OpponentProbabilities {
         return listOfDoubles;
     }
 
-    public ArrayList<Tile>[] getListOfSingles(){
+    public ArrayList<Tile>[] getListOfSingles(GameState state){
 
 
         // Create a full list of all remaining hidden singles in the bag/enemy hand (This can be inferred from the visible tiles on the board)
         for (Tile tile : state.getCurrentBag().getBag()) {
-            if (tile.getFirst().getHexColor().equals(tile.getSecond().getHexColor())) {
-                if (tile.getFirst().getHexColor().equals("R") || tile.getSecond().getHexColor().equals("R")) {
+            if (!tile.getFirst().getHexColor().equals(tile.getSecond().getHexColor())) {
+                if (tile.getFirst().getHexColor().equals(Color.RED)) {
                     listOfSingles[0].add(tile);
                     numSinglesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("O") || tile.getSecond().getHexColor().equals("R")) {
+                if (tile.getFirst().getHexColor().equals(Color.ORANGE)) {
                     listOfSingles[1].add(tile);
                     numSinglesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("Y") || tile.getSecond().getHexColor().equals("R")) {
+                if (tile.getFirst().getHexColor().equals(Color.YELLOW)) {
                     listOfSingles[2].add(tile);
                     numSinglesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("B") || tile.getSecond().getHexColor().equals("R")) {
+                if (tile.getFirst().getHexColor().equals(Color.BLUE)) {
                     listOfSingles[3].add(tile);
                     numSinglesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("P") || tile.getSecond().getHexColor().equals("R")) {
+                if (tile.getFirst().getHexColor().equals(Color.PURPLE)) {
                     listOfSingles[4].add(tile);
                     numSinglesLeft++;
                 }
-                if (tile.getFirst().getHexColor().equals("V") || tile.getSecond().getHexColor().equals("R")) {
+                if (tile.getFirst().getHexColor().equals(Color.VIOLET)) {
                     listOfSingles[5].add(tile);
                     numSinglesLeft++;
                 }
@@ -149,27 +136,27 @@ public class OpponentProbabilities {
         }
 
         for (Tile tile2 : state.getPlayer(Math.abs(state.getGamingPlayer().getPlayerNo() - 1)).getHand().getPieces()) {
-            if (tile2.getFirst().getHexColor().equals("R") || tile2.getSecond().getHexColor().equals("R")) {
+            if (tile2.getFirst().getHexColor().equals(Color.RED)) {
                 listOfSingles[0].add(tile2);
                 numSinglesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("O") || tile2.getSecond().getHexColor().equals("R")) {
+            if (tile2.getFirst().getHexColor().equals(Color.ORANGE)) {
                 listOfSingles[1].add(tile2);
                 numSinglesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("Y") || tile2.getSecond().getHexColor().equals("R")) {
+            if (tile2.getFirst().getHexColor().equals(Color.YELLOW)) {
                 listOfSingles[2].add(tile2);
                 numSinglesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("B") || tile2.getSecond().getHexColor().equals("R")) {
+            if (tile2.getFirst().getHexColor().equals(Color.BLUE)) {
                 listOfSingles[3].add(tile2);
                 numSinglesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("P") || tile2.getSecond().getHexColor().equals("R")) {
+            if (tile2.getFirst().getHexColor().equals(Color.PURPLE)) {
                 listOfSingles[4].add(tile2);
                 numSinglesLeft++;
             }
-            if (tile2.getFirst().getHexColor().equals("V") || tile2.getSecond().getHexColor().equals("R")) {
+            if (tile2.getFirst().getHexColor().equals(Color.VIOLET)) {
                 listOfSingles[5].add(tile2);
                 numSinglesLeft++;
             }
@@ -179,11 +166,13 @@ public class OpponentProbabilities {
     }
 
 
-    public double getProbOfColors(String c1, String c2){
+    public double getProbOfColors(GameState state, Tile tile){
         Bag currentBag = state.getCurrentBag();
         boolean isDouble = false;
         double probability = 0.0;
-        String lowestColor = gamingPlayer.getScoreQ().get(0).toString();
+        Color lowestColor = state.getGamingPlayer().lowestColors().get(0);
+        Color c1 = tile.getFirst().getHexColor();
+        Color c2 = tile.getSecond().getHexColor();
 
         if (c1.equals(c2)){
             isDouble = true;
@@ -207,7 +196,7 @@ public class OpponentProbabilities {
 
                 int S = numDoublesLeft;
                 int s = 1;
-                int N = getInvisibleTilesSize();
+                int N = getInvisibleTilesSize(state);
                 int n = 1;
                 int factorialS = S;
                 int factorialN = N;
@@ -268,7 +257,7 @@ public class OpponentProbabilities {
 
                 int S = numSinglesLeft;
                 int s = 1;
-                int N = getInvisibleTilesSize();
+                int N = getInvisibleTilesSize(state);
                 int n = 1;
                 int factorialS = S;
                 int factorialN = N;
