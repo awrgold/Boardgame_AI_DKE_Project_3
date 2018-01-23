@@ -35,11 +35,10 @@ public class GameState{
         players = new Player[2];
         currentBoard = new Board();
         currentBag = new Bag(Pieces.createBagPieces());
-        //for (int x = 1; x <= players.length; x++){
-          //  players[x - 1] = new Player(x, currentBag.pickSix());
-        //}
-        players[0] = new Player(1, currentBag.pickSix(), true, false, true, false, false);
-        players[1] = new Player(2, currentBag.pickSix(), true, false, false, true, false);
+
+        //HERE CHANGE STRATEGIES FOR PLAYERS
+        players[0] = new Player(1, currentBag.pickSix(), true, false, false, true, false);
+        players[1] = new Player(2, currentBag.pickSix(), true, true, false, false, false);
         gamingPlayer = players[0];
     }
 

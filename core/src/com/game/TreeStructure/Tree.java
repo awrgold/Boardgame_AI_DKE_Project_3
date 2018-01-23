@@ -1,7 +1,6 @@
 package com.game.TreeStructure;
 
 import com.game.Components.GameLogic.GameState;
-import com.game.Components.GameLogic.GameView;
 
 public class Tree {
 

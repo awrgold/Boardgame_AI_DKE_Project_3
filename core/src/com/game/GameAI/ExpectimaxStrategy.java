@@ -25,160 +25,6 @@ public class ExpectimaxStrategy implements Strategy {
 
     public static final int INF = 1000;
 
-    /*
-    1) create a new tree with the current state as root
-    2) build the first tree level with possible moves for the gaming player...
-        -for each tile find the placement with highest gain and create a new node (gain is node weigth) with that placement
-
-
-    */
-/*
-    private Action bestTilePlacement(Tile tile, GameState currentState, Player player) {
-        ArrayList<Action> possibleActions = new ArrayList<>();
-        HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
-        Color color;
-        if (player.lowestColors().contains(tile.getActors()[0].getHexColor())){
-            color = tile.getActors()[0].getHexColor();
-        } else if (player.lowestColors().contains(tile.getActors()[1].getHexColor())) {
-            color = tile.getActors()[1].getHexColor();
-        } else {
-            color = tile.getActors()[0].getHexColor();
-        }
-
-        //ITERATE ALL OVER THE CURRENT BOARD
-        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon hexagon) {
-                //FOR EACH HEXAGON
-                if (hexagon.getSatelliteData().isPresent()) {
-                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
-                    //IF THE RELATED HEXACTOR'S COLOR IS EQAUL TO ONE IN THE TILE
-                    if (currentHexActor.getHexColor().equals(color)) {
-                        if (color.equals(tile.getActors()[0].getHexColor())) {
-                            tile.setFirst(tile.getActors()[0]);
-                        } else {
-                            tile.setFirst(tile.getActors()[1]);
-                        }
-                        //FIND ALL POSSIBLE PLACEMENTS AROUND THAT TILE
-                        Hexagon[][] possiblePlacements = new Hexagon[7][6];
-                        int c = 0;
-                        for (Object hex : grid.getNeighborsOf(hexagon)) {
-                            if (hex instanceof Hexagon) {
-                                Hexagon currentNeighbor = (Hexagon) hex;
-
-                                if (currentNeighbor.getSatelliteData().isPresent()) {
-                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
-                                    HexagonActor neighHexActor = neighLink.getActor();
-
-                                    //THE FIRST ONE IS THE FIRST PLACEMENT
-                                    if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
-                                        possiblePlacements[0][c] = currentNeighbor;
-                                        int g = 1;
-                                        //LOOKING FOR FREE NEIGHBORS
-                                        for (Object hex2 : grid.getNeighborsOf(currentNeighbor)) {
-                                            if (hex2 instanceof Hexagon) {
-                                                Hexagon currentNeighbor2 = (Hexagon) hex2;
-
-                                                if (currentNeighbor2.getSatelliteData().isPresent()) {
-                                                    Link neighLink2 = (Link) currentNeighbor2.getSatelliteData().get();
-                                                    HexagonActor neighHexActor2 = neighLink2.getActor();
-
-                                                    if (neighHexActor2.getHexColor().equals(Color.EMPTY)) {
-                                                        possiblePlacements[g][c] = currentNeighbor2;
-                                                        g++;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        c++;
-                                    }
-                                }
-                            }
-
-                        }
-                        for (int i = 0; i < 6; i++){
-                            if (possiblePlacements[0][i] != null){
-                                for (int j = 1; j < 7; j++){
-                                    if (possiblePlacements[j][i] != null){
-                                        possibleActions.add(new Action(possiblePlacements[0][i], possiblePlacements[j][i], tile));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        if (possibleActions.size() == 0){
-            possibleActions.add(randomAction(tile, grid));
-
-        }
-
-        double bestGain = 0;
-        Action bestPlacement = null;
-        for (Action a : possibleActions){
-            double gain = a.actionGain(grid);
-            if (gain >= bestGain) {
-                bestGain = gain;
-                bestPlacement = a;
-            }
-        }
-        return bestPlacement;
-    }
-
-    private Action randomAction(Tile tile, HexagonalGrid grid) {
-        //System.out.println("No good moves, doing random action");
-        Action randomAction = new Action();
-        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon hexagon) {
-                //FOR EACH HEXAGON
-                if (hexagon.getSatelliteData().isPresent()) {
-                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-                    HexagonActor currentHexActor = hexLink.getActor();
-
-                    if (currentHexActor.getHexColor().equals(Color.EMPTY)) {
-                        for (Object hex : grid.getNeighborsOf(hexagon)) {
-                            if (hex instanceof Hexagon) {
-                                Hexagon currentNeighbor = (Hexagon) hex;
-
-                                if (currentNeighbor.getSatelliteData().isPresent()) {
-                                    Link neighLink = (Link) currentNeighbor.getSatelliteData().get();
-                                    HexagonActor neighHexActor = neighLink.getActor();
-
-                                    //THE FIRST ONE IS THE FIRST PLACEMENT
-                                    if (neighHexActor.getHexColor().equals(Color.EMPTY)) {
-
-                                        randomAction.setH1(hexagon);
-                                        randomAction.setH2(currentNeighbor);
-                                        randomAction.setTile(tile);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        return randomAction;
-    }
-    public ArrayList<Action> possibleNextActions(GameState currentState, Player player){
-
-        ArrayList<Action> possibleActions = new ArrayList<>();
-        for (Tile t : player.getHand().getPieces()){
-            Action move = bestTilePlacement(t, currentState, player);
-            possibleActions.add(move);
-
-        }
-
-        return possibleActions;
-
-
-    }*/
-
     private ArrayList<Action> possibleTilePlacements(Tile tile, HexagonalGrid grid, Color color) {
         ArrayList<Action> possibleActions = new ArrayList<>();
         //System.out.println("Searching for best placements");
@@ -278,7 +124,6 @@ public class ExpectimaxStrategy implements Strategy {
         return bestPlacement;
     }
 
-
     private HashMap<Tile, Color> bestTilesToPlace(Hand hand){
         HashMap<Tile, Color> pieces = new HashMap<>();
 
@@ -286,36 +131,6 @@ public class ExpectimaxStrategy implements Strategy {
             pieces.put(t.cloneTile(), t.getColors()[0]);
             pieces.put(t.cloneTile(), t.getColors()[1]);
         }
-
-        //for (Color color: pieces.values()){
-
-          //  String key = color.toString();
-            //System.out.println(key);
-            //System.out.println(key + " " + scoreQ.get(color));
-
-        //}
-/*
-        for(Color color : colors){
-            for(Tile t : hand.getPieces()){
-                if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
-                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
-                    pieces.put(t, color);
-                    //System.out.println("Found a double to place: " + color + " - " + color);
-                    break;
-                } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
-                    pieces.put(t, color);
-                }
-            }
-        }
-
-        if (pieces.keySet().size() == 0){
-            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
-        }*/
-
-        //for(Tile piece : pieces.keySet()){
-        //System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
-        //}
-        //System.out.print(" <--- pieces to play \n");
 
         return pieces;
 
@@ -386,11 +201,11 @@ public class ExpectimaxStrategy implements Strategy {
         Node next;
         Action nextMove = null;
 
-        if(depth % 2 == 1) {
+        if(depth % 2 == 1) { //PLAYER NODE
             if (node.getState().getCurrentBoard().gameOver()){
                 return node;
             }
-            //System.out.println("    My move");
+            //
             a = -INF;
             ArrayList<Action> possibleActions = possibleNextActions(node.getState());
             //System.out.println("Found " + possibleActions.size() + " possible actions to play");
@@ -406,16 +221,12 @@ public class ExpectimaxStrategy implements Strategy {
             }
             return node.setChild(nextMove);
         }
-        else {
+        else { //CHANCE NODE
 
             if (node.getState().getCurrentBoard().gameOver()){
                 return node;
             }
-            //System.out.println("        Chance node");
             a = 0;
-            //create an HashMap that contains Tiles with its probabilities of being in the opponent's hand
-            //for each tile create an action (bestTilePlacement)
-            //expectimax(setChild(newAction))
 
             HashMap<Tile, Double> possibilities = node.getState().tilesExpectations(node.getState().getGamingPlayer().lowestColors());
             for (Tile t : possibilities.keySet()){
@@ -424,22 +235,12 @@ public class ExpectimaxStrategy implements Strategy {
                 double b = possibilities.get(t);
                 next = expectiminimax(node.setChild(bestAction), depth - 1);
                 a = a + b * next.getWeight();
-                //nextMove = next.getActionUsed();
-                //System.out.println("            Predicted Action: " + bestAction.toString() + " || Gain: " + next.getWeight());
             }
             node.setWeight(a * node.getWeight());
             return node;
 
 
         }
-        //System.out.println(nextMove.toString());
-        //System.out.println("Weight: " + a);
-        //Node nextNode = node.setChild(nextMove);
-        //nextNode.setWeight(a * nextNode.getWeight());
-
-        //System.out.println("Setting weight: " + nextNode.getWeight());
-
-        //return nextNode;
     }
 
     public Action decideMove(GameState currentState) {

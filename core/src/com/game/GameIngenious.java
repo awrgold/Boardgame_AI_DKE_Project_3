@@ -8,6 +8,9 @@ import com.game.Screens.ScreenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Root of the game which holds the screens and delegates the rendering/updating to the currently active screen.
  */
@@ -30,7 +33,9 @@ public class GameIngenious extends Game {
         int player2Win = 0;
         String player2Strategy = new String();
 
-        for (int i = 1; i <= 10; i++){
+        ArrayList<Double> playerMoveGain = new ArrayList<>();
+
+        for (int i = 1; i <= 1; i++){
             GameManager manager = new GameManager();
             player1Strategy = manager.getPlayerByIndex(0).getStrategy();
             player2Strategy = manager.getPlayerByIndex(1).getStrategy();
@@ -40,11 +45,22 @@ public class GameIngenious extends Game {
                 System.out.println("Player 2 score: " + manager.getPlayerByIndex(1).scoreToString());
                 //System.out.println(manager.getGamingPlayer().isLowestScoreTilePresent());
                 System.out.println("Gaming Player " + manager.getGamingPlayer().getPlayerNo());
-                manager.getGamingPlayer().getScoreQ();
+                //manager.getGamingPlayer().getScoreQ();
                 System.out.println("Hand: " + manager.getGamingPlayer().getHand().toString());
+                long playerStartMove = System.currentTimeMillis();
                 Action AiMove = manager.getGamingPlayer().applyStrategy(manager.getCurrentState());
                 System.out.println(AiMove.toString() + " | gain: " + AiMove.actionGain(manager.getBoard().getGrid(), manager.getGamingPlayer()));
+
+                if (manager.getGamingPlayer().getPlayerNo() == 1){
+                    playerMoveGain.add(AiMove.actionGain(manager.getBoard().getGrid(), manager.getGamingPlayer()));
+                }
+
                 manager.changeState(AiMove);
+
+
+
+
+
                 //System.out.println("  Score: " + manager.getPlayerByIndex(0).scoreToString());
                 //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
             }
@@ -53,6 +69,8 @@ public class GameIngenious extends Game {
                 System.out.println("The winner is: Player " + manager.getCurrentState().getWinner().getPlayerNo() + " - (" + manager.getCurrentState().getWinner().getStrategy() +")");
                 if (manager.getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
+
+
             }
         }
         long endTime   = System.currentTimeMillis();
@@ -60,6 +78,9 @@ public class GameIngenious extends Game {
         System.out.println(totalTime + " ms");
         System.out.println("Player 1 (" + player1Strategy + ") won: " + player1Win + " times");
         System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
+        for (double gain : playerMoveGain){
+            System.out.println(gain);
+        }
 
     }
     /*
