@@ -86,13 +86,6 @@ public class GameIngenious extends Game {
   @Override
   public void render () {
     super.render();
-//while (manager.sim.isRunning()){
-//    manager.updateAssets();
-//}
-//     while (!sim.isEnd()){
-//
-//          screen.render(Gdx.graphics.getDeltaTime());
-//      }
 
   }
 

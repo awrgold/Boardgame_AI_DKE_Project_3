@@ -1,34 +1,39 @@
 package com.game.Components.GameLogic;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.LifecycleListener;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.ExcelSheetData.ExcelSheet;
-import com.game.Components.GameAssets.*;
+import jxl.*;
+import jxl.write.*;
+import jxl.write.Number;
+
+import java.io.File;
+import java.io.IOException;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.Components.GameAssets.Bag;
+import com.game.Components.GameAssets.Board;
+import com.game.Components.GameConstants.Constants;
 import com.game.Components.GameScoreAssets.CustomLabel;
 import com.game.Components.GameScoreAssets.ScoreBarGroup;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
-import com.game.Components.GameConstants.Constants;
 import com.game.TreeStructure.Tree;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.game.Components.Tools.SimulationResults;
+import jxl.write.biff.RowsExceededException;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class GameManager{
+public class GameManager {
+
+private ExcelSheet xl;
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
     private Tree gameTree;
     private Action move;
-private ExcelSheet exSheet;
     private CustomLabel label;
     private Skin skin;
     private String text;
@@ -38,12 +43,9 @@ private ExcelSheet exSheet;
     private Board board;
     private Hand hand1;
     private Hand hand2;
+    private int num = 0;
 
-    private int num=0;
-    private ArrayList<Long> turnTimes;
-    private ArrayList<Integer> turnPoints;
-
-    public GameManager(){
+    public GameManager() {
 
 
         this.currentState = new GameState();
@@ -51,48 +53,48 @@ private ExcelSheet exSheet;
         //gameTree.buildTree(startingState);
         move = new Action();
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-       this.text = "tester Label ";
-        this.label = new CustomLabel(text,skin);
+        this.text = "tester Label ";
+        this.label = new CustomLabel(text, skin);
         label.setFontScale(5);
-        label.setPosition(100,100);
+        label.setPosition(100, 100);
         //this.sim = new Simulation(this);
-        scorebars1 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(0),getPlayerByIndex(0).getPlayerNo());
-        scorebars2 = new ScoreBarGroup(250,350, getPlayerScoreByIndex(1),getPlayerByIndex(1).getPlayerNo());
-       this.hand1 = currentState.getPlayer(0).getHand();
-       this.hand2 = currentState.getPlayer(1).getHand();
+        scorebars1 = new ScoreBarGroup(250, 350, getPlayerScoreByIndex(0), getPlayerByIndex(0).getPlayerNo());
+        scorebars2 = new ScoreBarGroup(250, 350, getPlayerScoreByIndex(1), getPlayerByIndex(1).getPlayerNo());
+        this.hand1 = currentState.getPlayer(0).getHand();
+        this.hand2 = currentState.getPlayer(1).getHand();
         this.board = currentState.getCurrentBoard();
 
     }
 
-public void setNum(int num){
+    public void setNum(int num) {
         this.num = num;
-}
+    }
 
-    public GameState getCurrentState(){
+    public GameState getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(GameState newState){
+    public void setCurrentState(GameState newState) {
         currentState = newState;
     }
 
-    public Player[] getPlayers(){
+    public Player[] getPlayers() {
         return currentState.getPlayers();
     }
 
-    public Player getPlayerByIndex(int i){
+    public Player getPlayerByIndex(int i) {
         return currentState.getPlayer(i);
     }
 
-    public Player getGamingPlayer(){
+    public Player getGamingPlayer() {
         return currentState.getGamingPlayer();
     }
 
-    public int getnOfPlayer(){
+    public int getnOfPlayer() {
         return currentState.getPlayers().length;
     }
 
-    public Hand getHandByIndex(int i){
+    public Hand getHandByIndex(int i) {
         return getPlayers()[i].getHand();
     }
 
@@ -104,15 +106,15 @@ public void setNum(int num){
         return currentState.getCurrentBag();
     }
 
-    public int getTotalTurnNumber(){
+    public int getTotalTurnNumber() {
         return player1TurnNumber + player2TurnNumber;
     }
 
-    public int getPlayer1TurnNumber(){
+    public int getPlayer1TurnNumber() {
         return player1TurnNumber;
     }
 
-    public int getPlayer2TurnNumber(){
+    public int getPlayer2TurnNumber() {
         return player2TurnNumber;
     }
 
@@ -174,14 +176,14 @@ public void setNum(int num){
 
     }*/
 
-    public void handleTileTouch(Vector2 worldTouch){
+    public void handleTileTouch(Vector2 worldTouch) {
         outerloop:
-        for (Tile tile : getGamingPlayer().getHand().getPieces()){
-            for (Actor hex : tile.getChildren()){
+        for (Tile tile : getGamingPlayer().getHand().getPieces()) {
+            for (Actor hex : tile.getChildren()) {
                 boolean inX = false;
                 boolean inY = false;
 
-                if (hex instanceof HexagonActor){
+                if (hex instanceof HexagonActor) {
                     HexagonActor clicked = (HexagonActor) hex;
                     Vector2 hexLoc = clicked.localToStageCoordinates(new Vector2());
 
@@ -196,7 +198,7 @@ public void setNum(int num){
                         inY = true;
                     }
                     if (inX && inY) {
-                        if (move.getTile() != null){
+                        if (move.getTile() != null) {
                             move.getTile().moveBy(0, -30);
                         }
 
@@ -217,12 +219,12 @@ public void setNum(int num){
 
     }
 
-    public void handleBoardTouch(boolean second, Vector2 worldTouch){
+    public void handleBoardTouch(boolean second, Vector2 worldTouch) {
         //getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
-        for (Actor hex : getBoard().getChildren()){
+        for (Actor hex : getBoard().getChildren()) {
             boolean inX = false;
             boolean inY = false;
-            if (hex instanceof HexagonActor){
+            if (hex instanceof HexagonActor) {
                 HexagonActor clicked = (HexagonActor) hex;
                 Vector2 hexLoc = clicked.localToStageCoordinates(new Vector2());
 
@@ -236,9 +238,9 @@ public void setNum(int num){
                 }
                 if (inX && inY) {
 
-                    if (second){
-                        if(clicked.getHexColor().equals("EMPTY")){
-                            if(getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())){
+                    if (second) {
+                        if (clicked.getHexColor().equals("EMPTY")) {
+                            if (getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())) {
                                 move.setH2(clicked.getHexagon());
                             } else {
                                 //System.out.println("Select a neighbor");
@@ -248,7 +250,7 @@ public void setNum(int num){
                         }
 
                     } else {
-                        if(clicked.getHexColor().equals("EMPTY")){
+                        if (clicked.getHexColor().equals("EMPTY")) {
                             move.setH1(clicked.getHexagon());
                         } else {
                             //System.out.println("select an empty hexagon");
@@ -260,10 +262,9 @@ public void setNum(int num){
             }
         }
     }
-    private int player1Win = 0;
-    private int player2Win = 0;
-    int i = 1;
-    public boolean handleTouch(Vector2 worldTouch){
+
+
+    public boolean handleTouch(Vector2 worldTouch) {
         /*if (getGamingPlayer().getPlayerNo() == 2){
 
             handleTileTouch(worldTouch);
@@ -281,12 +282,12 @@ public void setNum(int num){
         } if (move.getH1() != null && move.getH2() != null){
             return true;
         }*/
-     //   Simulation sim = new Simulation(this);
+        //   Simulation sim = new Simulation(this);
 //       if(!sim.isRunning()) {
 //           sim.run();
 //
 //       }
-runSimulation();
+        runSimulation();
 
 
 //        for (int i = 1; i <= 10; i++){
@@ -307,54 +308,55 @@ runSimulation();
         return true;
 
     }
-private int turnNum;
+
+    private int player1Win = 0;
+    private String player1Strategy = new String();
+    private int player2Win = 0;
+    private String player2Strategy = new String();
+
+    private ArrayList<Long> turnTimes = new ArrayList<Long>();
+    private ArrayList<Integer> turnScores = new ArrayList<Integer>();
+
+   private int turns = 0;
+   private int n = 1;
     private void runSimulation() {
 
-        this.turnTimes = new ArrayList<Long>();
-        this.turnPoints = new ArrayList<Integer>();
-
-        int player1Win = 0;
-        String player1Strategy = new String();
-        int player2Win = 0;
-        String player2Strategy = new String();
-
-
-        int n = 10;
         long startTime = System.currentTimeMillis();
-        for (int i = 1; i <= n; i++) {
-           // int turns = 0;
+       // for (int i = 0; i <= n; i++) {
+            // int turns = 0;
             player1Strategy = getPlayerByIndex(0).getStrategy();
             player2Strategy = getPlayerByIndex(1).getStrategy();
 
             //  boolean run= true;
-            int turns = 0;
 
+           // System.out.println("Game " + i);
 
-            num++;
-            System.out.println("Game " + i);
-            while (!getBoard().gameOver()) {
+            if (!getBoard().gameOver()) {
+
                 long sTime = System.currentTimeMillis();
-                int gpScore = getGamingPlayer().getScoreIncrease();
+
+
                 turns++;
                 Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 //System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
                 //System.out.println("  Score: " + manager.getPlayerByIndex(0).scoreToString());
                 //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
+                int gpScore = getGamingPlayer().getScoreIncrease();
                 long eTime = System.currentTimeMillis();
                 long tTime = eTime - sTime;
                 turnTimes.add(tTime);
-                //turnTimes.add(tTime);
-                turnPoints.add(gpScore);
+                turnScores.add(gpScore);
+               // System.out.println(tTime + " ms");
             }
             if (getBoard().gameOver()) {
 
 
-                i++;
                 //System.out.println("GAME OVER");
                 System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo() + " - (" + getCurrentState().getWinner().getStrategy() + ")");
                 if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
+
 
                 this.currentState = new GameState();
                 long endTime = System.currentTimeMillis();
@@ -362,60 +364,32 @@ private int turnNum;
                 System.out.println(totalTime + " ms");
                 System.out.println("Player 1 (" + player1Strategy + ") won: " + player1Win + " times");
                 System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
-turnNum = turns;
-            }
+
+        //    }
+                String test = player1Strategy+" vs "+player2Strategy;
+                String gn = "Game "+ turns;
+
+                xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
+
+                xl.setgn(gn);
+                xl.setTitle(test);
+                xl.setTurns(turns);
+                xl.setScores(turnScores);
+                xl.setTimes(turnTimes);
+
+
         }
 
-       // exSheet.createSheet(n,getGamingPlayer().getStrategy(), player1Strategy, player2Strategy, turnTimes, turnPoints, turnNum);
-       //     exSheet.printSheet();
-       // }
-
-        //System.out.println("GAME OVER");
-//            //exSheet = ExcelSheet.createSheet(runtime,steps,treedepth,score diff, points,moves,victory expectation);
-//            //ExcelSheet.printSheet(exSheet);
 
 
-//        long sTime = System.currentTimeMillis();
-//      //  boolean run= true;
-//        int turns = 0;
-//
-//
-//        num++;
 
-//        System.out.println("Game " + i);
-//        if (!getBoard().gameOver()) {
 
-//            turns++;
-//            Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
-//            System.out.println(AiMove.toString());
-//            setCurrentState(getCurrentState().applyAction(AiMove));
-//            System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
-//
-//        }
-//        if (getBoard().gameOver()) {
-//
-//            i++;
-//
-//
-//            //System.out.println("GAME OVER");
-//            //exSheet = ExcelSheet.createSheet(runtime,steps,treedepth,score diff, points,moves,victory expectation);
-//            //ExcelSheet.printSheet(exSheet);
-//            System.out.println(" Number of turns : " + turns);
-//
-//            System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo());
-//            if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
-//            else player2Win++;
-//           // run = false;
-//            getBoard().clear();
-//            getBoard().create();
-//            getHandByIndex(0).clear();
-//            getHandByIndex(0).create();
-//            getHandByIndex(1).clear();
-//            getHandByIndex(1).create();
-//            this.currentState = new GameState();
-//        }
-        //return run;
-    }
+        }
+
+
+
+
+
 
     public int[] getPlayerScoreByIndex(int i) {
         return currentState.getPlayer(i).getPlayerScore();
@@ -428,9 +402,9 @@ turnNum = turns;
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
 
-      //  this.hand1 = currentState.getPlayer(0).getHand();
-       // this.hand2 = currentState.getPlayer(1).getHand();
-       // board.act(currentState.getCurrentBoard().getGrid());
+        //  this.hand1 = currentState.getPlayer(0).getHand();
+        // this.hand2 = currentState.getPlayer(1).getHand();
+        // board.act(currentState.getCurrentBoard().getGrid());
 
 
     }
@@ -440,12 +414,12 @@ turnNum = turns;
     }
 
     public ScoreBarGroup getScoreBarByIndex(int i) {
-        if(i==0)
+        if (i == 0)
             return scorebars1;
         else
             return scorebars2;
     }
 
-
-
 }
+
+
