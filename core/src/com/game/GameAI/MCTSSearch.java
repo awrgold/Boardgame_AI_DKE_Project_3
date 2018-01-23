@@ -78,7 +78,7 @@ public class MCTSSearch implements Strategy {
         // Construct a list of children to explore
         List<MCTSNode> visited = new LinkedList<>();
         // Create the root node
-        MCTSNode cur = new MCTSNode(currentState);
+        MCTSNode cur = new MCTSNode(currentState); //clone the state!!!!!!!!!!!!!!!!!!!
         tree.setRoot(cur);
         // Add the root to the number of visited nodes
         visited.add(cur);

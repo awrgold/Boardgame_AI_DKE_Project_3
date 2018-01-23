@@ -157,7 +157,7 @@ public class GreedyStrategy implements Strategy{
 
 
     private Action randomAction(Tile tile, HexagonalGrid grid) {
-        System.out.println("No good moves, doing random action");
+        //System.out.println("No good moves, doing random action");
         Action randomAction = new Action();
         grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
             @Override

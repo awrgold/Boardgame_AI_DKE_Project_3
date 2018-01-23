@@ -257,6 +257,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         // IF NO POSSIBLE ACTIONS - DO SOMETHING RANDOM
         if (possibleActions.size() == 0){
+            //System.out.println("No good actions for tile");
             possibleActions.add(randomAction(tile, grid));
         }
         //System.out.println(possibleActions.size());
@@ -278,9 +279,22 @@ public class ExpectimaxStrategy implements Strategy {
     }
 
 
-    private HashMap<Tile, Color> bestTilesToPlace(ArrayList<Color> colors, Hand hand){
+    private HashMap<Tile, Color> bestTilesToPlace(Hand hand){
         HashMap<Tile, Color> pieces = new HashMap<>();
 
+        for (Tile t : hand.getPieces()){
+            pieces.put(t.cloneTile(), t.getColors()[0]);
+            pieces.put(t.cloneTile(), t.getColors()[1]);
+        }
+
+        //for (Color color: pieces.values()){
+
+          //  String key = color.toString();
+            //System.out.println(key);
+            //System.out.println(key + " " + scoreQ.get(color));
+
+        //}
+/*
         for(Color color : colors){
             for(Tile t : hand.getPieces()){
                 if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
@@ -296,7 +310,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         if (pieces.keySet().size() == 0){
             pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
-        }
+        }*/
 
         //for(Tile piece : pieces.keySet()){
         //System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
@@ -350,7 +364,7 @@ public class ExpectimaxStrategy implements Strategy {
         Hand hand = currentState.getGamingPlayer().getHand();
         HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
 
-        HashMap<Tile, Color> tiles = bestTilesToPlace(colors, hand);
+        HashMap<Tile, Color> tiles = bestTilesToPlace(hand);
         ArrayList<Action> bestMoves = new ArrayList<>();
 
         for (Tile tile : tiles.keySet()){
@@ -372,7 +386,7 @@ public class ExpectimaxStrategy implements Strategy {
         Node next;
         Action nextMove = null;
 
-        if(depth % 2 == 0) {
+        if(depth % 2 == 1) {
             if (node.getState().getCurrentBoard().gameOver()){
                 return node;
             }
@@ -432,7 +446,7 @@ public class ExpectimaxStrategy implements Strategy {
 
         Node root = new Node(currentState.cloneGameState());
 
-        Node bestNode = expectiminimax(root, 2);
+        Node bestNode = expectiminimax(root, 3);
 
         //System.out.println(bestNode.getActionUsed().toString());
 
