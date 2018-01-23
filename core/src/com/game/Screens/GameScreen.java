@@ -139,7 +139,7 @@ public void update(float delta) {
 
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
         //Vector2 tableTouch = screenToStageCoordinates(worldTouch);
-  
+
         game.manager.handleTouch(worldTouch);
 
         return true;

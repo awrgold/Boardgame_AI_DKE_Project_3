@@ -1,15 +1,9 @@
 package com.game.Components.GameLogic;
-import com.game.Components.ExcelSheetData.ExcelSheet;
-import jxl.*;
-import jxl.write.*;
-import jxl.write.Number;
-
-import java.io.File;
-import java.io.IOException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.Components.ExcelSheetData.ExcelSheet;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Constants;
@@ -20,15 +14,13 @@ import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.TreeStructure.Tree;
-import jxl.write.biff.RowsExceededException;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class GameManager {
 
-private ExcelSheet xl;
+
     private int player1TurnNumber = 0;
     private int player2TurnNumber = 0;
     private GameState currentState;
@@ -314,19 +306,25 @@ private ExcelSheet xl;
     private int player2Win = 0;
     private String player2Strategy = new String();
 
-    private ArrayList<Long> turnTimes = new ArrayList<Long>();
-    private ArrayList<Integer> turnScores = new ArrayList<Integer>();
-
+//    private ArrayList<Long> turnTimes = new ArrayList<Long>();
+//    private ArrayList<Integer> turnScores = new ArrayList<Integer>();
+//    private ExcelSheet xl;
    private int turns = 0;
    private int n = 1;
+//   private String test;
+//   private String gn ;
     private void runSimulation() {
 
         long startTime = System.currentTimeMillis();
+
+        player1Strategy = getPlayerByIndex(0).getStrategy();
+        player2Strategy = getPlayerByIndex(1).getStrategy();
+    //    xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
        // for (int i = 0; i <= n; i++) {
             // int turns = 0;
-            player1Strategy = getPlayerByIndex(0).getStrategy();
-            player2Strategy = getPlayerByIndex(1).getStrategy();
-
+//        xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
+//        test = player1Strategy+" vs "+player2Strategy;
+//        gn = "Game "+ turns;
             //  boolean run= true;
 
            // System.out.println("Game " + i);
@@ -345,8 +343,8 @@ private ExcelSheet xl;
                 int gpScore = getGamingPlayer().getScoreIncrease();
                 long eTime = System.currentTimeMillis();
                 long tTime = eTime - sTime;
-                turnTimes.add(tTime);
-                turnScores.add(gpScore);
+               // turnTimes.add(tTime);
+               // turnScores.add(gpScore);
                // System.out.println(tTime + " ms");
             }
             if (getBoard().gameOver()) {
@@ -366,20 +364,12 @@ private ExcelSheet xl;
                 System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
 
         //    }
-                String test = player1Strategy+" vs "+player2Strategy;
-                String gn = "Game "+ turns;
 
-                xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
-
-                xl.setgn(gn);
-                xl.setTitle(test);
-                xl.setTurns(turns);
-                xl.setScores(turnScores);
-                xl.setTimes(turnTimes);
-
-
-        }
-
+//                xl.setTitle(test);
+//                xl.setTurns(turns);
+//                xl.setScores(turnScores);
+//                xl.setTimes(turnTimes);
+//                xl.printSheet();
 
 
 
@@ -388,7 +378,15 @@ private ExcelSheet xl;
 
 
 
+//        writeout();
 
+        }
+
+//    private void writeout() {
+//
+//        xl.setgn(gn);
+//
+//    }
 
 
     public int[] getPlayerScoreByIndex(int i) {

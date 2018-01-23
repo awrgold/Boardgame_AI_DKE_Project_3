@@ -31,7 +31,7 @@ this.title=test;
 this.gn = gn;
 this.turnTimes = turnTimes;
 this.turnScores = turnScores;
-
+        System.out.println("y");
     }
 
 
@@ -53,8 +53,8 @@ this.turnScores = turnScores;
                 //add to the cells
                 sheet.addCell(gamelabel);
 
-               for(int i=0; i<=turns;i++){
-                 Number timenum = new Number(0,i+1,turnTimes.get(i));
+             for(int i=0; i<=turnTimes.size();i++){
+                 Number timenum = new Number(0,i,turnTimes.get(i).longValue());
                  sheet.addCell(timenum);
                }
 
@@ -84,7 +84,7 @@ this.turnScores = turnScores;
 
     public void setTitle(String title) {
         this.title = title;
-    System.out.println("i fly away");
+
     }
 
     public void setgn(String gn) {
