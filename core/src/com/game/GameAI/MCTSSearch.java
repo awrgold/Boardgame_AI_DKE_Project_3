@@ -154,7 +154,7 @@ public class MCTSSearch implements Strategy {
 
             // add all the best moves to an ordered list
             for (Tile tile : tiles.keySet()) {
-                promisingMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+                promisingMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid, currentPlayer));
             }
 
             for (int i = 0; i < promisingMoves.size(); i++) {
@@ -194,7 +194,7 @@ public class MCTSSearch implements Strategy {
 
                 // add all the best moves to a list
                 for (Tile tile : tiles.keySet()) {
-                    bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+                    bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid, currentPlayer));
                 }
 
                 // create children nodes for each possible state resulting from the best actions
@@ -246,7 +246,7 @@ public class MCTSSearch implements Strategy {
 
             // Exploration parameter: get the total point gain from the action that resulted in this child, and set as weight
             // DO WE USE THE POINT GAIN OR Sqrt(2) AS EXPLORATION PARAMETER/WEIGHT?
-            nodeWeight = c.getActionUsed().actionGain(c.getParent().getState().getCurrentBoard().getGrid());
+            nodeWeight = c.getActionUsed().actionGain(c.getParent().getState().getCurrentBoard().getGrid(), c.getParent().getState().getGamingPlayer());
 
             // Determine the UCT value to influence the next choice when selecting
             double uctValue = c.getParent().getScore() / (c.getParent().getNumVisits() + epsilon) +
@@ -299,9 +299,9 @@ public class MCTSSearch implements Strategy {
         MCTSNode bestNode = null;
         double bestGain = Double.MIN_VALUE;
         for (MCTSNode n : toFind.getChildren()){
-            if (n.getActionUsed().actionGain(toFind.getState().getCurrentBoard().getGrid()) > bestGain && !toFind.getChildren().isEmpty()){
+            if (n.getActionUsed().actionGain(toFind.getState().getCurrentBoard().getGrid(), toFind.getState().getGamingPlayer()) > bestGain && !toFind.getChildren().isEmpty()){
                 bestNode = n;
-                bestGain = n.getActionUsed().actionGain(toFind.getState().getCurrentBoard().getGrid());
+                bestGain = n.getActionUsed().actionGain(toFind.getState().getCurrentBoard().getGrid(), toFind.getState().getGamingPlayer());
             }
             if (toFind.getChildren().isEmpty()){
                 System.out.println("No children");
@@ -432,11 +432,11 @@ public class MCTSSearch implements Strategy {
     }
 
     // Find the most promising placement for a list of actions and ORDERS THEM
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid, Player player){
         double bestGain = 0;
         Action bestPlacement = null;
         for (int i = 0; i < all.size(); i++){
-            double gain = all.get(i).actionGain(grid);
+            double gain = all.get(i).actionGain(grid, player);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = all.get(i);

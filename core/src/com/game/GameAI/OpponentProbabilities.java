@@ -163,7 +163,7 @@ public class OpponentProbabilities {
         }
 
         return listOfSingles;
-    }*/
+    }
 
 
     public double getProbOfColors(GameState state, Tile tile){
@@ -176,7 +176,7 @@ public class OpponentProbabilities {
 
         if (c1.equals(c2)){
             isDouble = true;
-        }*/
+        }
 
         /*
         S = sample size
@@ -308,9 +308,9 @@ public class OpponentProbabilities {
 
                 return probability;
             }
-        }
+        }*/
         return -1.0;
     }
 
-*/
+
 }

@@ -30,7 +30,7 @@ public class GameIngenious extends Game {
         int player2Win = 0;
         String player2Strategy = new String();
 
-        for (int i = 1; i <= 100; i++){
+        for (int i = 1; i <= 10; i++){
             GameManager manager = new GameManager();
             player1Strategy = manager.getPlayerByIndex(0).getStrategy();
             player2Strategy = manager.getPlayerByIndex(1).getStrategy();

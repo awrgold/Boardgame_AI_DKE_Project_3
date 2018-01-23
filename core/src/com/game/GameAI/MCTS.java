@@ -76,7 +76,7 @@ public class MCTS implements Strategy {
 
             // add all the best moves to a list
             for (Tile tile : tiles.keySet()) {
-                bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+                bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid, toExpandFrom.getState().getGamingPlayer()));
             }
 
             MCTS child = setChild(bestMoves.get(0));
@@ -160,7 +160,7 @@ public class MCTS implements Strategy {
     public MCTS setChild(Action action) {
         //System.out.println(action.toString());
 
-        double gain = action.actionGain(state.getCurrentBoard().getGrid());
+        double gain = action.actionGain(state.getCurrentBoard().getGrid(), state.getGamingPlayer());
         //System.out.println("GAIN: " + gain);
 
         GameState nextState = state.cloneGameState();
@@ -296,11 +296,11 @@ public class MCTS implements Strategy {
     }
 
     // Find the most promising placement for a list of actions and ORDERS THEM
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid, Player player){
         double bestGain = 0;
         Action bestPlacement = null;
         for (int i = 0; i < nActions; i++){
-            double gain = all.get(i).actionGain(grid);
+            double gain = all.get(i).actionGain(grid, player);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = all.get(i);

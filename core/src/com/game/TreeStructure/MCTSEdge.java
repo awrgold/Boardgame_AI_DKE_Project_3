@@ -15,8 +15,8 @@ public class MCTSEdge {
         this.parentNode = parent;
         this.childNode = child;
         this.action = action;
-        this.parentWeight = action.actionGain(parent.getState().getCurrentBoard().getGrid());
-        this.childWeight = action.actionGain(child.getState().getCurrentBoard().getGrid());
+        this.parentWeight = action.actionGain(parent.getState().getCurrentBoard().getGrid(), parent.getState().getGamingPlayer());
+        this.childWeight = action.actionGain(child.getState().getCurrentBoard().getGrid(), parent.getState().getGamingPlayer());
     }
 
     public Action getAction(){
