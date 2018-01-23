@@ -5,6 +5,7 @@ import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.PlayerAssets.Hand;
+import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.Tools.HexagonActor;
 import com.game.Components.Tools.Link;
@@ -111,11 +112,11 @@ public class GreedyStrategy implements Strategy{
         return possibleActions;
     }
 
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid, Player player){
         double bestGain = 0;
         Action bestPlacement = null;
         for (Action a : all){
-            double gain = a.actionGain(grid);
+            double gain = a.actionGain(grid, player);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = a;
@@ -202,16 +203,18 @@ public class GreedyStrategy implements Strategy{
         ArrayList<Action> bestMoves = new ArrayList<>();
 
         for (Tile tile : tiles.keySet()){
-            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid, currentState.getGamingPlayer()));
 
         }
 
-        System.out.println(bestMoves.size());
+        //System.out.println(bestMoves.size());
+
+        //System.out.println(bestMoves.size());
         double bestGain = 0;
         Action bestAction = null;
         for (Action a : bestMoves){
             if (a != null){
-                double gain = a.actionGain(grid);
+                double gain = a.actionGain(grid, currentState.getGamingPlayer());
                 if (gain >= bestGain) {
                     bestGain = gain;
                     bestAction = a;

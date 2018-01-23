@@ -163,7 +163,7 @@ public class OpponentProbabilities {
         }
 
         return listOfSingles;
-    }
+    }*/
 
 
     public double getProbOfColors(GameState state, Tile tile){
@@ -176,7 +176,7 @@ public class OpponentProbabilities {
 
         if (c1.equals(c2)){
             isDouble = true;
-        }
+        }*/
 
         /*
         S = sample size
@@ -185,7 +185,7 @@ public class OpponentProbabilities {
         n = number of draws from the population
         P(X = s) = (C(S, s))*(C(N-S, n-s))/ C(N, n)
         */
-
+/*
         if(isDouble){
             // Players will always have a tile of their lowest color in their hands.
             if (lowestColor.equals(c1)){
@@ -312,5 +312,5 @@ public class OpponentProbabilities {
         return -1.0;
     }
 
-
+*/
 }

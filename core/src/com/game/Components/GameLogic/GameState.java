@@ -52,9 +52,7 @@ public class GameState{
 
 
         //System.out.println(gamingPlayer.getHand().getPieces().size() + " tiles in hand");
-        while (!gamingPlayer.isLowestScoreTilePresent()){
-            activateButtonIfNeeded();
-        }
+
     }
 
     public GameState cloneGameState(){
@@ -117,8 +115,10 @@ public class GameState{
         } else {
             //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setTouchable(Touchable.disabled);
             //GameScreen.changeTiles[gamingPlayer.getPlayerNo() - 1].setVisible(false);
+            System.out.println("INGENIOUS!");
             nextPlayer = players[Math.abs(gamingPlayer.getPlayerNo() - 1)];
         }
+        //System.out.println(nextPlayer.getPlayerNo() + " is the new gaming player");
         return nextPlayer;
     }
 

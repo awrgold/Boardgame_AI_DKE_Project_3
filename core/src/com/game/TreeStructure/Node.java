@@ -60,7 +60,7 @@ public class Node {
     public Node setChild(Action action) {
         //System.out.println(action.toString());
 
-        double gain = action.actionGain(state.getCurrentBoard().getGrid());
+        double gain = action.actionGain(state.getCurrentBoard().getGrid(), state.getGamingPlayer());
         //System.out.println("GAIN: " + gain);
 
         GameState nextSate = state.cloneGameState();
