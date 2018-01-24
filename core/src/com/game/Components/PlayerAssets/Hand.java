@@ -77,4 +77,13 @@ public class Hand extends GroupView{
 //        tile.dispose();
  //   }
 }
+
+    public void resetHand() {
+        float x = 0;
+        for (Tile tile: hand){
+            tile.setPosition(x, 0);
+            addActor(tile);
+            x += 180;
+        }
+    }
 }

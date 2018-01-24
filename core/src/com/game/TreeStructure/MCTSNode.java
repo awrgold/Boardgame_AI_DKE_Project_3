@@ -82,7 +82,7 @@ public class MCTSNode {
     public MCTSNode setChild(Action action) {
         //System.out.println(action.toString());
 
-        double gain = action.actionGain(state.getCurrentBoard().getGrid());
+        double gain = action.actionGain(state);
         //System.out.println("GAIN: " + gain);
 
         GameState nextState = state.cloneGameState();

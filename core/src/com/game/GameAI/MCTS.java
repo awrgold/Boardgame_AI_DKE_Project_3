@@ -4,11 +4,9 @@ import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.PlayerAssets.Hand;
-import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.Tools.Link;
-import com.game.TreeStructure.MCTSNode;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
@@ -75,9 +73,9 @@ public class MCTS implements Strategy {
             ArrayList<Action> bestMoves = new ArrayList<>();
 
             // add all the best moves to a list
-            for (Tile tile : tiles.keySet()) {
-                bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
-            }
+//            for (Tile tile : tiles.keySet()) {
+//                bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+//            }
 
             MCTS child = setChild(bestMoves.get(0));
             children.add(child);
@@ -160,7 +158,7 @@ public class MCTS implements Strategy {
     public MCTS setChild(Action action) {
         //System.out.println(action.toString());
 
-        double gain = action.actionGain(state.getCurrentBoard().getGrid());
+        double gain = action.actionGain(state);
         //System.out.println("GAIN: " + gain);
 
         GameState nextState = state.cloneGameState();
@@ -296,11 +294,11 @@ public class MCTS implements Strategy {
     }
 
     // Find the most promising placement for a list of actions and ORDERS THEM
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all){
         double bestGain = 0;
         Action bestPlacement = null;
         for (int i = 0; i < nActions; i++){
-            double gain = all.get(i).actionGain(grid);
+            double gain = all.get(i).actionGain(state);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = all.get(i);

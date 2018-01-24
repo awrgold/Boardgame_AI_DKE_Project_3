@@ -1,30 +1,23 @@
 package com.game.GameAI;
 
-import com.badlogic.gdx.Game;
 import com.game.Components.PlayerAssets.Hand;
-import com.game.TreeStructure.Edge;
-import com.game.TreeStructure.Node;
-import com.game.TreeStructure.Tree;
 import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
-import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
-import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ExpectimaxStrategy implements Strategy {
 
     public static final int INF = 1000;
-
+private GameState currentstate;
     /*
     1) create a new tree with the current state as root
     2) build the first tree level with possible moves for the gaming player...
@@ -264,11 +257,11 @@ public class ExpectimaxStrategy implements Strategy {
         return possibleActions;
     }
 
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, GameState state){
         double bestGain = 0;
         Action bestPlacement = null;
         for (Action a : all){
-            double gain = a.actionGain(grid);
+            double gain = a.actionGain(state);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = a;
@@ -354,7 +347,7 @@ public class ExpectimaxStrategy implements Strategy {
         ArrayList<Action> bestMoves = new ArrayList<>();
 
         for (Tile tile : tiles.keySet()){
-            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), currentState));
 
         }
         return bestMoves;

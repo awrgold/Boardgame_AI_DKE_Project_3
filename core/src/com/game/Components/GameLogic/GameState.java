@@ -1,22 +1,14 @@
 package com.game.Components.GameLogic;
 
-import TreeStructure.Node;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Color;
-import com.game.Components.GameScoreAssets.CustomLabel;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.GameConstants.Pieces;
 import com.game.Components.Tools.Link;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.backport.Optional;
-import rx.functions.Action1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +43,13 @@ public class GameState{
 
 
     }
-
+    public GameState(Player[] players,Board currentBoard, Bag currentBag) {
+        setPlayers(players);
+        setCurrentBoard(currentBoard);
+        setCurrentBag(currentBag);
+        gamingPlayer = players[0];
+       // setGamingPlayer(gamingPlayer);
+    }
     public GameState(Player[] players, Board currentBoard, Bag currentBag, Player gamingPlayer) {
 
         setPlayers(players);
@@ -215,7 +213,7 @@ int num = 0;
             //System.out.println(a.getTile().getColors()[0].toString() + a.getTile().getColors()[1].toString());
             currentHexActor.setHexColor(a.getTileColors()[0]);
             first = currentHexActor;
-            Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
+            gamingPlayer.updateScore(scoreGain(currentHexActor, currentHexActor));
         }
 
         if (a.getH2().getSatelliteData().isPresent()){
@@ -224,7 +222,7 @@ int num = 0;
             HexagonActor currentHexActor = hexLink.getActor();
             currentHexActor.setHexColor(a.getTileColors()[1]);
             if (first != null){
-                Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
+                gamingPlayer.updateScore(scoreGain(currentHexActor, first));
             }
         }
         gamingPlayer.getHand().removeFromHand(a.getTile());
@@ -238,7 +236,78 @@ int num = 0;
 
         return nextState;
     }
+    public int[] scoreGain(HexagonActor hexActor, HexagonActor one) {
 
+        int[] scoreGains = new int[6];
+
+        int i = 0;
+
+        int avoid = -1;
+
+        if (hexActor.getHexColor().equals(Color.BLUE)) i = 0;
+        if (hexActor.getHexColor().equals(Color.YELLOW)) i = 1;
+        if (hexActor.getHexColor().equals(Color.ORANGE)) i = 2;
+        if (hexActor.getHexColor().equals(Color.PURPLE)) i = 3;
+        if (hexActor.getHexColor().equals(Color.VIOLET)) i = 4;
+        if (hexActor.getHexColor().equals(Color.RED)) i = 5;
+
+        //update score
+        if (hexActor == one){
+            for (int v : currentBoard.CalculateScoreHex(hexActor, avoid)){
+                scoreGains[i] += v;
+            }
+
+        } else {
+            if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == 1 &&
+                    hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
+                avoid = 3;
+                for (int v : currentBoard.CalculateScoreHex(hexActor, avoid)){
+                    scoreGains[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
+                    hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
+                avoid = 0;
+                for (int v : currentBoard.CalculateScoreHex(hexActor, avoid)){
+                    scoreGains[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
+                    hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1){
+                avoid = 5;
+                for (int v : currentBoard.CalculateScoreHex(hexActor, avoid)){
+                    scoreGains[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == 1 &&
+                    hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1){
+                avoid = 2;
+                for (int v : currentBoard.CalculateScoreHex(hexActor, avoid)){
+                    scoreGains[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1 &&
+                    hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
+                avoid = 4;
+                for (int v : currentBoard.CalculateScoreHex(hexActor, avoid)){
+                    scoreGains[i] += v;
+                }
+
+            } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1 &&
+                    hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
+                avoid = 1;
+                for (int v : currentBoard.CalculateScoreHex(hexActor, avoid)){
+                    scoreGains[i] += v;
+                }
+
+            }
+        }
+        //scoreIncr = getSum(scoreGains);
+        //System.out.println(Arrays.toString(scoreGains));
+
+        return scoreGains;
+
+    }
     public HashMap<Tile, Double> tilesExpectations(ArrayList<Color> colors){
         HashMap<Tile, Double> possibilities = new HashMap<>();
         //create a pool tht contains all the tiles not already seen
@@ -279,34 +348,35 @@ int num = 0;
         }
         return possibilities;
     }
-    public GameState undoAction(Action a){
-        HexagonActor first = null;
-        GameState previousState;
+//    public GameState undoAction(Action a){
+//        HexagonActor first = null;
+//        GameState previousState;
+//
+//        if (a.getH1().getSatelliteData().isPresent()){
+//            // create a link for the actor and hex of the next hex from current
+//            Link hexLink = (Link) a.getH1().getSatelliteData().get();
+//            HexagonActor currentHexActor = hexLink.getActor();
+//            currentHexActor.setHexColor(a.getTileColors()[0]);
+//            first = currentHexActor;
+//            gamingPlayer.updateScore(scoreGain(currentHexActor, currentBoard, currentHexActor));
+//        }
+//
+//        if (a.getH2().getSatelliteData().isPresent()){
+//            // create a link for the actor and hex of the next hex from current
+//            Link hexLink = (Link) a.getH2().getSatelliteData().get();
+//            HexagonActor currentHexActor = hexLink.getActor();
+//            currentHexActor.setHexColor(a.getTileColors()[1]);
+//            if (first != null){
+//                gamingPlayer.updateScore(scoreGain(currentHexActor, currentBoard, first));
+//            }
+//        }
+//        gamingPlayer.getHand().removeFromHand(a.getTile());
+//        gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
+//
+//        previousState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
+//
+//        return previousState;
+//    }
 
-        if (a.getH1().getSatelliteData().isPresent()){
-            // create a link for the actor and hex of the next hex from current
-            Link hexLink = (Link) a.getH1().getSatelliteData().get();
-            HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getTileColors()[0]);
-            first = currentHexActor;
-            Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), currentHexActor), gamingPlayer);
-        }
-
-        if (a.getH2().getSatelliteData().isPresent()){
-            // create a link for the actor and hex of the next hex from current
-            Link hexLink = (Link) a.getH2().getSatelliteData().get();
-            HexagonActor currentHexActor = hexLink.getActor();
-            currentHexActor.setHexColor(a.getTileColors()[1]);
-            if (first != null){
-                Player.updateScore(Player.scoreGain(currentHexActor, currentBoard.getGrid(), first), gamingPlayer);
-            }
-        }
-        gamingPlayer.getHand().removeFromHand(a.getTile());
-        gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
-
-        previousState = new GameState(players, currentBoard, currentBag, changeGamingPlayer());
-
-        return previousState;
-    }
 
 }

@@ -1,15 +1,9 @@
 package com.game.Components.PlayerAssets;
 
-import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
-import com.game.Components.Tools.HexagonActor;
-import com.game.Components.Tools.Link;
 import com.game.GameAI.*;
-import org.codetome.hexameter.core.api.CubeCoordinate;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonalGrid;
 
 import java.util.*;
 
@@ -137,89 +131,18 @@ public class Player{
         this.playerScore = playerScore;
     }
 
-    public static void updateScore(int[] scoreGains, Player player){
+    public void updateScore(int[] scoreGains){
         for (int i = 0; i < 6; i++){
-            player.playerScore[i] += scoreGains[i];
-            if (player.playerScore[i] > 18)
+            playerScore[i] += scoreGains[i];
+            if (playerScore[i] > 18)
             {
-                player.playerScore[i] = 18;
+                playerScore[i] = 18;
             }
         }
 
     }
 
-    public static int[] scoreGain(HexagonActor hexActor, HexagonalGrid hexGrid, HexagonActor one) {
 
-        int[] scoreGains = new int[6];
-
-        int i = 0;
-
-        int avoid = -1;
-
-        if (hexActor.getHexColor().equals(Color.BLUE)) i = 0;
-        if (hexActor.getHexColor().equals(Color.YELLOW)) i = 1;
-        if (hexActor.getHexColor().equals(Color.ORANGE)) i = 2;
-        if (hexActor.getHexColor().equals(Color.PURPLE)) i = 3;
-        if (hexActor.getHexColor().equals(Color.VIOLET)) i = 4;
-        if (hexActor.getHexColor().equals(Color.RED)) i = 5;
-
-        //update score
-        if (hexActor == one){
-            for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                scoreGains[i] += v;
-            }
-
-        } else {
-            if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == 1 &&
-                    hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
-                avoid = 3;
-                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    scoreGains[i] += v;
-                }
-
-            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
-                    hexActor.getHexagon().getGridX() == one.getHexagon().getGridX()){
-                avoid = 0;
-                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    scoreGains[i] += v;
-                }
-
-            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == -1 &&
-                    hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1){
-                avoid = 5;
-                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    scoreGains[i] += v;
-                }
-
-            } if (hexActor.getHexagon().getGridZ() - one.getHexagon().getGridZ() == 1 &&
-                    hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1){
-                avoid = 2;
-                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    scoreGains[i] += v;
-                }
-
-            } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == 1 &&
-                    hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
-                avoid = 4;
-                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    scoreGains[i] += v;
-                }
-
-            } if (hexActor.getHexagon().getGridX() - one.getHexagon().getGridX() == -1 &&
-                    hexActor.getHexagon().getGridZ() == one.getHexagon().getGridZ()){
-                avoid = 1;
-                for (int v : CalculateScoreHex(hexGrid, hexActor, avoid)){
-                    scoreGains[i] += v;
-                }
-
-            }
-        }
-        scoreIncr = getSum(scoreGains);
-        //System.out.println(Arrays.toString(scoreGains));
-
-        return scoreGains;
-
-    }
 public int getScoreIncrease(){
         return scoreIncr;
 }
@@ -288,65 +211,7 @@ public int getScoreIncrease(){
     }
 
 
-    public static int[] CalculateScoreHex(HexagonalGrid hexGrid, HexagonActor hexActor, int avoidNext) {
 
-        //calculates all the points in all directions for each hexagon placed on the board
-        //return an array with points for each directions
-
-        int[] sums = new int[6];
-        Hexagon startingHex = hexActor.getHexagon();
-        Hexagon currentHex;
-
-
-        // loop 6 times (6 directions)
-        for (int d = 0; d < 6; d++){
-            if (d == avoidNext){
-                continue;
-            }
-            // beginning with each loop, start a result at 0
-            int result = 0;
-            // boolean for each color that is the same until it becomes false
-            boolean sameColor = true;
-            // current Hex is at the starting position
-            currentHex = startingHex;
-
-            // as long as the colors are the same...
-            while (sameColor) {
-
-                // make the next hexagon to compare to the current hex
-                Hexagon currentHexNext = Board.neighborByDirection(d, currentHex, hexGrid);
-
-                // if not at the edge...
-                if (currentHexNext != null) {
-
-                    // if the next hex is not empty...
-                    if (currentHexNext.getSatelliteData().isPresent()){
-                        // create a link for the actor and hex of the next hex from current
-                        Link hexLink = (Link) currentHexNext.getSatelliteData().get();
-                        HexagonActor currentHexActor = hexLink.getActor();
-
-                        // if the color of the next hexagon is the same as the current hexagon...
-                        if (hexActor.getHexColor().equals(currentHexActor.getHexColor())) {
-                            // increment by 1
-                            result++;
-                            // move the next hex forward one space
-                            currentHex = currentHexNext;
-
-                        } else {
-                            sameColor = false;
-                        }
-                    } else {
-                        sameColor = false;
-                    }
-                } else {
-                    sameColor = false;
-                }
-            }
-            sums[d] = result;
-        }
-
-        return sums;
-    }
 
     public boolean hasIngenious(){
         for (int i = 0; i < 6; i++){

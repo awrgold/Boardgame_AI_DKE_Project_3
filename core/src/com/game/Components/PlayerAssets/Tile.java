@@ -1,11 +1,9 @@
 package com.game.Components.PlayerAssets;
 
 import com.game.Components.GameConstants.Color;
-import com.game.Components.Tools.HexagonActor;
-import com.game.Components.GameConstants.Constants;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.Tools.GroupView;
 import com.game.Components.Tools.Link;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
@@ -22,7 +20,7 @@ import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
 public class Tile extends GroupView {
 
     private HexagonalGrid<Link> grid;
-
+    private HexagonalGridBuilder<Link> tileBuilder;
     private Color[] colors;
     private boolean selected;
     private HexagonActor[] actors;
@@ -53,7 +51,7 @@ public class Tile extends GroupView {
 
     public void create() {
 
-        HexagonalGridBuilder<Link> tileBuilder = new HexagonalGridBuilder<Link>()
+        this.tileBuilder = new HexagonalGridBuilder<Link>()
                 .setGridHeight(1)
                 .setGridWidth(2)
                 .setGridLayout(RECTANGULAR)

@@ -1,12 +1,10 @@
 package com.game.Components.GameLogic;
 
 import com.game.Components.GameConstants.Color;
-import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.backport.Optional;
 
 public class Action {
@@ -103,7 +101,7 @@ public class Action {
         return rightAction;
     }
 
-    public double actionGain(HexagonalGrid grid){
+    public double actionGain(GameState state){
         HexagonActor first = null;
         double totalGain = 0;
 
@@ -117,7 +115,7 @@ public class Action {
                 currentHexActor.setHexColor(tile.getActors()[0].getHexColor());
             }
 
-            int[] gain1 = Player.scoreGain(currentHexActor, grid, currentHexActor);
+            int[] gain1 = state.scoreGain(currentHexActor, currentHexActor);
             for (int i = 0; i < 6; i++){
                 totalGain += gain1[i];
             }
@@ -135,7 +133,7 @@ public class Action {
                     currentHexActor.setHexColor(tile.getActors()[1].getHexColor());
                 }
 
-                int[] gain2 = Player.scoreGain(currentHexActor, grid, first);
+                int[] gain2 = state.scoreGain(currentHexActor, first);
                 for (int i = 0; i < 6; i++){
                     totalGain += gain2[i];
                 }

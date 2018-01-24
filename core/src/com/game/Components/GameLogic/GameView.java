@@ -2,10 +2,9 @@ package com.game.Components.GameLogic;
 
 import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Color;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.backport.Optional;
 import rx.functions.Action1;
 

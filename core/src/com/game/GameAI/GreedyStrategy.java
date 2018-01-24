@@ -1,19 +1,17 @@
 package com.game.GameAI;
 
-import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Color;
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Tile;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class GreedyStrategy implements Strategy{
@@ -111,11 +109,11 @@ public class GreedyStrategy implements Strategy{
         return possibleActions;
     }
 
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, GameState currentstate){
         double bestGain = 0;
         Action bestPlacement = null;
         for (Action a : all){
-            double gain = a.actionGain(grid);
+            double gain = a.actionGain(currentstate);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = a;
@@ -202,7 +200,7 @@ public class GreedyStrategy implements Strategy{
         ArrayList<Action> bestMoves = new ArrayList<>();
 
         for (Tile tile : tiles.keySet()){
-            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), currentState));
 
         }
 
@@ -213,7 +211,7 @@ public class GreedyStrategy implements Strategy{
         Action bestAction = null;
         for (Action a : bestMoves){
             if (a != null){
-                double gain = a.actionGain(grid);
+                double gain = a.actionGain(currentState);
                 if (gain >= bestGain) {
                     bestGain = gain;
                     bestAction = a;

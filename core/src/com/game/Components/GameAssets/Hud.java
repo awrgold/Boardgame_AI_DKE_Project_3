@@ -98,7 +98,7 @@ public class Hud implements Disposable {
         boardColumn.row().height(400).width(-450);
         // GBV  and PHV Change
         boardColumn.row().height(750).width(-200);
-        boardColumn.add(manager.getBoard()).expandY().center();
+        boardColumn.add( manager.getBoard()).expandY().center();
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 
@@ -113,17 +113,17 @@ public class Hud implements Disposable {
         boardColumn.add(manager.getHandByIndex(1)).expandX().center();
 
         root.add(boardColumn).colspan(4).expand().left().fillY();
-       // root.invalidateHierarchy();
+        root.invalidateHierarchy();
         stage.addActor(root);
 
     }
 
     public void act(float delta) {
-        if (!manager.getBoard().gameOver()) {
+
             manager.updateAssets(delta);
 
-        }
-       // manager = new GameManager();
+
+
 
     }
 

@@ -3,20 +3,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.game.Components.ExcelSheetData.ExcelSheet;
 import com.game.Components.GameAssets.Bag;
 import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Constants;
+import com.game.Components.GameConstants.Pieces;
 import com.game.Components.GameScoreAssets.CustomLabel;
 import com.game.Components.GameScoreAssets.ScoreBarGroup;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.TreeStructure.Tree;
 import org.codetome.hexameter.core.api.Hexagon;
-
-import java.util.ArrayList;
 
 public class GameManager {
 
@@ -32,15 +30,23 @@ public class GameManager {
     public Simulation sim;
     private ScoreBarGroup scorebars1;
     private ScoreBarGroup scorebars2;
-    private Board board;
-    private Hand hand1;
-    private Hand hand2;
     private int num = 0;
+    private Player[] players;
+    private Board currentBoard;
+    private Bag currentBag;
+    private Player gamingPlayer;
 
     public GameManager() {
+        players = new Player[2];
+
+        currentBoard = new Board();
+        currentBag = new Bag(Pieces.createBagPieces());
+        players[0] = new Player(1, currentBag.pickSix(), true, false, false, false,true);
+        players[1] = new Player(2, currentBag.pickSix(), true, false, false, false,true);
+        gamingPlayer = players[0];
 
 
-        this.currentState = new GameState();
+        this.currentState = new GameState(players,currentBoard,currentBag);
 
         //gameTree.buildTree(startingState);
         move = new Action();
@@ -52,9 +58,16 @@ public class GameManager {
         //this.sim = new Simulation(this);
         scorebars1 = new ScoreBarGroup(250, 350, getPlayerScoreByIndex(0), getPlayerByIndex(0).getPlayerNo());
         scorebars2 = new ScoreBarGroup(250, 350, getPlayerScoreByIndex(1), getPlayerByIndex(1).getPlayerNo());
-        this.hand1 = currentState.getPlayer(0).getHand();
-        this.hand2 = currentState.getPlayer(1).getHand();
-        this.board = currentState.getCurrentBoard();
+
+
+
+
+
+        //for (int x = 1; x <= players.length; x++){
+        //  players[x - 1] = new Player(x, currentBag.pickSix());
+        //}
+
+
 
     }
 
@@ -75,7 +88,7 @@ public class GameManager {
     }
 
     public Player getPlayerByIndex(int i) {
-        return currentState.getPlayer(i);
+        return players[i];
     }
 
     public Player getGamingPlayer() {
@@ -87,11 +100,11 @@ public class GameManager {
     }
 
     public Hand getHandByIndex(int i) {
-        return getPlayers()[i].getHand();
+        return players[i].getHand();
     }
 
     public Board getBoard() {
-        return currentState.getCurrentBoard();
+        return currentBoard;
     }
 
     public Bag getBag() {
@@ -211,49 +224,49 @@ public class GameManager {
 
     }
 
-    public void handleBoardTouch(boolean second, Vector2 worldTouch) {
-        //getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
-        for (Actor hex : getBoard().getChildren()) {
-            boolean inX = false;
-            boolean inY = false;
-            if (hex instanceof HexagonActor) {
-                HexagonActor clicked = (HexagonActor) hex;
-                Vector2 hexLoc = clicked.localToStageCoordinates(new Vector2());
-
-                if (worldTouch.x > hexLoc.x &&
-                        worldTouch.x < hexLoc.x + Constants.getHexRadius() * 1.5) {
-                    inX = true;
-                }
-                if (worldTouch.y > hexLoc.y &&
-                        worldTouch.y < hexLoc.y + Constants.getHexRadius() * 1.5) {
-                    inY = true;
-                }
-                if (inX && inY) {
-
-                    if (second) {
-                        if (clicked.getHexColor().equals("EMPTY")) {
-                            if (getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())) {
-                                move.setH2(clicked.getHexagon());
-                            } else {
-                                //System.out.println("Select a neighbor");
-                            }
-                        } else {
-                            //System.out.println("select an empty hexagon");
-                        }
-
-                    } else {
-                        if (clicked.getHexColor().equals("EMPTY")) {
-                            move.setH1(clicked.getHexagon());
-                        } else {
-                            //System.out.println("select an empty hexagon");
-                        }
-
-                    }
-                    break;
-                }
-            }
-        }
-    }
+//    public void handleBoardTouch(boolean second, Vector2 worldTouch) {
+//        //getGamingPlayer().bestTilesToPlace(getGamingPlayer().lowestColors());
+//        for (Actor hex : currentBoard.getChildren()) {
+//            boolean inX = false;
+//            boolean inY = false;
+//            if (hex instanceof HexagonActor) {
+//                HexagonActor clicked = (HexagonActor) hex;
+//                Vector2 hexLoc = clicked.localToStageCoordinates(new Vector2());
+//
+//                if (worldTouch.x > hexLoc.x &&
+//                        worldTouch.x < hexLoc.x + Constants.getHexRadius() * 1.5) {
+//                    inX = true;
+//                }
+//                if (worldTouch.y > hexLoc.y &&
+//                        worldTouch.y < hexLoc.y + Constants.getHexRadius() * 1.5) {
+//                    inY = true;
+//                }
+//                if (inX && inY) {
+//
+//                    if (second) {
+//                        if (clicked.getHexColor().equals("EMPTY")) {
+//                            if (getBoard().getGrid().getNeighborsOf(clicked.getHexagon()).contains(move.getH1())) {
+//                                move.setH2(clicked.getHexagon());
+//                            } else {
+//                                //System.out.println("Select a neighbor");
+//                            }
+//                        } else {
+//                            //System.out.println("select an empty hexagon");
+//                        }
+//
+//                    } else {
+//                        if (clicked.getHexColor().equals("EMPTY")) {
+//                            move.setH1(clicked.getHexagon());
+//                        } else {
+//                            //System.out.println("select an empty hexagon");
+//                        }
+//
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
 
     public boolean handleTouch(Vector2 worldTouch) {
@@ -280,7 +293,7 @@ public class GameManager {
 //
 //       }
         runSimulation();
-
+        num++;
 
 //        for (int i = 1; i <= 10; i++){
 //            System.out.println("Game " + i);
@@ -310,7 +323,7 @@ public class GameManager {
 //    private ArrayList<Integer> turnScores = new ArrayList<Integer>();
 //    private ExcelSheet xl;
    private int turns = 0;
-   private int n = 1;
+   private int n = 3;
 //   private String test;
 //   private String gn ;
     private void runSimulation() {
@@ -320,7 +333,7 @@ public class GameManager {
         player1Strategy = getPlayerByIndex(0).getStrategy();
         player2Strategy = getPlayerByIndex(1).getStrategy();
     //    xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
-       // for (int i = 0; i <= n; i++) {
+       for (int i = 0; i <= 10; i++) {
             // int turns = 0;
 //        xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
 //        test = player1Strategy+" vs "+player2Strategy;
@@ -335,7 +348,7 @@ public class GameManager {
 
 
                 turns++;
-                Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
+                Action AiMove = gamingPlayer.applyStrategy(getCurrentState());
                 //System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
                 //System.out.println("  Score: " + manager.getPlayerByIndex(0).scoreToString());
@@ -346,6 +359,9 @@ public class GameManager {
                // turnTimes.add(tTime);
                // turnScores.add(gpScore);
                // System.out.println(tTime + " ms");
+
+
+
             }
             if (getBoard().gameOver()) {
 
@@ -356,12 +372,23 @@ public class GameManager {
                 else player2Win++;
 
 
-                this.currentState = new GameState();
+
                 long endTime = System.currentTimeMillis();
                 long totalTime = endTime - startTime;
                 System.out.println(totalTime + " ms");
                 System.out.println("Player 1 (" + player1Strategy + ") won: " + player1Win + " times");
                 System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
+               //
+//this.currentState = new GameState();
+                players = new Player[2];
+                players[0] = new Player(1, currentBag.pickSix(), true, false, false, false,true);
+                players[1] = new Player(2, currentBag.pickSix(), true, false, false, false,true);
+                gamingPlayer = players[0];
+               currentBag =  new Bag(Pieces.createBagPieces());
+                currentBoard.resetGrid();
+                players[0].getHand().resetHand();
+                players[1].getHand().resetHand();
+                this.currentState = new GameState(players,currentBoard,currentBag,gamingPlayer);
 
         //    }
 
@@ -386,24 +413,20 @@ public class GameManager {
 //
 //        xl.setgn(gn);
 //
-//    }
+    }
 
 
     public int[] getPlayerScoreByIndex(int i) {
-        return currentState.getPlayer(i).getPlayerScore();
+        return players[i].getPlayerScore();
     }
 
     public void updateAssets(float delta) {
+
         text = "tester Label " + num;
         label.act(text);
 
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
-
-        //  this.hand1 = currentState.getPlayer(0).getHand();
-        // this.hand2 = currentState.getPlayer(1).getHand();
-        // board.act(currentState.getCurrentBoard().getGrid());
-
 
     }
 

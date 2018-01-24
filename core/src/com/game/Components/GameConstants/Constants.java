@@ -42,14 +42,6 @@ public class Constants {
     public static final int hexRadius = 40;
     public final static HexagonOrientation HEXAGON_ORIENTATION = POINTY_TOP;
 
-    //gridBuilder
-    public static final HexagonalGridBuilder<Link> grid = new HexagonalGridBuilder<Link>()
-            .setGridHeight(11)
-            .setGridWidth(11)
-            .setGridLayout(HEXAGONAL)
-            .setOrientation(POINTY_TOP)
-            .setRadius(40);
-
     // Window parameters
     public static final int windowWidth = 1920;
     public static final int windowHeight = 1080;
@@ -58,12 +50,6 @@ public class Constants {
     public static final int TILE_HEIGHT = 1;
     public static final int TILE_WIDTH = 2;
 
-    public static final HexagonalGridBuilder<Link> tile = new HexagonalGridBuilder<Link>()
-            .setGridHeight(1)
-            .setGridWidth(2)
-            .setGridLayout(RECTANGULAR)
-            .setOrientation(POINTY_TOP)
-            .setRadius(40);
 
 
 

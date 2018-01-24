@@ -6,7 +6,7 @@ import com.game.Components.GameLogic.GameState;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
-import com.game.Components.Tools.HexagonActor;
+import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.Tools.Link;
 import com.game.TreeStructure.*;
 import org.codetome.hexameter.core.api.Hexagon;
@@ -119,9 +119,9 @@ public class MCTSSearch implements Strategy {
                     ArrayList<Action> bestMoves = new ArrayList<>();
 
                     // add all the best moves to a list
-                    for (Tile tile : tiles.keySet()) {
-                        bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
-                    }
+//                    for (Tile tile : tiles.keySet()) {
+//                        bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), state));
+//                    }
 
                     // create children nodes for each possible state resulting from the best actions
                     for (Action a : bestMoves) {
@@ -149,9 +149,9 @@ public class MCTSSearch implements Strategy {
                         ArrayList<Action> bestMoves = new ArrayList<>();
 
                         // add all the best moves to a list
-                        for (Tile tile : tiles.keySet()) {
-                            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
-                        }
+//                        for (Tile tile : tiles.keySet()) {
+//                            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+//                        }
 
                         // create children nodes for each possible state resulting from the best actions
                         for (Action a : bestMoves) {
@@ -188,7 +188,7 @@ public class MCTSSearch implements Strategy {
         for (MCTSNode c : current.getChildren()) {
 
             // Here we need to determine if the weight is being chosen from the child or the parent, and which we want.
-            nodeWeight = c.getActionUsed().actionGain(c.getParent().getState().getCurrentBoard().getGrid());
+            nodeWeight = c.getActionUsed().actionGain(c.getParent().getState());
 
             double uctValue = c.getParent().getWeight() / (c.getParent().getNumVisits() + epsilon) +
                     (nodeWeight)*(Math.sqrt(Math.log(nVisits+1) / (c.getParent().getNumVisits() + epsilon))) +
@@ -334,11 +334,11 @@ public class MCTSSearch implements Strategy {
     }
 
     // Find the most promising placement for a list of actions and ORDERS THEM
-    private Action bestPlacementForTile(ArrayList<Action> all, HexagonalGrid grid){
+    private Action bestPlacementForTile(ArrayList<Action> all, GameState state){
         double bestGain = 0;
         Action bestPlacement = null;
         for (int i = 0; i < nChildren; i++){
-            double gain = all.get(i).actionGain(grid);
+            double gain = all.get(i).actionGain(state);
             if (gain >= bestGain) {
                 bestGain = gain;
                 bestPlacement = all.get(i);
@@ -398,17 +398,17 @@ public class MCTSSearch implements Strategy {
         HashMap<Tile, Color> tiles = bestTilesToPlace(colors, hand);
         ArrayList<Action> bestMoves = new ArrayList<>();
 
-        for (Tile tile : tiles.keySet()){
-            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
-
-        }
+//        for (Tile tile : tiles.keySet()){
+//            bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+//
+//        }
 
         //System.out.println(bestMoves.size());
         double bestGain = 0;
         Action bestAction = null;
         for (Action a : bestMoves){
             if (a != null){
-                double gain = a.actionGain(grid);
+                double gain = a.actionGain(currentState);
                 if (gain >= bestGain) {
                     bestGain = gain;
                     bestAction = a;
