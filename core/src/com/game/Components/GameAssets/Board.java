@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
 import static org.codetome.hexameter.core.api.HexagonalGridLayout.HEXAGONAL;
 
-public class Board extends GroupView{
+public class Board {
 //private SpriteBatch batch;
     private HexagonalGrid<Link> grid;
     private HexagonalGridBuilder<Link> gridBuilder;
@@ -28,9 +28,55 @@ public class Board extends GroupView{
 
 
     public Board(){
-        create();
+        initiate();
     }
+    public void initiate(){
+        //gridBuilder
+        this.gridBuilder = new HexagonalGridBuilder<Link>()
+                .setGridHeight(11)
+                .setGridWidth(11)
+                .setGridLayout(HEXAGONAL)
+                .setOrientation(POINTY_TOP)
+                .setRadius(40);
 
+        this.grid = gridBuilder.build();
+
+
+        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
+            @Override
+            public void call(Hexagon hexagon) {
+                // Create the Actor and link it to the hexagon (and vice-versa)
+                final HexagonActor hexActor = new HexagonActor(hexagon);
+
+              //  hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+
+
+                // }
+
+                //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
+                //hexActor.getHexagon().
+                if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
+                    hexActor.setHexColor(Color.BLUE);
+                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
+                    hexActor.setHexColor(Color.YELLOW);
+                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
+                    hexActor.setHexColor(Color.ORANGE);
+                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
+                    hexActor.setHexColor(Color.PURPLE);
+                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
+                    hexActor.setHexColor(Color.VIOLET);
+                } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
+                    hexActor.setHexColor(Color.RED);
+                } else {
+                    hexActor.setHexColor(Color.EMPTY);
+                }
+
+                hexagon.setSatelliteData(new Link(hexActor));
+
+
+            }
+        });
+    }
 
     public Board cloneBoard(){
         Board newBoard = new Board();
@@ -67,108 +113,6 @@ public class Board extends GroupView{
         return newBoard;
     }
 
-//    @Override
-//    public void clear() {
-//        super.clear();
-//
-//    }
-
-    public void create(){
-        //gridBuilder
-         this.gridBuilder = new HexagonalGridBuilder<Link>()
-                .setGridHeight(11)
-                .setGridWidth(11)
-                .setGridLayout(HEXAGONAL)
-                .setOrientation(POINTY_TOP)
-                .setRadius(40);
-
-         this.grid = gridBuilder.build();
-
-
-        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-            @Override
-            public void call(Hexagon hexagon) {
-                // Create the Actor and link it to the hexagon (and vice-versa)
-                final HexagonActor hexActor = new HexagonActor(hexagon);
-
-                hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-
-
-               // }
-
-                //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
-                //hexActor.getHexagon().
-                if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setHexColor(Color.BLUE);
-                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
-                    hexActor.setHexColor(Color.YELLOW);
-                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setHexColor(Color.ORANGE);
-                } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setHexColor(Color.PURPLE);
-                } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
-                    hexActor.setHexColor(Color.VIOLET);
-                } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
-                    hexActor.setHexColor(Color.RED);
-                } else {
-                    hexActor.setHexColor(Color.EMPTY);
-                }
-
-                hexagon.setSatelliteData(new Link(hexActor));
-
-                addActor(hexActor);
-            }
-        });
-
-    }
-public void resetGrid(){
-    grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-        @Override
-        public void call(Hexagon hexagon) {
-            // Create the Actor and link it to the hexagon (and vice-versa)
-            final HexagonActor hexActor = new HexagonActor(hexagon);
-
-            hexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-
-
-           //STARTING COLOURS FOR EACH HEXAGON ON THE BOARD
-            //hexActor.getHexagon().
-            if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 10) {
-                hexActor.setHexColor(Color.BLUE);
-            } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 10) {
-                hexActor.setHexColor(Color.YELLOW);
-            } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -13 && hexActor.getHexagon().getGridZ() == 5) {
-                hexActor.setHexColor(Color.ORANGE);
-            } else if (hexActor.getHexagon().getGridX() == 8 && hexActor.getHexagon().getGridY() == -8 && hexActor.getHexagon().getGridZ() == 0) {
-                hexActor.setHexColor(Color.PURPLE);
-            } else if (hexActor.getHexagon().getGridX() == 3 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 0) {
-                hexActor.setHexColor(Color.VIOLET);
-            } else if (hexActor.getHexagon().getGridX() == -2 && hexActor.getHexagon().getGridY() == -3 && hexActor.getHexagon().getGridZ() == 5) {
-                hexActor.setHexColor(Color.RED);
-            } else {
-                hexActor.setHexColor(Color.EMPTY);
-            }
-
-            hexagon.setSatelliteData(new Link(hexActor));
-
-            addActor(hexActor);
-        }
-    });
-
-}
-    public void dispose() {
-
-//        grid.getHexagons().forEach(new Action1<Hexagon<Link>>() {
-//            @Override
-//            public void call(Hexagon hexagon) {
-//                // Create the Actor and link it to the hexagon (and vice-versa)
-//                final HexagonActor hexActor = new HexagonActor(hexagon);
-//
-//                hexActor.dispose();
-//
-//            }
-//    });
-    }
     public HexagonalGrid<Link> getGrid() {
         return grid;
     }
@@ -274,22 +218,6 @@ public void resetGrid(){
         }
     }
 
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-//        grid.getHexagons().forEach(new Action1<Hexagon>() {
-//            @Override
-//            public void call(Hexagon hexagon) {
-//
-//                if (hexagon.getSatelliteData().isPresent()){
-//                    Link hexLink = (Link) hexagon.getSatelliteData().get();
-//                    HexagonActor currentHexActor = hexLink.getActor();
-//                    currentHexActor.setPosition((float) hexagon.getCenterX(), (float) hexagon.getCenterY());
-//                    currentHexActor.draw(batch,parentAlpha);
-//                }
-//
-//            }
-//        });
-    }
     public int[] CalculateScoreHex( HexagonActor hexActor, int avoidNext) {
 
         //calculates all the points in all directions for each hexagon placed on the board
@@ -350,9 +278,7 @@ public void resetGrid(){
         return sums;
     }
 
-    public void act(float delta) {
 
-}
 
 
 

@@ -2,7 +2,6 @@ package com.game.TreeStructure;
 
 import com.game.Components.GameLogic.Action;
 import com.game.Components.GameLogic.GameState;
-import com.game.Components.GameLogic.GameView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -79,30 +78,30 @@ public class MCTSNode {
         this.state = state;
     }
 
-    public MCTSNode setChild(Action action) {
-        //System.out.println(action.toString());
-
-        double gain = action.actionGain(state);
-        //System.out.println("GAIN: " + gain);
-
-        GameState nextState = state.cloneGameState();
-        //System.out.println("Gaming Player " + nextState.getGamingPlayer().getPlayerNo());
-        Action modifiedAction = action.translateAction(nextState);
-
-        nextState = nextState.applyAction(modifiedAction);
-        //System.out.println(modifiedAction.toString());
-        MCTSNode child = new MCTSNode(nextState);
-
-        child.setActionUsed(modifiedAction);
-        child.setWeight(gain);
-
-        child.setParent(this);
-        children.add(child);
-        System.out.println("creating node: " + child.getWeight());
-
-        return child;
-
-    }
+//    public MCTSNode setChild(Action action) {
+//        //System.out.println(action.toString());
+//
+//        double gain = action.actionGain(state);
+//        //System.out.println("GAIN: " + gain);
+//
+//        GameState nextState = state.cloneGameState();
+//        //System.out.println("Gaming Player " + nextState.getGamingPlayer().getPlayerNo());
+//        Action modifiedAction = action.translateAction(nextState);
+//
+//        nextState = nextState.applyAction(modifiedAction);
+//        //System.out.println(modifiedAction.toString());
+//        MCTSNode child = new MCTSNode(nextState);
+//
+//        child.setActionUsed(modifiedAction);
+//        child.setWeight(gain);
+//
+//        child.setParent(this);
+//        children.add(child);
+//        System.out.println("creating node: " + child.getWeight());
+//
+//        return child;
+//
+//    }
 
 
 }

@@ -9,20 +9,22 @@ import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.GameAssets.HexagonActor;
 import com.game.Components.GameConstants.Pieces;
 import com.game.Components.Tools.Link;
+import org.codetome.hexameter.core.api.HexagonalGrid;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import static java.util.Arrays.sort;
 
-public class GameState{
+public class GameState implements Serializable,Cloneable{
 
     private Player[] players;
     private Board currentBoard;
     private Bag currentBag;
     private Player gamingPlayer;
-
+private boolean isOver=false;
 
    public GameState() {
         super();
@@ -64,19 +66,24 @@ public class GameState{
         }
     }
 
-    public GameState cloneGameState(){
-        Player[] newPlayers = new Player[2];
-        Player newGamingPlayer = null;
-        for(int i = 0; i < 2; i++){
-            newPlayers[i] = getPlayers()[i].clonePlayer();
-            if (gamingPlayer == getPlayers()[i]){
-                newGamingPlayer = newPlayers[i];
-            }
-        }
-        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
+    public boolean isOver() {
 
-        return newState;
+        return currentBoard.gameOver();
     }
+
+//    public GameState cloneGameState(){
+//        Player[] newPlayers = new Player[2];
+//        Player newGamingPlayer = null;
+//        for(int i = 0; i < 2; i++){
+//            newPlayers[i] = getPlayers()[i].clonePlayer();
+//            if (gamingPlayer == getPlayers()[i]){
+//                newGamingPlayer = newPlayers[i];
+//            }
+//        }
+//        GameState newState = new GameState(newPlayers, getCurrentBoard().cloneBoard(), getCurrentBag().cloneBag(), newGamingPlayer);
+//
+//        return newState;
+//    }
 
     public Player[] getPlayers(){
         return players;
@@ -159,18 +166,18 @@ int num = 0;
         //}
         if (gamingPlayer.isAI()){
 
-            gamingPlayer.getHand().changeTiles(currentBag.replaceHand(gamingPlayer.getHand().getPieces()));
+            gamingPlayer.changeTiles(currentBag.replaceHand(gamingPlayer.getHand()));
             System.out.println("Changing tiles..");
             //for (Tile tile : gamingPlayer.getHand().getPieces()){
                 //System.out.print(tile.getActors()[0].getHexColor() + "-" + tile.getActors()[1].getHexColor() + "  ");
             //}
             for (int i = 0; i < 6; i++) {
-                Tile tile = gamingPlayer.getHand().getPieces().get(i);
+                Tile tile = gamingPlayer.getHand().get(i);
                 int index = 0;
                 for (Actor hex : tile.getChildren()) {
                     if (hex instanceof HexagonActor) {
                         HexagonActor first = (HexagonActor) hex;
-                        first.setHexColor(gamingPlayer.getHand().getPieces().get(i).getColors()[index]);
+                        first.setHexColor(gamingPlayer.getHand().get(i).getColors()[index]);
                         index++;
                     }
                 }
@@ -225,8 +232,8 @@ int num = 0;
                 gamingPlayer.updateScore(scoreGain(currentHexActor, first));
             }
         }
-        gamingPlayer.getHand().removeFromHand(a.getTile());
-        gamingPlayer.getHand().pickFromBag(currentBag.pickTile());
+        gamingPlayer.removeFromHand(a.getTile());
+        gamingPlayer.pickFromBag(currentBag.pickTile());
 
         //System.out.println(a.toString());
 
@@ -312,7 +319,7 @@ int num = 0;
         HashMap<Tile, Double> possibilities = new HashMap<>();
         //create a pool tht contains all the tiles not already seen
         ArrayList<Tile> pool = currentBag.getBag();
-        pool.addAll(gamingPlayer.getHand().getPieces());
+        pool.addAll(gamingPlayer.getHand());
         //for each color we are expecting
         for (Color color : colors){
             //find tiles with that color in the pool
@@ -348,6 +355,31 @@ int num = 0;
         }
         return possibilities;
     }
+
+    public int[] getPlayerScore(int i) {
+            return getPlayer(i).getPlayerScore();
+
+    }
+
+//    public void reset() {
+//       // currentBoard.resetGrid();
+//
+//        currentBag = new Bag(Pieces.createBagPieces());
+//        players[0] = new Player(1, currentBag.pickSix(), true, false, false, false,true);
+//        players[1] = new Player(2, currentBag.pickSix(), true, false, false, false,true);
+//        gamingPlayer = players[0];
+//       // getHandByIndex(0).resetHand();
+//      //  getHandByIndex(1).resetHand();
+//    }
+    public ArrayList<Tile> getHand(int i) {
+        return getPlayer(i).getHand();
+    }
+
+    public HexagonalGrid<Link> getCurrentGrid() {
+        return currentBoard.getGrid();
+    }
+
+
 //    public GameState undoAction(Action a){
 //        HexagonActor first = null;
 //        GameState previousState;

@@ -98,7 +98,7 @@ public class Hud implements Disposable {
         boardColumn.row().height(400).width(-450);
         // GBV  and PHV Change
         boardColumn.row().height(750).width(-200);
-        boardColumn.add( manager.getBoard()).expandY().center();
+        boardColumn.add( manager.getBoardView()).expandY().center();
         // boardColumn.add(gbv).expand().left();
         boardColumn.row();
 

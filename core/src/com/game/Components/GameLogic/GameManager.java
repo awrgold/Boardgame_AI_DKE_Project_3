@@ -4,17 +4,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.Components.GameAssets.Bag;
-import com.game.Components.GameAssets.Board;
+import com.game.Components.GameAssets.BoardView;
 import com.game.Components.GameConstants.Constants;
-import com.game.Components.GameConstants.Pieces;
 import com.game.Components.GameScoreAssets.CustomLabel;
 import com.game.Components.GameScoreAssets.ScoreBarGroup;
 import com.game.Components.PlayerAssets.Hand;
 import com.game.Components.PlayerAssets.Player;
 import com.game.Components.PlayerAssets.Tile;
 import com.game.Components.GameAssets.HexagonActor;
+import com.game.Components.Tools.Link;
 import com.game.TreeStructure.Tree;
 import org.codetome.hexameter.core.api.Hexagon;
+import org.codetome.hexameter.core.api.HexagonalGrid;
 
 public class GameManager {
 
@@ -31,22 +32,14 @@ public class GameManager {
     private ScoreBarGroup scorebars1;
     private ScoreBarGroup scorebars2;
     private int num = 0;
-    private Player[] players;
-    private Board currentBoard;
-    private Bag currentBag;
-    private Player gamingPlayer;
+    private Hand hand1;
+    private Hand hand2;
+    private BoardView bv;
+
 
     public GameManager() {
-        players = new Player[2];
-
-        currentBoard = new Board();
-        currentBag = new Bag(Pieces.createBagPieces());
-        players[0] = new Player(1, currentBag.pickSix(), true, false, false, false,true);
-        players[1] = new Player(2, currentBag.pickSix(), true, false, false, false,true);
-        gamingPlayer = players[0];
-
-
-        this.currentState = new GameState(players,currentBoard,currentBag);
+       // players = new Player[2];
+        this.currentState = new GameState();
 
         //gameTree.buildTree(startingState);
         move = new Action();
@@ -58,7 +51,9 @@ public class GameManager {
         //this.sim = new Simulation(this);
         scorebars1 = new ScoreBarGroup(250, 350, getPlayerScoreByIndex(0), getPlayerByIndex(0).getPlayerNo());
         scorebars2 = new ScoreBarGroup(250, 350, getPlayerScoreByIndex(1), getPlayerByIndex(1).getPlayerNo());
-
+        hand1 = new Hand(currentState.getHand(0));
+        hand2=new Hand(currentState.getHand(1));
+        bv = new BoardView(currentState.getCurrentGrid());
 
 
 
@@ -66,10 +61,18 @@ public class GameManager {
         //for (int x = 1; x <= players.length; x++){
         //  players[x - 1] = new Player(x, currentBag.pickSix());
         //}
-
-
-
-    }
+        }
+        public void createNewGame(){
+//            players = new Player[2];
+//            players[0] = new Player(1, currentBag.pickSix(), true, false, false, false,true);
+//            players[1] = new Player(2, currentBag.pickSix(), true, false, false, false,true);
+//            gamingPlayer = players[0];
+//            currentBag =  new Bag(Pieces.createBagPieces());
+//            currentBoard.resetGrid();
+//            players[0].getHand().resetHand();
+//            players[1].getHand().resetHand();
+//            this.currentState = new GameState(players,currentBoard,currentBag,gamingPlayer);
+        }
 
     public void setNum(int num) {
         this.num = num;
@@ -83,13 +86,13 @@ public class GameManager {
         currentState = newState;
     }
 
-    public Player[] getPlayers() {
-        return currentState.getPlayers();
-    }
-
-    public Player getPlayerByIndex(int i) {
-        return players[i];
-    }
+//    public Player[] getPlayers() {
+//        return currentState.getPlayers();
+//    }
+//
+//    public Player getPlayerByIndex(int i) {
+//        return players[i];
+//    }
 
     public Player getGamingPlayer() {
         return currentState.getGamingPlayer();
@@ -100,11 +103,16 @@ public class GameManager {
     }
 
     public Hand getHandByIndex(int i) {
-        return players[i].getHand();
+
+        if (i == 0)
+            return hand1;
+        else
+            return hand2;
+
     }
 
-    public Board getBoard() {
-        return currentBoard;
+    public HexagonalGrid<Link> getBoard() {
+        return currentState.getCurrentGrid();
     }
 
     public Bag getBag() {
@@ -183,7 +191,7 @@ public class GameManager {
 
     public void handleTileTouch(Vector2 worldTouch) {
         outerloop:
-        for (Tile tile : getGamingPlayer().getHand().getPieces()) {
+        for (Tile tile : getGamingPlayer().getHand()) {
             for (Actor hex : tile.getChildren()) {
                 boolean inX = false;
                 boolean inY = false;
@@ -293,6 +301,8 @@ public class GameManager {
 //
 //       }
         runSimulation();
+
+       // currentState.reset();
         num++;
 
 //        for (int i = 1; i <= 10; i++){
@@ -319,40 +329,33 @@ public class GameManager {
     private int player2Win = 0;
     private String player2Strategy = new String();
 
-//    private ArrayList<Long> turnTimes = new ArrayList<Long>();
-//    private ArrayList<Integer> turnScores = new ArrayList<Integer>();
-//    private ExcelSheet xl;
    private int turns = 0;
    private int n = 3;
-//   private String test;
-//   private String gn ;
+
     private void runSimulation() {
 
         long startTime = System.currentTimeMillis();
 
         player1Strategy = getPlayerByIndex(0).getStrategy();
         player2Strategy = getPlayerByIndex(1).getStrategy();
-    //    xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
-       for (int i = 0; i <= 10; i++) {
-            // int turns = 0;
-//        xl = new ExcelSheet(gn,test,turns,turnScores,turnTimes);
-//        test = player1Strategy+" vs "+player2Strategy;
-//        gn = "Game "+ turns;
-            //  boolean run= true;
+
+     //  for (int i = 0; i <= 10; i++) {
+
 
            // System.out.println("Game " + i);
 
-            if (!getBoard().gameOver()) {
+            if(!currentState.isOver()) {
 
                 long sTime = System.currentTimeMillis();
 
 
                 turns++;
-                Action AiMove = gamingPlayer.applyStrategy(getCurrentState());
+                Action AiMove = getGamingPlayer().applyStrategy(getCurrentState());
                 //System.out.println(AiMove.toString());
                 setCurrentState(getCurrentState().applyAction(AiMove));
+
                 //System.out.println("  Score: " + manager.getPlayerByIndex(0).scoreToString());
-                //System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
+                System.out.println("Gaming Player: " + getGamingPlayer().getPlayerNo() + "  Score: " + getGamingPlayer().scoreToString());
                 int gpScore = getGamingPlayer().getScoreIncrease();
                 long eTime = System.currentTimeMillis();
                 long tTime = eTime - sTime;
@@ -363,12 +366,12 @@ public class GameManager {
 
 
             }
-            if (getBoard().gameOver()) {
+            if (currentState.isOver()) {
 
 
                 //System.out.println("GAME OVER");
-                System.out.println("The winner is: Player " + getCurrentState().getWinner().getPlayerNo() + " - (" + getCurrentState().getWinner().getStrategy() + ")");
-                if (getCurrentState().getWinner().getPlayerNo() == 1) player1Win++;
+               System.out.println("The winner is: Player " + currentState.getWinner().getPlayerNo() + " - (" + currentState.getWinner().getStrategy() + ")");
+                if (currentState.getWinner().getPlayerNo() == 1) player1Win++;
                 else player2Win++;
 
 
@@ -378,19 +381,11 @@ public class GameManager {
                 System.out.println(totalTime + " ms");
                 System.out.println("Player 1 (" + player1Strategy + ") won: " + player1Win + " times");
                 System.out.println("Player 2 (" + player2Strategy + ") won: " + player2Win + " times");
-               //
-//this.currentState = new GameState();
-                players = new Player[2];
-                players[0] = new Player(1, currentBag.pickSix(), true, false, false, false,true);
-                players[1] = new Player(2, currentBag.pickSix(), true, false, false, false,true);
-                gamingPlayer = players[0];
-               currentBag =  new Bag(Pieces.createBagPieces());
-                currentBoard.resetGrid();
-                players[0].getHand().resetHand();
-                players[1].getHand().resetHand();
-                this.currentState = new GameState(players,currentBoard,currentBag,gamingPlayer);
+currentState = new GameState();
 
-        //    }
+
+//currentState.reset();
+                  //  }
 
 //                xl.setTitle(test);
 //                xl.setTurns(turns);
@@ -413,11 +408,15 @@ public class GameManager {
 //
 //        xl.setgn(gn);
 //
+//    }
+
+    private Player getPlayerByIndex(int i) {
+        return currentState.getPlayer(i);
     }
 
 
     public int[] getPlayerScoreByIndex(int i) {
-        return players[i].getPlayerScore();
+        return currentState.getPlayerScore(i);
     }
 
     public void updateAssets(float delta) {
@@ -427,6 +426,10 @@ public class GameManager {
 
         scorebars1.act(getPlayerScoreByIndex(0));
         scorebars2.act(getPlayerScoreByIndex(1));
+
+        hand1.act(currentState.getHand(0));
+        hand2.act(currentState.getHand(1));
+        bv.act(getBoard());
 
     }
 
@@ -441,6 +444,9 @@ public class GameManager {
             return scorebars2;
     }
 
+    public BoardView getBoardView() {
+        return bv;
+    }
 }
 
 

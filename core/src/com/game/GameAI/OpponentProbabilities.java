@@ -24,7 +24,7 @@ public class OpponentProbabilities {
     private Player player;
     private Player gamingPlayer;
     private Bag bag;
-    private Hand hand;
+    private ArrayList<Tile> hand;
     private GameState state;
     private Tree currentTree = new Tree(state);
     private int numDoublesLeft = 0;
@@ -47,7 +47,7 @@ public class OpponentProbabilities {
 
     public int getInvisibleTilesSize(){
 
-        invisibleTiles.addAll(state.getGamingPlayer().getHand().getPieces());
+        invisibleTiles.addAll(state.getGamingPlayer().getHand());
         invisibleTiles.addAll(state.getCurrentBag().getBag());
 
         return invisibleTiles.size();
@@ -85,7 +85,7 @@ public class OpponentProbabilities {
             }
         }
 
-        for (Tile tile2 : state.getPlayer(Math.abs(state.getGamingPlayer().getPlayerNo() - 1)).getHand().getPieces()) {
+        for (Tile tile2 : state.getPlayer(Math.abs(state.getGamingPlayer().getPlayerNo() - 1)).getHand()) {
             if (tile2.getFirst().getHexColor().equals("R")) {
                 listOfDoubles[0].add(tile2);
                 numDoublesLeft++;
@@ -148,7 +148,7 @@ public class OpponentProbabilities {
             }
         }
 
-        for (Tile tile2 : state.getPlayer(Math.abs(state.getGamingPlayer().getPlayerNo() - 1)).getHand().getPieces()) {
+        for (Tile tile2 : state.getPlayer(Math.abs(state.getGamingPlayer().getPlayerNo() - 1)).getHand()) {
             if (tile2.getFirst().getHexColor().equals("R") || tile2.getSecond().getHexColor().equals("R")) {
                 listOfSingles[0].add(tile2);
                 numSinglesLeft++;

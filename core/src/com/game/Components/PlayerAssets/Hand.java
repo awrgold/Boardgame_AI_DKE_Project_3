@@ -25,36 +25,36 @@ public class Hand extends GroupView{
         }
     }
 
-    public Hand cloneHand(){
-        //System.out.println("Cloning hand: ");
-        ArrayList<Tile> newTiles= new ArrayList<>();
-        for (Tile tile : getPieces()){
-            newTiles.add(tile.cloneTile());
-            //System.out.println("Cloning a Tile: passing as colors " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
-        }
-        return new Hand(newTiles);
-
-    }
+//    public ArrayList<Tile> cloneHand(){
+//        //System.out.println("Cloning hand: ");
+//        ArrayList<Tile> newTiles= new ArrayList<>();
+//        for (Tile tile : getPieces()){
+//            newTiles.add(tile.cloneTile());
+//            //System.out.println("Cloning a Tile: passing as colors " + tile.getColors()[0].toString() + " - " + tile.getColors()[1].toString());
+//        }
+//        return newTiles;
+//
+//    }
 
     public ArrayList<Tile> getPieces() {
         return hand;
     }
 
-    public void pickFromBag(Tile picked){
-        hand.add(picked);
-        picked.setPosition(s, 0);
-        addActor(picked);
-    }
+//    public void pickFromBag(Tile picked){
+//        hand.add(picked);
+//        picked.setPosition(s, 0);
+//        addActor(picked);
+//    }
 
-    public void removeFromHand(Tile placed){
-        s = placed.getX();
-        hand.remove(placed);
-        removeActor(placed);
-    }
+//    public void removeFromHand(Tile placed){
+//        s = placed.getX();
+//        hand.remove(placed);
+//        removeActor(placed);
+//    }
 
-    public void changeTiles(ArrayList<Tile> tiles){
-        this.hand = tiles;
-    }
+//    public void changeTiles(ArrayList<Tile> tiles){
+//        this.hand = tiles;
+//    }
 //    public void act(ArrayList<Tile> tiles) {
 //
 //        this.setHand(tiles);
@@ -78,12 +78,13 @@ public class Hand extends GroupView{
  //   }
 }
 
-    public void resetHand() {
-        float x = 0;
-        for (Tile tile: hand){
-            tile.setPosition(x, 0);
-            addActor(tile);
-            x += 180;
-        }
+
+public void act(ArrayList<Tile> hand){
+    float x = 0;
+    for (Tile tile: hand){
+        tile.setPosition(x, 0);
+        addActor(tile);
+        x += 180;
     }
+}
 }

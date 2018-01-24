@@ -1,8 +1,7 @@
 package TreeStructure;
 
 import com.game.Components.GameLogic.Action;
-import com.game.Components.GameLogic.GameState;
-import com.game.Components.GameLogic.GameView;
+import com.game.Components.GameScoreAssets.GameView;
 import com.game.TreeStructure.Edge;
 
 import java.util.ArrayList;

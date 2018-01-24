@@ -123,11 +123,11 @@ public class GreedyStrategy implements Strategy{
     }
 
 
-    private HashMap<Tile, Color> bestTilesToPlace(ArrayList<Color> colors, Hand hand){
+    private HashMap<Tile, Color> bestTilesToPlace(ArrayList<Color> colors, ArrayList<Tile> hand){
         HashMap<Tile, Color> pieces = new HashMap<>();
 
         for(Color color : colors){
-            for(Tile t : hand.getPieces()){
+            for(Tile t : hand){
                 if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
                     pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
                     pieces.put(t, color);
@@ -140,7 +140,7 @@ public class GreedyStrategy implements Strategy{
         }
 
         if (pieces.keySet().size() == 0){
-            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
+            pieces.put(hand.get(0), hand.get(0).getActors()[0].getHexColor().getColor());
         }
 
         //for(Tile piece : pieces.keySet()){
@@ -193,7 +193,7 @@ public class GreedyStrategy implements Strategy{
     public Action decideMove(GameState currentState){
 
         ArrayList<Color> colors = currentState.getGamingPlayer().lowestColors();
-        Hand hand = currentState.getGamingPlayer().getHand();
+        ArrayList<Tile> hand = currentState.getGamingPlayer().getHand();
         HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
 
         HashMap<Tile, Color> tiles = bestTilesToPlace(colors, hand);

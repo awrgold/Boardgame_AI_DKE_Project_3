@@ -1,8 +1,9 @@
-package com.game.Components.GameLogic;
+package com.game.Components.GameScoreAssets;
 
 import com.game.Components.GameAssets.Board;
 import com.game.Components.GameConstants.Color;
 import com.game.Components.GameAssets.HexagonActor;
+import com.game.Components.GameLogic.Action;
 import com.game.Components.Tools.Link;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.backport.Optional;

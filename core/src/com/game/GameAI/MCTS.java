@@ -49,8 +49,8 @@ public class MCTS implements Strategy {
             cur = cur.select();
             visited.add(cur);
         }
-
-        cur.expand(cur);
+//
+//        cur.expand(cur);
         MCTS newNode = cur.select();
         visited.add(newNode);
 
@@ -62,25 +62,25 @@ public class MCTS implements Strategy {
         }
     }
 
-    public void expand(MCTS toExpandFrom) {
-        children = new ArrayList<>();
-        for (int i=0; i<nActions; i++) {
-
-            ArrayList<Color> colors = toExpandFrom.getState().getGamingPlayer().lowestColors();
-            Hand hand = toExpandFrom.getState().getGamingPlayer().getHand();
-            HexagonalGrid grid = toExpandFrom.getState().getCurrentBoard().getGrid();
-            HashMap<Tile, Color> tiles = bestTilesToPlace(colors, hand);
-            ArrayList<Action> bestMoves = new ArrayList<>();
-
-            // add all the best moves to a list
-//            for (Tile tile : tiles.keySet()) {
-//                bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
-//            }
-
-            MCTS child = setChild(bestMoves.get(0));
-            children.add(child);
-        }
-    }
+//    public void expand(MCTS toExpandFrom) {
+//        children = new ArrayList<>();
+//        for (int i=0; i<nActions; i++) {
+//
+//            ArrayList<Color> colors = toExpandFrom.getState().getGamingPlayer().lowestColors();
+//            ArrayList<Tile> hand = toExpandFrom.getState().getGamingPlayer().getHand();
+//            HexagonalGrid grid = toExpandFrom.getState().getCurrentBoard().getGrid();
+//            HashMap<Tile, Color> tiles = bestTilesToPlace(colors, hand);
+//            ArrayList<Action> bestMoves = new ArrayList<>();
+//
+//            // add all the best moves to a list
+////            for (Tile tile : tiles.keySet()) {
+////                bestMoves.add(bestPlacementForTile(possibleTilePlacements(tile, grid, tiles.get(tile)), grid));
+////            }
+//
+//            MCTS child = setChild(bestMoves.get(0));
+//            children.add(child);
+//        }
+//    }
 
     private MCTS select() {
         MCTS selected = null;
@@ -155,58 +155,58 @@ public class MCTS implements Strategy {
         this.state = state;
     }
 
-    public MCTS setChild(Action action) {
-        //System.out.println(action.toString());
+//    public MCTS setChild(Action action) {
+//        //System.out.println(action.toString());
+//
+//        double gain = action.actionGain(state);
+//        //System.out.println("GAIN: " + gain);
+//
+//        GameState nextState = state.cloneGameState();
+//        //System.out.println("Gaming Player " + nextState.getGamingPlayer().getPlayerNo());
+//        Action modifiedAction = action.translateAction(nextState);
+//
+//        nextState = nextState.applyAction(modifiedAction);
+//        //System.out.println(modifiedAction.toString());
+//        MCTS child = new MCTS();
+//        child.setState(nextState);
+//
+//        child.setActionUsed(modifiedAction);
+//        child.setWeight(gain);
+//
+//        child.setParent(this);
+//        System.out.println("creating node: " + child.getWeight());
+//
+//        return child;
+//
+//    }
 
-        double gain = action.actionGain(state);
-        //System.out.println("GAIN: " + gain);
-
-        GameState nextState = state.cloneGameState();
-        //System.out.println("Gaming Player " + nextState.getGamingPlayer().getPlayerNo());
-        Action modifiedAction = action.translateAction(nextState);
-
-        nextState = nextState.applyAction(modifiedAction);
-        //System.out.println(modifiedAction.toString());
-        MCTS child = new MCTS();
-        child.setState(nextState);
-
-        child.setActionUsed(modifiedAction);
-        child.setWeight(gain);
-
-        child.setParent(this);
-        System.out.println("creating node: " + child.getWeight());
-
-        return child;
-
-    }
-
-    private HashMap<Tile, Color> bestTilesToPlace(ArrayList<Color> colors, Hand hand){
-        HashMap<Tile, Color> pieces = new HashMap<>();
-
-        for(Color color : colors){
-            for(Tile t : hand.getPieces()){
-                if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
-                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
-                    pieces.put(t, color);
-                    System.out.println("Found a double to place: " + color + " - " + color);
-                    break;
-                } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
-                    pieces.put(t, color);
-                }
-            }
-        }
-
-        if (pieces.keySet().size() == 0){
-            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
-        }
-
-        for(Tile piece : pieces.keySet()){
-            System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
-        }
-        System.out.print(" <--- pieces to play \n");
-
-        return pieces;
-    }
+//    private HashMap<Tile, Color> bestTilesToPlace(ArrayList<Color> colors, ArrayList<Tile> hand){
+//        HashMap<Tile, Color> pieces = new HashMap<>();
+//
+//        for(Color color : colors){
+//            for(Tile t : hand.getPieces()){
+//                if (t.getActors()[0].getHexColor().getColor().equals(color) && t.getActors()[1].getHexColor().getColor().equals(color)){
+//                    pieces.entrySet().removeIf(entry -> entry.getValue().equals(color));
+//                    pieces.put(t, color);
+//                    System.out.println("Found a double to place: " + color + " - " + color);
+//                    break;
+//                } if (t.getActors()[0].getHexColor().getColor().equals(color) || t.getActors()[1].getHexColor().getColor().equals(color)){
+//                    pieces.put(t, color);
+//                }
+//            }
+//        }
+//
+//        if (pieces.keySet().size() == 0){
+//            pieces.put(hand.getPieces().get(0), hand.getPieces().get(0).getActors()[0].getHexColor().getColor());
+//        }
+//
+//        for(Tile piece : pieces.keySet()){
+//            System.out.print(piece.getActors()[0].getHexColor().getColor().toString() + "-" + piece.getActors()[1].getHexColor().toString() + "  ");
+//        }
+//        System.out.print(" <--- pieces to play \n");
+//
+//        return pieces;
+//    }
 
     // Search the board for all possible places to place a given tile
     private ArrayList<Action> possibleTilePlacements(Tile tile, HexagonalGrid grid, Color color) {

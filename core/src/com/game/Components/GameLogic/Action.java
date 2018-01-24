@@ -75,7 +75,7 @@ public class Action {
 
         boolean inHand = false;
 
-        for (Tile t : stateToPlay.getGamingPlayer().getHand().getPieces()){
+        for (Tile t : stateToPlay.getGamingPlayer().getHand()){
             //System.out.println(t.getColors()[0].toString() + " - " + t.getColors()[1].toString());
 
             if (t.isEqual(tile)){

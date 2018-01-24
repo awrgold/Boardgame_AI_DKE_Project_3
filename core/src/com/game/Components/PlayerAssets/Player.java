@@ -21,7 +21,7 @@ public class Player{
     private boolean isAI;
     private int[] playerScore = new int[6];
     private int playerNo;
-    private Hand hand;
+    private ArrayList<Tile> hand;
     private Color[] playerScoreColors = new Color[6];
     private static boolean[] colorIngenious = new boolean[6];
     private boolean isGreedy;
@@ -33,7 +33,7 @@ public class Player{
 
     public Player(int playerNo, ArrayList<Tile> playerPieces, boolean isAI, boolean isGreedy, boolean isExpectiMax, boolean isMCTS, boolean isRandom) {
         this.playerNo = playerNo;
-        this.hand = new Hand(playerPieces);
+        this.hand = playerPieces;
         this.isAI = isAI;
         for (int i = 0; i < 6; i++){
             this.playerScore[i] = 0;
@@ -73,12 +73,11 @@ public class Player{
 
     }
 
-    public Player clonePlayer(){
-        Player newPlayer = new Player(getPlayerNo(), getHand().cloneHand().getPieces(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
-        newPlayer.setPlayerScore(playerScore.clone());
-        return newPlayer;
-
-    }
+//    public Player clonePlayer(){
+//        Player newPlayer = new Player(getPlayerNo(), hand.cloneHand(), isAI(), isGreedy, isExpectiMax, isMCTS, isRandom);
+//        newPlayer.setPlayerScore(playerScore.clone());
+//        return newPlayer;
+//    }
 
 
     public boolean isAI() {
@@ -115,7 +114,7 @@ public class Player{
     */
 
 
-    public Hand getHand(){
+    public ArrayList<Tile> getHand(){
         return this.hand;
     }
 
@@ -168,7 +167,7 @@ public int getScoreIncrease(){
     }
 
     private boolean isAColorPresent(Color color){
-        for (Tile tile : hand.getPieces()){
+        for (Tile tile : hand){
             if(tile.getActors()[0].getHexColor().equals(color) || tile.getActors()[1].getHexColor().equals(color)){
                 return true;
             }
@@ -261,7 +260,20 @@ public int getScoreIncrease(){
     public Action applyStrategy(GameState currentState){
         return strategy.decideMove(currentState);
     }
+float s;
+    public void removeFromHand(Tile tile) {
+        s = tile.getX();
+        hand.remove(tile);
+    }
 
+    public void pickFromBag(Tile picked){
+        hand.add(picked);
+        picked.setPosition(s, 0);
+
+    }
+    public void changeTiles(ArrayList<Tile> tiles){
+        this.hand = tiles;
+    }
 }
 
 

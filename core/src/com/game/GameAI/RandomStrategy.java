@@ -136,10 +136,10 @@ public class RandomStrategy implements Strategy {
 
     public Action decideMove(GameState currentState){
 
-        Hand hand = currentState.getGamingPlayer().getHand();
+        ArrayList<Tile> hand = currentState.getGamingPlayer().getHand();
         HexagonalGrid grid = currentState.getCurrentBoard().getGrid();
 
-        ArrayList<Tile> tiles = hand.getPieces();
+        ArrayList<Tile> tiles = hand;
         ArrayList<Action> bestMoves = new ArrayList<>();
 
         for (Tile tile : tiles){

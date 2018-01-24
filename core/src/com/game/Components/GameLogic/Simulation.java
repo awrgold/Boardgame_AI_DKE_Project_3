@@ -28,7 +28,7 @@ public class Simulation implements Runnable {
 
             int turns = 0;
             //System.out.println("Game " + i);
-            while (!manager.getBoard().gameOver()) {
+            while (!manager.getCurrentState().isOver()) {
 
                 try {
                     Thread.sleep(100);
@@ -43,7 +43,7 @@ public class Simulation implements Runnable {
                 System.out.println("Gaming Player: " + manager.getGamingPlayer().getPlayerNo() + "  Score: " + manager.getGamingPlayer().scoreToString());
 
             }
-                if (manager.getBoard().gameOver()) {
+                if (manager.getCurrentState().isOver()) {
 
 
 
